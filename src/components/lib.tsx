@@ -1,10 +1,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 
-import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled/macro";
-import { FC } from "react";
+import { jsx, keyframes } from "@emotion/react";
 import { FaSpinner } from "react-icons/fa";
+import { FC } from "react";
 
 const spin = keyframes({
   "0%": { transform: "rotate(0deg)" },

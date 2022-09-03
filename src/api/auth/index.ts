@@ -19,8 +19,6 @@ export function login(
   password: string,
   rememberMe: boolean
 ): Promise<Session> {
-  console.log("call login");
-
   return fetch(`${BASE_URL}/me/sessions`, {
     method: "POST",
     body: JSON.stringify({ remember_me: rememberMe }),
