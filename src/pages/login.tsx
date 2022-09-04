@@ -1,38 +1,38 @@
-import { useNavigate } from "react-router";
-import { useAuth } from "../context/auth-context";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import {zodResolver} from '@hookform/resolvers/zod'
+import {useAuth} from 'context/auth-context'
+import {SubmitHandler, useForm} from 'react-hook-form'
+import {useNavigate} from 'react-router'
+import {z} from 'zod'
 
 const schema = z.object({
-  email: z.string().email("Please provide valid email"),
-  password: z.string().min(5, "Minimum password length is 5 characters"),
-});
+  email: z.string().email('Please provide valid email'),
+  password: z.string().min(5, 'Minimum password length is 5 characters'),
+})
 
-type FormValues = z.infer<typeof schema>;
+type FormValues = z.infer<typeof schema>
 
 export function LoginPage() {
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const {login} = useAuth()
+  const navigate = useNavigate()
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      email: "dmoisieiev@readdle.com",
-      password: "SrkniwYRB23s2Z",
+      email: 'dmoisieiev@readdle.com',
+      password: 'SrkniwYRB23s2Z',
     },
-  });
+  })
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    const { email, password } = data;
-    login(email, password, true)
-      .then(() => navigate("/"))
-      .catch((error) => console.error(error));
-  };
+  const onSubmit: SubmitHandler<FormValues> = data => {
+    const {email, password} = data
+    login(email, password)
+      .then(() => navigate('/'))
+      .catch(error => console.error(error))
+  }
 
   return (
     <div>
@@ -46,7 +46,7 @@ export function LoginPage() {
             id="email"
             autoComplete="email"
             required
-            {...register("email")}
+            {...register('email')}
           />
           <p>{errors.email?.message}</p>
         </div>
@@ -57,7 +57,7 @@ export function LoginPage() {
             type="password"
             id="password"
             autoComplete="current-password"
-            {...register("password")}
+            {...register('password')}
           />
           <p>{errors.password?.message}</p>
         </div>
@@ -65,5 +65,5 @@ export function LoginPage() {
         <button type="submit">Login</button>
       </form>
     </div>
-  );
+  )
 }

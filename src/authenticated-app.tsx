@@ -1,7 +1,7 @@
-import { useAuth } from "./context/auth-context";
+import {useAuth} from 'context/auth-context'
 
 function AuthenticatedApp() {
-  const { logout } = useAuth();
+  const {logout} = useAuth()
 
   return (
     <div>
@@ -9,7 +9,7 @@ function AuthenticatedApp() {
         <button onClick={() => logout()}>Logout</button>
       </div>
     </div>
-  );
+  )
 }
 
-export default AuthenticatedApp;
+export default AuthenticatedApp
