@@ -2,7 +2,6 @@
 /** @jsx jsx */
 
 import {jsx} from '@emotion/react'
-
 import {zodResolver} from '@hookform/resolvers/zod'
 import {Button} from 'components/Button'
 import {FieldError} from 'components/FieldError'
@@ -22,6 +21,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 export function LoginPage() {
+  const login = useLogin()
   const {
     register,
     handleSubmit,
@@ -33,8 +33,6 @@ export function LoginPage() {
       password: 'SrkniwYRB23s2Z',
     },
   })
-
-  const login = useLogin()
 
   const onSubmit: SubmitHandler<FormValues> = data => {
     const {email, password} = data

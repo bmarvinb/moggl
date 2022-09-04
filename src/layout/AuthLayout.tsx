@@ -47,7 +47,7 @@ export const AuthLayout: FC<{
         <img
           css={{position: 'absolute', height: '100%', width: '100%'}}
           src="images/login-background.png"
-          alt=""
+          alt="Background"
         />
       </div>
     </div>
