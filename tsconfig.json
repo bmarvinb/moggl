@@ -25,7 +25,9 @@
         "api/*": ["./api/*"],
         "components/*": ["./components/*"],
         "context/*": ["./context/*"],
+        "layout/*": ["./layout/*"],
         "pages/*": ["./pages/*"],
+        "theme/*": ["./theme/*"],
         "utils/*": ["./utils/*"]
     }
   },
