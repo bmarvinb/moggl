@@ -53,7 +53,6 @@ export function LoginPage() {
                 type="text"
                 id="email"
                 autoComplete="email"
-                required
                 error={!!errors.email?.message}
                 placeholder="Enter email"
                 {...register('email')}
