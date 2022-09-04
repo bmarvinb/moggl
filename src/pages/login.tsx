@@ -1,7 +1,6 @@
 import {zodResolver} from '@hookform/resolvers/zod'
-import {useAuth} from 'context/auth-context'
+import {useLogin} from 'hooks/use-login'
 import {SubmitHandler, useForm} from 'react-hook-form'
-import {useNavigate} from 'react-router'
 import {z} from 'zod'
 
 const schema = z.object({
@@ -12,9 +11,6 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 export function LoginPage() {
-  const {login} = useAuth()
-  const navigate = useNavigate()
-
   const {
     register,
     handleSubmit,
@@ -27,11 +23,11 @@ export function LoginPage() {
     },
   })
 
+  const login = useLogin()
+
   const onSubmit: SubmitHandler<FormValues> = data => {
     const {email, password} = data
-    login(email, password)
-      .then(() => navigate('/'))
-      .catch(error => console.error(error))
+    login.mutate({email, password})
   }
 
   return (
@@ -62,7 +58,15 @@ export function LoginPage() {
           <p>{errors.password?.message}</p>
         </div>
 
-        <button type="submit">Login</button>
+        {login.isError && (
+          <div>
+            The email/password combination used was not found on the system.
+          </div>
+        )}
+
+        <button type="submit" disabled={login.isLoading}>
+          Login
+        </button>
       </form>
     </div>
   )

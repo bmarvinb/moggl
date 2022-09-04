@@ -17,7 +17,7 @@ export type User = {
   image_url: string
   created_at: Date
   updated_at: Date
-  openid_email?: any
+  openid_email?: number
   openid_enabled: boolean
   country_id: number
   at: Date
