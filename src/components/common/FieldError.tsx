@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from 'styled-components'
 import theme from 'theme/index'
 
 export const FieldError = styled.p`

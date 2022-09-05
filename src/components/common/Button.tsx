@@ -1,6 +1,6 @@
-import styled from '@emotion/styled'
 import ButtonUnstyled, {buttonUnstyledClasses} from '@mui/base/ButtonUnstyled'
 import theme from 'theme/index'
+import styled from 'styled-components'
 
 export const Button = styled(ButtonUnstyled)`
   font-weight: bold;
@@ -16,10 +16,6 @@ export const Button = styled(ButtonUnstyled)`
 
   &:hover {
     background-color: ${theme.pallete.blue6};
-  }
-
-  &.${buttonUnstyledClasses.active} {
-    background-color: ${theme.pallete.blue7};
   }
 
   &.${buttonUnstyledClasses.focusVisible} {

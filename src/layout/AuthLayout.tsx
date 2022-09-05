@@ -1,55 +1,53 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-
-import {jsx} from '@emotion/react'
-
 import {FC} from 'react'
+import styled from 'styled-components'
 import theme from 'theme/index'
+
+const Container = styled.div`
+  display: flex;
+  height: 100%;
+`
+
+const ChildContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 3rem;
+  background: ${theme.pallete.white};
+  height: 100%;
+
+  @media ${theme.screens.sm} {
+    width: 35rem;
+    margin: auto;
+  }
+
+  @media ${theme.screens.xl} {
+    margin: initial;
+  }
+`
+
+const BackgroundContainer = styled.div`
+  position: absolute;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+`
+
+const BackgroundImage = styled.img`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+`
 
 export const AuthLayout: FC<{
   children: JSX.Element
 }> = ({children}) => {
   return (
-    <div
-      css={{
-        display: 'flex',
-        height: '100%',
-      }}
-    >
-      <div
-        css={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '6rem 3rem',
-          background: theme.pallete.white,
-          height: '100%',
-          [theme.screens.sm]: {
-            width: '35rem',
-            margin: 'auto',
-          },
-          [theme.screens.xl]: {
-            margin: 'initial',
-          },
-        }}
-      >
-        {children}
-      </div>
-      <div
-        css={{
-          position: 'absolute',
-          zIndex: -1,
-          height: '100%',
-          width: '100%',
-        }}
-      >
-        <img
-          css={{position: 'absolute', height: '100%', width: '100%'}}
-          src="images/login-background.png"
-          alt="Background"
-        />
-      </div>
-    </div>
+    <Container>
+      <ChildContainer>{children}</ChildContainer>
+      <BackgroundContainer>
+        <BackgroundImage src="images/login-background.png" alt="Background" />
+      </BackgroundContainer>
+    </Container>
   )
 }

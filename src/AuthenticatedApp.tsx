@@ -2,7 +2,6 @@ import {useAuth} from 'context/auth-context'
 
 function AuthenticatedApp() {
   const {logout} = useAuth()
-
   return (
     <div>
       <div>

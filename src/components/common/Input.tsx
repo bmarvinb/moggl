@@ -1,6 +1,6 @@
 import * as React from 'react'
 import InputUnstyled, {InputUnstyledProps} from '@mui/base/InputUnstyled'
-import styled from '@emotion/styled'
+import styled from 'styled-components'
 import theme from 'theme/index'
 
 const StyledInputElement = styled('input')`

@@ -1,4 +1,4 @@
-import * as auth from 'api/auth'
+import * as auth from 'services/auth'
 
 const BASE_URL = process.env.REACT_APP_API_URL
 
@@ -23,17 +23,17 @@ export async function client(
       },
       ...customConfig,
     })
-    .then(async resp => {
-      if (resp.status === 401) {
+    .then(async res => {
+      if (res.status === 401) {
         await auth.logout()
         window.location.assign('/login')
         return Promise.reject()
       }
 
-      if (!resp.ok) {
-        return Promise.reject(resp)
+      if (!res.ok) {
+        return Promise.reject(res)
       }
 
-      return resp.json()
+      return res.json()
     })
 }

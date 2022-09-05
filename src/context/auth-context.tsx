@@ -1,32 +1,28 @@
 import {useQuery} from '@tanstack/react-query'
-import * as auth from 'api/auth'
-import {User} from 'api/auth/types'
-import {FullPageErrorFallback, FullPageSpinner} from 'components/lib'
-import React, {useEffect, useState} from 'react'
+import {FullPageErrorFallback, FullPageSpinner} from 'components/common'
+import React, {useState} from 'react'
+import * as authService from 'services/auth'
+import {User} from 'services/auth'
 import {getApiToken} from 'utils/api-key-storage'
 
 const AuthContext = React.createContext<{
-  login: typeof auth.login
-  logout: typeof auth.logout
+  login: typeof authService.login
+  logout: typeof authService.logout
   user: User | undefined
 }>({
-  login: auth.login,
-  logout: auth.logout,
+  login: authService.login,
+  logout: authService.logout,
   user: undefined,
 })
 AuthContext.displayName = 'AuthContext'
 
 export function AuthProvider(props: {children: JSX.Element}) {
   const [user, setUser] = useState<User | undefined>(undefined)
-  const [apiToken, setApiToken] = useState<string | undefined>()
-
-  useEffect(() => {
-    setApiToken(getApiToken() || undefined)
-  }, [])
+  const apiToken = getApiToken()
 
   const {fetchStatus, status, error} = useQuery(
     ['user', apiToken],
-    () => auth.me(apiToken as string),
+    () => authService.me(apiToken as string),
     {
       onSettled: setUser,
       enabled: typeof apiToken === 'string',
@@ -34,16 +30,16 @@ export function AuthProvider(props: {children: JSX.Element}) {
   )
 
   const login = async (email: string, password: string) => {
-    const session = await auth.login(email, password)
-    const user = await auth.me(session.api_token)
+    const session = await authService.login(email, password)
+    const user = await authService.me(session.api_token)
     setUser(user)
     return session
   }
 
-  const logout = async () => auth.logout().then(() => setUser(undefined))
+  const logout = async () => authService.logout().then(() => setUser(undefined))
 
   const value = {
-    user: user?.id ? user : undefined,
+    user,
     login,
     logout,
   }
