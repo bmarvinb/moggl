@@ -3,6 +3,8 @@ import {AuthProvider} from 'context/auth-context'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {BrowserRouter} from 'react-router-dom'
+import {ThemeProvider} from 'styled-components'
+import theme from 'theme'
 import App from './App'
 import './index.css'
 import reportWebVitals from './reportWebVitals'
@@ -15,9 +17,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
+        <ThemeProvider theme={theme}>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>,

@@ -1,9 +1,10 @@
 import {zodResolver} from '@hookform/resolvers/zod'
 import {Button, FieldError, Input, Label} from 'components/common'
+import {useAuthenticate} from 'hooks/useAuthenticate'
 import {SubmitHandler, useForm} from 'react-hook-form'
+import 'styled-components/macro'
 import theme from 'theme/index'
 import {z} from 'zod'
-import {useAuthenticate} from 'hooks/useAuthenticate'
 
 const schema = z.object({
   email: z.string().email('Please provide valid email'),
@@ -33,8 +34,16 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div style={{marginBottom: '3rem'}}>
-        <div style={{marginBottom: '1.5rem'}}>
+      <div
+        css={`
+          margin-bottom: 3rem;
+        `}
+      >
+        <div
+          css={`
+            margin-bottom: 1.5rem;
+          `}
+        >
           <Label htmlFor="email">Email:</Label>
           <Input
             aria-label="Email input"
@@ -48,7 +57,11 @@ export function LoginForm() {
           <FieldError>{errors.email?.message}</FieldError>
         </div>
 
-        <div style={{marginBottom: '1.5rem'}}>
+        <div
+          css={`
+            margin-bottom: 1.5rem;
+          `}
+        >
           <Label htmlFor="password">Password:</Label>
           <Input
             aria-label="Password input"
@@ -63,14 +76,20 @@ export function LoginForm() {
         </div>
 
         {auth.isError && (
-          <div style={{color: theme.pallete.red4}}>
+          <div
+            css={`
+              color: ${theme.pallete.red4};
+            `}
+          >
             The email/password combination used was not found on the system.
           </div>
         )}
       </div>
 
       <Button
-        style={{width: '100%'}}
+        css={`
+          width: 100%;
+        `}
         aria-label="Login button"
         type="submit"
         disabled={auth.isLoading}

@@ -1,30 +1,29 @@
 import * as React from 'react'
 import InputUnstyled, {InputUnstyledProps} from '@mui/base/InputUnstyled'
 import styled from 'styled-components'
-import theme from 'theme/index'
 
 const StyledInputElement = styled('input')`
   width: 100%;
-  font-size: ${theme.textSm.fontSize};
-  line-height: ${theme.textSm.lineHeight};
+  font-size: ${props => props.theme.textSm.fontSize};
+  line-height: ${props => props.theme.textSm.lineHeight};
   padding: 0.75rem;
   border-radius: 0.75rem;
-  background: ${theme.pallete.white};
-  border: 1px solid ${theme.pallete.blueGrey3};
-  box-shadow: 0px 2px 2px ${theme.pallete.blueGrey0};
+  background: ${props => props.theme.pallete.white};
+  border: 1px solid ${props => props.theme.pallete.blueGrey3};
+  box-shadow: 0px 2px 2px ${props => props.theme.pallete.blueGrey0};
 
   &:hover {
-    border-color: ${theme.pallete.blue3};
+    border-color: ${props => props.theme.pallete.blue3};
   }
 
   &:focus {
-    border-color: ${theme.pallete.blue3};
-    outline: 2px solid ${theme.pallete.blue2};
+    border-color: ${props => props.theme.pallete.blue3};
+    outline: 2px solid ${props => props.theme.pallete.blue2};
   }
 
   &[aria-invalid='true'] {
-    border-color: ${theme.pallete.red4};
-    outline: 2px solid ${theme.pallete.red3};
+    border-color: ${props => props.theme.pallete.red4};
+    outline: 2px solid ${props => props.theme.pallete.red3};
   }
 `
 

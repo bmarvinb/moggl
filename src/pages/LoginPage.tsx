@@ -1,18 +1,18 @@
-import {LoginForm} from 'components/LoginForm'
 import {AuthLayout} from 'components/AuthLayout'
-import styled from 'styled-components'
-
-const Container = styled.div`
-  width: 100%;
-`
+import {LoginForm} from 'components/LoginForm'
+import 'styled-components/macro'
 
 export function LoginPage() {
   return (
     <AuthLayout>
-      <Container>
+      <div
+        css={`
+          width: 100%;
+        `}
+      >
         <h2>Log in to your account</h2>
         <LoginForm />
-      </Container>
+      </div>
     </AuthLayout>
   )
 }
