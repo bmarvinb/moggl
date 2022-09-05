@@ -1,5 +1,5 @@
-import {LoginForm} from 'features/login-form/LoginForm'
-import {AuthLayout} from 'layout/AuthLayout'
+import {LoginForm} from 'components/LoginForm'
+import {AuthLayout} from 'components/AuthLayout'
 import styled from 'styled-components'
 
 const Container = styled.div`

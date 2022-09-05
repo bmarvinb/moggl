@@ -1,25 +1,9 @@
 import {zodResolver} from '@hookform/resolvers/zod'
-import {useMutation} from '@tanstack/react-query'
 import {Button, FieldError, Input, Label} from 'components/common'
-import {useAuth} from 'context/auth-context'
 import {SubmitHandler, useForm} from 'react-hook-form'
-import {useNavigate} from 'react-router'
 import theme from 'theme/index'
 import {z} from 'zod'
-
-function useAuthenticate() {
-  const {login} = useAuth()
-  const navigate = useNavigate()
-  return useMutation(
-    ({email, password}: {email: string; password: string}) =>
-      login(email, password),
-    {
-      onSuccess: () => {
-        navigate('/')
-      },
-    },
-  )
-}
+import {useAuthenticate} from 'hooks/useAuthenticate'
 
 const schema = z.object({
   email: z.string().email('Please provide valid email'),
