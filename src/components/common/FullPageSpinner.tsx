@@ -1,5 +1,6 @@
 import {BiLoaderAlt} from 'react-icons/bi'
 import styled, {keyframes} from 'styled-components'
+import theme from 'theme'
 
 const spin = keyframes`
   from {transform: rotate(0deg)};
@@ -8,7 +9,7 @@ const spin = keyframes`
 
 const Spinner = styled(BiLoaderAlt)`
   animation: ${spin} 1s linear infinite;
-  color: ${props => props.theme.pallete.blueGrey4};
+  color: ${theme.pallete.blueGrey4};
 `
 Spinner.defaultProps = {
   'aria-label': 'loading',

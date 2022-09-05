@@ -1,20 +1,21 @@
 import ButtonUnstyled, {buttonUnstyledClasses} from '@mui/base/ButtonUnstyled'
 import styled from 'styled-components'
+import theme from 'theme'
 
 export const Button = styled(ButtonUnstyled)`
   font-weight: bold;
-  font-size: ${props => props.theme.textSm.fontSize};
-  line-height: ${props => props.theme.textSm.lineHeight};
-  background-color: ${props => props.theme.pallete.blue4};
+  font-size: ${theme.textSm.fontSize};
+  line-height: ${theme.textSm.lineHeight};
+  background-color: ${theme.pallete.blue4};
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
-  color: ${props => props.theme.pallete.white};
+  color: ${theme.pallete.white};
   transition: all 150ms ease;
   cursor: pointer;
   border: none;
 
   &:hover {
-    background-color: ${props => props.theme.pallete.blue6};
+    background-color: ${theme.pallete.blue6};
   }
 
   &.${buttonUnstyledClasses.focusVisible} {
