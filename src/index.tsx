@@ -1,29 +1,17 @@
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
-import {AuthProvider} from 'context/auth-context'
+import {AppProviders} from 'context/index'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {BrowserRouter} from 'react-router-dom'
-import {ThemeProvider} from 'styled-components'
-import theme from 'theme'
 import App from './App'
 import './index.css'
 import reportWebVitals from './reportWebVitals'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
-const queryClient = new QueryClient()
-
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme}>
-          <AuthProvider>
-            <App />
-          </AuthProvider>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </BrowserRouter>
+    <AppProviders>
+      <App />
+    </AppProviders>
   </React.StrictMode>,
 )
 

@@ -18,6 +18,7 @@ export async function client(
       body: data ? JSON.stringify(data) : undefined,
       headers: {
         'Content-Type': 'application/json',
+        
         Authorization: token ? `Basic ${btoa(`${token}:api_token`)}` : '',
         ...customHeaders,
       },

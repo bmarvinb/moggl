@@ -27,6 +27,7 @@
         "hooks/*": ["./hooks/*"],
         "layout/*": ["./layout/*"],
         "pages/*": ["./pages/*"],
+        "test/*": ["./test/*"],
         "theme/*": ["./theme/*"],
         "utils/*": ["./utils/*"]
     }

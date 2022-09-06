@@ -1,6 +1,25 @@
 import {FC} from 'react'
-import theme from 'theme/index'
 import 'styled-components/macro'
+import styled from 'styled-components/macro'
+
+const Children = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 3rem;
+  background: ${({theme}) => theme.pallete.white};
+  height: 100%;
+
+  @media ${({theme}) => theme.screens.sm} {
+    width: 35rem;
+    margin: auto;
+  }
+
+  @media ${({theme}) => theme.screens.xl} {
+    margin: initial;
+  }
+`
 
 export const AuthLayout: FC<{
   children: JSX.Element
@@ -12,28 +31,7 @@ export const AuthLayout: FC<{
         height: 100%;
       `}
     >
-      <div
-        css={`
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 6rem 3rem;
-          background: ${theme.pallete.white};
-          height: 100%;
-
-          @media ${theme.screens.sm} {
-            width: 35rem;
-            margin: auto;
-          }
-
-          @media ${theme.screens.xl} {
-            margin: initial;
-          }
-        `}
-      >
-        {children}
-      </div>
+      <Children>{children}</Children>
       <div
         css={`
           position: absolute;

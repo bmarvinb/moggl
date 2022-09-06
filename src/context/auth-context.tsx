@@ -1,6 +1,6 @@
 import {useQuery} from '@tanstack/react-query'
 import {FullPageErrorFallback, FullPageSpinner} from 'components/common'
-import React, {useState} from 'react'
+import React, {ReactNode, useState} from 'react'
 import * as authService from 'services/auth'
 import {User} from 'services/auth'
 import {getApiToken} from 'utils/api-key-storage'
@@ -16,7 +16,7 @@ const AuthContext = React.createContext<{
 })
 AuthContext.displayName = 'AuthContext'
 
-export function AuthProvider(props: {children: JSX.Element}) {
+export function AuthProvider(props: {children: ReactNode}) {
   const [user, setUser] = useState<User | undefined>(undefined)
   const apiToken = getApiToken()
 

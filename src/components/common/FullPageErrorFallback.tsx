@@ -1,9 +1,8 @@
 import {FC} from 'react'
 import styled from 'styled-components'
-import theme from 'theme'
 
 const Container = styled.div`
-  color: ${theme.pallete.red4};
+  color: ${({theme}) => theme.pallete.red4};
   height: '100vh';
   display: 'flex';
   flex-direction: 'column';

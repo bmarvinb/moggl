@@ -1,10 +1,24 @@
-import {zodResolver} from '@hookform/resolvers/zod'
-import {Button, FieldError, Input, Label} from 'components/common'
-import {useAuthenticate} from 'hooks/useAuthenticate'
-import {SubmitHandler, useForm} from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  Button,
+  FieldError,
+  FormErrorMessage,
+  Input,
+  Label,
+} from 'components/common'
+import { useAuthenticate } from 'hooks/useAuthenticate'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import 'styled-components/macro'
-import theme from 'theme/index'
-import {z} from 'zod'
+import styled from 'styled-components/macro'
+import { z } from 'zod'
+
+const LoginButton = styled(Button)`
+  width: 100%;
+
+  @media ${({ theme }) => theme.screens.xl} {
+    width: 50%;
+  }
+`
 
 const schema = z.object({
   email: z.string().email('Please provide valid email'),
@@ -18,7 +32,7 @@ export function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -28,8 +42,8 @@ export function LoginForm() {
   })
 
   const onSubmit: SubmitHandler<FormValues> = data => {
-    const {email, password} = data
-    auth.mutate({email, password})
+    const { email, password } = data
+    auth.mutate({ email, password })
   }
 
   return (
@@ -52,6 +66,7 @@ export function LoginForm() {
             autoComplete="email"
             error={!!errors.email?.message}
             placeholder="Enter email"
+            data-testid="login-form-email"
             {...register('email')}
           />
           <FieldError>{errors.email?.message}</FieldError>
@@ -70,32 +85,27 @@ export function LoginForm() {
             autoComplete="current-password"
             error={!!errors.password?.message}
             placeholder="Type password"
+            data-testid="login-form-password"
             {...register('password')}
           />
           <FieldError>{errors.password?.message}</FieldError>
         </div>
 
         {auth.isError && (
-          <div
-            css={`
-              color: ${theme.pallete.red4};
-            `}
-          >
+          <FormErrorMessage>
             The email/password combination used was not found on the system.
-          </div>
+          </FormErrorMessage>
         )}
       </div>
 
-      <Button
-        css={`
-          width: 100%;
-        `}
+      <LoginButton
         aria-label="Login button"
         type="submit"
         disabled={auth.isLoading}
+        data-testid="login-form-button"
       >
         Log in
-      </Button>
+      </LoginButton>
     </form>
   )
 }

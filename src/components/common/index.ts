@@ -1,5 +1,6 @@
 export * from './Button'
 export * from './FieldError'
+export * from './FormErrorMessage'
 export * from './FullPageErrorFallback'
 export * from './FullPageSpinner'
 export * from './Input'
