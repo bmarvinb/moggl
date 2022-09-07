@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { ReactNode } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './auth-context'
-import { ThemeProvider } from './theme-provider'
+import { ThemeProvider } from '../theme/theme-provider'
 
 const queryClient = new QueryClient()
 

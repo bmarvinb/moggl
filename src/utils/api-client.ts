@@ -9,17 +9,15 @@ export type ClientConfig = {
 
 export async function client(
   endpoint: string,
-  { data, token, headers: customHeaders, ...customConfig }: ClientConfig = {},
+  { data, headers: customHeaders, ...customConfig }: ClientConfig = {},
 ) {
   return window
     .fetch(`${API_URL}/${endpoint}`, {
       method: data ? 'POST' : 'GET',
       body: data ? JSON.stringify(data) : undefined,
-      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'X-Api-Key': API_KEY as string,
-        Authorization: token ? `Basic ${btoa(`${token}:api_token`)}` : '',
+        'X-Api-Key': API_KEY || '',
         ...customHeaders,
       },
       ...customConfig,

@@ -1,6 +1,6 @@
 import { client } from 'utils/api-client'
 
-export type HourlyRate = {
+export type Rate = {
   amount: number
   currency: string
 }
@@ -50,7 +50,7 @@ export type WorkspaceSettings = {
 export type Workspace = {
   id: string
   name: string
-  hourlyRate: HourlyRate
+  hourlyRate: Rate
   memberships: Membership[]
   workspaceSettings: WorkspaceSettings
   imageUrl: string

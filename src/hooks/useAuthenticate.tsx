@@ -5,7 +5,7 @@ export function useAuthenticate() {
   const navigate = useNavigate()
   return useMutation(
     ({ email, password }: { email: string; password: string }) =>
-      Promise.resolve(),
+      Promise.resolve({ email, password }),
     {
       onSuccess: () => {
         navigate('/')
