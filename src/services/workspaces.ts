@@ -57,28 +57,6 @@ export type Workspace = {
   featureSubscriptionType: string
 }
 
-export type TimeInterval = {
-  start: Date
-  end: Date
-  duration: string
-}
-
-export type TimeEntry = {
-  id: string
-  description: string
-  tagIds?: any
-  userId: string
-  billable: boolean
-  taskId?: any
-  projectId?: any
-  timeInterval: TimeInterval
-  workspaceId: string
-  isLocked: boolean
-  customFieldValues: any[]
-  type: string
-  kioskId?: any
-}
-
 export function getWorkspaces(): Promise<Workspace[]> {
   return client('workspaces')
 }
