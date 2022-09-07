@@ -1,7 +1,7 @@
 function AuthenticatedApp() {
   return (
     <div>
-      <h1>App</h1>
+      <h1>Moggl</h1>
     </div>
   )
 }
