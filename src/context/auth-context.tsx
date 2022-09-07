@@ -9,11 +9,11 @@ function bootstrap() {
 }
 
 const AuthContext = React.createContext<{
-  login: (email: string, password: string) => Promise<void>
   user: User | undefined
+  workspace: Workspace | undefined
 }>({
-  login: () => Promise.resolve(),
   user: undefined,
+  workspace: undefined,
 })
 AuthContext.displayName = 'AuthContext'
 
@@ -28,14 +28,13 @@ export function AuthProvider(props: { children: ReactNode }) {
     },
   })
 
-  const login = async (_email: string, _password: string) => {
-    return Promise.resolve()
-  }
+  const workspace = workspaces.find(
+    workspace => workspace.id === user?.activeWorkspace,
+  )!
 
   const value = {
     user,
-    workspaces,
-    login,
+    workspace,
   }
 
   switch (status) {
