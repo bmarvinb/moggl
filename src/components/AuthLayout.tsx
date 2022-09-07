@@ -1,4 +1,4 @@
-import {FC} from 'react'
+import { FC } from 'react'
 import 'styled-components/macro'
 import styled from 'styled-components/macro'
 
@@ -8,22 +8,22 @@ const Children = styled.div`
   align-items: center;
   justify-content: center;
   padding: 6rem 3rem;
-  background: ${({theme}) => theme.pallete.white};
+  background: ${({ theme }) => theme.pallete.white};
   height: 100%;
 
-  @media ${({theme}) => theme.screens.sm} {
+  @media ${({ theme }) => theme.screens.sm} {
     width: 35rem;
     margin: auto;
   }
 
-  @media ${({theme}) => theme.screens.xl} {
+  @media ${({ theme }) => theme.screens.xl} {
     margin: initial;
   }
 `
 
 export const AuthLayout: FC<{
   children: JSX.Element
-}> = ({children}) => {
+}> = ({ children }) => {
   return (
     <div
       css={`

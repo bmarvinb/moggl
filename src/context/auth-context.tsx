@@ -1,55 +1,41 @@
-import {useQuery} from '@tanstack/react-query'
-import {FullPageErrorFallback, FullPageSpinner} from 'components/common'
-import React, {ReactNode, useState} from 'react'
-import * as authService from 'services/auth'
-import {User} from 'services/auth'
-import {getApiToken} from 'utils/api-key-storage'
+import { useQuery } from '@tanstack/react-query'
+import { FullPageErrorFallback, FullPageSpinner } from 'components/common'
+import React, { ReactNode, useState } from 'react'
+import { User, me } from 'services/auth'
+import { Workspace, getWorkspaces } from 'services/workspaces'
+
+function bootstrap() {
+  return Promise.all([me(), getWorkspaces()])
+}
 
 const AuthContext = React.createContext<{
-  login: typeof authService.login
-  logout: typeof authService.logout
+  login: (email: string, password: string) => Promise<void>
   user: User | undefined
 }>({
-  login: authService.login,
-  logout: authService.logout,
+  login: () => Promise.resolve(),
   user: undefined,
 })
 AuthContext.displayName = 'AuthContext'
 
-export function AuthProvider(props: {children: ReactNode}) {
+export function AuthProvider(props: { children: ReactNode }) {
   const [user, setUser] = useState<User | undefined>(undefined)
-  const apiToken = getApiToken()
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([])
 
-  const {fetchStatus, status, error} = useQuery(
-    ['user', apiToken],
-    () => authService.me(apiToken as string),
-    {
-      onSettled: setUser,
-      enabled: typeof apiToken === 'string',
+  const { status, error } = useQuery(['bootstrap'], () => bootstrap(), {
+    onSuccess: ([user, workspaces]) => {
+      setUser(user)
+      setWorkspaces(workspaces)
     },
-  )
+  })
 
-  const login = async (email: string, password: string) => {
-    const session = await authService.login(email, password)
-    const user = await authService.me(session.api_token)
-    setUser(user)
-    return session
+  const login = async (_email: string, _password: string) => {
+    return Promise.resolve()
   }
-
-  const logout = async () => authService.logout().then(() => setUser(undefined))
 
   const value = {
     user,
+    workspaces,
     login,
-    logout,
-  }
-
-  if (fetchStatus === 'idle') {
-    return (
-      <AuthContext.Provider value={value}>
-        {props.children}
-      </AuthContext.Provider>
-    )
   }
 
   switch (status) {

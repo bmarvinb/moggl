@@ -1,6 +1,5 @@
-import * as auth from 'services/auth'
-
-const BASE_URL = process.env.REACT_APP_API_URL
+const API_URL = process.env.REACT_APP_API_URL
+const API_KEY = process.env.REACT_APP_API_KEY
 
 export type ClientConfig = {
   data?: unknown
@@ -13,24 +12,19 @@ export async function client(
   { data, token, headers: customHeaders, ...customConfig }: ClientConfig = {},
 ) {
   return window
-    .fetch(`${BASE_URL}/${endpoint}`, {
+    .fetch(`${API_URL}/${endpoint}`, {
       method: data ? 'POST' : 'GET',
       body: data ? JSON.stringify(data) : undefined,
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
+        'X-Api-Key': API_KEY as string,
         Authorization: token ? `Basic ${btoa(`${token}:api_token`)}` : '',
         ...customHeaders,
       },
       ...customConfig,
     })
     .then(async res => {
-      if (res.status === 401) {
-        await auth.logout()
-        window.location.assign('/login')
-        return Promise.reject()
-      }
-
       if (!res.ok) {
         return Promise.reject(res)
       }
