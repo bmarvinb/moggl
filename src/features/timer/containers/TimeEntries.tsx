@@ -126,7 +126,7 @@ const getGroupedTimeEntries = (timeEntries: TimeEntry[]) =>
   pipe(timeEntries, getTimeEntryDates, groupTimeEntriesByDate(timeEntries))
 
 const getProjectCharts =
-  (msTotal: number) =>
+  (total: number) =>
   (projectTimeEntries: ProjectTimeEntries[]): ProjectsChart[] =>
     pipe(
       projectTimeEntries,
@@ -141,7 +141,7 @@ const getProjectCharts =
           formatDurationToTime,
         ),
         percent: average(
-          msTotal,
+          total,
           pipe(timeEntries, getIntervals, getIntervalsDuration),
         ),
       })),
