@@ -45,14 +45,14 @@ const timeEntryStartDate = (timeEntry: TimeEntry) =>
     time => time.slice(0, time.indexOf('T')),
   )
 
+const getInterval = (timeEntry: TimeEntry): TimeEntryInterval =>
+  pipe(timeEntry, ({ timeInterval }) => ({
+    start: new Date(timeInterval.start),
+    end: timeInterval.end ? new Date(timeInterval.end) : undefined,
+  }))
+
 const getIntervals = (timeEntries: TimeEntry[]): TimeEntryInterval[] =>
-  pipe(
-    timeEntries,
-    map(({ timeInterval }) => ({
-      start: new Date(timeInterval.start),
-      end: timeInterval.end ? new Date(timeInterval.end) : undefined,
-    })),
-  )
+  pipe(timeEntries, map(getInterval))
 
 const filterTimeEntriesByDate = (
   date: string,
@@ -192,8 +192,12 @@ export const TimeEntries: React.FC = () => {
     case 'error':
       return <div>Error</div>
     case 'success':
-      const projectsChart = getProjectsChart(timeEntries)
-      const timeEntriesIntervals = pipe(timeEntries, getIntervals)
+      const weekTimeEnties = pipe(
+        timeEntries,
+        filter(flow(getInterval, ({ start }) => start, isSameWeek(new Date()))),
+      )
+      const projectsChart = getProjectsChart(weekTimeEnties)
+      const timeEntriesIntervals = pipe(weekTimeEnties, getIntervals)
       const todayTotal = pipe(timeEntriesIntervals, getTotalByDay(new Date()))
       const weekTotal = pipe(timeEntriesIntervals, getTotalByWeek(new Date()))
       const groupedTimeEntries = getGroupedTimeEntries(timeEntries)
