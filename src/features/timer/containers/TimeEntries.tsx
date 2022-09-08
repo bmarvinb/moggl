@@ -147,19 +147,21 @@ const getProjectCharts =
       })),
     )
 
-const getWeekTotal = (timeEntries: TimeEntry[]) =>
+const getTimeEntriesIntervals = (
+  timeEntries: TimeEntry[],
+): TimeEntryInterval[] => pipe(timeEntries, getIntervals)
+
+const getWeekTotal = (timeEntriesIntervals: TimeEntryInterval[]) =>
   pipe(
-    timeEntries,
-    getIntervals,
+    timeEntriesIntervals,
     getIntervalsByWeek(new Date()),
     getIntervalsDuration,
     formatDurationToTime,
   )
 
-const getTodayTotal = (timeEntries: TimeEntry[]) =>
+const getTodayTotal = (timeEntriesIntervals: TimeEntryInterval[]) =>
   pipe(
-    timeEntries,
-    getIntervals,
+    timeEntriesIntervals,
     getIntervalsByDay(new Date()),
     getIntervalsDuration,
     formatDurationToTime,
@@ -188,8 +190,9 @@ export const TimeEntries: React.FC = () => {
       return <div>Error</div>
     case 'success':
       const projectsChart = getProjectsChart(timeEntries)
-      const todayTotal = getTodayTotal(timeEntries)
-      const weekTotal = getWeekTotal(timeEntries)
+      const timeEntriesIntervals = getTimeEntriesIntervals(timeEntries)
+      const todayTotal = getTodayTotal(timeEntriesIntervals)
+      const weekTotal = getWeekTotal(timeEntriesIntervals)
       const groupedTimeEntries = getGroupedTimeEntries(timeEntries)
       return (
         <>
