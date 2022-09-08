@@ -152,25 +152,23 @@ const getProjectCharts =
       })),
     )
 
-const getTimeEntriesIntervals = (
-  timeEntries: TimeEntry[],
-): TimeEntryInterval[] => pipe(timeEntries, getIntervals)
+const getInlineTime =
+  (filterFn: (xs: TimeEntryInterval[]) => TimeEntryInterval[]) =>
+  (timeEntriesIntervals: TimeEntryInterval[]) =>
+    pipe(
+      timeEntriesIntervals,
+      filterFn,
+      calculateIntervalsTotalDuration,
+      formatDurationToInlineTime,
+    )
 
-const getWeekTotal = (timeEntriesIntervals: TimeEntryInterval[]) =>
-  pipe(
-    timeEntriesIntervals,
-    filterIntervalsByWeek(new Date()),
-    calculateIntervalsTotalDuration,
-    formatDurationToInlineTime,
-  )
+const getTotalByWeek =
+  (date: Date) => (timeEntriesIntervals: TimeEntryInterval[]) =>
+    pipe(timeEntriesIntervals, getInlineTime(filterIntervalsByWeek(date)))
 
-const getTodayTotal = (timeEntriesIntervals: TimeEntryInterval[]) =>
-  pipe(
-    timeEntriesIntervals,
-    filterIntervalsByDay(new Date()),
-    calculateIntervalsTotalDuration,
-    formatDurationToInlineTime,
-  )
+const getTotalByDay =
+  (date: Date) => (timeEntriesIntervals: TimeEntryInterval[]) =>
+    pipe(timeEntriesIntervals, getInlineTime(filterIntervalsByDay(date)))
 
 const calculateTotal = (timeEntries: TimeEntry[]) =>
   pipe(timeEntries, getIntervals, calculateIntervalsTotalDuration)
@@ -195,9 +193,9 @@ export const TimeEntries: React.FC = () => {
       return <div>Error</div>
     case 'success':
       const projectsChart = getProjectsChart(timeEntries)
-      const timeEntriesIntervals = getTimeEntriesIntervals(timeEntries)
-      const todayTotal = getTodayTotal(timeEntriesIntervals)
-      const weekTotal = getWeekTotal(timeEntriesIntervals)
+      const timeEntriesIntervals = pipe(timeEntries, getIntervals)
+      const todayTotal = pipe(timeEntriesIntervals, getTotalByDay(new Date()))
+      const weekTotal = pipe(timeEntriesIntervals, getTotalByWeek(new Date()))
       const groupedTimeEntries = getGroupedTimeEntries(timeEntries)
       return (
         <>
