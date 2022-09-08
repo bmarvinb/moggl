@@ -42,14 +42,48 @@ const ProjectChartLabel = styled.div<{ color: string }>`
   font-weight: 500;
 `
 
+const WeekInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+`
+
+const InlineTime = styled.span`
+  font-weight: 500;
+`
+
 export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
   return (
     <div>
-      <div>Today: {props.todayTotal}</div>
-      <div>Total: {props.weekTotal}</div>
+      <WeekInfo>
+        <div
+          css={`
+            font-weight: 500;
+          `}
+        >
+          This week
+        </div>
+        <div
+          css={`
+            display: flex;
+          `}
+        >
+          <div
+            css={`
+              margin-right: 1rem;
+            `}
+          >
+            Today: <InlineTime>{props.todayTotal}</InlineTime>
+          </div>
+          <div>
+            Total: <InlineTime>{props.weekTotal}</InlineTime>
+          </div>
+        </div>
+      </WeekInfo>
       <div
         css={`
           display: flex;
+          padding: 1.5rem 1rem;
         `}
       >
         {props.projectsChart.map(project => (
