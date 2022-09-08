@@ -14,7 +14,7 @@ import {
   TimeEntry,
   TimeEntryProject,
 } from 'features/timer/services/time-entries'
-import { average } from 'features/timer/utils/time-entries-utils'
+import { percentOf } from 'features/timer/utils/time-entries-utils'
 import { filter, map, reduce } from 'fp-ts/lib/Array'
 import { flow, pipe } from 'fp-ts/lib/function'
 import React from 'react'
@@ -140,7 +140,7 @@ const getProjectCharts =
           getIntervalsDuration,
           formatDurationToTime,
         ),
-        percent: average(
+        percent: percentOf(
           total,
           pipe(timeEntries, getIntervals, getIntervalsDuration),
         ),
