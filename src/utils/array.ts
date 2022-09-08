@@ -1,3 +1,3 @@
-export function removeDuplicates<T>(entries: T[]): T[] {
+export function uniq<T>(entries: T[]): T[] {
   return [...new Set(entries)]
 }

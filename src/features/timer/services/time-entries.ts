@@ -144,6 +144,7 @@ const hydratedTimeEntrySchema = z.object({
 })
 
 export type TimeEntry = z.infer<typeof hydratedTimeEntrySchema>
+export type TimeEntryProject = z.infer<typeof projectSchema>
 
 export function getTimeEntries(
   workspaceId: string,

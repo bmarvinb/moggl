@@ -8,22 +8,34 @@ import {
   millisecondsToSeconds,
   minutesToMilliseconds,
 } from 'date-fns'
-import { isSameWeek } from 'date-fns/fp'
+import { isSameDay, isSameWeek } from 'date-fns/fp'
 import { useTimeEntries } from 'features/timer/hooks/useTimeEntries'
-import { TimeEntry } from 'features/timer/services/time-entries'
+import {
+  TimeEntry,
+  TimeEntryProject,
+} from 'features/timer/services/time-entries'
+import { average } from 'features/timer/utils/time-entries-utils'
 import { filter, map, reduce } from 'fp-ts/lib/Array'
 import { flow, pipe } from 'fp-ts/lib/function'
 import React from 'react'
-import { invariant, numberPad, removeDuplicates as uniq } from 'utils'
-import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
+import { invariant, numberPad, uniq } from 'utils'
+import {
+  ProjectsChart,
+  TimeEntriesHeader,
+} from '../components/TimeEntriesHeader'
 import {
   GroupedTimeEntries,
   TimeEntriesList,
 } from '../components/TimeEntriesList'
 
-type Interval = {
+type TimeEntryInterval = {
   start: Date
   end: Date | undefined
+}
+
+type ProjectTimeEntries = {
+  project: TimeEntryProject
+  timeEntries: TimeEntry[]
 }
 
 const timeEntryStartDate = (timeEntry: TimeEntry) =>
@@ -33,7 +45,7 @@ const timeEntryStartDate = (timeEntry: TimeEntry) =>
     time => time.slice(0, time.indexOf('T')),
   )
 
-const getIntervals = (timeEntries: TimeEntry[]): Interval[] =>
+const getIntervals = (timeEntries: TimeEntry[]): TimeEntryInterval[] =>
   pipe(
     timeEntries,
     map(({ timeInterval }) => ({
@@ -65,10 +77,13 @@ const groupTimeEntriesByDate =
       })),
     )
 
-const getIntervalsByDate = (date: Date) => (intervals: Interval[]) =>
+const getIntervalsByWeek = (date: Date) => (intervals: TimeEntryInterval[]) =>
   pipe(intervals, filter(flow(({ start }) => start, isSameWeek(date))))
 
-const getWeekTotalDuration = (intervals: Interval[]): number =>
+const getIntervalsByDay = (date: Date) => (intervals: TimeEntryInterval[]) =>
+  pipe(intervals, filter(flow(({ start }) => start, isSameDay(date))))
+
+const getIntervalsDuration = (intervals: TimeEntryInterval[]): number =>
   pipe(
     intervals,
     reduce(0, (duration, { start, end }) =>
@@ -76,7 +91,7 @@ const getWeekTotalDuration = (intervals: Interval[]): number =>
     ),
   )
 
-const getFormattedWeekTotal = (msDuration: number): string => {
+const formatDurationToTime = (msDuration: number): string => {
   const hours = millisecondsToHours(msDuration)
   const minutes = millisecondsToMinutes(msDuration - hoursToMilliseconds(hours))
   const seconds = millisecondsToSeconds(
@@ -84,6 +99,81 @@ const getFormattedWeekTotal = (msDuration: number): string => {
   )
   return `${hours}:${numberPad(minutes)}:${numberPad(seconds)}`
 }
+
+const groupTimeEntriesByProject = (
+  timeEntries: TimeEntry[],
+): ProjectTimeEntries[] =>
+  pipe(
+    timeEntries,
+    reduce(
+      {} as {
+        [key: string]: ProjectTimeEntries
+      },
+      (acc, timeEntry) => ({
+        ...acc,
+        [timeEntry.project.id]: {
+          project: timeEntry.project,
+          timeEntries: acc[timeEntry.project.id]
+            ? [...acc[timeEntry.project.id].timeEntries, timeEntry]
+            : [timeEntry],
+        },
+      }),
+    ),
+    data => Object.values(data),
+  )
+
+const getGroupedTimeEntries = (timeEntries: TimeEntry[]) =>
+  pipe(timeEntries, getTimeEntryDates, groupTimeEntriesByDate(timeEntries))
+
+const getProjectCharts =
+  (msTotal: number) =>
+  (projectTimeEntries: ProjectTimeEntries[]): ProjectsChart[] =>
+    pipe(
+      projectTimeEntries,
+      map(({ project, timeEntries }) => ({
+        id: project.id,
+        name: project.name,
+        color: project.color,
+        duration: pipe(
+          timeEntries,
+          getIntervals,
+          getIntervalsDuration,
+          formatDurationToTime,
+        ),
+        percent: average(
+          msTotal,
+          pipe(timeEntries, getIntervals, getIntervalsDuration),
+        ),
+      })),
+    )
+
+const getWeekTotal = (timeEntries: TimeEntry[]) =>
+  pipe(
+    timeEntries,
+    getIntervals,
+    getIntervalsByWeek(new Date()),
+    getIntervalsDuration,
+    formatDurationToTime,
+  )
+
+const getTodayTotal = (timeEntries: TimeEntry[]) =>
+  pipe(
+    timeEntries,
+    getIntervals,
+    getIntervalsByDay(new Date()),
+    getIntervalsDuration,
+    formatDurationToTime,
+  )
+
+const calculateTotal = (timeEntries: TimeEntry[]) =>
+  pipe(timeEntries, getIntervals, getIntervalsDuration)
+
+const getProjectsChart = (timeEntries: TimeEntry[]): ProjectsChart[] =>
+  pipe(
+    timeEntries,
+    groupTimeEntriesByProject,
+    getProjectCharts(pipe(timeEntries, calculateTotal)),
+  )
 
 export const TimeEntries: React.FC = () => {
   const { user, workspace } = useAuth()
@@ -97,21 +187,17 @@ export const TimeEntries: React.FC = () => {
     case 'error':
       return <div>Error</div>
     case 'success':
-      const groupedTimeEntries = pipe(
-        timeEntries,
-        getTimeEntryDates,
-        groupTimeEntriesByDate(timeEntries),
-      )
-      const weekTotal = pipe(
-        timeEntries,
-        getIntervals,
-        getIntervalsByDate(new Date()),
-        getWeekTotalDuration,
-        getFormattedWeekTotal,
-      )
+      const projectsChart = getProjectsChart(timeEntries)
+      const todayTotal = getTodayTotal(timeEntries)
+      const weekTotal = getWeekTotal(timeEntries)
+      const groupedTimeEntries = getGroupedTimeEntries(timeEntries)
       return (
         <>
-          <TimeEntriesHeader weekTotal={weekTotal} />
+          <TimeEntriesHeader
+            projectsChart={projectsChart}
+            todayTotal={todayTotal}
+            weekTotal={weekTotal}
+          />
           <TimeEntriesList timeEntries={groupedTimeEntries} />
         </>
       )
