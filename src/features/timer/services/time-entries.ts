@@ -1,5 +1,4 @@
-import { client } from 'utils/api-client'
-import { createURLSearchParams } from 'utils'
+import { createURLSearchParams, client } from 'utils'
 import { z } from 'zod'
 
 const timeIntervalSchema = z.object({

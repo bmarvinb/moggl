@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { FullPageErrorFallback, FullPageSpinner } from 'components/common'
+import { FullPageErrorFallback, FullPageSpinner } from 'components'
 import React, { ReactNode, useState } from 'react'
-import { User, me } from 'services/auth'
+import { User, me } from 'auth/services/auth'
 import { Workspace, getWorkspaces } from 'services/workspaces'
 
 function bootstrap() {

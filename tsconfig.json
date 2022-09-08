@@ -21,11 +21,11 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "paths": {
-        "api/*": ["./api/*"],
+        "auth/*": ["./auth/*"],
         "components/*": ["./components/*"],
         "context/*": ["./context/*"],
+        "features/*": ["./features/*"],
         "hooks/*": ["./hooks/*"],
-        "layout/*": ["./layout/*"],
         "pages/*": ["./pages/*"],
         "test/*": ["./test/*"],
         "theme/*": ["./theme/*"],

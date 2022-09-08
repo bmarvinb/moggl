@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
 import { FC } from 'react'
-import { TimeEntry } from 'services/time-entries'
+import { TimeEntry } from 'features/timer/services/time-entries'
 
 export type GroupedTimeEntries = {
   date: Date
