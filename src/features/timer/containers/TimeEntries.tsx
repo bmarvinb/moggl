@@ -1,23 +1,25 @@
-import { Spinner } from 'components'
-import { TimeEntriesHeader } from './TimeEntriesHeader'
-import { GroupedTimeEntries } from './TimeEntriesList'
-import { TimeEntriesList } from './TimeEntriesList'
 import { useAuth } from 'auth/context/auth-context'
+import { Spinner } from 'components'
 import {
   differenceInMilliseconds,
+  hoursToMilliseconds,
   millisecondsToHours,
   millisecondsToMinutes,
   millisecondsToSeconds,
   minutesToMilliseconds,
-  hoursToMilliseconds,
 } from 'date-fns'
 import { isSameWeek } from 'date-fns/fp'
-import { map, filter, reduce } from 'fp-ts/lib/Array'
-import { flow, pipe } from 'fp-ts/lib/function'
 import { useTimeEntries } from 'features/timer/hooks/useTimeEntries'
-import React from 'react'
 import { TimeEntry } from 'features/timer/services/time-entries'
+import { filter, map, reduce } from 'fp-ts/lib/Array'
+import { flow, pipe } from 'fp-ts/lib/function'
+import React from 'react'
 import { invariant, numberPad, removeDuplicates as uniq } from 'utils'
+import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
+import {
+  GroupedTimeEntries,
+  TimeEntriesList,
+} from '../components/TimeEntriesList'
 
 type Interval = {
   start: Date

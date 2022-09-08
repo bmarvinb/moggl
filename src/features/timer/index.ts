@@ -1,1 +1,1 @@
-export * from './components/TimeEntries'
+export * from './containers/TimeEntries'
