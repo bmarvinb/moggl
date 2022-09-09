@@ -13,7 +13,7 @@ export type ProjectsChart = {
 export type TimeEntriesHeaderProps = {
   weekTotal: string
   todayTotal: string
-  projectsChart: ProjectsChart[]
+  projectsChart?: ProjectsChart[]
 }
 
 const Container = styled.div`
@@ -64,7 +64,6 @@ const WeekInfo = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1rem;
-  padding-bottom: 0.5rem;
 `
 
 const Time = styled.span`
@@ -95,28 +94,30 @@ export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
           </div>
         </div>
       </WeekInfo>
-      <div
-        css={`
-          display: flex;
-          padding: 1.5rem 1rem 2rem;
-        `}
-      >
-        {props.projectsChart.map(project => (
-          <ProjectChartBlock
-            key={project.id}
-            color={project.color}
-            percent={project.percent}
-          >
-            <ProjectChartLabel color={project.color}>
-              {project.name}
-            </ProjectChartLabel>
-            <ProjectChartLine
+      {props.projectsChart && (
+        <div
+          css={`
+            display: flex;
+            padding: 1.5rem 1rem 2rem;
+          `}
+        >
+          {props.projectsChart.map(project => (
+            <ProjectChartBlock
+              key={project.id}
               color={project.color}
               percent={project.percent}
-            ></ProjectChartLine>
-          </ProjectChartBlock>
-        ))}
-      </div>
+            >
+              <ProjectChartLabel color={project.color}>
+                {project.name}
+              </ProjectChartLabel>
+              <ProjectChartLine
+                color={project.color}
+                percent={project.percent}
+              ></ProjectChartLine>
+            </ProjectChartBlock>
+          ))}
+        </div>
+      )}
     </Container>
   )
 }

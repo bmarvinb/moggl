@@ -220,7 +220,7 @@ export const TimeEntries: React.FC = () => {
       return (
         <>
           <TimeEntriesHeader
-            projectsChart={projectChart}
+            // projectsChart={projectChart}
             todayTotal={todayTotalTime}
             weekTotal={weekTotalTime}
           />

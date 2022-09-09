@@ -1,4 +1,5 @@
-import { format, isToday, isYesterday } from 'date-fns'
+import { isToday, isYesterday } from 'date-fns'
+import { TimeEntriesListItem } from 'features/timer/components/TimeEntriesListItem'
 import { FC } from 'react'
 import styled from 'styled-components/macro'
 
@@ -29,6 +30,7 @@ const Container = styled.div`
   padding: 0 1rem;
   background: ${props => props.theme.pallete.blueGrey0};
   color: ${props => props.theme.pallete.blueGrey9};
+  padding-bottom: 2rem;
 `
 
 const List = styled.div`
@@ -38,7 +40,7 @@ const List = styled.div`
   box-shadow: ${props => props.theme.pallete.shadow};
 `
 
-const Top = styled.div`
+const Header = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1rem;
@@ -51,24 +53,6 @@ const Label = styled.div`
   font-weight: 500;
 `
 
-const TimeEntries = styled.div``
-
-const TimeEntryItem = styled.div`
-  display: flex;
-  padding: 1rem;
-  &:not(:last-child) {
-    border-bottom: 1px solid ${props => props.theme.pallete.blueGrey1};
-  }
-`
-
-const Description = styled.div``
-
-const ProjectInfo = styled.div``
-
-const Date = styled.div``
-
-const Duration = styled.div``
-
 function formatDate(date: Date): string {
   if (isToday(date)) {
     return 'Today'
@@ -80,30 +64,19 @@ function formatDate(date: Date): string {
 }
 
 export const TimeEntriesList: FC<TimeEntriesListProps> = props => {
-  console.log(props)
-
   return (
     <Container>
       {props.groupedTimeEntries.map(({ id, date, totalTime, timeEntries }) => (
         <List key={id}>
-          <Top>
+          <Header>
             <Label>{formatDate(date)}</Label>
             <Label>{totalTime}</Label>
-          </Top>
-          <TimeEntries>
+          </Header>
+          <div>
             {timeEntries.map(timeEntry => (
-              <TimeEntryItem key={timeEntry.id}>
-                <Description>{timeEntry.description}</Description>
-                <ProjectInfo>
-                  {timeEntry.project.name} {timeEntry.project.clientName}
-                </ProjectInfo>
-                <Date>
-                  {format(timeEntry.start, 'p')} - {format(timeEntry.end, 'p')}
-                </Date>
-                <Duration>{timeEntry.duration}</Duration>
-              </TimeEntryItem>
+              <TimeEntriesListItem key={timeEntry.id} timeEntry={timeEntry} />
             ))}
-          </TimeEntries>
+          </div>
         </List>
       ))}
     </Container>
