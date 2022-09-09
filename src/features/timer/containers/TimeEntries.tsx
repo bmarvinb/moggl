@@ -1,5 +1,6 @@
 import { useAuth } from 'auth/context/auth-context'
 import { Spinner } from 'components'
+import { nanoid } from 'nanoid'
 import {
   differenceInMilliseconds,
   hoursToMilliseconds,
@@ -26,6 +27,7 @@ import {
 import {
   GroupedTimeEntries,
   TimeEntriesList,
+  ViewTimeEntry,
 } from '../components/TimeEntriesList'
 
 type TimeEntryInterval = {
@@ -69,14 +71,42 @@ const getTimeEntriesByDate =
       filter(flow(getInterval, ({ start }) => start, predicate)),
     )
 
+const createViewTimeEntry = (timeEntry: TimeEntry): ViewTimeEntry => ({
+  id: timeEntry.id,
+  description: timeEntry.description,
+  project: {
+    name: timeEntry.project.name,
+    clientName: timeEntry.project.clientName,
+  },
+  start: new Date(timeEntry.timeInterval.start),
+  end: new Date(timeEntry.timeInterval.end!),
+  duration: formatDurationToInlineTime(
+    differenceInMilliseconds(
+      new Date(timeEntry.timeInterval.end!),
+      new Date(timeEntry.timeInterval.start),
+    ),
+  ),
+})
+
 const groupTimeEntriesByDate =
   (timeEntries: TimeEntry[]) =>
   (dates: string[]): GroupedTimeEntries[] =>
     pipe(
       dates,
       map(date => ({
+        id: nanoid(),
         date: new Date(date),
-        timeEntries: pipe(timeEntries, filterTimeEntriesByDate(date)),
+        totalTime: pipe(
+          timeEntries,
+          filterTimeEntriesByDate(date),
+          calculateTimeEntriesTotalDuration,
+          formatDurationToInlineTime,
+        ),
+        timeEntries: pipe(
+          timeEntries,
+          filterTimeEntriesByDate(date),
+          map(createViewTimeEntry),
+        ),
       })),
     )
 
@@ -184,17 +214,17 @@ export const TimeEntries: React.FC = () => {
         getTimeEntriesByDate(isSameDay(new Date())),
       )
       const projectChart = getProjectsChart(weekTimeEnties)
-      const todayTotal = pipe(dayTimeEnties, getInlineTime)
-      const weekTotal = pipe(weekTimeEnties, getInlineTime)
+      const todayTotalTime = pipe(dayTimeEnties, getInlineTime)
+      const weekTotalTime = pipe(weekTimeEnties, getInlineTime)
       const groupedTimeEntries = getGroupedTimeEntries(timeEntries)
       return (
         <>
           <TimeEntriesHeader
             projectsChart={projectChart}
-            todayTotal={todayTotal}
-            weekTotal={weekTotal}
+            todayTotal={todayTotalTime}
+            weekTotal={weekTotalTime}
           />
-          <TimeEntriesList timeEntries={groupedTimeEntries} />
+          <TimeEntriesList groupedTimeEntries={groupedTimeEntries} />
         </>
       )
   }

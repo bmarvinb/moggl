@@ -8,7 +8,7 @@ export const Button = styled(ButtonUnstyled)`
   background-color: ${({ theme }) => theme.pallete.blue4};
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
-  color: ${({ theme }) => theme.pallete.white};
+  color: ${({ theme }) => `#fff`};
   transition: all 150ms ease;
   cursor: pointer;
   border: none;

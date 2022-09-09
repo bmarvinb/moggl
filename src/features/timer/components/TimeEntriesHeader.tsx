@@ -16,6 +16,24 @@ export type TimeEntriesHeaderProps = {
   projectsChart: ProjectsChart[]
 }
 
+const Container = styled.div`
+  background: ${props => props.theme.pallete.blueGrey0};
+`
+
+const Title = styled.div`
+  font-weight: 500;
+  color: ${props => props.theme.pallete.blueGrey9};
+  font-size: ${({ theme }) => theme.typography.textSm.fontSize};
+  line-height: ${({ theme }) => theme.typography.textSm.lineHeight};
+`
+
+const Label = styled.span`
+  font-weight: 500;
+  color: ${props => props.theme.pallete.blueGrey6};
+  font-size: ${({ theme }) => theme.typography.textSm.fontSize};
+  line-height: ${({ theme }) => theme.typography.textSm.lineHeight};
+`
+
 const ProjectChartBlock = styled.div<{ color: string; percent: number }>`
   width: ${({ percent }) => percent}%;
 
@@ -46,23 +64,20 @@ const WeekInfo = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1rem;
+  padding-bottom: 0.5rem;
 `
 
-const InlineTime = styled.span`
+const Time = styled.span`
+  font-size: ${props => props.theme.typography.textSm.fontSize};
+  line-height: ${props => props.theme.typography.textSm.lineHeight};
   font-weight: 500;
 `
 
 export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
   return (
-    <div>
+    <Container>
       <WeekInfo>
-        <div
-          css={`
-            font-weight: 500;
-          `}
-        >
-          This week
-        </div>
+        <Title>This week</Title>
         <div
           css={`
             display: flex;
@@ -73,17 +88,17 @@ export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
               margin-right: 1rem;
             `}
           >
-            Today: <InlineTime>{props.todayTotal}</InlineTime>
+            <Label>Today:</Label> <Time>{props.todayTotal}</Time>
           </div>
           <div>
-            Total: <InlineTime>{props.weekTotal}</InlineTime>
+            <Label>Week total:</Label> <Time>{props.weekTotal}</Time>
           </div>
         </div>
       </WeekInfo>
       <div
         css={`
           display: flex;
-          padding: 1.5rem 1rem;
+          padding: 1.5rem 1rem 2rem;
         `}
       >
         {props.projectsChart.map(project => (
@@ -102,6 +117,6 @@ export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
           </ProjectChartBlock>
         ))}
       </div>
-    </div>
+    </Container>
   )
 }
