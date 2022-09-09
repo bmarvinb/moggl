@@ -218,8 +218,8 @@ export const TimeEntries: React.FC = () => {
         getTimeEntriesByDate(isSameDay(new Date())),
       )
       const projectChart = getProjectsChart(weekTimeEnties)
-      const todayTotalTime = pipe(dayTimeEnties, getInlineTime)
-      const weekTotalTime = pipe(weekTimeEnties, getInlineTime)
+      const todayTotalTime = getInlineTime(dayTimeEnties)
+      const weekTotalTime = getInlineTime(weekTimeEnties)
       const groupedTimeEntries = getGroupedTimeEntries(inactiveTimeEntries)
       return (
         <>
