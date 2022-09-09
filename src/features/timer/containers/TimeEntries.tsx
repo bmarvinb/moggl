@@ -54,14 +54,20 @@ const getInterval = (timeEntry: TimeEntry): TimeEntryInterval =>
 const getIntervals = (timeEntries: TimeEntry[]): TimeEntryInterval[] =>
   pipe(timeEntries, map(getInterval))
 
-const filterTimeEntriesByDate = (
-  date: string,
-  timeEntries: TimeEntry[],
-): TimeEntry[] =>
-  pipe(
-    timeEntries,
-    filter(timeEntry => pipe(timeEntry, timeEntryStartDate) === date),
-  )
+const filterTimeEntriesByDate =
+  (date: string) =>
+  (timeEntries: TimeEntry[]): TimeEntry[] =>
+    pipe(
+      timeEntries,
+      filter(timeEntry => pipe(timeEntry, timeEntryStartDate) === date),
+    )
+
+const getTimeEntriesByDate =
+  (predicate: (date: Date) => boolean) => (timeEntries: TimeEntry[]) =>
+    pipe(
+      timeEntries,
+      filter(flow(getInterval, ({ start }) => start, predicate)),
+    )
 
 const groupTimeEntriesByDate =
   (timeEntries: TimeEntry[]) =>
@@ -70,32 +76,24 @@ const groupTimeEntriesByDate =
       dates,
       map(date => ({
         date: new Date(date),
-        timeEntries: filterTimeEntriesByDate(date, timeEntries),
+        timeEntries: pipe(timeEntries, filterTimeEntriesByDate(date)),
       })),
     )
 
-const filterIntervalsByWeek =
-  (date: Date) => (intervals: TimeEntryInterval[]) =>
-    pipe(intervals, filter(flow(({ start }) => start, isSameWeek(date))))
-
-const filterIntervalsByDay = (date: Date) => (intervals: TimeEntryInterval[]) =>
-  pipe(intervals, filter(flow(({ start }) => start, isSameDay(date))))
-
-const calculateIntervalsTotalDuration = (
-  intervals: TimeEntryInterval[],
-): number =>
+const calculateTimeEntriesTotalDuration = (timeEntries: TimeEntry[]): number =>
   pipe(
-    intervals,
+    timeEntries,
+    getIntervals,
     reduce(0, (duration, { start, end }) =>
       end ? duration + differenceInMilliseconds(end, start) : duration,
     ),
   )
 
-const formatDurationToInlineTime = (msDuration: number): string => {
-  const hours = millisecondsToHours(msDuration)
-  const minutes = millisecondsToMinutes(msDuration - hoursToMilliseconds(hours))
+const formatDurationToInlineTime = (ms: number): string => {
+  const hours = millisecondsToHours(ms)
+  const minutes = millisecondsToMinutes(ms - hoursToMilliseconds(hours))
   const seconds = millisecondsToSeconds(
-    msDuration - hoursToMilliseconds(hours) - minutesToMilliseconds(minutes),
+    ms - hoursToMilliseconds(hours) - minutesToMilliseconds(minutes),
   )
   return `${hours}:${numberPad(minutes)}:${numberPad(seconds)}`
 }
@@ -141,43 +139,28 @@ const getProjectCharts =
         color: project.color,
         duration: pipe(
           timeEntries,
-          getIntervals,
-          calculateIntervalsTotalDuration,
+          calculateTimeEntriesTotalDuration,
           formatDurationToInlineTime,
         ),
         percent: calculatePercentage(
           total,
-          pipe(timeEntries, getIntervals, calculateIntervalsTotalDuration),
+          pipe(timeEntries, calculateTimeEntriesTotalDuration),
         ),
       })),
     )
 
-const getInlineTime =
-  (filterFn: (xs: TimeEntryInterval[]) => TimeEntryInterval[]) =>
-  (timeEntriesIntervals: TimeEntryInterval[]) =>
-    pipe(
-      timeEntriesIntervals,
-      filterFn,
-      calculateIntervalsTotalDuration,
-      formatDurationToInlineTime,
-    )
-
-const getTotalByWeek =
-  (date: Date) => (timeEntriesIntervals: TimeEntryInterval[]) =>
-    pipe(timeEntriesIntervals, getInlineTime(filterIntervalsByWeek(date)))
-
-const getTotalByDay =
-  (date: Date) => (timeEntriesIntervals: TimeEntryInterval[]) =>
-    pipe(timeEntriesIntervals, getInlineTime(filterIntervalsByDay(date)))
-
-const calculateTotal = (timeEntries: TimeEntry[]) =>
-  pipe(timeEntries, getIntervals, calculateIntervalsTotalDuration)
+const getInlineTime = (timeEntries: TimeEntry[]) =>
+  pipe(
+    timeEntries,
+    calculateTimeEntriesTotalDuration,
+    formatDurationToInlineTime,
+  )
 
 const getProjectsChart = (timeEntries: TimeEntry[]): ProjectsChart[] =>
   pipe(
     timeEntries,
     groupTimeEntriesByProject,
-    getProjectCharts(pipe(timeEntries, calculateTotal)),
+    getProjectCharts(pipe(timeEntries, calculateTimeEntriesTotalDuration)),
   )
 
 export const TimeEntries: React.FC = () => {
@@ -194,17 +177,20 @@ export const TimeEntries: React.FC = () => {
     case 'success':
       const weekTimeEnties = pipe(
         timeEntries,
-        filter(flow(getInterval, ({ start }) => start, isSameWeek(new Date()))),
+        getTimeEntriesByDate(isSameWeek(new Date())),
       )
-      const projectsChart = getProjectsChart(weekTimeEnties)
-      const timeEntriesIntervals = pipe(weekTimeEnties, getIntervals)
-      const todayTotal = pipe(timeEntriesIntervals, getTotalByDay(new Date()))
-      const weekTotal = pipe(timeEntriesIntervals, getTotalByWeek(new Date()))
+      const dayTimeEnties = pipe(
+        timeEntries,
+        getTimeEntriesByDate(isSameDay(new Date())),
+      )
+      const projectChart = getProjectsChart(weekTimeEnties)
+      const todayTotal = pipe(dayTimeEnties, getInlineTime)
+      const weekTotal = pipe(weekTimeEnties, getInlineTime)
       const groupedTimeEntries = getGroupedTimeEntries(timeEntries)
       return (
         <>
           <TimeEntriesHeader
-            projectsChart={projectsChart}
+            projectsChart={projectChart}
             todayTotal={todayTotal}
             weekTotal={weekTotal}
           />
