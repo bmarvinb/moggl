@@ -205,22 +205,26 @@ export const TimeEntries: React.FC = () => {
     case 'error':
       return <div>Error</div>
     case 'success':
-      const weekTimeEnties = pipe(
+      const inactiveTimeEntries = pipe(
         timeEntries,
+        filter(timeEntry => Boolean(timeEntry.timeInterval.end)),
+      )
+      const weekTimeEnties = pipe(
+        inactiveTimeEntries,
         getTimeEntriesByDate(isSameWeek(new Date())),
       )
       const dayTimeEnties = pipe(
-        timeEntries,
+        inactiveTimeEntries,
         getTimeEntriesByDate(isSameDay(new Date())),
       )
       const projectChart = getProjectsChart(weekTimeEnties)
       const todayTotalTime = pipe(dayTimeEnties, getInlineTime)
       const weekTotalTime = pipe(weekTimeEnties, getInlineTime)
-      const groupedTimeEntries = getGroupedTimeEntries(timeEntries)
+      const groupedTimeEntries = getGroupedTimeEntries(inactiveTimeEntries)
       return (
         <>
           <TimeEntriesHeader
-            // projectsChart={projectChart}
+            projectsChart={projectChart}
             todayTotal={todayTotalTime}
             weekTotal={weekTotalTime}
           />
