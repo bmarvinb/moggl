@@ -1,4 +1,4 @@
-import { client } from 'utils'
+import { client } from 'utils/api-client'
 
 export type Rate = {
   amount: number

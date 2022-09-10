@@ -1,4 +1,5 @@
-const isProduction = process.env.NODE_ENV === 'production'
+import { isProduction } from 'utils/env'
+
 const defaultMessage = 'Invariant failed'
 
 export function invariant(
@@ -8,5 +9,5 @@ export function invariant(
   if (condition) {
     return
   }
-  new Error(isProduction ? defaultMessage : message)
+  new Error(isProduction() ? defaultMessage : message)
 }

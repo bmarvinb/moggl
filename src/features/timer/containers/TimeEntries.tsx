@@ -17,10 +17,12 @@ import {
 import { isInactiveTimeEntry } from 'features/timer/utils/time-entries-utils'
 import * as A from 'fp-ts/lib/Array'
 import { flow, pipe } from 'fp-ts/lib/function'
+import * as S from 'fp-ts/lib/string'
 import { nanoid } from 'nanoid'
 import React from 'react'
 import styled from 'styled-components'
-import { calculatePercentage, invariant, numberPad, uniq } from 'utils'
+import { numberPad, calculatePercentage } from 'utils/number'
+import { invariant } from 'utils/invariant'
 import {
   ProjectsChart,
   TimeEntriesHeader,
@@ -37,7 +39,7 @@ type ProjectTimeEntries = {
 }
 
 const Container = styled.div`
-  height: 100%;
+  min-height: 100%;
   background: ${props => props.theme.pallete.blueGrey0};
 `
 
@@ -150,7 +152,12 @@ const getStartDate = (timeEntry: InactiveTimeEntry[]): string[] =>
 const getGroupedTimeEntries = (
   timeEntries: InactiveTimeEntry[],
 ): GroupedTimeEntries[] =>
-  pipe(timeEntries, getStartDate, uniq, groupTimeEntriesByDate(timeEntries))
+  pipe(
+    timeEntries,
+    getStartDate,
+    A.uniq(S.Eq),
+    groupTimeEntriesByDate(timeEntries),
+  )
 
 const getProjectCharts =
   (total: number) =>
