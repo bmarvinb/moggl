@@ -20,7 +20,7 @@ import { flow, pipe } from 'fp-ts/lib/function'
 import { nanoid } from 'nanoid'
 import React from 'react'
 import styled from 'styled-components'
-import { calculatePercentage, invariant, numberPad, uniq, debug } from 'utils'
+import { calculatePercentage, invariant, numberPad, uniq } from 'utils'
 import {
   ProjectsChart,
   TimeEntriesHeader,
