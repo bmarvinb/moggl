@@ -26,8 +26,6 @@ export async function client(
       if (!res.ok) {
         return Promise.reject(res)
       }
-
       return res.json()
     })
-    .catch(console.error)
 }
