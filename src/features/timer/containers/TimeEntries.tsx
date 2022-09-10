@@ -48,14 +48,18 @@ const filterTimeEntriesByDate =
   (timeEntries: InactiveTimeEntry[]): InactiveTimeEntry[] =>
     pipe(
       timeEntries,
-      A.filter(timeEntry => isSameDay(timeEntry.timeInterval.start, date)),
+      A.filter(timeEntry =>
+        isSameDay(new Date(timeEntry.timeInterval.start), date),
+      ),
     )
 
 const getTimeEntriesByDate =
   (predicate: (date: Date) => boolean) => (timeEntries: InactiveTimeEntry[]) =>
     pipe(
       timeEntries,
-      A.filter(flow(({ timeInterval }) => timeInterval.start, predicate)),
+      A.filter(
+        flow(({ timeInterval }) => new Date(timeInterval.start), predicate),
+      ),
     )
 
 const formatDurationToInlineTime = (duration: number): string => {
@@ -114,8 +118,8 @@ const calculateTimeEntriesTotalDuration = (
       return timeEntry.timeInterval.end
         ? duration +
             differenceInSeconds(
-              timeEntry.timeInterval.end,
-              timeEntry.timeInterval.start,
+              new Date(timeEntry.timeInterval.end),
+              new Date(timeEntry.timeInterval.start),
             )
         : duration
     }),
@@ -146,7 +150,7 @@ const groupTimeEntriesByProject = (
 const getStartDate = (timeEntry: InactiveTimeEntry[]): string[] =>
   pipe(
     timeEntry,
-    A.map(timeEntry => format(timeEntry.timeInterval.start, 'PP')),
+    A.map(timeEntry => format(new Date(timeEntry.timeInterval.start), 'PP')),
   )
 
 const getGroupedTimeEntries = (
@@ -206,7 +210,10 @@ export const TimeEntries: React.FC = () => {
     case 'error':
       return <div>Error</div>
     case 'success':
-      const inactiveTimeEntries = timeEntries.filter(isInactiveTimeEntry)
+      const inactiveTimeEntries = pipe(
+        timeEntries,
+        A.filter(isInactiveTimeEntry),
+      )
       const weekTimeEnties = pipe(
         inactiveTimeEntries,
         getTimeEntriesByDate(isSameWeek(new Date())),

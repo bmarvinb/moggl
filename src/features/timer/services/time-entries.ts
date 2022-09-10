@@ -1,20 +1,14 @@
 import { clientV2, createURLSearchParams } from 'utils/api-client'
 import { z } from 'zod'
 
-const dateSchema = z.preprocess(arg => {
-  if (typeof arg === 'string' || arg instanceof Date) {
-    return new Date(arg)
-  }
-}, z.date())
-
 const inactiveTimeEntryIntervalSchema = z.object({
-  start: dateSchema,
-  end: dateSchema,
+  start: z.string(),
+  end: z.string(),
   duration: z.string(),
 })
 
 const activeTimeEntryIntervalSchema = z.object({
-  start: dateSchema,
+  start: z.string(),
   end: z.null(),
   duration: z.null(),
 })
@@ -198,7 +192,7 @@ export type TimeEntriesRequestOptions = {
   end?: string
   project?: string
   task?: string
-  tags?: string // ?tags=tagId_1&tags=tagId_2
+  tags?: string
   'project-required'?: boolean
   'task-required'?: boolean
   'in-progress'?: boolean
