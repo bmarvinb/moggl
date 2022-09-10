@@ -1,4 +1,4 @@
-import { client } from 'utils/api-client'
+import { client, clientV2 } from 'utils/api-client'
 
 export type SummaryReportSettings = {
   group: string
@@ -36,17 +36,40 @@ export type Settings = {
   onboarding: boolean
 }
 
+export type Membership = {
+  hourlyRate: {
+    amount: string
+    currency: string
+  }
+  costRate: {
+    amount: string
+    currency: string
+  }
+  membershipStatus: string
+  membershipType: string
+  targetId: string
+  userId: string
+}
+
+export type CustomField = {
+  customFieldId: string
+  userId: string
+  value: string
+  name: string
+  type: string
+}
+
 export type User = {
   id: string
   email: string
   name: string
-  memberships: any[]
+  memberships: Membership[]
   profilePicture: string
   activeWorkspace: string
   defaultWorkspace: string
   settings: Settings
   status: string
-  customFields: any[]
+  customFields: CustomField[]
 }
 
 export function me(): Promise<User> {
