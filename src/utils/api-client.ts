@@ -53,6 +53,7 @@ export async function clientV2<Response>(
         return Promise.reject(res)
       }
       const data = await res.json()
+      console.log(process.env.NODE_ENV)
       if (process.env.NODE_ENV === 'production') {
         responseSchema.safeParseAsync(data).then(result => {
           if (!result.success) {
