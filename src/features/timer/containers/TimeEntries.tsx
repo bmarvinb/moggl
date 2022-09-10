@@ -138,9 +138,8 @@ const groupTimeEntriesByProject = (
             ? [...acc[timeEntry.project.id].timeEntries, timeEntry]
             : [timeEntry],
         },
-      }),
-    ),
-    data => Object.values(data),
+      }), ),
+    Object.values,
   )
 
 const getStartDate = (timeEntry: InactiveTimeEntry[]): string[] =>
