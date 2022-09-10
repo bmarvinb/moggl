@@ -29,4 +29,5 @@ export async function client(
 
       return res.json()
     })
+    .catch(console.error)
 }
