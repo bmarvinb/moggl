@@ -1,4 +1,4 @@
-import { createURLSearchParams, client } from 'utils'
+import { clientV2, createURLSearchParams } from 'utils/api-client'
 import { z } from 'zod'
 
 const dateSchema = z.preprocess(arg => {
@@ -206,18 +206,22 @@ export type TimeEntriesRequestOptions = {
   'page-size'?: number
 }
 
+const GetTimeEntriesRequest = z.void()
+const GetTimeEntriesResponse = z.array(timeEntrySchema)
+type Request = z.infer<typeof GetTimeEntriesRequest>
+type Response = z.infer<typeof GetTimeEntriesResponse>
+
 export async function getTimeEntries(
   workspaceId: string,
   userId: string,
   options: TimeEntriesRequestOptions = {},
 ): Promise<TimeEntry[]> {
   const params = createURLSearchParams({ ...options, hydrated: true })
-  return client(
+  return clientV2<Request, Response>(
     `workspaces/${workspaceId}/user/${userId}/time-entries?${params}`,
+    {
+      requestSchema: GetTimeEntriesRequest,
+      responseSchema: GetTimeEntriesResponse,
+    },
   )
-    .then(json => z.array(timeEntrySchema).parse(json))
-    .catch((e: unknown) => {
-      console.error(e)
-      return Promise.reject(e)
-    })
 }

@@ -11,8 +11,8 @@ const Container = styled.div`
 `
 
 export const FullPageErrorFallback: FC<{ error: unknown }> = ({ error }) => (
-  <Container role="alert">
-    <p>There's a problem. Try refreshing the app.</p>
-    <pre>{JSON.stringify(error)}</pre>
-  </Container>
-)
+    <Container role="alert">
+      <p>There's a problem. Try refreshing the app.</p>
+      <pre>{JSON.stringify(error)}</pre>
+    </Container>
+  )

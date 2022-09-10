@@ -1,4 +1,4 @@
-import { client } from 'utils'
+import { client } from 'utils/api-client'
 
 export type Rate = {
   amount: number
@@ -19,13 +19,22 @@ export type Round = {
   minutes: string
 }
 
+export type AutomaticLock = {
+  changeDay: string
+  dayOfMonth: number
+  firstDay: string
+  olderThanPeriod: string
+  olderThanValue: number
+  type: string
+}
+
 export type WorkspaceSettings = {
   timeRoundingInReports: boolean
   onlyAdminsSeeBillableRates: boolean
   onlyAdminsCreateProject: boolean
   onlyAdminsSeeDashboard: boolean
   defaultBillableProjects: boolean
-  lockTimeEntries?: any
+  lockTimeEntries?: string | null
   round: Round
   projectFavorites: boolean
   canSeeTimeSheet: boolean
@@ -39,8 +48,8 @@ export type WorkspaceSettings = {
   onlyAdminsSeePublicProjectsEntries: boolean
   trackTimeDownToSecond: boolean
   projectGroupingLabel: string
-  adminOnlyPages: any[]
-  automaticLock?: any
+  adminOnlyPages: string[]
+  automaticLock?: AutomaticLock | null
   onlyAdminsCreateTag: boolean
   onlyAdminsCreateTask: boolean
   timeTrackingMode: string
