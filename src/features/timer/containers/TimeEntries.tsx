@@ -200,7 +200,6 @@ export const TimeEntries: React.FC = () => {
       return <div>Error</div>
     case 'success':
       const inactiveTimeEntries = timeEntries.filter(isInactiveTimeEntry)
-
       const weekTimeEnties = pipe(
         inactiveTimeEntries,
         getTimeEntriesByDate(isSameWeek(new Date())),
