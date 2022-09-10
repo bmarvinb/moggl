@@ -1,5 +1,5 @@
-import { createURLSearchParams, client, parseResult } from 'utils'
-import { z, ZodType } from 'zod'
+import { clientV2, createURLSearchParams } from 'utils'
+import { z } from 'zod'
 
 const dateSchema = z.preprocess(arg => {
   if (typeof arg === 'string' || arg instanceof Date) {
@@ -174,7 +174,7 @@ const inactiveTimeEntrySchema = z.intersection(
   commonTimeEntrySchema,
   z.object({
     project: projectSchema,
-    projectId: z.string(),
+    projectId: z.number(),
     timeInterval: inactiveTimeEntryIntervalSchema,
   }),
 )
@@ -206,13 +206,16 @@ export type TimeEntriesRequestOptions = {
   'page-size'?: number
 }
 
+const getTimeEntriesResponse = z.array(timeEntrySchema)
+
 export async function getTimeEntries(
   workspaceId: string,
   userId: string,
   options: TimeEntriesRequestOptions = {},
 ) {
   const params = createURLSearchParams({ ...options, hydrated: true })
-  return client(
+  return clientV2<TimeEntry[]>(
     `workspaces/${workspaceId}/user/${userId}/time-entries?${params}`,
-  ).then(parseResult(z.array(timeEntrySchema)))
+    getTimeEntriesResponse,
+  )
 }
