@@ -1,3 +1,5 @@
-export function uniq<T>(entries: T[]): T[] {
-  return [...new Set(entries)]
+export function uniq<T>(xs: T[]): T[] {
+  console.log(xs)
+
+  return [...new Set(xs)]
 }

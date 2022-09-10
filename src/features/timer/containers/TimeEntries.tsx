@@ -1,12 +1,12 @@
 import { useAuth } from 'auth/context/auth-context'
 import { Spinner } from 'components'
 import {
-  differenceInMilliseconds,
-  hoursToMilliseconds,
-  millisecondsToHours,
-  millisecondsToMinutes,
-  millisecondsToSeconds,
-  minutesToMilliseconds,
+  format,
+  differenceInSeconds,
+  secondsToHours,
+  hoursToSeconds,
+  secondsToMinutes,
+  minutesToSeconds,
 } from 'date-fns'
 import { isSameDay, isSameWeek } from 'date-fns/fp'
 import { useTimeEntries } from 'features/timer/hooks/useTimeEntries'
@@ -19,7 +19,8 @@ import * as A from 'fp-ts/lib/Array'
 import { flow, pipe } from 'fp-ts/lib/function'
 import { nanoid } from 'nanoid'
 import React from 'react'
-import { calculatePercentage, invariant, numberPad, uniq } from 'utils'
+import styled from 'styled-components'
+import { calculatePercentage, invariant, numberPad, uniq, debug } from 'utils'
 import {
   ProjectsChart,
   TimeEntriesHeader,
@@ -30,53 +31,35 @@ import {
   ViewTimeEntry,
 } from '../components/TimeEntriesList'
 
-type TimeEntryInterval = {
-  start: Date
-  end: Date | undefined
-}
-
 type ProjectTimeEntries = {
   project: TimeEntryProject
   timeEntries: InactiveTimeEntry[]
 }
 
-const timeEntryStartDate = (timeEntry: InactiveTimeEntry) =>
-  pipe(
-    timeEntry,
-    ({ timeInterval }) => timeInterval.start,
-    time => time.slice(0, time.indexOf('T')),
-  )
-
-const getInterval = (timeEntry: InactiveTimeEntry): TimeEntryInterval =>
-  pipe(timeEntry, ({ timeInterval }) => ({
-    start: new Date(timeInterval.start),
-    end: timeInterval.end ? new Date(timeInterval.end) : undefined,
-  }))
-
-const getIntervals = (timeEntries: InactiveTimeEntry[]): TimeEntryInterval[] =>
-  pipe(timeEntries, A.map(getInterval))
+const Container = styled.div`
+  height: 100%;
+  background: ${props => props.theme.pallete.blueGrey0};
+`
 
 const filterTimeEntriesByDate =
-  (date: string) =>
+  (date: Date) =>
   (timeEntries: InactiveTimeEntry[]): InactiveTimeEntry[] =>
     pipe(
       timeEntries,
-      A.filter(timeEntry => pipe(timeEntry, timeEntryStartDate) === date),
+      A.filter(timeEntry => isSameDay(timeEntry.timeInterval.start, date)),
     )
 
 const getTimeEntriesByDate =
   (predicate: (date: Date) => boolean) => (timeEntries: InactiveTimeEntry[]) =>
     pipe(
       timeEntries,
-      A.filter(flow(getInterval, ({ start }) => start, predicate)),
+      A.filter(flow(({ timeInterval }) => timeInterval.start, predicate)),
     )
 
-const formatDurationToInlineTime = (ms: number): string => {
-  const hours = millisecondsToHours(ms)
-  const minutes = millisecondsToMinutes(ms - hoursToMilliseconds(hours))
-  const seconds = millisecondsToSeconds(
-    ms - hoursToMilliseconds(hours) - minutesToMilliseconds(minutes),
-  )
+const formatDurationToInlineTime = (duration: number): string => {
+  const hours = secondsToHours(duration)
+  const minutes = secondsToMinutes(duration - hoursToSeconds(hours))
+  const seconds = duration - hoursToSeconds(hours) - minutesToSeconds(minutes)
   return `${hours}:${numberPad(minutes)}:${numberPad(seconds)}`
 }
 
@@ -90,7 +73,7 @@ const createViewTimeEntry = (timeEntry: InactiveTimeEntry): ViewTimeEntry => ({
   start: new Date(timeEntry.timeInterval.start),
   end: new Date(timeEntry.timeInterval.end!),
   duration: pipe(
-    differenceInMilliseconds(
+    differenceInSeconds(
       new Date(timeEntry.timeInterval.end!),
       new Date(timeEntry.timeInterval.start),
     ),
@@ -108,13 +91,13 @@ const groupTimeEntriesByDate =
         date: new Date(date),
         totalTime: pipe(
           timeEntries,
-          filterTimeEntriesByDate(date),
+          filterTimeEntriesByDate(new Date(date)),
           calculateTimeEntriesTotalDuration,
           formatDurationToInlineTime,
         ),
         timeEntries: pipe(
           timeEntries,
-          filterTimeEntriesByDate(date),
+          filterTimeEntriesByDate(new Date(date)),
           A.map(createViewTimeEntry),
         ),
       })),
@@ -125,10 +108,15 @@ const calculateTimeEntriesTotalDuration = (
 ): number =>
   pipe(
     timeEntries,
-    getIntervals,
-    A.reduce(0, (duration, { start, end }) =>
-      end ? duration + differenceInMilliseconds(end, start) : duration,
-    ),
+    A.reduce(0, (duration, timeEntry) => {
+      return timeEntry.timeInterval.end
+        ? duration +
+            differenceInSeconds(
+              timeEntry.timeInterval.end,
+              timeEntry.timeInterval.start,
+            )
+        : duration
+    }),
   )
 
 const groupTimeEntriesByProject = (
@@ -153,13 +141,16 @@ const groupTimeEntriesByProject = (
     data => Object.values(data),
   )
 
-const getGroupedTimeEntries = (timeEntries: InactiveTimeEntry[]) =>
+const getStartDate = (timeEntry: InactiveTimeEntry[]): string[] =>
   pipe(
-    timeEntries,
-    A.map(timeEntryStartDate),
-    uniq,
-    groupTimeEntriesByDate(timeEntries),
+    timeEntry,
+    A.map(timeEntry => format(timeEntry.timeInterval.start, 'PP')),
   )
+
+const getGroupedTimeEntries = (
+  timeEntries: InactiveTimeEntry[],
+): GroupedTimeEntries[] =>
+  pipe(timeEntries, getStartDate, uniq, groupTimeEntriesByDate(timeEntries))
 
 const getProjectCharts =
   (total: number) =>
@@ -209,6 +200,7 @@ export const TimeEntries: React.FC = () => {
       return <div>Error</div>
     case 'success':
       const inactiveTimeEntries = timeEntries.filter(isInactiveTimeEntry)
+
       const weekTimeEnties = pipe(
         inactiveTimeEntries,
         getTimeEntriesByDate(isSameWeek(new Date())),
@@ -222,14 +214,14 @@ export const TimeEntries: React.FC = () => {
       const weekTotalTime = getInlineTime(weekTimeEnties)
       const groupedTimeEntries = getGroupedTimeEntries(inactiveTimeEntries)
       return (
-        <>
+        <Container>
           <TimeEntriesHeader
             projectsChart={projectChart}
             todayTotal={todayTotalTime}
             weekTotal={weekTotalTime}
           />
           <TimeEntriesList groupedTimeEntries={groupedTimeEntries} />
-        </>
+        </Container>
       )
   }
 }

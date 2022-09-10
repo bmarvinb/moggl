@@ -16,10 +16,6 @@ export type TimeEntriesHeaderProps = {
   projectsChart?: ProjectsChart[]
 }
 
-const Container = styled.div`
-  background: ${props => props.theme.pallete.blueGrey0};
-`
-
 const Title = styled.div`
   font-weight: 500;
   color: ${props => props.theme.pallete.blueGrey9};
@@ -74,7 +70,7 @@ const Time = styled.span`
 
 export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
   return (
-    <Container>
+    <>
       <WeekInfo>
         <Title>This week</Title>
         <div
@@ -118,6 +114,6 @@ export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
           ))}
         </div>
       )}
-    </Container>
+    </>
   )
 }

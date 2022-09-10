@@ -28,7 +28,6 @@ export type TimeEntriesListProps = {
 
 const Container = styled.div`
   padding: 0 1rem;
-  background: ${props => props.theme.pallete.blueGrey0};
   color: ${props => props.theme.pallete.blueGrey9};
   padding-bottom: 2rem;
 `

@@ -1,3 +1,4 @@
+import { isDate } from 'date-fns'
 import {
   TimeEntry,
   InactiveTimeEntry,
@@ -8,8 +9,8 @@ export function isInactiveTimeEntry(
   timeEntry: TimeEntry,
 ): timeEntry is InactiveTimeEntry {
   return (
-    typeof timeEntry.timeInterval.end === 'string' &&
-    typeof timeEntry.projectId === 'string'
+    typeof timeEntry.projectId === 'string' &&
+    isDate(timeEntry.timeInterval.end)
   )
 }
 
