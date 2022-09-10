@@ -32,7 +32,6 @@ const Left = styled.div`
 `
 const Right = styled.div`
   display: flex;
-  width: 50%;
 `
 
 export const TimeEntriesListItem: FC<TimeEntriesListItemProps> = props => {
