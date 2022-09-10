@@ -1,4 +1,4 @@
-import { client, clientV2 } from 'utils/api-client'
+import { client } from 'utils/api-client'
 
 export type SummaryReportSettings = {
   group: string
