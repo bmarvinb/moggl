@@ -1,5 +1,4 @@
-import { AuthLayout } from 'components/AuthLayout'
-import { LoginForm } from 'components/LoginForm'
+import { AuthLayout, LoginForm } from 'auth'
 import 'styled-components/macro'
 
 export function LoginPage() {

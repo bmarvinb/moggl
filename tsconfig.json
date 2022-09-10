@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2015",
     "lib": [
       "dom",
       "dom.iterable",
@@ -21,11 +21,11 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "paths": {
-        "api/*": ["./api/*"],
+        "auth/*": ["./auth/*"],
         "components/*": ["./components/*"],
         "context/*": ["./context/*"],
+        "features/*": ["./features/*"],
         "hooks/*": ["./hooks/*"],
-        "layout/*": ["./layout/*"],
         "pages/*": ["./pages/*"],
         "test/*": ["./test/*"],
         "theme/*": ["./theme/*"],

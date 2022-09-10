@@ -1,8 +1,11 @@
+import { TimerPage } from 'pages/TimerPage'
+import { Route, Routes } from 'react-router-dom'
+
 function AuthenticatedApp() {
   return (
-    <div>
-      <h1>Moggl</h1>
-    </div>
+    <Routes>
+      <Route path="/" element={<TimerPage />} />
+    </Routes>
   )
 }
 

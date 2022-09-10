@@ -8,7 +8,7 @@ const StyledInputElement = styled('input')`
   line-height: ${({ theme }) => theme.typography.textSm.lineHeight};
   padding: 0.75rem;
   border-radius: 0.75rem;
-  background: ${({ theme }) => theme.pallete.white};
+  background: ${({ theme }) => `#fff`};
   border: 1px solid ${({ theme }) => theme.pallete.blueGrey3};
   box-shadow: 0px 2px 2px ${({ theme }) => theme.pallete.blueGrey0};
 

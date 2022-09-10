@@ -1,6 +1,6 @@
-import { client } from 'utils/api-client'
+import { client } from 'utils'
 
-export type HourlyRate = {
+export type Rate = {
   amount: number
   currency: string
 }
@@ -50,35 +50,35 @@ export type WorkspaceSettings = {
 export type Workspace = {
   id: string
   name: string
-  hourlyRate: HourlyRate
+  hourlyRate: Rate
   memberships: Membership[]
   workspaceSettings: WorkspaceSettings
   imageUrl: string
   featureSubscriptionType: string
 }
 
-export type TimeInterval = {
-  start: Date
-  end: Date
-  duration: string
-}
-
-export type TimeEntry = {
+export type Task = {
+  assigneeIds: string[]
+  estimate: string
   id: string
-  description: string
-  tagIds?: any
-  userId: string
-  billable: boolean
-  taskId?: any
-  projectId?: any
-  timeInterval: TimeInterval
-  workspaceId: string
-  isLocked: boolean
-  customFieldValues: any[]
-  type: string
-  kioskId?: any
+  name: string
+  projectId: string
+  billable: string
+  hourlyRate: Rate
+  costRate: Rate
+  status: string
 }
 
 export function getWorkspaces(): Promise<Workspace[]> {
   return client('workspaces')
+}
+
+export function getTasks(
+  workspaceId: string,
+  projectId: string,
+  taskId: string,
+): Promise<Task> {
+  return client(
+    `workspaces/${workspaceId}/projects/${projectId}/tasks/${taskId}`,
+  )
 }

@@ -8,7 +8,7 @@ const Children = styled.div`
   align-items: center;
   justify-content: center;
   padding: 6rem 3rem;
-  background: ${({ theme }) => theme.pallete.white};
+  background: ${({ theme }) => `#fff`};
   height: 100%;
 
   @media ${({ theme }) => theme.screens.sm} {

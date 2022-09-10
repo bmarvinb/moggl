@@ -1,12 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  Button,
-  FieldError,
-  FormErrorMessage,
-  Input,
-  Label,
-} from 'components/common'
-import { useAuthenticate } from 'hooks/useAuthenticate'
+import { Button, FieldError, FormErrorMessage, Input, Label } from 'components'
+import { useAuthenticate } from 'auth/hooks/useAuthenticate'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import 'styled-components/macro'
 import styled from 'styled-components/macro'
