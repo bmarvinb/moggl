@@ -18,16 +18,16 @@ export type TimeEntriesHeaderProps = {
 
 const Title = styled.div`
   font-weight: 500;
-  color: ${props => props.theme.pallete.blueGrey9};
-  font-size: ${({ theme }) => theme.typography.textSm.fontSize};
-  line-height: ${({ theme }) => theme.typography.textSm.lineHeight};
+  color: ${props => props.theme.colors.blueGrey9};
+  font-size: ${({ theme }) => theme.fonts.sm.fontSize};
+  line-height: ${({ theme }) => theme.fonts.sm.lineHeight};
 `
 
 const Label = styled.span`
   font-weight: 500;
-  color: ${props => props.theme.pallete.blueGrey6};
-  font-size: ${({ theme }) => theme.typography.textSm.fontSize};
-  line-height: ${({ theme }) => theme.typography.textSm.lineHeight};
+  color: ${props => props.theme.colors.blueGrey6};
+  font-size: ${({ theme }) => theme.fonts.sm.fontSize};
+  line-height: ${({ theme }) => theme.fonts.sm.lineHeight};
 `
 
 const ProjectChartBlock = styled.div<{ color: string; percent: number }>`
@@ -47,8 +47,8 @@ const ProjectChartLine = styled.div<{ color: string; percent: number }>`
 
 const ProjectChartLabel = styled.div<{ color: string }>`
   color: ${({ color }) => color};
-  font-size: ${({ theme }) => theme.typography.textXs.fontSize};
-  line-height: ${({ theme }) => theme.typography.textXs.lineHeight};
+  font-size: ${({ theme }) => theme.fonts.xs.fontSize};
+  line-height: ${({ theme }) => theme.fonts.xs.lineHeight};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -63,8 +63,8 @@ const WeekInfo = styled.div`
 `
 
 const Time = styled.span`
-  font-size: ${props => props.theme.typography.textSm.fontSize};
-  line-height: ${props => props.theme.typography.textSm.lineHeight};
+  font-size: ${props => props.theme.fonts.sm.fontSize};
+  line-height: ${props => props.theme.fonts.sm.lineHeight};
   font-weight: 500;
 `
 

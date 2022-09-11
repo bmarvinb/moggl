@@ -28,7 +28,7 @@ export type TimeEntriesListProps = {
 
 const Container = styled.div`
   padding: 0 1rem;
-  color: ${props => props.theme.pallete.blueGrey9};
+  color: ${props => props.theme.colors.blueGrey9};
   padding-bottom: 2rem;
 `
 
@@ -36,7 +36,7 @@ const List = styled.div`
   margin-bottom: 2rem;
   background: ${props => `#fff`};
   border-radius: 4px;
-  box-shadow: ${props => props.theme.pallete.shadow};
+  box-shadow: ${props => props.theme.shadows.shadowSm};
 `
 
 const Header = styled.div`
@@ -47,8 +47,8 @@ const Header = styled.div`
 `
 
 const Label = styled.div`
-  font-size: ${({ theme }) => theme.typography.textSm.fontSize};
-  line-height: ${({ theme }) => theme.typography.textSm.lineHeight};
+  font-size: ${({ theme }) => theme.fonts.sm.fontSize};
+  line-height: ${({ theme }) => theme.fonts.sm.lineHeight};
   font-weight: 500;
 `
 
