@@ -8,7 +8,7 @@ const spin = keyframes`
 
 export const Spinner = styled(BiLoaderAlt)`
   animation: ${spin} 1s linear infinite;
-  color: ${({ theme }) => theme.pallete.blueGrey4};
+  color: ${({ theme }) => theme.colors.blueGrey4};
 `
 Spinner.defaultProps = {
   'aria-label': 'loading',

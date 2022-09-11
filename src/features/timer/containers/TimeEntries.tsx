@@ -40,7 +40,7 @@ type ProjectTimeEntries = {
 
 const Container = styled.div`
   min-height: 100%;
-  background: ${props => props.theme.pallete.blueGrey0};
+  background: ${props => props.theme.colors.blueGrey0};
 `
 
 const filterTimeEntriesByDate =
@@ -130,19 +130,15 @@ const groupTimeEntriesByProject = (
 ): ProjectTimeEntries[] =>
   pipe(
     timeEntries,
-    A.reduce(
-      {} as {
-        [key: string]: ProjectTimeEntries
+    A.reduce({} as Record<string, ProjectTimeEntries>, (acc, timeEntry) => ({
+      ...acc,
+      [timeEntry.project.id]: {
+        project: timeEntry.project,
+        timeEntries: acc[timeEntry.project.id]
+          ? [...acc[timeEntry.project.id].timeEntries, timeEntry]
+          : [timeEntry],
       },
-      (acc, timeEntry) => ({
-        ...acc,
-        [timeEntry.project.id]: {
-          project: timeEntry.project,
-          timeEntries: acc[timeEntry.project.id]
-            ? [...acc[timeEntry.project.id].timeEntries, timeEntry]
-            : [timeEntry],
-        },
-      }), ),
+    })),
     Object.values,
   )
 

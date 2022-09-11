@@ -1,21 +1,21 @@
-const typography = {
-  textXs: {
+const fonts = {
+  xs: {
     fontSize: '0.75rem',
     lineHeight: '1rem',
   },
-  textSm: {
+  sm: {
     fontSize: '0.875rem',
     lineHeight: '1.25rem',
   },
-  textBase: {
+  base: {
     fontSize: '1rem',
     lineHeight: '1.5rem',
   },
-  textLg: {
+  lg: {
     fontSize: '1.125rem',
     lineHeight: '1.75rem',
   },
-  textXl: {
+  xl: {
     fontSize: '1.25rem',
     lineHeight: '1.75rem',
   },
@@ -30,11 +30,11 @@ const screens = {
 }
 
 const common = {
-  typography,
+  fonts,
   screens,
 }
 
-const lightPallete = {
+const lightColors = {
   blue0: '#dceefb',
   blue1: '#b6e0fe',
   blue2: '#84c5f4',
@@ -85,8 +85,11 @@ const lightPallete = {
   red7: '#911111',
   red8: '#78oaoa',
   red9: '#610404',
-  shadowSm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-  shadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+}
+
+const lightShadows = {
+  shadowXs: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+  shadowSm: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
   shadowMd: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
   shadowLg:
     '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
@@ -97,7 +100,7 @@ const lightPallete = {
   shadowNone: '0 0 #0000',
 }
 
-const darkPallete = {
+const darkColors = {
   blue0: '#dceefb',
   blue1: '#b6e0fe',
   blue2: '#84c5f4',
@@ -148,8 +151,11 @@ const darkPallete = {
   red7: '#911111',
   red8: '#78oaoa',
   red9: '#610404',
-  shadowSm: 'box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05)',
-  shadow:
+}
+
+const darkShadows = {
+  shadowXs: 'box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05)',
+  shadowSm:
     'box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
   shadowMd:
     'box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
@@ -164,10 +170,12 @@ const darkPallete = {
 
 export const lightTheme = {
   ...common,
-  pallete: lightPallete,
+  colors: lightColors,
+  shadows: lightShadows,
 }
 
 export const darkTheme = {
   ...common,
-  pallete: darkPallete,
+  colors: darkColors,
+  shadows: darkShadows,
 }
