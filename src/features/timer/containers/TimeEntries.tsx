@@ -26,11 +26,8 @@ import { nanoid } from 'nanoid'
 import React from 'react'
 import styled from 'styled-components'
 import { invariant } from 'utils/invariant'
-import { calculatePercentage, numberPad } from 'utils/number'
-import {
-  ProjectsChart,
-  TimeEntriesHeader,
-} from '../components/TimeEntriesHeader'
+import { numberPad } from 'utils/number'
+import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
 import {
   GroupedTimeEntries,
   TimeEntriesList,
@@ -144,40 +141,11 @@ function getGroupedTimeEntries(
   )
 }
 
-function getProjectCharts(total: number) {
-  return (projectTimeEntries: ProjectTimeEntries[]): ProjectsChart[] =>
-    pipe(
-      projectTimeEntries,
-      A.map(({ project, timeEntries }) => ({
-        id: project.id,
-        name: project.name,
-        color: project.color,
-        duration: pipe(
-          timeEntries,
-          calculateTimeEntriesTotalDuration,
-          formatDurationToInlineTime,
-        ),
-        percent: calculatePercentage(
-          total,
-          pipe(timeEntries, calculateTimeEntriesTotalDuration),
-        ),
-      })),
-    )
-}
-
 function getInlineTime(timeEntries: InactiveTimeEntry[]) {
   return pipe(
     timeEntries,
     calculateTimeEntriesTotalDuration,
     formatDurationToInlineTime,
-  )
-}
-
-function getProjectsChart(timeEntries: InactiveTimeEntry[]): ProjectsChart[] {
-  return pipe(
-    timeEntries,
-    groupTimeEntriesByProject,
-    getProjectCharts(pipe(timeEntries, calculateTimeEntriesTotalDuration)),
   )
 }
 
@@ -210,14 +178,12 @@ export const TimeEntries: React.FC = () => {
         inactiveTimeEntries,
         getTimeEntriesByDate(isSameDay(new Date())),
       )
-      const projectChart = getProjectsChart(weekTimeEnties)
       const todayTotalTime = getInlineTime(dayTimeEnties)
       const weekTotalTime = getInlineTime(weekTimeEnties)
       const groupedTimeEntries = getGroupedTimeEntries(inactiveTimeEntries)
       return (
         <Container>
           <TimeEntriesHeader
-            projectsChart={projectChart}
             todayTotal={todayTotalTime}
             weekTotal={weekTotalTime}
           />
