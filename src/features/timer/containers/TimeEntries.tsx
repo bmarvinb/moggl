@@ -34,11 +34,6 @@ import {
   ViewTimeEntry,
 } from '../components/TimeEntriesList'
 
-type ProjectTimeEntries = {
-  project: TimeEntryProject
-  timeEntries: InactiveTimeEntry[]
-}
-
 function createViewTimeEntry(timeEntry: InactiveTimeEntry): ViewTimeEntry {
   return {
     id: timeEntry.id,
@@ -106,23 +101,6 @@ const calculateTimeEntriesTotalDuration = (
   timeEntries: InactiveTimeEntry[],
 ): number =>
   pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum))
-
-const groupTimeEntriesByProject = (
-  timeEntries: InactiveTimeEntry[],
-): ProjectTimeEntries[] =>
-  pipe(
-    timeEntries,
-    A.reduce({} as Record<string, ProjectTimeEntries>, (acc, timeEntry) => ({
-      ...acc,
-      [timeEntry.project.id]: {
-        project: timeEntry.project,
-        timeEntries: acc[timeEntry.project.id]
-          ? [...acc[timeEntry.project.id].timeEntries, timeEntry]
-          : [timeEntry],
-      },
-    })),
-    Object.values,
-  )
 
 const getStartDate = (timeEntry: InactiveTimeEntry[]): string[] =>
   pipe(
