@@ -1,93 +1,77 @@
 import { client } from 'utils/api-client'
+import { z } from 'zod'
 
-export type Rate = {
-  amount: number
-  currency: string
-}
+const rateSchema = z.object({
+  amount: z.number(),
+  currency: z.string(),
+})
 
-export type Membership = {
-  userId: string
-  hourlyRate: null | number
-  costRate: null | number
-  targetId: string
-  membershipType: string
-  membershipStatus: string
-}
+const membershipSchema = z.object({
+  userId: z.string(),
+  hourlyRate: z.number().nullable(),
+  costRate: z.number().nullable(),
+  targetId: z.string(),
+  membershipType: z.string(),
+  membershipStatus: z.string(),
+})
 
-export type Round = {
-  round: string
-  minutes: string
-}
+const roundSchema = z.object({
+  round: z.string(),
+  minutes: z.string(),
+})
 
-export type AutomaticLock = {
-  changeDay: string
-  dayOfMonth: number
-  firstDay: string
-  olderThanPeriod: string
-  olderThanValue: number
-  type: string
-}
+const automaticLockSchema = z.object({
+  changeDay: z.string(),
+  dayOfMonth: z.number(),
+  firstDay: z.string(),
+  olderThanPeriod: z.string(),
+  olderThanValue: z.number(),
+  type: z.string(),
+})
 
-export type WorkspaceSettings = {
-  timeRoundingInReports: boolean
-  onlyAdminsSeeBillableRates: boolean
-  onlyAdminsCreateProject: boolean
-  onlyAdminsSeeDashboard: boolean
-  defaultBillableProjects: boolean
-  lockTimeEntries?: string | null
-  round: Round
-  projectFavorites: boolean
-  canSeeTimeSheet: boolean
-  canSeeTracker: boolean
-  projectPickerSpecialFilter: boolean
-  forceProjects: boolean
-  forceTasks: boolean
-  forceTags: boolean
-  forceDescription: boolean
-  onlyAdminsSeeAllTimeEntries: boolean
-  onlyAdminsSeePublicProjectsEntries: boolean
-  trackTimeDownToSecond: boolean
-  projectGroupingLabel: string
-  adminOnlyPages: string[]
-  automaticLock?: AutomaticLock | null
-  onlyAdminsCreateTag: boolean
-  onlyAdminsCreateTask: boolean
-  timeTrackingMode: string
-  isProjectPublicByDefault: boolean
-}
+const workspaceSettingsSchema = z.object({
+  timeRoundingInReports: z.boolean(),
+  onlyAdminsSeeBillableRates: z.boolean(),
+  onlyAdminsCreateProject: z.boolean(),
+  onlyAdminsSeeDashboard: z.boolean(),
+  defaultBillableProjects: z.boolean(),
+  lockTimeEntries: z.string().nullable(),
+  round: roundSchema,
+  projectFavorites: z.boolean(),
+  canSeeTimeSheet: z.boolean(),
+  canSeeTracker: z.boolean(),
+  projectPickerSpecialFilter: z.boolean(),
+  forceProjects: z.boolean(),
+  forceTasks: z.boolean(),
+  forceTags: z.boolean(),
+  forceDescription: z.boolean(),
+  onlyAdminsSeeAllTimeEntries: z.boolean(),
+  onlyAdminsSeePublicProjectsEntries: z.boolean(),
+  trackTimeDownToSecond: z.boolean(),
+  projectGroupingLabel: z.string(),
+  adminOnlyPages: z.array(z.string()),
+  automaticLock: automaticLockSchema.nullable(),
+  onlyAdminsCreateTag: z.boolean(),
+  onlyAdminsCreateTask: z.boolean(),
+  timeTrackingMode: z.string(),
+  isProjectPublicByDefault: z.boolean(),
+})
 
-export type Workspace = {
-  id: string
-  name: string
-  hourlyRate: Rate
-  memberships: Membership[]
-  workspaceSettings: WorkspaceSettings
-  imageUrl: string
-  featureSubscriptionType: string
-}
+const workspaceSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  hourlyRate: rateSchema,
+  memberships: z.array(membershipSchema),
+  workspaceSettings: workspaceSettingsSchema,
+  imageUrl: z.string(),
+  featureSubscriptionType: z.string(),
+})
 
-export type Task = {
-  assigneeIds: string[]
-  estimate: string
-  id: string
-  name: string
-  projectId: string
-  billable: string
-  hourlyRate: Rate
-  costRate: Rate
-  status: string
-}
+export type Workspace = z.infer<typeof workspaceSchema>
+
+const workspacesSchema = z.array(workspaceSchema)
+type GetWorkspacesResponse = z.infer<typeof workspacesSchema>
 
 export function getWorkspaces(): Promise<Workspace[]> {
-  return client('workspaces')
-}
-
-export function getTasks(
-  workspaceId: string,
-  projectId: string,
-  taskId: string,
-): Promise<Task> {
-  return client(
-    `workspaces/${workspaceId}/projects/${projectId}/tasks/${taskId}`,
-  )
+  return client<GetWorkspacesResponse>('workspaces', workspacesSchema)
 }

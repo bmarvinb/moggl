@@ -1,4 +1,4 @@
-import { clientV2, createURLSearchParams } from 'utils/api-client'
+import { client, createURLSearchParams } from 'utils/api-client'
 import { z } from 'zod'
 
 const inactiveTimeEntryIntervalSchema = z.object({
@@ -200,10 +200,8 @@ export type TimeEntriesRequestOptions = {
   'page-size'?: number
 }
 
-const GetTimeEntriesRequest = z.void()
-const GetTimeEntriesResponse = z.array(timeEntrySchema)
-type Request = z.infer<typeof GetTimeEntriesRequest>
-type Response = z.infer<typeof GetTimeEntriesResponse>
+const timeEntriesSchema = z.array(timeEntrySchema)
+type GetTimeEntriesResponse = z.infer<typeof timeEntriesSchema>
 
 export async function getTimeEntries(
   workspaceId: string,
@@ -211,11 +209,8 @@ export async function getTimeEntries(
   options: TimeEntriesRequestOptions = {},
 ): Promise<TimeEntry[]> {
   const params = createURLSearchParams({ ...options, hydrated: true })
-  return clientV2<Request, Response>(
+  return client<GetTimeEntriesResponse>(
     `workspaces/${workspaceId}/user/${userId}/time-entries?${params}`,
-    {
-      requestSchema: GetTimeEntriesRequest,
-      responseSchema: GetTimeEntriesResponse,
-    },
+    timeEntriesSchema,
   )
 }

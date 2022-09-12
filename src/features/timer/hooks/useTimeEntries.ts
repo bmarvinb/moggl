@@ -6,9 +6,7 @@ export function useTimeEntries(workspaceId: string, userId: string) {
     ['timeEntries'],
     () => getTimeEntries(workspaceId, userId, { 'page-size': 50, page: 1 }),
     {
-      onError: e => {
-        console.error(e)
-      },
+      onError: console.error,
     },
   )
 }

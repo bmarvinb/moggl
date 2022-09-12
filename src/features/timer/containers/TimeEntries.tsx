@@ -2,11 +2,10 @@ import { useAuth } from 'auth/context/auth-context'
 import { Spinner } from 'components'
 import {
   format,
-  differenceInSeconds,
-  secondsToHours,
   hoursToSeconds,
-  secondsToMinutes,
   minutesToSeconds,
+  secondsToHours,
+  secondsToMinutes,
 } from 'date-fns'
 import { isSameDay, isSameWeek } from 'date-fns/fp'
 import { useTimeEntries } from 'features/timer/hooks/useTimeEntries'
@@ -14,15 +13,20 @@ import {
   InactiveTimeEntry,
   TimeEntryProject,
 } from 'features/timer/services/time-entries'
-import { isInactiveTimeEntry } from 'features/timer/utils/time-entries-utils'
+import {
+  isInactiveTimeEntry,
+  timeEntryDuration,
+} from 'features/timer/utils/time-entries-utils'
 import * as A from 'fp-ts/lib/Array'
 import { flow, pipe } from 'fp-ts/lib/function'
+import * as M from 'fp-ts/lib/Monoid'
+import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/lib/string'
 import { nanoid } from 'nanoid'
 import React from 'react'
 import styled from 'styled-components'
-import { numberPad, calculatePercentage } from 'utils/number'
 import { invariant } from 'utils/invariant'
+import { calculatePercentage, numberPad } from 'utils/number'
 import {
   ProjectsChart,
   TimeEntriesHeader,
@@ -38,58 +42,49 @@ type ProjectTimeEntries = {
   timeEntries: InactiveTimeEntry[]
 }
 
-const Container = styled.div`
-  min-height: 100%;
-  background: ${props => props.theme.colors.blueGrey0};
-`
+function createViewTimeEntry(timeEntry: InactiveTimeEntry): ViewTimeEntry {
+  return {
+    id: timeEntry.id,
+    description: timeEntry.description,
+    project: {
+      name: timeEntry.project.name,
+      clientName: timeEntry.project.clientName,
+    },
+    start: new Date(timeEntry.timeInterval.start),
+    end: new Date(timeEntry.timeInterval.end),
+    duration: pipe(timeEntry, timeEntryDuration, formatDurationToInlineTime),
+  }
+}
 
-const filterTimeEntriesByDate =
-  (date: Date) =>
-  (timeEntries: InactiveTimeEntry[]): InactiveTimeEntry[] =>
+function filterTimeEntriesByDate(date: Date) {
+  return (timeEntries: InactiveTimeEntry[]): InactiveTimeEntry[] =>
     pipe(
       timeEntries,
-      A.filter(timeEntry =>
-        isSameDay(new Date(timeEntry.timeInterval.start), date),
+      A.filter(({ timeInterval }) =>
+        isSameDay(new Date(timeInterval.start), date),
       ),
     )
+}
 
-const getTimeEntriesByDate =
-  (predicate: (date: Date) => boolean) => (timeEntries: InactiveTimeEntry[]) =>
+function getTimeEntriesByDate(predicate: (date: Date) => boolean) {
+  return (timeEntries: InactiveTimeEntry[]) =>
     pipe(
       timeEntries,
       A.filter(
         flow(({ timeInterval }) => new Date(timeInterval.start), predicate),
       ),
     )
+}
 
-const formatDurationToInlineTime = (duration: number): string => {
+function formatDurationToInlineTime(duration: number): string {
   const hours = secondsToHours(duration)
   const minutes = secondsToMinutes(duration - hoursToSeconds(hours))
   const seconds = duration - hoursToSeconds(hours) - minutesToSeconds(minutes)
   return `${hours}:${numberPad(minutes)}:${numberPad(seconds)}`
 }
 
-const createViewTimeEntry = (timeEntry: InactiveTimeEntry): ViewTimeEntry => ({
-  id: timeEntry.id,
-  description: timeEntry.description,
-  project: {
-    name: timeEntry.project.name,
-    clientName: timeEntry.project.clientName,
-  },
-  start: new Date(timeEntry.timeInterval.start),
-  end: new Date(timeEntry.timeInterval.end!),
-  duration: pipe(
-    differenceInSeconds(
-      new Date(timeEntry.timeInterval.end!),
-      new Date(timeEntry.timeInterval.start),
-    ),
-    formatDurationToInlineTime,
-  ),
-})
-
-const groupTimeEntriesByDate =
-  (timeEntries: InactiveTimeEntry[]) =>
-  (dates: string[]): GroupedTimeEntries[] =>
+function groupTimeEntriesByDate(timeEntries: InactiveTimeEntry[]) {
+  return (dates: string[]): GroupedTimeEntries[] =>
     pipe(
       dates,
       A.map(date => ({
@@ -108,22 +103,12 @@ const groupTimeEntriesByDate =
         ),
       })),
     )
+}
 
 const calculateTimeEntriesTotalDuration = (
   timeEntries: InactiveTimeEntry[],
 ): number =>
-  pipe(
-    timeEntries,
-    A.reduce(0, (duration, timeEntry) => {
-      return timeEntry.timeInterval.end
-        ? duration +
-            differenceInSeconds(
-              new Date(timeEntry.timeInterval.end),
-              new Date(timeEntry.timeInterval.start),
-            )
-        : duration
-    }),
-  )
+  pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum))
 
 const groupTimeEntriesByProject = (
   timeEntries: InactiveTimeEntry[],
@@ -145,22 +130,22 @@ const groupTimeEntriesByProject = (
 const getStartDate = (timeEntry: InactiveTimeEntry[]): string[] =>
   pipe(
     timeEntry,
-    A.map(timeEntry => format(new Date(timeEntry.timeInterval.start), 'PP')),
+    A.map(({ timeInterval }) => format(new Date(timeInterval.start), 'PP')),
   )
 
-const getGroupedTimeEntries = (
+function getGroupedTimeEntries(
   timeEntries: InactiveTimeEntry[],
-): GroupedTimeEntries[] =>
-  pipe(
+): GroupedTimeEntries[] {
+  return pipe(
     timeEntries,
     getStartDate,
     A.uniq(S.Eq),
     groupTimeEntriesByDate(timeEntries),
   )
+}
 
-const getProjectCharts =
-  (total: number) =>
-  (projectTimeEntries: ProjectTimeEntries[]): ProjectsChart[] =>
+function getProjectCharts(total: number) {
+  return (projectTimeEntries: ProjectTimeEntries[]): ProjectsChart[] =>
     pipe(
       projectTimeEntries,
       A.map(({ project, timeEntries }) => ({
@@ -178,20 +163,28 @@ const getProjectCharts =
         ),
       })),
     )
+}
 
-const getInlineTime = (timeEntries: InactiveTimeEntry[]) =>
-  pipe(
+function getInlineTime(timeEntries: InactiveTimeEntry[]) {
+  return pipe(
     timeEntries,
     calculateTimeEntriesTotalDuration,
     formatDurationToInlineTime,
   )
+}
 
-const getProjectsChart = (timeEntries: InactiveTimeEntry[]): ProjectsChart[] =>
-  pipe(
+function getProjectsChart(timeEntries: InactiveTimeEntry[]): ProjectsChart[] {
+  return pipe(
     timeEntries,
     groupTimeEntriesByProject,
     getProjectCharts(pipe(timeEntries, calculateTimeEntriesTotalDuration)),
   )
+}
+
+const Container = styled.div`
+  min-height: 100%;
+  background: ${props => props.theme.colors.blueGrey0};
+`
 
 export const TimeEntries: React.FC = () => {
   const { user, workspace } = useAuth()
