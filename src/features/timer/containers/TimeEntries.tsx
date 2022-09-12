@@ -9,10 +9,7 @@ import {
 } from 'date-fns'
 import { isSameDay, isSameWeek } from 'date-fns/fp'
 import { useTimeEntries } from 'features/timer/hooks/useTimeEntries'
-import {
-  InactiveTimeEntry,
-  TimeEntryProject,
-} from 'features/timer/services/time-entries'
+import { InactiveTimeEntry } from 'features/timer/services/time-entries'
 import {
   isInactiveTimeEntry,
   timeEntryDuration,
