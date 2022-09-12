@@ -1,77 +1,82 @@
 import { client } from 'utils/api-client'
+import { z } from 'zod'
 
-export type SummaryReportSettings = {
-  group: string
-  subgroup: string
-}
+const summaryReportSettingsSchema = z.object({
+  group: z.string(),
+  subgroup: z.string(),
+})
 
-export type Settings = {
-  weekStart: string
-  timeZone: string
-  timeFormat: string
-  dateFormat: string
-  sendNewsletter: boolean
-  weeklyUpdates: boolean
-  longRunning: boolean
-  scheduledReports: boolean
-  approval: boolean
-  pto: boolean
-  alerts: boolean
-  reminders: boolean
-  timeTrackingManual: boolean
-  summaryReportSettings: SummaryReportSettings
-  isCompactViewOn: boolean
-  dashboardSelection: string
-  dashboardViewType: string
-  dashboardPinToTop: boolean
-  projectListCollapse: number
-  collapseAllProjectLists: boolean
-  groupSimilarEntriesDisabled: boolean
-  myStartOfDay: string
-  projectPickerTaskFilter: boolean
-  lang: string
-  multiFactorEnabled: boolean
-  theme: string
-  scheduling: boolean
-  onboarding: boolean
-}
+const settingsSchema = z.object({
+  weekStart: z.string(),
+  timeZone: z.string(),
+  timeFormat: z.string(),
+  dateFormat: z.string(),
+  sendNewsletter: z.boolean(),
+  weeklyUpdates: z.boolean(),
+  longRunning: z.boolean(),
+  scheduledReports: z.boolean(),
+  approval: z.boolean(),
+  pto: z.boolean(),
+  alerts: z.boolean(),
+  reminders: z.boolean(),
+  timeTrackingManual: z.boolean(),
+  summaryReportSettings: summaryReportSettingsSchema,
+  isCompactViewOn: z.boolean(),
+  dashboardSelection: z.string(),
+  dashboardViewType: z.string(),
+  dashboardPinToTop: z.boolean(),
+  projectListCollapse: z.number(),
+  collapseAllProjectLists: z.boolean(),
+  groupSimilarEntriesDisabled: z.boolean(),
+  myStartOfDay: z.string(),
+  projectPickerTaskFilter: z.boolean(),
+  lang: z.string(),
+  multiFactorEnabled: z.boolean(),
+  theme: z.string(),
+  scheduling: z.boolean(),
+  onboarding: z.boolean(),
+})
 
-export type Membership = {
-  hourlyRate: {
-    amount: string
-    currency: string
-  }
-  costRate: {
-    amount: string
-    currency: string
-  }
-  membershipStatus: string
-  membershipType: string
-  targetId: string
-  userId: string
-}
+const membershipSchema = z.object({
+  hourlyRate: z.object({
+    amount: z.string(),
+    currency: z.string(),
+  }),
+  costRate: z.object({
+    amount: z.string(),
+    currency: z.string(),
+  }),
+  membershipStatus: z.string(),
+  membershipType: z.string(),
+  targetId: z.string(),
+  userId: z.string(),
+})
 
-export type CustomField = {
-  customFieldId: string
-  userId: string
-  value: string
-  name: string
-  type: string
-}
+const customFieldSchema = z.object({
+  customFieldId: z.string(),
+  userId: z.string(),
+  value: z.string(),
+  name: z.string(),
+  type: z.string(),
+})
 
-export type User = {
-  id: string
-  email: string
-  name: string
-  memberships: Membership[]
-  profilePicture: string
-  activeWorkspace: string
-  defaultWorkspace: string
-  settings: Settings
-  status: string
-  customFields: CustomField[]
-}
+const userSchema = z.object({
+  id: z.string(),
+  email: z.string(),
+  name: z.string(),
+  memberships: z.array(membershipSchema),
+  profilePicture: z.string(),
+  activeWorkspace: z.string(),
+  defaultWorkspace: z.string(),
+  settings: settingsSchema,
+  status: z.string(),
+  customFields: z.array(customFieldSchema),
+})
+
+export type User = z.infer<typeof userSchema>
+
+type GetUserResponse = z.infer<typeof userSchema>
 
 export function me(): Promise<User> {
-  return client('user')
+  return client<GetUserResponse>('user', userSchema)
 }

@@ -1,3 +1,4 @@
+import { differenceInSeconds } from 'date-fns'
 import {
   ActiveTimeEntry,
   InactiveTimeEntry,
@@ -14,4 +15,11 @@ export function isActiveTimeEntry(
   timeEntry: TimeEntry,
 ): timeEntry is ActiveTimeEntry {
   return isInactiveTimeEntry(timeEntry)
+}
+
+export function timeEntryDuration({ timeInterval }: InactiveTimeEntry): number {
+  return differenceInSeconds(
+    new Date(timeInterval.end),
+    new Date(timeInterval.start),
+  )
 }

@@ -1,8 +1,5 @@
-import { isProduction } from 'utils/env'
 import { ZodType } from 'zod'
-
-const API_URL = process.env.REACT_APP_API_URL
-const API_KEY = process.env.REACT_APP_API_KEY
+import { env, isProduction } from 'utils/env'
 
 export type ClientConfig = {
   data?: unknown
@@ -10,46 +7,17 @@ export type ClientConfig = {
   headers?: HeadersInit
 } & RequestInit
 
-export type SchemaValidators<Request, Response> = {
-  requestSchema: ZodType<Request>
-  responseSchema: ZodType<Response>
-}
-
-export async function client(
+export async function client<Response>(
   endpoint: string,
+  responseSchema: ZodType<Response>,
   { data, headers: customHeaders, ...customConfig }: ClientConfig = {},
 ) {
-  return window
-    .fetch(`${API_URL}/${endpoint}`, {
-      method: data ? 'POST' : 'GET',
-      body: data ? JSON.stringify(data) : undefined,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Api-Key': API_KEY || '',
-        ...customHeaders,
-      },
-      ...customConfig,
-    })
-    .then(async res => {
-      if (!res.ok) {
-        return Promise.reject(res)
-      }
-      return res.json()
-    })
-}
-
-export async function clientV2<Request, Response>(
-  endpoint: string,
-  { requestSchema, responseSchema }: SchemaValidators<Request, Response>,
-  { data, headers: customHeaders, ...customConfig }: ClientConfig = {},
-) {
-  requestSchema.parse(data)
-  return fetch(`${API_URL}/${endpoint}`, {
+  return fetch(`${env.REACT_APP_API_URL}/${endpoint}`, {
     method: data ? 'POST' : 'GET',
     body: data ? JSON.stringify(data) : undefined,
     headers: {
       'Content-Type': 'application/json',
-      'X-Api-Key': API_KEY || '',
+      'X-Api-Key': env.REACT_APP_API_KEY || '',
       ...customHeaders,
     },
     ...customConfig,
