@@ -2,18 +2,9 @@ import { FC } from 'react'
 import styled from 'styled-components/macro'
 import 'styled-components/macro'
 
-export type ProjectsChart = {
-  id: string
-  name: string
-  color: string
-  duration: string
-  percent: number
-}
-
 export type TimeEntriesHeaderProps = {
   weekTotal: string
   todayTotal: string
-  projectsChart?: ProjectsChart[]
 }
 
 const Title = styled.div`
@@ -28,32 +19,6 @@ const Label = styled.span`
   color: ${props => props.theme.colors.blueGrey6};
   font-size: ${({ theme }) => theme.fonts.sm.fontSize};
   line-height: ${({ theme }) => theme.fonts.sm.lineHeight};
-`
-
-const ProjectChartBlock = styled.div<{ color: string; percent: number }>`
-  width: ${({ percent }) => percent}%;
-
-  &:not(:last-child) {
-    margin-right: 2px;
-  }
-`
-
-const ProjectChartLine = styled.div<{ color: string; percent: number }>`
-  background: ${({ color }) => color};
-  height: 4px;
-  width: 100%;
-  border-radius: 2px;
-`
-
-const ProjectChartLabel = styled.div<{ color: string }>`
-  color: ${({ color }) => color};
-  font-size: ${({ theme }) => theme.fonts.xs.fontSize};
-  line-height: ${({ theme }) => theme.fonts.xs.lineHeight};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-transform: uppercase;
-  font-weight: 500;
 `
 
 const WeekInfo = styled.div`
@@ -90,30 +55,6 @@ export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
           </div>
         </div>
       </WeekInfo>
-      {props.projectsChart && (
-        <div
-          css={`
-            display: flex;
-            padding: 1.5rem 1rem 2rem;
-          `}
-        >
-          {props.projectsChart.map(project => (
-            <ProjectChartBlock
-              key={project.id}
-              color={project.color}
-              percent={project.percent}
-            >
-              <ProjectChartLabel color={project.color}>
-                {project.name}
-              </ProjectChartLabel>
-              <ProjectChartLine
-                color={project.color}
-                percent={project.percent}
-              ></ProjectChartLine>
-            </ProjectChartBlock>
-          ))}
-        </div>
-      )}
     </>
   )
 }
