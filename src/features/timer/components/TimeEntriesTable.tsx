@@ -27,17 +27,19 @@ const Header = styled.div`
 `
 
 const Label = styled.div`
+  font-size: ${props => props.theme.fonts.lg.fontSize};
+  line-height: ${props => props.theme.fonts.lg.lineHeight};
   display: flex;
   align-items: center;
-  font-size: ${({ theme }) => theme.fonts.sm.fontSize};
-  line-height: ${({ theme }) => theme.fonts.sm.lineHeight};
   font-weight: 500;
 `
 
-const TotalTime = styled.div``
+const Time = styled.div`
+  font-weight: 400;
+  color: ${props => props.theme.colors.blueGrey6};
+`
 
 const Toggle = styled(BiListUl)<{ $active: boolean }>`
-  margin-right: 0.5rem;
   font-size: ${props => props.theme.fonts.lg.fontSize};
   line-height: ${props => props.theme.fonts.lg.lineHeight};
   color: ${props =>
@@ -98,21 +100,34 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
         <div
           css={`
             display: flex;
+            align-items: center;
           `}
         >
           {bulkEditEnabled && (
-            <div>
+            <div
+              css={`
+                margin-right: 1rem;
+              `}
+            >
               <Checkbox
                 onChange={onBulkSelectionToggleChanged}
                 checked={allChecked}
               />
             </div>
           )}
-          <Label>{formatDate(props.date)}</Label>
+          <Label>
+            <div
+              css={`
+                margin-right: 0.5rem;
+              `}
+            >
+              {formatDate(props.date)}
+            </div>{' '}
+            <Time>{props.totalTime}</Time>
+          </Label>
         </div>
         <Label>
           <Toggle $active={bulkEditEnabled} onClick={onToggleClicked} />
-          <TotalTime>{props.totalTime}</TotalTime>
         </Label>
       </Header>
       <div>

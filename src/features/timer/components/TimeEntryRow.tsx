@@ -54,7 +54,11 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
   return (
     <TimeEntryItem key={props.timeEntry.id}>
       {props.edit && (
-        <div>
+        <div
+          css={`
+            margin-right: 1rem;
+          `}
+        >
           <Checkbox
             checked={props.checked}
             onChange={() => props.onCheckedChange(props.timeEntry.id)}
