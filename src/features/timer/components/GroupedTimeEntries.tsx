@@ -21,7 +21,7 @@ export type TimeEntryWidget = {
   timeEntries: ViewTimeEntry[]
 }
 
-export type TimeEntriesListProps = {
+export type GroupedTimeEntriesProps = {
   widgets: TimeEntryWidget[]
 }
 
@@ -31,7 +31,7 @@ const Container = styled.div`
   padding-bottom: 2rem;
 `
 
-export const GroupedTimeEntries: FC<TimeEntriesListProps> = props => (
+export const GroupedTimeEntries: FC<GroupedTimeEntriesProps> = props => (
   <Container>
     {props.widgets.map(({ id, date, totalTime, timeEntries }) => (
       <TimeEntriesTable
