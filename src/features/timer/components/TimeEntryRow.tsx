@@ -1,6 +1,6 @@
 import { Checkbox } from 'components/Checkbox'
 import { format } from 'date-fns'
-import { ViewTimeEntry } from 'features/timer/components/GroupedTimeEntries'
+import { TimeEntryRowData } from 'features/timer/components/ReportedDays'
 import { FC } from 'react'
 import {
   BiDollar,
@@ -11,7 +11,7 @@ import {
 import styled from 'styled-components/macro'
 
 export type TimeEntryRowProps = {
-  timeEntry: ViewTimeEntry
+  timeEntry: TimeEntryRowData
   edit: boolean
   checked: boolean
   onCheckedChange: (timeEntryId: string) => void

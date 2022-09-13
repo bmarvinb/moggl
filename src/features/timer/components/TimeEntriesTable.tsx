@@ -1,13 +1,13 @@
 import { Checkbox } from 'components/Checkbox'
 import { isToday, isYesterday } from 'date-fns'
-import { ViewTimeEntry } from 'features/timer/components/GroupedTimeEntries'
+import { TimeEntryRowData } from 'features/timer/components/ReportedDays'
 import { TimeEntryRow } from 'features/timer/components/TimeEntryRow'
 import { FC, useReducer, useState } from 'react'
 import { BiListUl } from 'react-icons/bi'
 import styled from 'styled-components/macro'
 
 export type TimeEntriesTableProps = {
-  timeEntries: ViewTimeEntry[]
+  timeEntries: TimeEntryRowData[]
   date: Date
   totalTime: string
 }

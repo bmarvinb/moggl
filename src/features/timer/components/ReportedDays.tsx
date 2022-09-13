@@ -2,7 +2,7 @@ import { TimeEntriesTable } from 'features/timer/components/TimeEntriesTable'
 import { FC } from 'react'
 import styled from 'styled-components/macro'
 
-export type ViewTimeEntry = {
+export type TimeEntryRowData = {
   id: string
   description: string
   project: {
@@ -14,15 +14,15 @@ export type ViewTimeEntry = {
   duration: string
 }
 
-export type TimeEntryWidget = {
+export type ReportedDay = {
   id: string
   date: Date
   totalTime: string
-  timeEntries: ViewTimeEntry[]
+  timeEntries: TimeEntryRowData[]
 }
 
-export type GroupedTimeEntriesProps = {
-  widgets: TimeEntryWidget[]
+export type ReportedDaysProps = {
+  reportedDays: ReportedDay[]
 }
 
 const Container = styled.div`
@@ -31,9 +31,9 @@ const Container = styled.div`
   padding-bottom: 2rem;
 `
 
-export const GroupedTimeEntries: FC<GroupedTimeEntriesProps> = props => (
+export const ReportedDays: FC<ReportedDaysProps> = props => (
   <Container>
-    {props.widgets.map(({ id, date, totalTime, timeEntries }) => (
+    {props.reportedDays.map(({ id, date, totalTime, timeEntries }) => (
       <TimeEntriesTable
         key={id}
         date={date}

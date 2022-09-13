@@ -25,13 +25,13 @@ import styled from 'styled-components'
 import { invariant } from 'utils/invariant'
 import { numberPad } from 'utils/number'
 import {
-  GroupedTimeEntries,
-  TimeEntryWidget,
-  ViewTimeEntry,
-} from '../components/GroupedTimeEntries'
+  ReportedDays,
+  ReportedDay,
+  TimeEntryRowData,
+} from '../components/ReportedDays'
 import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
 
-function createViewTimeEntry(timeEntry: InactiveTimeEntry): ViewTimeEntry {
+function createViewTimeEntry(timeEntry: InactiveTimeEntry): TimeEntryRowData {
   return {
     id: timeEntry.id,
     description: timeEntry.description,
@@ -73,7 +73,7 @@ function formatDurationToInlineTime(duration: number): string {
 }
 
 function groupTimeEntriesByDate(timeEntries: InactiveTimeEntry[]) {
-  return (dates: string[]): TimeEntryWidget[] =>
+  return (dates: string[]): ReportedDay[] =>
     pipe(
       dates,
       A.map(date => ({
@@ -107,9 +107,7 @@ function getStartDate(timeEntry: InactiveTimeEntry[]): string[] {
   )
 }
 
-function getGroupedTimeEntries(
-  timeEntries: InactiveTimeEntry[],
-): TimeEntryWidget[] {
+function getReportedDays(timeEntries: InactiveTimeEntry[]): ReportedDay[] {
   return pipe(
     timeEntries,
     getStartDate,
@@ -157,14 +155,14 @@ export const TimeEntries: FC = () => {
       )
       const todayTotalTime = getInlineTime(dayTimeEnties)
       const weekTotalTime = getInlineTime(weekTimeEnties)
-      const groupedTimeEntries = getGroupedTimeEntries(inactiveTimeEntries)
+      const reportedDays = getReportedDays(inactiveTimeEntries)
       return (
         <Container>
           <TimeEntriesHeader
             todayTotal={todayTotalTime}
             weekTotal={weekTotalTime}
           />
-          <GroupedTimeEntries widgets={groupedTimeEntries} />
+          <ReportedDays reportedDays={reportedDays} />
         </Container>
       )
   }
