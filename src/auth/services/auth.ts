@@ -75,8 +75,6 @@ const userSchema = z.object({
 
 export type User = z.infer<typeof userSchema>
 
-type GetUserResponse = z.infer<typeof userSchema>
-
-export function me(): Promise<User> {
-  return client<GetUserResponse>('user', userSchema)
+export function me() {
+  return client<User>('user', userSchema)
 }

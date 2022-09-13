@@ -201,15 +201,15 @@ export type TimeEntriesRequestOptions = {
 }
 
 const timeEntriesSchema = z.array(timeEntrySchema)
-type GetTimeEntriesResponse = z.infer<typeof timeEntriesSchema>
+type TimeEntries = z.infer<typeof timeEntriesSchema>
 
 export async function getTimeEntries(
   workspaceId: string,
   userId: string,
   options: TimeEntriesRequestOptions = {},
-): Promise<TimeEntry[]> {
+) {
   const params = createURLSearchParams({ ...options, hydrated: true })
-  return client<GetTimeEntriesResponse>(
+  return client<TimeEntries>(
     `workspaces/${workspaceId}/user/${userId}/time-entries?${params}`,
     timeEntriesSchema,
   )

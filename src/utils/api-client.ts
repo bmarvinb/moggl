@@ -7,9 +7,9 @@ export type ClientConfig = {
   headers?: HeadersInit
 } & RequestInit
 
-export async function client<Response>(
+export async function client<T>(
   endpoint: string,
-  schema: ZodType<Response>,
+  schema: ZodType<T>,
   { data, headers: customHeaders, ...customConfig }: ClientConfig = {},
 ) {
   return fetch(`${env.REACT_APP_API_URL}/${endpoint}`, {
@@ -42,9 +42,9 @@ export async function client<Response>(
   })
 }
 
-export function createURLSearchParams(options: {
-  [key: string]: string | boolean | number
-}) {
+export function createURLSearchParams(
+  options: Record<string, string | boolean | number>,
+) {
   const params = new URLSearchParams()
   for (const [key, value] of Object.entries(options)) {
     params.append(key, value.toString())
