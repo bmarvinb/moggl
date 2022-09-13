@@ -1,5 +1,5 @@
-import { ZodType } from 'zod'
 import { env, isProduction } from 'utils/env'
+import { ZodType } from 'zod'
 
 export type ClientConfig = {
   data?: unknown
@@ -9,7 +9,7 @@ export type ClientConfig = {
 
 export async function client<Response>(
   endpoint: string,
-  responseSchema: ZodType<Response>,
+  schema: ZodType<Response>,
   { data, headers: customHeaders, ...customConfig }: ClientConfig = {},
 ) {
   return fetch(`${env.REACT_APP_API_URL}/${endpoint}`, {
@@ -23,18 +23,23 @@ export async function client<Response>(
     ...customConfig,
   }).then(async res => {
     if (!res.ok) {
+      console.error(res)
       return Promise.reject(res)
     }
-    const data = await res.json()
-    if (!isProduction()) {
-      return responseSchema.parse(data)
-    }
-    responseSchema.safeParseAsync(data).then(result => {
-      if (!result.success) {
-        console.error(result.error.message)
-      }
-    })
-    return data as Response
+    return res.json().then(data =>
+      schema.safeParseAsync(data).then(result => {
+        if (result.success) {
+          return result.data
+        }
+        const { message } = result.error
+        if (!isProduction()) {
+          console.error(message)
+        } else {
+          // TODO: Production logger
+        }
+        return Promise.reject(message)
+      }),
+    )
   })
 }
 
