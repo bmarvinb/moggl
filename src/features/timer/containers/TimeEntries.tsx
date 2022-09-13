@@ -94,16 +94,18 @@ function groupTimeEntriesByDate(timeEntries: InactiveTimeEntry[]) {
     )
 }
 
-const calculateTimeEntriesTotalDuration = (
+function calculateTimeEntriesTotalDuration(
   timeEntries: InactiveTimeEntry[],
-): number =>
-  pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum))
+): number {
+  return pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum))
+}
 
-const getStartDate = (timeEntry: InactiveTimeEntry[]): string[] =>
-  pipe(
+function getStartDate(timeEntry: InactiveTimeEntry[]): string[] {
+  return pipe(
     timeEntry,
     A.map(({ timeInterval }) => format(new Date(timeInterval.start), 'PP')),
   )
+}
 
 function getGroupedTimeEntries(
   timeEntries: InactiveTimeEntry[],

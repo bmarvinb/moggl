@@ -26,15 +26,15 @@ export async function client<Response>(
       return Promise.reject(res)
     }
     const data = await res.json()
-    if (isProduction()) {
-      responseSchema.safeParseAsync(data).then(result => {
-        if (!result.success) {
-          console.error(result.error.message)
-        }
-      })
-      return data as Response
+    if (!isProduction()) {
+      return responseSchema.parse(data)
     }
-    return responseSchema.parse(data)
+    responseSchema.safeParseAsync(data).then(result => {
+      if (!result.success) {
+        console.error(result.error.message)
+      }
+    })
+    return data as Response
   })
 }
 
