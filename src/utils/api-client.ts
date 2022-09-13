@@ -28,16 +28,15 @@ export async function client<Response>(
     }
     return res.json().then(data =>
       schema.safeParseAsync(data).then(result => {
-        if (result.success) {
-          return result.data
+        if (!result.success) {
+          if (!isProduction()) {
+            console.error(result.error.message)
+          } else {
+            // TODO: Production logger
+          }
+          return Promise.reject(result.error.message)
         }
-        const { message } = result.error
-        if (!isProduction()) {
-          console.error(message)
-        } else {
-          // TODO: Production logger
-        }
-        return Promise.reject(message)
+        return result.data
       }),
     )
   })
