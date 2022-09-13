@@ -70,8 +70,8 @@ const workspaceSchema = z.object({
 export type Workspace = z.infer<typeof workspaceSchema>
 
 const workspacesSchema = z.array(workspaceSchema)
-type GetWorkspacesResponse = z.infer<typeof workspacesSchema>
+type Workspaces = z.infer<typeof workspacesSchema>
 
-export function getWorkspaces(): Promise<Workspace[]> {
-  return client<GetWorkspacesResponse>('workspaces', workspacesSchema)
+export function getWorkspaces() {
+  return client<Workspaces>('workspaces', workspacesSchema)
 }

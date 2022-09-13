@@ -1,5 +1,5 @@
-import { ZodType } from 'zod'
 import { env, isProduction } from 'utils/env'
+import { ZodType } from 'zod'
 
 export type ClientConfig = {
   data?: unknown
@@ -7,9 +7,9 @@ export type ClientConfig = {
   headers?: HeadersInit
 } & RequestInit
 
-export async function client<Response>(
+export async function client<T>(
   endpoint: string,
-  responseSchema: ZodType<Response>,
+  schema: ZodType<T>,
   { data, headers: customHeaders, ...customConfig }: ClientConfig = {},
 ) {
   return fetch(`${env.REACT_APP_API_URL}/${endpoint}`, {
@@ -23,24 +23,28 @@ export async function client<Response>(
     ...customConfig,
   }).then(async res => {
     if (!res.ok) {
+      console.error(res)
       return Promise.reject(res)
     }
-    const data = await res.json()
-    if (isProduction()) {
-      responseSchema.safeParseAsync(data).then(result => {
+    return res.json().then(data =>
+      schema.safeParseAsync(data).then(result => {
         if (!result.success) {
-          console.error(result.error.message)
+          if (!isProduction()) {
+            console.error(result.error.message)
+          } else {
+            // TODO: Production logger
+          }
+          return Promise.reject(result.error.message)
         }
-      })
-      return data as Response
-    }
-    return responseSchema.parse(data)
+        return result.data
+      }),
+    )
   })
 }
 
-export function createURLSearchParams(options: {
-  [key: string]: string | boolean | number
-}) {
+export function createURLSearchParams(
+  options: Record<string, string | boolean | number>,
+) {
   const params = new URLSearchParams()
   for (const [key, value] of Object.entries(options)) {
     params.append(key, value.toString())
