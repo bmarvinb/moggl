@@ -1,10 +1,20 @@
+import { Checkbox } from 'components/Checkbox'
 import { format } from 'date-fns'
-import { ViewTimeEntry } from 'features/timer/components/TimeEntriesList'
+import { ViewTimeEntry } from 'features/timer/components/GroupedTimeEntries'
 import { FC } from 'react'
+import {
+  BiDollar,
+  BiDotsVerticalRounded,
+  BiPlay,
+  BiPurchaseTag,
+} from 'react-icons/bi'
 import styled from 'styled-components/macro'
 
-export type TimeEntriesListItemProps = {
+export type TimeEntryRowProps = {
   timeEntry: ViewTimeEntry
+  edit: boolean
+  checked: boolean
+  onCheckedChange: (timeEntryId: string) => void
 }
 
 const TimeEntryItem = styled.div`
@@ -23,7 +33,13 @@ const Date = styled.div``
 
 const Tags = styled.div``
 
-const Billable = styled.div``
+const Tag = styled(BiPurchaseTag)``
+
+const Billable = styled(BiDollar)``
+
+const Play = styled(BiPlay)``
+
+const Options = styled(BiDotsVerticalRounded)``
 
 const Duration = styled.div``
 
@@ -34,9 +50,17 @@ const Right = styled.div`
   display: flex;
 `
 
-export const TimeEntriesListItem: FC<TimeEntriesListItemProps> = props => {
+export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
   return (
     <TimeEntryItem key={props.timeEntry.id}>
+      {props.edit && (
+        <div>
+          <Checkbox
+            checked={props.checked}
+            onChange={() => props.onCheckedChange(props.timeEntry.id)}
+          />
+        </div>
+      )}
       <Left>
         <Description>{props.timeEntry.description}</Description>
         <ProjectInfo>
@@ -44,13 +68,17 @@ export const TimeEntriesListItem: FC<TimeEntriesListItemProps> = props => {
         </ProjectInfo>
       </Left>
       <Right>
-        <Tags>Development, Production</Tags>
+        <Tags>
+          <Tag />
+        </Tags>
         <Billable>$</Billable>
         <Date>
           {format(props.timeEntry.start, 'p')} -{' '}
           {format(props.timeEntry.end, 'p')}
         </Date>
         <Duration>{props.timeEntry.duration}</Duration>
+        <Play />
+        <Options />
       </Right>
     </TimeEntryItem>
   )

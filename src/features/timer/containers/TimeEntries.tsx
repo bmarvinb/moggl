@@ -20,16 +20,16 @@ import * as M from 'fp-ts/lib/Monoid'
 import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/lib/string'
 import { nanoid } from 'nanoid'
-import React from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import { invariant } from 'utils/invariant'
 import { numberPad } from 'utils/number'
-import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
 import {
   GroupedTimeEntries,
-  TimeEntriesList,
+  TimeEntryWidget,
   ViewTimeEntry,
-} from '../components/TimeEntriesList'
+} from '../components/GroupedTimeEntries'
+import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
 
 function createViewTimeEntry(timeEntry: InactiveTimeEntry): ViewTimeEntry {
   return {
@@ -73,7 +73,7 @@ function formatDurationToInlineTime(duration: number): string {
 }
 
 function groupTimeEntriesByDate(timeEntries: InactiveTimeEntry[]) {
-  return (dates: string[]): GroupedTimeEntries[] =>
+  return (dates: string[]): TimeEntryWidget[] =>
     pipe(
       dates,
       A.map(date => ({
@@ -109,7 +109,7 @@ function getStartDate(timeEntry: InactiveTimeEntry[]): string[] {
 
 function getGroupedTimeEntries(
   timeEntries: InactiveTimeEntry[],
-): GroupedTimeEntries[] {
+): TimeEntryWidget[] {
   return pipe(
     timeEntries,
     getStartDate,
@@ -131,7 +131,7 @@ const Container = styled.div`
   background: ${props => props.theme.colors.blueGrey0};
 `
 
-export const TimeEntries: React.FC = () => {
+export const TimeEntries: FC = () => {
   const { user, workspace } = useAuth()
   invariant(user, 'User must be provided')
   invariant(workspace, 'Workspace must be provided')
@@ -164,7 +164,7 @@ export const TimeEntries: React.FC = () => {
             todayTotal={todayTotalTime}
             weekTotal={weekTotalTime}
           />
-          <TimeEntriesList groupedTimeEntries={groupedTimeEntries} />
+          <GroupedTimeEntries widgets={groupedTimeEntries} />
         </Container>
       )
   }
