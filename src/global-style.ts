@@ -1,0 +1,148 @@
+import { createGlobalStyle } from 'styled-components'
+import ProximaNovaBold from './theme/fonts/ProximaNova-Bold.woff'
+import ProximaNovaExtrabold from './theme/fonts/ProximaNova-Extrabold.woff'
+import ProximaNovaLight from './theme/fonts/ProximaNova-Light.woff'
+import ProximaNovaRegular from './theme/fonts/ProximaNova-Regular.woff'
+import ProximaNovaSemibold from './theme/fonts/ProximaNova-Semibold.woff'
+
+export const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: 'ProximaNova';
+    font-weight: 300;
+    src: local('ProximaNova'),
+      url(${ProximaNovaLight}) format('woff');
+  }
+  @font-face {
+    font-family: 'ProximaNova';
+    font-weight: 400;
+    src: local('ProximaNova'),
+      url(${ProximaNovaRegular}) format('woff');
+  }
+  @font-face {
+    font-family: 'ProximaNova';
+    font-weight: 500;
+    src: local('ProximaNova'),
+      url(${ProximaNovaSemibold}) format('woff');
+  }
+  @font-face {
+    font-family: 'ProximaNova';
+    font-weight: 700;
+    src: local('ProximaNova'),
+      url(${ProximaNovaBold}) format('woff');
+  }
+  @font-face {
+    font-family: 'ProximaNova';
+    font-weight: 900;
+    src: local('ProximaNova'),
+      url(${ProximaNovaExtrabold}) format('woff');
+  }
+
+  * {
+    box-sizing: border-box;
+    font-family: 'ProximaNova';
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  #root {
+    height: 100%;
+  }
+
+  :root {
+    --elevation0: '#fff';
+    --elevation1: '#fff';
+    --elevation2: '#fff';
+    --elevation3: '#fff';
+    --elevation4: '#fff';
+    --elevation5: '#fff';
+    --elevation6: '#fff';
+    --elevation7: '#fff';
+    --elevation8: '#fff';
+    --elevation9: '#fff';
+    --blue0: '#dceefb';
+    --blue1: '#b6e0fe';
+    --blue2: '#84c5f4';
+    --blue3: '#64b1e8';
+    --blue4: '#4098d7';
+    --blue5: '#2680c2';
+    --blue6: '#186faf';
+    --blue7: '#0f609b';
+    --blue8: '#0a558c';
+    --blue9: '#003e6b';
+    --yellow0: '#fffbea';
+    --yellow1: '#fff3c4';
+    --yellow2: '#fce588';
+    --yellow3: '#fadb5f';
+    --yellow4: '#f7c948';
+    --yellow5: '#fob429';
+    --yellow6: '#de911d';
+    --yellow7: '#cb6e17';
+    --yellow8: '#b44d12';
+    --yellow9: '#8d2b0b';
+    --blueGrey0: '#f0f4f8';
+    --blueGrey1: '#d9e2ec';
+    --blueGrey2: '#bcccdc';
+    --blueGrey3: '#9fb3c8';
+    --blueGrey4: '#829ab1';
+    --blueGrey5: '#627d98';
+    --blueGrey6: '#486581';
+    --blueGrey7: '#334e68';
+    --blueGrey8: '#243b53';
+    --blueGrey9: '#102a43';
+    --cyan0: '#e0fcff';
+    --cyan1: '#bef8fd';
+    --cyan2: '#87eaf2';
+    --cyan3: '#54d1db';
+    --cyan4: '#38bec9';
+    --cyan5: '#2cb1bc';
+    --cyan6: '#14919b';
+    --cyan7: '#0e7c86';
+    --cyan8: '#0a6b74';
+    --cyan9: '#044e54';
+    --red0: '#ffeeee';
+    --red1: '#facdcd';
+    --red2: '#f29b9b';
+    --red3: '#e66a6a';
+    --red4: '#d64545';
+    --red5: '#ba2525';
+    --red6: '#a61b1b';
+    --red7: '#911111';
+    --red8: '#78oaoa';
+    --red9: '#610404';
+
+    --fontSizeXs: '0.75rem';
+    --fontSizeSm: '0.875rem';
+    --fontSizebase: '1rem';
+    --fontSizeLg: '1.125rem';
+    --fontSizeXl: '1.25rem';
+    
+    --lineHeightXs: '1rem';
+    --lineHeightSm: '1.25rem';
+    --lineHeightBase: '1.5rem';
+    --lineHeightLg: '1.75rem';
+    --lineHeightXl: '1.75rem';
+    
+    --screenSm: '(min-width: 640px)';
+    --screenMd: '(min-width: 768px)';
+    --screenLg: '(min-width: 1024px)';
+    --screenXl: '(min-width: 1280px)';
+    --screen2xl: '(min-width: 1536px)';
+
+    --shadowXs: '0 1px 2px 0 rgb(0 0 0 / 0.05)';
+    --shadowSm: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)';
+    --shadowMd: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)';
+    --shadowLg:
+      '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)';
+    --shadowXl:
+      '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)';
+    --shadow2xl: '0 25px 50px -12px rgb(0 0 0 / 0.25)';
+    --shadowInner: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)';
+    --shadowNone: '0 0 #0000';
+  }
+`

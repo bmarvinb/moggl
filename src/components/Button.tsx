@@ -2,18 +2,18 @@ import styled from 'styled-components'
 
 export const Button = styled.button`
   font-weight: bold;
-  font-size: ${({ theme }) => theme.font.sm};
-  line-height: ${({ theme }) => theme.lineHeight.sm};
-  background-color: ${({ theme }) => theme.color.blue4};
+  font-size: var(--fontSizeSm);
+  line-height: var(--lineHeightSm);
+  background-color: var(--blue4);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
-  color: ${({ theme }) => `#fff`};
+  color: var(--elevation0);
   transition: all 150ms ease;
   cursor: pointer;
   border: none;
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.blue6};
+    background-color: var(--blue6);
   }
 
   &:disabled {
