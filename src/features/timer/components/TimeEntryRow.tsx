@@ -21,7 +21,7 @@ const TimeEntryItem = styled.div`
   display: flex;
   padding: 1rem;
   &:not(:last-child) {
-    border-bottom: 1px solid ${props => props.theme.colors.blueGrey1};
+    border-bottom: 1px solid ${({ theme }) => theme.color.blueGrey1};
   }
 `
 

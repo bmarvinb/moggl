@@ -1,27 +1,20 @@
-const fonts = {
-  xs: {
-    fontSize: '0.75rem',
-    lineHeight: '1rem',
-  },
-  sm: {
-    fontSize: '0.875rem',
-    lineHeight: '1.25rem',
-  },
-  base: {
-    fontSize: '1rem',
-    lineHeight: '1.5rem',
-  },
-  lg: {
-    fontSize: '1.125rem',
-    lineHeight: '1.75rem',
-  },
-  xl: {
-    fontSize: '1.25rem',
-    lineHeight: '1.75rem',
-  },
+const font = {
+  xs: '0.75rem',
+  sm: '0.875rem',
+  base: '1rem',
+  lg: '1.125rem',
+  xl: '1.25rem',
 }
 
-const screens = {
+const lineHeight = {
+  xs: '1rem',
+  sm: '1.25rem',
+  base: '1.5rem',
+  lg: '1.75rem',
+  xl: '1.75rem',
+}
+
+const screen = {
   sm: '(min-width: 640px)',
   md: '(min-width: 768px)',
   lg: '(min-width: 1024px)',
@@ -30,11 +23,12 @@ const screens = {
 }
 
 const common = {
-  fonts,
-  screens,
+  font,
+  lineHeight,
+  screen,
 }
 
-const lightColors = {
+const lightColor = {
   blue0: '#dceefb',
   blue1: '#b6e0fe',
   blue2: '#84c5f4',
@@ -87,7 +81,7 @@ const lightColors = {
   red9: '#610404',
 }
 
-const lightShadows = {
+const lightShadow = {
   shadowXs: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
   shadowSm: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
   shadowMd: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
@@ -100,7 +94,7 @@ const lightShadows = {
   shadowNone: '0 0 #0000',
 }
 
-const darkColors = {
+const darkColor = {
   blue0: '#dceefb',
   blue1: '#b6e0fe',
   blue2: '#84c5f4',
@@ -153,7 +147,7 @@ const darkColors = {
   red9: '#610404',
 }
 
-const darkShadows = {
+const darkShadow = {
   shadowXs: 'box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05)',
   shadowSm:
     'box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
@@ -170,12 +164,12 @@ const darkShadows = {
 
 export const lightTheme = {
   ...common,
-  colors: lightColors,
-  shadows: lightShadows,
+  color: lightColor,
+  shadow: lightShadow,
 }
 
 export const darkTheme = {
   ...common,
-  colors: darkColors,
-  shadows: darkShadows,
+  color: darkColor,
+  shadow: darkShadow,
 }

@@ -11,12 +11,12 @@ const Children = styled.div`
   background: ${({ theme }) => `#fff`};
   height: 100%;
 
-  @media ${({ theme }) => theme.screens.sm} {
+  @media ${({ theme }) => theme.screen.sm} {
     width: 35rem;
     margin: auto;
   }
 
-  @media ${({ theme }) => theme.screens.xl} {
+  @media ${({ theme }) => theme.screen.xl} {
     margin: initial;
   }
 `

@@ -27,7 +27,7 @@ export type ReportedDaysProps = {
 
 const Container = styled.div`
   padding: 0 1rem;
-  color: ${props => props.theme.colors.blueGrey9};
+  color: ${({ theme }) => theme.color.blueGrey9};
   padding-bottom: 2rem;
 `
 

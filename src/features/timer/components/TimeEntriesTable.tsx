@@ -16,7 +16,7 @@ const List = styled.div`
   margin-bottom: 2rem;
   background: ${props => `#fff`};
   border-radius: 4px;
-  box-shadow: ${props => props.theme.shadows.shadowSm};
+  box-shadow: ${({ theme }) => theme.shadow.shadowSm};
 `
 
 const Header = styled.div`
@@ -27,8 +27,8 @@ const Header = styled.div`
 `
 
 const Label = styled.div`
-  font-size: ${props => props.theme.fonts.lg.fontSize};
-  line-height: ${props => props.theme.fonts.lg.lineHeight};
+  font-size: ${({ theme }) => theme.font.lg};
+  line-height: ${({ theme }) => theme.lineHeight.lg};
   display: flex;
   align-items: center;
   font-weight: 500;
@@ -36,20 +36,20 @@ const Label = styled.div`
 
 const Time = styled.div`
   font-weight: 400;
-  color: ${props => props.theme.colors.blueGrey6};
+  color: ${({ theme }) => theme.color.blueGrey6};
 `
 
 const Toggle = styled(BiListUl)<{ $active: boolean }>`
-  font-size: ${props => props.theme.fonts.lg.fontSize};
-  line-height: ${props => props.theme.fonts.lg.lineHeight};
+  font-size: ${({ theme }) => theme.font.lg};
+  line-height: ${({ theme }) => theme.lineHeight.lg};
   color: ${props =>
-    props.$active ? props.theme.colors.blue4 : props.theme.colors.blueGrey9};
+    props.$active ? props.theme.color.blue4 : props.theme.color.blueGrey9};
   &:hover {
-    color: ${props => props.theme.colors.blue3};
+    color: ${({ theme }) => theme.color.blue3};
     cursor: pointer;
   }
   &:active {
-    color: ${props => props.theme.colors.blue5};
+    color: ${({ theme }) => theme.color.blue5};
   }
 `
 

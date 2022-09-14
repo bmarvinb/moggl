@@ -126,7 +126,7 @@ function getInlineTime(timeEntries: InactiveTimeEntry[]) {
 
 const Container = styled.div`
   min-height: 100%;
-  background: ${props => props.theme.colors.blueGrey0};
+  background: ${({ theme }) => theme.color.blueGrey0};
 `
 
 export const TimeEntries: FC = () => {

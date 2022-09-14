@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, FieldError, FormErrorMessage, Input, Label } from 'components'
 import { useAuthenticate } from 'auth/hooks/useAuthenticate'
+import { Button, FieldError, FormErrorMessage, Input, Label } from 'components'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import 'styled-components/macro'
 import styled from 'styled-components/macro'
@@ -9,7 +9,7 @@ import { z } from 'zod'
 const LoginButton = styled(Button)`
   width: 100%;
 
-  @media ${({ theme }) => theme.screens.xl} {
+  @media ${({ theme }) => theme.screen.xl} {
     width: 50%;
   }
 `
@@ -58,7 +58,7 @@ export function LoginForm() {
             type="text"
             id="email"
             autoComplete="email"
-            error={!!errors.email?.message}
+            aria-invalid={errors.email?.message ? 'true' : 'false'}
             placeholder="Enter email"
             data-testid="login-form-email"
             {...register('email')}
@@ -77,7 +77,7 @@ export function LoginForm() {
             type="password"
             id="password"
             autoComplete="current-password"
-            error={!!errors.password?.message}
+            aria-invalid={errors.password?.message ? 'true' : 'false'}
             placeholder="Type password"
             data-testid="login-form-password"
             {...register('password')}
