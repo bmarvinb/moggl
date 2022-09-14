@@ -2,7 +2,7 @@ import { FC } from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  color: ${({ theme }) => theme.color.red4};
+  color: var(--red4);
   height: '100vh';
   display: 'flex';
   flex-direction: 'column';

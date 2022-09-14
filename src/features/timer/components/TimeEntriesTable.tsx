@@ -14,9 +14,9 @@ export type TimeEntriesTableProps = {
 
 const List = styled.div`
   margin-bottom: 2rem;
-  background: ${props => `#fff`};
-  border-radius: 4px;
-  box-shadow: ${({ theme }) => theme.shadow.shadowSm};
+  background: var(--neutral0);
+  border-radius: var(--roundedMd);
+  box-shadow: var(--shadowSm);
 `
 
 const Header = styled.div`
@@ -27,8 +27,8 @@ const Header = styled.div`
 `
 
 const Label = styled.div`
-  font-size: ${({ theme }) => theme.font.lg};
-  line-height: ${({ theme }) => theme.lineHeight.lg};
+  font-size: var(--fontLg);
+  line-height: var(--lineHeightLg);
   display: flex;
   align-items: center;
   font-weight: 500;
@@ -36,20 +36,21 @@ const Label = styled.div`
 
 const Time = styled.div`
   font-weight: 400;
-  color: ${({ theme }) => theme.color.blueGrey6};
+  color: var(--neutral6);
 `
 
 const Toggle = styled(BiListUl)<{ $active: boolean }>`
-  font-size: ${({ theme }) => theme.font.lg};
-  line-height: ${({ theme }) => theme.lineHeight.lg};
-  color: ${props =>
-    props.$active ? props.theme.color.blue4 : props.theme.color.blueGrey9};
+  font-size: var(--fontLg);
+  line-height: var(--lineHeightLg);
+  color: ${props => (props.$active ? 'var(--primary4)' : 'var(--neutral9)')};
+
   &:hover {
-    color: ${({ theme }) => theme.color.blue3};
+    color: var(--primary3);
     cursor: pointer;
   }
+
   &:active {
-    color: ${({ theme }) => theme.color.blue5};
+    color: var(--primary5);
   }
 `
 

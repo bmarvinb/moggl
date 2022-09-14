@@ -4,16 +4,20 @@ export const Button = styled.button`
   font-weight: bold;
   font-size: var(--fontSizeSm);
   line-height: var(--lineHeightSm);
-  background-color: var(--blue4);
+  background-color: var(--primary4);
+  border-radius: var(--roundedLg);
+  color: var(--neutral0);
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  color: var(--elevation0);
   transition: all 150ms ease;
   cursor: pointer;
   border: none;
 
   &:hover {
-    background-color: var(--blue6);
+    background-color: var(--primary5);
+  }
+
+  &:active {
+    background-color: var(--primary6);
   }
 
   &:disabled {

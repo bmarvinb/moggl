@@ -33,7 +33,7 @@ export function AuthProvider(props: { children: ReactNode }) {
   )!
 
   const value = {
-    user: undefined,
+    user,
     workspace,
   }
 

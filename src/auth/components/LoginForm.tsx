@@ -4,12 +4,13 @@ import { Button, FieldError, FormErrorMessage, Input, Label } from 'components'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import 'styled-components/macro'
 import styled from 'styled-components/macro'
+import { screen } from 'theme'
 import { z } from 'zod'
 
 const LoginButton = styled(Button)`
   width: 100%;
 
-  @media ${({ theme }) => theme.screen.xl} {
+  @media ${screen.xl} {
     width: 50%;
   }
 `

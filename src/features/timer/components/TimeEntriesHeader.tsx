@@ -8,16 +8,16 @@ export type TimeEntriesHeaderProps = {
 
 const Title = styled.div`
   font-weight: 700;
-  color: ${({ theme }) => theme.color.blueGrey9};
-  font-size: ${({ theme }) => theme.font.xl};
-  line-height: ${({ theme }) => theme.font.xl};
+  color: var(--neutral9);
+  font-size: var(--fontSizeXl);
+  line-height: var(--lineHeightXl);
 `
 
 const Time = styled.span`
   font-weight: 400;
-  font-size: ${({ theme }) => theme.font.lg};
-  line-height: ${({ theme }) => theme.font.lg};
-  color: ${({ theme }) => theme.color.blueGrey6};
+  font-size: var(--fontSizeLg);
+  line-height: var(--lineHeightLg);
+  color: var(--neutral6);
 `
 
 export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
