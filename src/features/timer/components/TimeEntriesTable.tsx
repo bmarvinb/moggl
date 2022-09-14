@@ -22,8 +22,7 @@ const List = styled.div`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
-  padding-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
 `
 
 const Label = styled.div`

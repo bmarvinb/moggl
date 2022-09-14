@@ -7,6 +7,7 @@ export type TimeEntryRowData = {
   description: string
   project: {
     name: string
+    color: string
     clientName: string
   }
   start: Date

@@ -37,6 +37,7 @@ function createViewTimeEntry(timeEntry: InactiveTimeEntry): TimeEntryRowData {
     description: timeEntry.description,
     project: {
       name: timeEntry.project.name,
+      color: timeEntry.project.color,
       clientName: timeEntry.project.clientName,
     },
     start: new Date(timeEntry.timeInterval.start),
