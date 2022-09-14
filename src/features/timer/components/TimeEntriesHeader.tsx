@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import styled from 'styled-components/macro'
-import 'styled-components/macro'
 
 export type TimeEntriesHeaderProps = {
   weekTotal: string

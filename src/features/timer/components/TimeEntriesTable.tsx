@@ -1,4 +1,4 @@
-import { Checkbox } from 'components/Checkbox'
+import { Checkbox } from 'components'
 import { isToday, isYesterday } from 'date-fns'
 import { TimeEntryRowData } from 'features/timer/components/ReportedDays'
 import { TimeEntryRow } from 'features/timer/components/TimeEntryRow'

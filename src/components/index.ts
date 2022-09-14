@@ -1,4 +1,5 @@
 export * from './Button'
+export * from './Checkbox'
 export * from './FieldError'
 export * from './FormErrorMessage'
 export * from './FullPageErrorFallback'
