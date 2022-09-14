@@ -32,15 +32,19 @@ const Container = styled.div`
   padding-bottom: 2rem;
 `
 
-export const ReportedDays: FC<ReportedDaysProps> = props => (
-  <Container>
-    {props.reportedDays.map(({ id, date, totalTime, timeEntries }) => (
-      <TimeEntriesTable
-        key={id}
-        date={date}
-        totalTime={totalTime}
-        timeEntries={timeEntries}
-      />
-    ))}
-  </Container>
-)
+export const ReportedDays: FC<ReportedDaysProps> = props => {
+  console.log('page render')
+
+  return (
+    <Container>
+      {props.reportedDays.map(({ id, date, totalTime, timeEntries }) => (
+        <TimeEntriesTable
+          key={id}
+          date={date}
+          totalTime={totalTime}
+          timeEntries={timeEntries}
+        />
+      ))}
+    </Container>
+  )
+}

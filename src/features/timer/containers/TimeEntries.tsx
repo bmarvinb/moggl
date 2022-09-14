@@ -134,6 +134,7 @@ export const TimeEntries: FC = () => {
   const { user, workspace } = useAuth()
   invariant(user, 'User must be provided')
   invariant(workspace, 'Workspace must be provided')
+  console.log('container render')
 
   const { status, data: timeEntries } = useTimeEntries(workspace.id, user.id)
   switch (status) {

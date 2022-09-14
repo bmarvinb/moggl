@@ -92,12 +92,16 @@ const Right = styled.div`
 `
 
 export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
+  console.log('row render')
+
   return (
     <TimeEntryItem key={props.timeEntry.id}>
       {props.edit && (
         <div
           css={`
             margin-right: 1rem;
+            display: flex;
+            align-items: center;
           `}
         >
           <Checkbox
