@@ -140,7 +140,6 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
           css={`
             display: flex;
             margin-bottom: 0.5rem;
-            align-items: center;
             justify-content: right;
           `}
         >

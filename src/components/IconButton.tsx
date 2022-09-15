@@ -9,6 +9,7 @@ export const IconButton = styled.button`
   background: transparent;
   padding: 0;
   border-radius: 100%;
+  padding: 0.25rem;
 
   &:hover {
     color: var(--primary5);
