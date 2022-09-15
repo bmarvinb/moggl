@@ -159,6 +159,8 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
           {isParentTimeEntry(props.timeEntry) && (
             <div
               onClick={toggleExpanded}
+              role="button"
+              aria-label="expand"
               css={`
                 margin-right: 1rem;
                 display: flex;
