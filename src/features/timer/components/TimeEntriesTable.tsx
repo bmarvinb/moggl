@@ -1,15 +1,18 @@
 import { Checkbox, IconButton } from 'components'
 import { isToday, isYesterday } from 'date-fns'
-import { TimeEntryRowData } from 'features/timer/components/ReportedDays'
+import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import {
   ChildTimeEntry,
   ParentTimeEntry,
   RegularTimeEntry,
   TimeEntryRow,
   TimeEntryRowType,
-  TimeEntryViewRow,
+  TimeEntryRowViewModel,
 } from 'features/timer/components/TimeEntryRow'
-import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils'
+import {
+  formatDurationToInlineTime,
+  isParentTimeEntry,
+} from 'features/timer/utils/time-entries-utils'
 import * as B from 'fp-ts/boolean'
 import { Eq, struct } from 'fp-ts/Eq'
 import * as A from 'fp-ts/lib/Array'
@@ -22,13 +25,13 @@ import { BiListUl } from 'react-icons/bi'
 import styled from 'styled-components/macro'
 
 export type TimeEntriesTableProps = {
-  timeEntries: TimeEntryRowData[]
+  data: TimeEntryViewModel[]
   date: Date
-  totalTime: string
+  totalTime: number
 }
 
 // TODO: compare optionals task, clientName
-const EqTimeEntryRowData: Eq<TimeEntryRowData> = struct({
+const EqTimeEntryRowData: Eq<TimeEntryViewModel> = struct({
   description: S.Eq,
   billable: B.Eq,
   project: struct({
@@ -68,9 +71,9 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   )
   const [selectedIds, setSelectedIds] = useState<string[]>([])
 
-  const allChecked = selectedIds.length === props.timeEntries.length
+  const allChecked = selectedIds.length === props.data.length
 
-  const ids = props.timeEntries.map(({ id }) => id)
+  const ids = props.data.map(({ id }) => id)
 
   const onBulkSelectionToggleChanged = () => {
     allChecked ? setSelectedIds([]) : setSelectedIds(ids)
@@ -90,33 +93,33 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     setSelectedIds(updated)
   }
 
-  const restTimeEntries = (x: TimeEntryRowData) =>
+  const restTimeEntries = (x: TimeEntryViewModel) =>
     pipe(
-      props.timeEntries,
+      props.data,
       A.filter(y => y.id !== x.id),
     )
 
   const getParentChildren =
-    (x: TimeEntryRowData) =>
-    (xs: TimeEntryRowData[]): TimeEntryRowData[] =>
+    (x: TimeEntryViewModel) =>
+    (xs: TimeEntryViewModel[]): TimeEntryViewModel[] =>
       pipe(
         xs,
         A.filter(y => EqTimeEntryRowData.equals(x, y)),
       )
 
-  const createChild = (data: TimeEntryRowData): ChildTimeEntry => ({
+  const createChild = (data: TimeEntryViewModel): ChildTimeEntry => ({
     type: TimeEntryRowType.Child,
     data,
   })
 
   const createRegularTimeEntry = (
-    data: TimeEntryRowData,
+    data: TimeEntryViewModel,
   ): RegularTimeEntry => ({
     type: TimeEntryRowType.Regular,
     data,
   })
 
-  const createParentTimeEntry = (x: TimeEntryRowData): ParentTimeEntry => {
+  const createParentTimeEntry = (x: TimeEntryViewModel): ParentTimeEntry => {
     const children = [
       createChild(x),
       ...pipe(x, restTimeEntries, getParentChildren(x), A.map(createChild)),
@@ -135,14 +138,14 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     }
   }
 
-  const isParent = (x: TimeEntryRowData): boolean =>
+  const isParent = (x: TimeEntryViewModel): boolean =>
     pipe(
       restTimeEntries(x),
       A.some(y => EqTimeEntryRowData.equals(x, y)),
     )
 
   const isChild =
-    (x: TimeEntryRowData) =>
+    (x: TimeEntryViewModel) =>
     (xs: ParentTimeEntry[]): boolean =>
       pipe(
         xs,
@@ -155,8 +158,8 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
       )
 
   const timeEntries = pipe(
-    props.timeEntries,
-    A.reduce([] as TimeEntryViewRow[], (xs, x) => {
+    props.data,
+    A.reduce([] as TimeEntryRowViewModel[], (xs, x) => {
       if (pipe(xs, A.filter(isParentTimeEntry), isChild(x))) {
         return xs
       }
@@ -197,7 +200,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
           <Label>
             <div
               css={`
-                margin-right: 0.5rem;
+                margin-right: 0.25rem;
               `}
             >
               {formatDate(props.date)}
@@ -208,7 +211,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
                 color: var(--neutral7);
               `}
             >
-              {props.totalTime}
+              {formatDurationToInlineTime(props.totalTime)}
             </div>
           </Label>
         </div>
@@ -228,7 +231,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
       {timeEntries.map(timeEntry => (
         <TimeEntryRow
           key={timeEntry.data.id}
-          timeEntry={timeEntry}
+          data={timeEntry}
           edit={bulkEditEnabled}
           checked={isTimeEntryRowChecked(timeEntry.data.id)}
           onCheckedChange={onTimeEntryCheckedChange}

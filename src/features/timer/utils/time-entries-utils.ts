@@ -6,11 +6,11 @@ import {
   secondsToMinutes,
   format,
 } from 'date-fns'
-import { TimeEntryRowData } from 'features/timer/components/ReportedDays'
+import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import {
   ParentTimeEntry,
   TimeEntryRowType,
-  TimeEntryViewRow,
+  TimeEntryRowViewModel,
   RegularTimeEntry,
   ChildTimeEntry,
 } from 'features/timer/components/TimeEntryRow'
@@ -29,15 +29,21 @@ export function isActiveTimeEntry(x: TimeEntry): x is ActiveTimeEntry {
   return isInactiveTimeEntry(x)
 }
 
-export function isRegularTimeEntry(x: TimeEntryViewRow): x is RegularTimeEntry {
+export function isRegularTimeEntry(
+  x: TimeEntryRowViewModel,
+): x is RegularTimeEntry {
   return x.type === TimeEntryRowType.Regular
 }
 
-export function isParentTimeEntry(x: TimeEntryViewRow): x is ParentTimeEntry {
+export function isParentTimeEntry(
+  x: TimeEntryRowViewModel,
+): x is ParentTimeEntry {
   return x.type === TimeEntryRowType.Parent
 }
 
-export function isChildTimeEntry(x: TimeEntryViewRow): x is ChildTimeEntry {
+export function isChildTimeEntry(
+  x: TimeEntryRowViewModel,
+): x is ChildTimeEntry {
   return x.type === TimeEntryRowType.Child
 }
 
@@ -55,11 +61,11 @@ export function formatDurationToInlineTime(duration: number): string {
   return `${hours}:${numberPad(minutes)}:${numberPad(seconds)}`
 }
 
-export function formatTimeEntryDate(timeEntry: TimeEntryRowData): string {
+export function formatTimeEntryDate(timeEntry: TimeEntryViewModel): string {
   return `${format(timeEntry.start, 'p')} - ${format(timeEntry.end, 'p')}`
 }
 
-export function formatTimEntryInfo(timeEntry: TimeEntryRowData): string {
+export function formatTimEntryInfo(timeEntry: TimeEntryViewModel): string {
   const { task, project } = timeEntry
   if (task && project.clientName) {
     return `${project.name}: ${task}, ${project.clientName}`

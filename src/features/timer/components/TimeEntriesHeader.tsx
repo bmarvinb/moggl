@@ -1,9 +1,9 @@
+import { formatDurationToInlineTime } from 'features/timer/utils/time-entries-utils'
 import { FC } from 'react'
 import styled from 'styled-components/macro'
 
 export type TimeEntriesHeaderProps = {
-  weekTotal: string
-  todayTotal: string
+  weekTotalDuration: number
 }
 
 const Title = styled.div`
@@ -18,6 +18,7 @@ const TotalTime = styled.span`
   font-size: var(--fontSizeLg);
   line-height: var(--lineHeightLg);
   color: var(--neutral7);
+  margin-left: 0.5rem;
 `
 
 export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
@@ -31,7 +32,10 @@ export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
         `}
       >
         <Title>
-          This week <TotalTime>{props.weekTotal}</TotalTime>
+          This week
+          <TotalTime>
+            {formatDurationToInlineTime(props.weekTotalDuration)}
+          </TotalTime>
         </Title>
       </div>
     </>

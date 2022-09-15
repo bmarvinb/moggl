@@ -1,5 +1,5 @@
 import { Checkbox, IconButton } from 'components'
-import { TimeEntryRowData } from 'features/timer/components/ReportedDays'
+import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import {
   formatTimEntryInfo,
   formatTimeEntryDate,
@@ -23,7 +23,7 @@ export const enum TimeEntryRowType {
 }
 
 type Common = {
-  data: TimeEntryRowData
+  data: TimeEntryViewModel
 }
 
 export type ParentTimeEntry = Common & {
@@ -39,13 +39,13 @@ export type ChildTimeEntry = Common & {
   type: TimeEntryRowType.Child
 }
 
-export type TimeEntryViewRow =
+export type TimeEntryRowViewModel =
   | RegularTimeEntry
   | ParentTimeEntry
   | ChildTimeEntry
 
 export type TimeEntryRowProps = {
-  timeEntry: TimeEntryViewRow
+  data: TimeEntryRowViewModel
   edit: boolean
   checked: boolean
   onCheckedChange: (timeEntryId: string) => void
@@ -90,7 +90,7 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
 
   return (
     <>
-      <TimeEntryItem key={props.timeEntry.data.id}>
+      <TimeEntryItem key={props.data.data.id}>
         <div
           css={`
             display: flex;
@@ -108,11 +108,11 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
             >
               <Checkbox
                 checked={props.checked}
-                onChange={() => props.onCheckedChange(props.timeEntry.data.id)}
+                onChange={() => props.onCheckedChange(props.data.data.id)}
               />
             </div>
           )}
-          {isParentTimeEntry(props.timeEntry) && (
+          {isParentTimeEntry(props.data) && (
             <div
               onClick={toggleExpanded}
               role="button"
@@ -124,8 +124,8 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
                 padding: 0.25rem;
                 border: 1px solid var(--neutral7);
                 border-radius: 100%;
-                width: 2rem;
-                height: 2rem;
+                min-width: 2rem;
+                min-height: 2rem;
                 justify-content: center;
                 text-align: center;
                 margin: auto;
@@ -138,21 +138,21 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
                 }
               `}
             >
-              {props.timeEntry.children.length}
+              {props.data.children.length}
             </div>
           )}
           <div
             css={`
               display: flex;
               flex-direction: column;
-              padding-left: ${isChildTimeEntry(props.timeEntry) ? '3rem' : '0'};
+              padding-left: ${isChildTimeEntry(props.data) ? '3rem' : '0'};
             `}
           >
-            <Description $empty={props.timeEntry.data.description.length === 0}>
-              {props.timeEntry.data.description || 'Add description'}
+            <Description $empty={props.data.data.description.length === 0}>
+              {props.data.data.description || 'Add description'}
             </Description>
-            <AdditionalInfo $color={props.timeEntry.data.project.color}>
-              {formatTimEntryInfo(props.timeEntry.data)}
+            <AdditionalInfo $color={props.data.data.project.color}>
+              {formatTimEntryInfo(props.data.data)}
             </AdditionalInfo>
           </div>
         </div>
@@ -185,7 +185,7 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
                 display: none;
               `}
             >
-              {formatTimeEntryDate(props.timeEntry.data)}
+              {formatTimeEntryDate(props.data.data)}
             </div>
             <div
               css={`
@@ -193,7 +193,7 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
                 line-height: var(--lineHeightLg);
               `}
             >
-              {formatDurationToInlineTime(props.timeEntry.data.duration)}
+              {formatDurationToInlineTime(props.data.data.duration)}
             </div>
           </div>
 
@@ -226,11 +226,11 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
       </TimeEntryItem>
 
       {expanded &&
-        isParentTimeEntry(props.timeEntry) &&
-        props.timeEntry.children.map(child => (
+        isParentTimeEntry(props.data) &&
+        props.data.children.map(child => (
           <TimeEntryRow
             key={child.data.id}
-            timeEntry={child}
+            data={child}
             edit={props.edit}
             checked={false}
             onCheckedChange={() => {}}
