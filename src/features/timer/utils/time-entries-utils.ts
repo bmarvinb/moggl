@@ -4,7 +4,9 @@ import {
   minutesToSeconds,
   secondsToHours,
   secondsToMinutes,
+  format,
 } from 'date-fns'
+import { TimeEntryRowData } from 'features/timer/components/ReportedDays'
 import {
   ParentTimeEntry,
   TimeEntryRowType,
@@ -51,4 +53,22 @@ export function formatDurationToInlineTime(duration: number): string {
   const minutes = secondsToMinutes(duration - hoursToSeconds(hours))
   const seconds = duration - hoursToSeconds(hours) - minutesToSeconds(minutes)
   return `${hours}:${numberPad(minutes)}:${numberPad(seconds)}`
+}
+
+export function formatTimeEntryDate(timeEntry: TimeEntryRowData): string {
+  return `${format(timeEntry.start, 'p')} - ${format(timeEntry.end, 'p')}`
+}
+
+export function formatTimEntryInfo(timeEntry: TimeEntryRowData): string {
+  const { task, project } = timeEntry
+  if (task && project.clientName) {
+    return `${project.name}: ${task}, ${project.clientName}`
+  }
+  if (task) {
+    return `${project.name}: ${task}`
+  }
+  if (project.clientName) {
+    return `${project.name}, ${project.clientName}`
+  }
+  return `${project.name}`
 }

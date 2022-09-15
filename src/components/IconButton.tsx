@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const IconButton = styled.button`
+export const IconButton = styled.button<{ $active?: boolean }>`
   display: inline-flex;
   font-weight: bold;
   transition: all 150ms ease;
@@ -10,6 +10,7 @@ export const IconButton = styled.button`
   padding: 0;
   border-radius: 100%;
   padding: 0.25rem;
+  color: ${props => (props.$active ? 'var(--primary4)' : 'var(--neutral9)')};
 
   &:hover {
     color: var(--primary5);

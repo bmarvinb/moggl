@@ -1,7 +1,8 @@
 import { Checkbox, IconButton } from 'components'
-import { format } from 'date-fns'
 import { TimeEntryRowData } from 'features/timer/components/ReportedDays'
 import {
+  formatTimEntryInfo,
+  formatTimeEntryDate,
   formatDurationToInlineTime,
   isChildTimeEntry,
   isParentTimeEntry,
@@ -84,51 +85,6 @@ const AdditionalInfo = styled.div<{ $color: string }>`
   }
 `
 
-const Date = styled.div`
-  display: none;
-`
-
-const TagIcon = styled(BiPurchaseTag)`
-  font-size: var(--fontSizeLg);
-  line-height: var(--lineHeightLg);
-`
-
-const BillableIcon = styled(BiDollar)`
-  font-size: var(--fontSizeLg);
-  line-height: var(--lineHeightLg);
-`
-
-const PlayIcon = styled(BiPlay)`
-  font-size: var(--fontSizeXl);
-`
-
-const DotsIcon = styled(BiDotsVerticalRounded)`
-  font-size: var(--fontSizeXl);
-`
-
-const Duration = styled.div`
-  font-weight: 500;
-  line-height: var(--lineHeightLg);
-`
-
-function formatDate(timeEntry: TimeEntryRowData): string {
-  return `${format(timeEntry.start, 'p')} - ${format(timeEntry.end, 'p')}`
-}
-
-function formatAdditionalInfo(timeEntry: TimeEntryRowData): string {
-  const { task, project } = timeEntry
-  if (task && project.clientName) {
-    return `${project.name}: ${task}, ${project.clientName}`
-  }
-  if (task) {
-    return `${project.name}: ${task}`
-  }
-  if (project.clientName) {
-    return `${project.name}, ${project.clientName}`
-  }
-  return `${project.name}`
-}
-
 export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
   const [expanded, toggleExpanded] = useReducer(state => !state, false)
 
@@ -196,7 +152,7 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
               {props.timeEntry.data.description || 'Add description'}
             </Description>
             <AdditionalInfo $color={props.timeEntry.data.project.color}>
-              {formatAdditionalInfo(props.timeEntry.data)}
+              {formatTimEntryInfo(props.timeEntry.data)}
             </AdditionalInfo>
           </div>
         </div>
@@ -208,16 +164,37 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
               grid-column-gap: 0.25rem;
             `}
           >
-            <IconButton aria-label="tags">
-              <TagIcon />
+            <IconButton
+              aria-label="tags"
+              css={`
+                font-size: var(--fontSizeLg);
+              `}
+            >
+              <BiPurchaseTag title="Tags" />
             </IconButton>
-            <IconButton aria-label="billable">
-              <BillableIcon />
+            <IconButton
+              aria-label="billable"
+              css={`
+                font-size: var(--fontSizeLg);
+              `}
+            >
+              <BiDollar title="Billable" />
             </IconButton>
-            <Date>{formatDate(props.timeEntry.data)}</Date>
-            <Duration>
+            <div
+              css={`
+                display: none;
+              `}
+            >
+              {formatTimeEntryDate(props.timeEntry.data)}
+            </div>
+            <div
+              css={`
+                font-weight: 500;
+                line-height: var(--lineHeightLg);
+              `}
+            >
               {formatDurationToInlineTime(props.timeEntry.data.duration)}
-            </Duration>
+            </div>
           </div>
 
           <div
@@ -231,12 +208,18 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
               aria-label="start"
               css={`
                 margin-right: 0.5rem;
+                font-size: var(--fontSizeXl);
               `}
             >
-              <PlayIcon />
+              <BiPlay title="Play" />
             </IconButton>
-            <IconButton aria-label="actions">
-              <DotsIcon />
+            <IconButton
+              aria-label="actions"
+              css={`
+                font-size: var(--fontSizeXl);
+              `}
+            >
+              <BiDotsVerticalRounded title="Actions" />
             </IconButton>
           </div>
         </div>

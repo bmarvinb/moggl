@@ -51,21 +51,6 @@ const Label = styled.div`
   font-weight: 500;
 `
 
-const ListIcon = styled(BiListUl)<{ $active: boolean }>`
-  font-size: var(--fontSizeLg);
-  line-height: var(--lineHeightLg);
-  color: ${props => (props.$active ? 'var(--primary4)' : 'var(--neutral9)')};
-
-  &:hover {
-    color: var(--primary3);
-    cursor: pointer;
-  }
-
-  &:active {
-    color: var(--primary5);
-  }
-`
-
 function formatDate(date: Date): string {
   if (isToday(date)) {
     return 'Today'
@@ -228,8 +213,15 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
           </Label>
         </div>
         <Label>
-          <IconButton aria-label="toggle bulk edit" onClick={onToggleClicked}>
-            <ListIcon $active={bulkEditEnabled} />
+          <IconButton
+            $active={bulkEditEnabled}
+            aria-label="toggle"
+            onClick={onToggleClicked}
+            css={`
+              font-size: var(--fontSizeLg);
+            `}
+          >
+            <BiListUl title="Toggle" />
           </IconButton>
         </Label>
       </div>
