@@ -13,11 +13,11 @@ const Title = styled.div`
   line-height: var(--lineHeightXl);
 `
 
-const Time = styled.span`
+const TotalTime = styled.span`
   font-weight: 400;
   font-size: var(--fontSizeLg);
   line-height: var(--lineHeightLg);
-  color: var(--neutral6);
+  color: var(--neutral7);
 `
 
 export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
@@ -31,7 +31,7 @@ export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
         `}
       >
         <Title>
-          This week <Time>{props.weekTotal}</Time>
+          This week <TotalTime>{props.weekTotal}</TotalTime>
         </Title>
       </div>
     </>

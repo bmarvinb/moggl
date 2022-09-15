@@ -1,4 +1,4 @@
-import { Checkbox } from 'components'
+import { Checkbox, IconButton } from 'components'
 import { isToday, isYesterday } from 'date-fns'
 import { TimeEntryRowData } from 'features/timer/components/ReportedDays'
 import { TimeEntryRow } from 'features/timer/components/TimeEntryRow'
@@ -33,13 +33,13 @@ const Label = styled.div`
   font-weight: 500;
 `
 
-const Time = styled.div`
+const TotalTime = styled.div`
   font-weight: 400;
-  color: var(--neutral6);
+  color: var(--neutral7);
 `
 
-const Toggle = styled(BiListUl)<{ $active: boolean }>`
-  font-size: var(--fontLg);
+const ListIcon = styled(BiListUl)<{ $active: boolean }>`
+  font-size: var(--fontSizeLg);
   line-height: var(--lineHeightLg);
   color: ${props => (props.$active ? 'var(--primary4)' : 'var(--neutral9)')};
 
@@ -122,12 +122,14 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
               `}
             >
               {formatDate(props.date)}
-            </div>{' '}
-            <Time>{props.totalTime}</Time>
+            </div>
+            <TotalTime>{props.totalTime}</TotalTime>
           </Label>
         </div>
         <Label>
-          <Toggle $active={bulkEditEnabled} onClick={onToggleClicked} />
+          <IconButton aria-label="toggle bulk edit" onClick={onToggleClicked}>
+            <ListIcon $active={bulkEditEnabled} />
+          </IconButton>
         </Label>
       </Header>
       <div>

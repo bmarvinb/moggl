@@ -38,8 +38,9 @@ function createViewTimeEntry(timeEntry: InactiveTimeEntry): TimeEntryRowData {
     project: {
       name: timeEntry.project.name,
       color: timeEntry.project.color,
-      clientName: timeEntry.project.clientName,
+      clientName: timeEntry.project.clientName || undefined,
     },
+    task: timeEntry.task?.name || undefined,
     start: new Date(timeEntry.timeInterval.start),
     end: new Date(timeEntry.timeInterval.end),
     duration: pipe(timeEntry, timeEntryDuration, formatDurationToInlineTime),

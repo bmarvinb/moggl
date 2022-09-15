@@ -8,8 +8,9 @@ export type TimeEntryRowData = {
   project: {
     name: string
     color: string
-    clientName: string
+    clientName: string | undefined
   }
+  task: string | undefined
   start: Date
   end: Date
   duration: string

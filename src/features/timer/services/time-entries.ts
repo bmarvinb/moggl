@@ -129,7 +129,7 @@ const projectSchema = z.object({
   estimate: estimateSchema,
   archived: z.boolean(),
   duration: z.string(),
-  clientName: z.string(),
+  clientName: z.string().nullable(),
   note: z.string(),
   costRate: z.unknown().nullable(),
   timeEstimate: timeEstimateSchema,

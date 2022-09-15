@@ -1,4 +1,4 @@
-import { Checkbox } from 'components'
+import { Checkbox, IconButton } from 'components'
 import { format } from 'date-fns'
 import { TimeEntryRowData } from 'features/timer/components/ReportedDays'
 import { FC } from 'react'
@@ -21,6 +21,7 @@ export type TimeEntryRowProps = {
 const TimeEntryItem = styled.div`
   display: flex;
   padding: 1rem;
+  justify-content: space-between;
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--neutral1);
@@ -33,18 +34,21 @@ const Description = styled.div<{ $empty: boolean }>`
   color: ${props => (props.$empty ? 'var(--neutral6)' : 'var(--neutral9)')};
 `
 
-const ProjectInfo = styled.div<{ $color?: string }>`
+const AdditionalInfo = styled.div<{ $color: string }>`
   position: relative;
-  color: ${props => (props.$color ? props.$color : 'var(--neutral6)')};
+  color: ${props => props.$color};
   padding-left: 0.75rem;
   font-size: var(--fontSizeSm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   &:before {
     position: absolute;
     content: '';
     width: 0.3rem;
     height: 0.3rem;
-    background: ${props => (props.$color ? props.$color : 'var(--neutral6)')};
+    background: ${props => props.$color};
     border-radius: 100%;
     top: calc(50% - 0.15rem);
     left: -0rem;
@@ -55,24 +59,21 @@ const Date = styled.div`
   display: none;
 `
 
-const Tag = styled(BiPurchaseTag)`
-  margin-right: 0.5rem;
+const TagIcon = styled(BiPurchaseTag)`
   font-size: var(--fontSizeLg);
   line-height: var(--lineHeightLg);
 `
 
-const Billable = styled(BiDollar)`
+const BillableIcon = styled(BiDollar)`
   font-size: var(--fontSizeLg);
   line-height: var(--lineHeightLg);
-  margin-right: 0.5rem;
 `
 
-const Play = styled(BiPlay)`
+const PlayIcon = styled(BiPlay)`
   font-size: var(--fontSizeXl);
-  margin-right: 0.5rem;
 `
 
-const Options = styled(BiDotsVerticalRounded)`
+const DotsIcon = styled(BiDotsVerticalRounded)`
   font-size: var(--fontSizeXl);
 `
 
@@ -81,15 +82,23 @@ const Duration = styled.div`
   line-height: var(--lineHeightLg);
 `
 
-const Left = styled.div`
-  flex: 1;
-`
-const Right = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: right;
-`
+function formatDate(timeEntry: TimeEntryRowData): string {
+  return `${format(timeEntry.start, 'p')} - ${format(timeEntry.end, 'p')}`
+}
+
+function formatAdditionalInfo(timeEntry: TimeEntryRowData): string {
+  const { task, project } = timeEntry
+  if (task && project.clientName) {
+    return `${project.name}: ${task}, ${project.clientName}`
+  }
+  if (task) {
+    return `${project.name}: ${task}`
+  }
+  if (project.clientName) {
+    return `${project.name}, ${project.clientName}`
+  }
+  return `${project.name}`
+}
 
 export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
   console.log('row render')
@@ -110,15 +119,23 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
           />
         </div>
       )}
-      <Left>
+      <div
+        css={`
+          width: 50%;
+
+          @media ${screen.xs} {
+            width: 60%;
+          }
+        `}
+      >
         <Description $empty={props.timeEntry.description.length === 0}>
           {props.timeEntry.description || 'Add description'}
         </Description>
-        <ProjectInfo $color={props.timeEntry.project.color}>
-          {props.timeEntry.project.name}
-        </ProjectInfo>
-      </Left>
-      <Right>
+        <AdditionalInfo $color={props.timeEntry.project.color}>
+          {formatAdditionalInfo(props.timeEntry)}
+        </AdditionalInfo>
+      </div>
+      <div>
         <div
           css={`
             display: flex;
@@ -127,12 +144,23 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
             justify-content: right;
           `}
         >
-          <Tag />
-          <Billable>$</Billable>
-          <Date>
-            {format(props.timeEntry.start, 'p')} -{' '}
-            {format(props.timeEntry.end, 'p')}
-          </Date>
+          <IconButton
+            aria-label="tags"
+            css={`
+              margin-right: 0.5rem;
+            `}
+          >
+            <TagIcon />
+          </IconButton>
+          <IconButton
+            aria-label="billable"
+            css={`
+              margin-right: 0.5rem;
+            `}
+          >
+            <BillableIcon />
+          </IconButton>
+          <Date>{formatDate(props.timeEntry)}</Date>
           <Duration>{props.timeEntry.duration}</Duration>
         </div>
 
@@ -140,12 +168,22 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
           css={`
             display: flex;
             justify-content: right;
+            position: relative;
           `}
         >
-          <Play />
-          <Options />
+          <IconButton
+            aria-label="start"
+            css={`
+              margin-right: 0.5rem;
+            `}
+          >
+            <PlayIcon />
+          </IconButton>
+          <IconButton aria-label="actions">
+            <DotsIcon />
+          </IconButton>
         </div>
-      </Right>
+      </div>
     </TimeEntryItem>
   )
 }
