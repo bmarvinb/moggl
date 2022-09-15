@@ -9,7 +9,6 @@ import {
   BiPurchaseTag,
 } from 'react-icons/bi'
 import styled from 'styled-components/macro'
-import { screen } from 'theme/index'
 
 export type TimeEntryRowProps = {
   timeEntry: TimeEntryRowData
@@ -39,9 +38,6 @@ const AdditionalInfo = styled.div<{ $color: string }>`
   color: ${props => props.$color};
   padding-left: 0.75rem;
   font-size: var(--fontSizeSm);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 
   &:before {
     position: absolute;
@@ -105,58 +101,53 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
 
   return (
     <TimeEntryItem key={props.timeEntry.id}>
-      {props.edit && (
-        <div
-          css={`
-            margin-right: 1rem;
-            display: flex;
-            align-items: center;
-          `}
-        >
-          <Checkbox
-            checked={props.checked}
-            onChange={() => props.onCheckedChange(props.timeEntry.id)}
-          />
-        </div>
-      )}
       <div
         css={`
-          width: 50%;
-
-          @media ${screen.xs} {
-            width: 60%;
-          }
+          display: flex;
+          flex-direction: row;
+          padding-right: 0.5rem;
         `}
       >
-        <Description $empty={props.timeEntry.description.length === 0}>
-          {props.timeEntry.description || 'Add description'}
-        </Description>
-        <AdditionalInfo $color={props.timeEntry.project.color}>
-          {formatAdditionalInfo(props.timeEntry)}
-        </AdditionalInfo>
+        {props.edit && (
+          <div
+            css={`
+              margin-right: 1rem;
+              display: flex;
+              align-items: center;
+            `}
+          >
+            <Checkbox
+              checked={props.checked}
+              onChange={() => props.onCheckedChange(props.timeEntry.id)}
+            />
+          </div>
+        )}
+        <div
+          css={`
+            display: flex;
+            flex-direction: column;
+          `}
+        >
+          <Description $empty={props.timeEntry.description.length === 0}>
+            {props.timeEntry.description || 'Add description'}
+          </Description>
+          <AdditionalInfo $color={props.timeEntry.project.color}>
+            {formatAdditionalInfo(props.timeEntry)}
+          </AdditionalInfo>
+        </div>
       </div>
       <div>
         <div
           css={`
-            display: flex;
-            margin-bottom: 0.5rem;
-            justify-content: right;
+            display: grid;
+            grid-template-columns: 2rem 2rem 1fr;
+            grid-column-gap: 0.25rem;
           `}
         >
-          <IconButton
-            aria-label="tags"
-            css={`
-              margin-right: 0.5rem;
-            `}
-          >
+          <IconButton aria-label="tags">
             <TagIcon />
           </IconButton>
-          <IconButton
-            aria-label="billable"
-            css={`
-              margin-right: 0.5rem;
-            `}
-          >
+          <IconButton aria-label="billable">
             <BillableIcon />
           </IconButton>
           <Date>{formatDate(props.timeEntry)}</Date>
