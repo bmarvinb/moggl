@@ -43,23 +43,12 @@ const TimeEntryTable = styled.div`
   box-shadow: var(--shadowSm);
 `
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
-`
-
 const Label = styled.div`
   font-size: var(--fontLg);
   line-height: var(--lineHeightLg);
   display: flex;
   align-items: center;
   font-weight: 500;
-`
-
-const TotalTime = styled.div`
-  font-weight: 400;
-  color: var(--neutral7);
 `
 
 const ListIcon = styled(BiListUl)<{ $active: boolean }>`
@@ -135,20 +124,22 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     data,
   })
 
-  const createParentTimeEntry = (data: TimeEntryRowData): ParentTimeEntry => {
+  const createRegularTimeEntry = (
+    data: TimeEntryRowData,
+  ): RegularTimeEntry => ({
+    type: TimeEntryRowType.Regular,
+    data,
+  })
+
+  const createParentTimeEntry = (x: TimeEntryRowData): ParentTimeEntry => {
     const children = [
-      createChild(data),
-      ...pipe(
-        data,
-        restTimeEntries,
-        getParentChildren(data),
-        A.map(createChild),
-      ),
+      createChild(x),
+      ...pipe(x, restTimeEntries, getParentChildren(x), A.map(createChild)),
     ]
     return {
       type: TimeEntryRowType.Parent,
       data: {
-        ...data,
+        ...x,
         duration: pipe(
           children,
           A.map(({ data }) => data.duration),
@@ -158,13 +149,6 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
       children,
     }
   }
-
-  const createRegularTimeEntry = (
-    data: TimeEntryRowData,
-  ): RegularTimeEntry => ({
-    type: TimeEntryRowType.Regular,
-    data,
-  })
 
   const isParent = (x: TimeEntryRowData): boolean =>
     pipe(
@@ -177,7 +161,12 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     (xs: ParentTimeEntry[]): boolean =>
       pipe(
         xs,
-        A.some(y => y.children.some(({ data }) => data.id === x.id)),
+        A.some(({ children }) =>
+          pipe(
+            children,
+            A.some(({ data }) => data.id === x.id),
+          ),
+        ),
       )
 
   const timeEntries = pipe(
@@ -195,7 +184,13 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
 
   return (
     <TimeEntryTable>
-      <Header>
+      <div
+        css={`
+          display: flex;
+          justify-content: space-between;
+          padding: 0.75rem 1rem;
+        `}
+      >
         <div
           css={`
             display: flex;
@@ -222,7 +217,14 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
             >
               {formatDate(props.date)}
             </div>
-            <TotalTime>{props.totalTime}</TotalTime>
+            <div
+              css={`
+                font-weight: 400;
+                color: var(--neutral7);
+              `}
+            >
+              {props.totalTime}
+            </div>
           </Label>
         </div>
         <Label>
@@ -230,7 +232,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
             <ListIcon $active={bulkEditEnabled} />
           </IconButton>
         </Label>
-      </Header>
+      </div>
       {timeEntries.map(timeEntry => (
         <TimeEntryRow
           key={timeEntry.data.id}
