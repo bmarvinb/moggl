@@ -147,17 +147,18 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
       A.some(y => EqTimeEntryRowData.equals(x, y)),
     )
 
-  const isChild = (xs: ParentTimeEntry[], x: TimeEntryRowData): boolean =>
-    pipe(
-      xs,
-      A.some(y => y.children.some(child => child.id === x.id)),
-    )
+  const isChild =
+    (x: TimeEntryRowData) =>
+    (xs: ParentTimeEntry[]): boolean =>
+      pipe(
+        xs,
+        A.some(y => y.children.some(child => child.id === x.id)),
+      )
 
   const timeEntries = pipe(
     props.timeEntries,
     A.reduce([] as TimeEntryViewRow[], (xs, x) => {
-      const parents = pipe(xs, A.filter(isParentTimeEntry))
-      if (isChild(parents, x)) {
+      if (pipe(xs, A.filter(isParentTimeEntry), isChild(x))) {
         return xs
       }
       return [
