@@ -1,5 +1,5 @@
 import styled from 'styled-components'
 
 export const FormErrorMessage = styled.div`
-  color: ${({ theme }) => theme.colors.red4};
+  color: var(--red4);
 `

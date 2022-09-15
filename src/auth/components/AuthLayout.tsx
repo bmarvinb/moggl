@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import 'styled-components/macro'
 import styled from 'styled-components/macro'
+import { screen } from 'theme'
 
 const Children = styled.div`
   width: 100%;
@@ -8,15 +9,15 @@ const Children = styled.div`
   align-items: center;
   justify-content: center;
   padding: 6rem 3rem;
-  background: ${({ theme }) => `#fff`};
+  background: var(--neutral0);
   height: 100%;
 
-  @media ${({ theme }) => theme.screens.sm} {
+  @media ${screen.sm} {
     width: 35rem;
     margin: auto;
   }
 
-  @media ${({ theme }) => theme.screens.xl} {
+  @media ${screen.xl} {
     margin: initial;
   }
 `

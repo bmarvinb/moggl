@@ -20,25 +20,27 @@ import * as M from 'fp-ts/lib/Monoid'
 import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/lib/string'
 import { nanoid } from 'nanoid'
-import React from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import { invariant } from 'utils/invariant'
 import { numberPad } from 'utils/number'
-import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
 import {
-  GroupedTimeEntries,
-  TimeEntriesList,
-  ViewTimeEntry,
-} from '../components/TimeEntriesList'
+  ReportedDays,
+  ReportedDay,
+  TimeEntryRowData,
+} from '../components/ReportedDays'
+import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
 
-function createViewTimeEntry(timeEntry: InactiveTimeEntry): ViewTimeEntry {
+function createViewTimeEntry(timeEntry: InactiveTimeEntry): TimeEntryRowData {
   return {
     id: timeEntry.id,
     description: timeEntry.description,
     project: {
       name: timeEntry.project.name,
-      clientName: timeEntry.project.clientName,
+      color: timeEntry.project.color,
+      clientName: timeEntry.project.clientName || undefined,
     },
+    task: timeEntry.task?.name || undefined,
     start: new Date(timeEntry.timeInterval.start),
     end: new Date(timeEntry.timeInterval.end),
     duration: pipe(timeEntry, timeEntryDuration, formatDurationToInlineTime),
@@ -73,7 +75,7 @@ function formatDurationToInlineTime(duration: number): string {
 }
 
 function groupTimeEntriesByDate(timeEntries: InactiveTimeEntry[]) {
-  return (dates: string[]): GroupedTimeEntries[] =>
+  return (dates: string[]): ReportedDay[] =>
     pipe(
       dates,
       A.map(date => ({
@@ -107,9 +109,7 @@ function getStartDate(timeEntry: InactiveTimeEntry[]): string[] {
   )
 }
 
-function getGroupedTimeEntries(
-  timeEntries: InactiveTimeEntry[],
-): GroupedTimeEntries[] {
+function getReportedDays(timeEntries: InactiveTimeEntry[]): ReportedDay[] {
   return pipe(
     timeEntries,
     getStartDate,
@@ -128,13 +128,14 @@ function getInlineTime(timeEntries: InactiveTimeEntry[]) {
 
 const Container = styled.div`
   min-height: 100%;
-  background: ${props => props.theme.colors.blueGrey0};
+  background: var(--neutral1);
 `
 
-export const TimeEntries: React.FC = () => {
+export const TimeEntries: FC = () => {
   const { user, workspace } = useAuth()
   invariant(user, 'User must be provided')
   invariant(workspace, 'Workspace must be provided')
+  console.log('container render')
 
   const { status, data: timeEntries } = useTimeEntries(workspace.id, user.id)
   switch (status) {
@@ -157,14 +158,14 @@ export const TimeEntries: React.FC = () => {
       )
       const todayTotalTime = getInlineTime(dayTimeEnties)
       const weekTotalTime = getInlineTime(weekTimeEnties)
-      const groupedTimeEntries = getGroupedTimeEntries(inactiveTimeEntries)
+      const reportedDays = getReportedDays(inactiveTimeEntries)
       return (
         <Container>
           <TimeEntriesHeader
             todayTotal={todayTotalTime}
             weekTotal={weekTotalTime}
           />
-          <TimeEntriesList groupedTimeEntries={groupedTimeEntries} />
+          <ReportedDays reportedDays={reportedDays} />
         </Container>
       )
   }

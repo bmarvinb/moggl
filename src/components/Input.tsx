@@ -1,43 +1,26 @@
-import * as React from 'react'
-import InputUnstyled, { InputUnstyledProps } from '@mui/base/InputUnstyled'
 import styled from 'styled-components'
 
-const StyledInputElement = styled('input')`
+export const Input = styled.input`
   width: 100%;
-  font-size: ${({ theme }) => theme.fonts.sm.fontSize};
-  line-height: ${({ theme }) => theme.fonts.sm.lineHeight};
   padding: 0.75rem;
-  border-radius: 0.75rem;
-  background: ${({ theme }) => `#fff`};
-  border: 1px solid ${({ theme }) => theme.colors.blueGrey3};
-  box-shadow: 0px 2px 2px ${({ theme }) => theme.colors.blueGrey0};
+  font-size: var(--fontSm);
+  line-height: var(--lineHeightSm);
+  border-radius: var(--roundedXl);
+  background: var(--neutral0);
+  border: 1px solid var(--neutral3);
+  box-shadow: var(--shadowXs);
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.blue3};
+    border-color: var(--primary3);
   }
 
   &:focus {
-    border-color: ${({ theme }) => theme.colors.blue3};
-    outline: 2px solid ${({ theme }) => theme.colors.blue2};
+    border-color: var(--primary3);
+    outline: 2px solid var(--primary2);
   }
 
   &[aria-invalid='true'] {
-    border-color: ${({ theme }) => theme.colors.red4};
-    outline: 2px solid ${({ theme }) => theme.colors.red3};
+    border-color: var(--red4);
+    outline: 2px solid var(--red3);
   }
 `
-
-export const Input = React.forwardRef(function CustomInput(
-  props: InputUnstyledProps,
-  ref: React.ForwardedRef<HTMLDivElement>,
-) {
-  return (
-    <>
-      <InputUnstyled
-        components={{ Input: StyledInputElement }}
-        {...props}
-        ref={ref}
-      />
-    </>
-  )
-})
