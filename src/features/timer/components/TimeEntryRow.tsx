@@ -10,8 +10,28 @@ import {
 } from 'react-icons/bi'
 import styled from 'styled-components/macro'
 
+export const enum TimeEntryRowType {
+  Regular = 'Regular',
+  Parent = 'Parent',
+}
+
+type Common = {
+  data: TimeEntryRowData
+}
+
+export type ParentTimeEntry = Common & {
+  type: TimeEntryRowType.Parent
+  children: TimeEntryRowData[]
+}
+
+export type RegularTimeEntry = Common & {
+  type: TimeEntryRowType.Regular
+}
+
+export type TimeEntryViewRow = RegularTimeEntry | ParentTimeEntry
+
 export type TimeEntryRowProps = {
-  timeEntry: TimeEntryRowData
+  timeEntry: TimeEntryViewRow
   edit: boolean
   checked: boolean
   onCheckedChange: (timeEntryId: string) => void
@@ -100,7 +120,7 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
   console.log('row render')
 
   return (
-    <TimeEntryItem key={props.timeEntry.id}>
+    <TimeEntryItem key={props.timeEntry.data.id}>
       <div
         css={`
           display: flex;
@@ -118,7 +138,7 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
           >
             <Checkbox
               checked={props.checked}
-              onChange={() => props.onCheckedChange(props.timeEntry.id)}
+              onChange={() => props.onCheckedChange(props.timeEntry.data.id)}
             />
           </div>
         )}
@@ -128,11 +148,14 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
             flex-direction: column;
           `}
         >
-          <Description $empty={props.timeEntry.description.length === 0}>
-            {props.timeEntry.description || 'Add description'}
+          {props.timeEntry.type === TimeEntryRowType.Parent && (
+            <div>{props.timeEntry.children.length}</div>
+          )}
+          <Description $empty={props.timeEntry.data.description.length === 0}>
+            {props.timeEntry.data.description || 'Add description'}
           </Description>
-          <AdditionalInfo $color={props.timeEntry.project.color}>
-            {formatAdditionalInfo(props.timeEntry)}
+          <AdditionalInfo $color={props.timeEntry.data.project.color}>
+            {formatAdditionalInfo(props.timeEntry.data)}
           </AdditionalInfo>
         </div>
       </div>
@@ -150,8 +173,8 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
           <IconButton aria-label="billable">
             <BillableIcon />
           </IconButton>
-          <Date>{formatDate(props.timeEntry)}</Date>
-          <Duration>{props.timeEntry.duration}</Duration>
+          <Date>{formatDate(props.timeEntry.data)}</Date>
+          <Duration>{props.timeEntry.data.duration}</Duration>
         </div>
 
         <div

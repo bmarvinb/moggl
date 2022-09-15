@@ -35,6 +35,7 @@ function createViewTimeEntry(timeEntry: InactiveTimeEntry): TimeEntryRowData {
   return {
     id: timeEntry.id,
     description: timeEntry.description,
+    billable: timeEntry.billable,
     project: {
       name: timeEntry.project.name,
       color: timeEntry.project.color,

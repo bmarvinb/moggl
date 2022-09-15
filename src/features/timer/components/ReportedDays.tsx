@@ -2,14 +2,17 @@ import { TimeEntriesTable } from 'features/timer/components/TimeEntriesTable'
 import { FC } from 'react'
 import styled from 'styled-components/macro'
 
+export type TimeEntryRowProject = {
+  name: string
+  color: string
+  clientName: string | undefined
+}
+
 export type TimeEntryRowData = {
   id: string
   description: string
-  project: {
-    name: string
-    color: string
-    clientName: string | undefined
-  }
+  billable: boolean
+  project: TimeEntryRowProject
   task: string | undefined
   start: Date
   end: Date
