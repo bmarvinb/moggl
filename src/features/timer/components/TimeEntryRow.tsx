@@ -164,7 +164,7 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
                 display: flex;
                 align-items: center;
                 padding: 0.25rem;
-                border: 1px solid var(--neutral6);
+                border: 1px solid var(--neutral7);
                 border-radius: 100%;
                 width: 2rem;
                 height: 2rem;
