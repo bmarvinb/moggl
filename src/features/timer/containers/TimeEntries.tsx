@@ -1,16 +1,11 @@
 import { useAuth } from 'auth/context/auth-context'
 import { Spinner } from 'components'
-import {
-  format,
-  hoursToSeconds,
-  minutesToSeconds,
-  secondsToHours,
-  secondsToMinutes,
-} from 'date-fns'
+import { format } from 'date-fns'
 import { isSameDay, isSameWeek } from 'date-fns/fp'
 import { useTimeEntries } from 'features/timer/hooks/useTimeEntries'
 import { InactiveTimeEntry } from 'features/timer/services/time-entries'
 import {
+  formatDurationToInlineTime,
   isInactiveTimeEntry,
   timeEntryDuration,
 } from 'features/timer/utils/time-entries-utils'
@@ -23,10 +18,9 @@ import { nanoid } from 'nanoid'
 import { FC } from 'react'
 import styled from 'styled-components'
 import { invariant } from 'utils/invariant'
-import { numberPad } from 'utils/number'
 import {
-  ReportedDays,
   ReportedDay,
+  ReportedDays,
   TimeEntryRowData,
 } from '../components/ReportedDays'
 import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
@@ -44,7 +38,7 @@ function createViewTimeEntry(timeEntry: InactiveTimeEntry): TimeEntryRowData {
     task: timeEntry.task?.name || undefined,
     start: new Date(timeEntry.timeInterval.start),
     end: new Date(timeEntry.timeInterval.end),
-    duration: pipe(timeEntry, timeEntryDuration, formatDurationToInlineTime),
+    duration: pipe(timeEntry, timeEntryDuration),
   }
 }
 
@@ -66,13 +60,6 @@ function getTimeEntriesByDate(predicate: (date: Date) => boolean) {
         flow(({ timeInterval }) => new Date(timeInterval.start), predicate),
       ),
     )
-}
-
-function formatDurationToInlineTime(duration: number): string {
-  const hours = secondsToHours(duration)
-  const minutes = secondsToMinutes(duration - hoursToSeconds(hours))
-  const seconds = duration - hoursToSeconds(hours) - minutesToSeconds(minutes)
-  return `${hours}:${numberPad(minutes)}:${numberPad(seconds)}`
 }
 
 function groupTimeEntriesByDate(timeEntries: InactiveTimeEntry[]) {

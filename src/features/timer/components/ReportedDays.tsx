@@ -16,7 +16,7 @@ export type TimeEntryRowData = {
   task: string | undefined
   start: Date
   end: Date
-  duration: string
+  duration: number
 }
 
 export type ReportedDay = {

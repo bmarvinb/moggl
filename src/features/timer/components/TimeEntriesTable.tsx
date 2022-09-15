@@ -2,18 +2,21 @@ import { Checkbox, IconButton } from 'components'
 import { isToday, isYesterday } from 'date-fns'
 import { TimeEntryRowData } from 'features/timer/components/ReportedDays'
 import {
+  ChildTimeEntry,
   ParentTimeEntry,
   RegularTimeEntry,
-  TimeEntryViewRow,
   TimeEntryRow,
   TimeEntryRowType,
+  TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryRow'
 import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils'
+import * as B from 'fp-ts/boolean'
 import { Eq, struct } from 'fp-ts/Eq'
 import * as A from 'fp-ts/lib/Array'
 import { pipe } from 'fp-ts/lib/function'
+import * as M from 'fp-ts/lib/Monoid'
+import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/string'
-import * as B from 'fp-ts/boolean'
 import { FC, useReducer, useState } from 'react'
 import { BiListUl } from 'react-icons/bi'
 import styled from 'styled-components/macro'
@@ -33,7 +36,7 @@ const EqTimeEntryRowData: Eq<TimeEntryRowData> = struct({
   }),
 })
 
-const List = styled.div`
+const TimeEntryTable = styled.div`
   margin-bottom: 2rem;
   background: var(--neutral0);
   border-radius: var(--roundedMd);
@@ -127,12 +130,34 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
         A.filter(y => EqTimeEntryRowData.equals(x, y)),
       )
 
-  // TODO: calculate total duration
-  const createParentTimeEntry = (data: TimeEntryRowData): ParentTimeEntry => ({
-    type: TimeEntryRowType.Parent,
+  const createChild = (data: TimeEntryRowData): ChildTimeEntry => ({
+    type: TimeEntryRowType.Child,
     data,
-    children: pipe(data, restTimeEntries, getParentChildren(data)),
   })
+
+  const createParentTimeEntry = (data: TimeEntryRowData): ParentTimeEntry => {
+    const children = [
+      createChild(data),
+      ...pipe(
+        data,
+        restTimeEntries,
+        getParentChildren(data),
+        A.map(createChild),
+      ),
+    ]
+    return {
+      type: TimeEntryRowType.Parent,
+      data: {
+        ...data,
+        duration: pipe(
+          children,
+          A.map(({ data }) => data.duration),
+          M.concatAll(N.MonoidSum),
+        ),
+      },
+      children,
+    }
+  }
 
   const createRegularTimeEntry = (
     data: TimeEntryRowData,
@@ -152,7 +177,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     (xs: ParentTimeEntry[]): boolean =>
       pipe(
         xs,
-        A.some(y => y.children.some(child => child.id === x.id)),
+        A.some(y => y.children.some(({ data }) => data.id === x.id)),
       )
 
   const timeEntries = pipe(
@@ -169,7 +194,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   )
 
   return (
-    <List>
+    <TimeEntryTable>
       <Header>
         <div
           css={`
@@ -215,6 +240,6 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
           onCheckedChange={onTimeEntryCheckedChange}
         />
       ))}
-    </List>
+    </TimeEntryTable>
   )
 }

@@ -1,15 +1,23 @@
-import { differenceInSeconds } from 'date-fns'
+import {
+  differenceInSeconds,
+  hoursToSeconds,
+  minutesToSeconds,
+  secondsToHours,
+  secondsToMinutes,
+} from 'date-fns'
 import {
   ParentTimeEntry,
   TimeEntryRowType,
   TimeEntryViewRow,
   RegularTimeEntry,
+  ChildTimeEntry,
 } from 'features/timer/components/TimeEntryRow'
 import {
   ActiveTimeEntry,
   InactiveTimeEntry,
   TimeEntry,
 } from 'features/timer/services/time-entries'
+import { numberPad } from 'utils/number'
 
 export function isInactiveTimeEntry(x: TimeEntry): x is InactiveTimeEntry {
   return Boolean(x.projectId) && Boolean(x.timeInterval.end)
@@ -27,9 +35,20 @@ export function isParentTimeEntry(x: TimeEntryViewRow): x is ParentTimeEntry {
   return x.type === TimeEntryRowType.Parent
 }
 
+export function isChildTimeEntry(x: TimeEntryViewRow): x is ChildTimeEntry {
+  return x.type === TimeEntryRowType.Child
+}
+
 export function timeEntryDuration({ timeInterval }: InactiveTimeEntry): number {
   return differenceInSeconds(
     new Date(timeInterval.end),
     new Date(timeInterval.start),
   )
+}
+
+export function formatDurationToInlineTime(duration: number): string {
+  const hours = secondsToHours(duration)
+  const minutes = secondsToMinutes(duration - hoursToSeconds(hours))
+  const seconds = duration - hoursToSeconds(hours) - minutesToSeconds(minutes)
+  return `${hours}:${numberPad(minutes)}:${numberPad(seconds)}`
 }
