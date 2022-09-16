@@ -11,6 +11,7 @@ import {
   TimeEntryRowViewModel,
 } from 'features/timer/components/TimeEntryRow'
 import {
+  activeTimeEntryDuration,
   formatDurationToInlineTime,
   isParentTimeEntry,
 } from 'features/timer/utils/time-entries-utils'
@@ -21,17 +22,18 @@ import { pipe } from 'fp-ts/lib/function'
 import * as M from 'fp-ts/lib/Monoid'
 import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/string'
-import { FC, useReducer, useState } from 'react'
+import { FC, useEffect, useReducer, useState } from 'react'
 import { BiListUl } from 'react-icons/bi'
 import styled from 'styled-components/macro'
 
 export type TimeEntriesTableProps = {
   data: TimeEntryViewModel[]
   date: Date
-  totalTime: number
+  reportedTime: number
+  activeTimeEntryStart: Date | undefined
 }
 
-// TODO: compare optionals task, clientName
+// TODO: compare task, clientName, tags, billable status
 const EqTimeEntryViewModel: Eq<TimeEntryViewModel> = struct({
   description: S.Eq,
   billable: B.Eq,
@@ -72,6 +74,22 @@ function formatDate(date: Date): string {
 export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   const [bulkEditMode, toggleBulkEditMode] = useReducer(state => !state, false)
   const [checkedIds, setCheckedIds] = useState<string[]>([])
+  const [totalTime, setTotalTime] = useState<number>(
+    props.reportedTime + activeTimeEntryDuration(props.activeTimeEntryStart),
+  )
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTotalTime(
+        props.reportedTime +
+          activeTimeEntryDuration(props.activeTimeEntryStart),
+      )
+    }, 1000)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [props.activeTimeEntryStart, props.reportedTime])
 
   const allRowsChecked = checkedIds.length === props.data.length
 
@@ -99,13 +117,10 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   }
 
   const onTimeEntryCheckedChange = (id: string) => {
-    pipe(
-      () =>
-        checkedIds.includes(id)
-          ? checkedIds.filter(checkedId => checkedId !== id)
-          : checkedIds.concat([id]),
-      setCheckedIds,
-    )
+    const ids = checkedIds.includes(id)
+      ? checkedIds.filter(checkedId => checkedId !== id)
+      : checkedIds.concat([id])
+    setCheckedIds(ids)
   }
 
   const restTimeEntries = (x: TimeEntryViewModel) =>
@@ -185,6 +200,8 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     }),
   )
 
+  console.log('render table, date: ', props.date)
+
   return (
     <TimeEntryTable>
       <div
@@ -223,7 +240,9 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
                 color: var(--neutral7);
               `}
             >
-              {formatDurationToInlineTime(props.totalTime)}
+              {isToday(props.date)
+                ? formatDurationToInlineTime(totalTime)
+                : formatDurationToInlineTime(props.reportedTime)}
             </div>
           </Label>
         </div>

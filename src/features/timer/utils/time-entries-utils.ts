@@ -26,7 +26,7 @@ export function isInactiveTimeEntry(x: TimeEntry): x is InactiveTimeEntry {
 }
 
 export function isActiveTimeEntry(x: TimeEntry): x is ActiveTimeEntry {
-  return isInactiveTimeEntry(x)
+  return !isInactiveTimeEntry(x)
 }
 
 export function isRegularTimeEntry(
@@ -78,3 +78,10 @@ export function formatTimEntryInfo(timeEntry: TimeEntryViewModel): string {
   }
   return `${project.name}`
 }
+
+export const activeTimeEntryDuration = (
+  activeTimeEntryStart: Date | undefined,
+) =>
+  activeTimeEntryStart
+    ? differenceInSeconds(new Date(), activeTimeEntryStart)
+    : 0

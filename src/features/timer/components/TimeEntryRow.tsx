@@ -1,4 +1,4 @@
-import { Checkbox, IconButton } from 'components'
+import { Button, Checkbox, IconButton } from 'components'
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import {
   formatDurationToInlineTime,
@@ -86,30 +86,26 @@ const AdditionalInfo = styled.div<{ $color: string }>`
   }
 `
 
-const RoundedButton = styled.button`
-  margin-right: 1rem;
-  display: flex;
-  align-items: center;
-  padding: 0.25rem;
-  border: 1px solid var(--neutral7);
-  background: transparent;
+const RoundedButton = styled(Button)`
   border-radius: 100%;
+  background: transparent;
+  color: var(--neutral8);
+  padding: 0.25rem;
   min-width: 2rem;
-  min-height: 2rem;
-  justify-content: center;
-  text-align: center;
+  height: 2rem;
+  border: 1px solid var(--neutral6);
   margin: auto;
   margin-right: 1rem;
-  font-size: var(--fontSizeSm);
 
   &:hover {
-    border-color: var(--primary4);
+    background: transparent;
+    border-color: var(--primary3);
     color: var(--primary4);
-    cursor: pointer;
   }
 
   &:active {
-    border-color: var(--primary5);
+    background: transparent;
+    border-color: var(--primary4);
     color: var(--primary5);
   }
 `

@@ -5,16 +5,19 @@ import { isSameDay, isSameWeek } from 'date-fns/fp'
 import { useTimeEntries } from 'features/timer/hooks/useTimeEntries'
 import { InactiveTimeEntry } from 'features/timer/services/time-entries'
 import {
+  isActiveTimeEntry,
   isInactiveTimeEntry,
   timeEntryDuration,
 } from 'features/timer/utils/time-entries-utils'
 import * as A from 'fp-ts/lib/Array'
-import { flow, pipe } from 'fp-ts/lib/function'
+import { constUndefined, flow, pipe } from 'fp-ts/lib/function'
 import * as M from 'fp-ts/lib/Monoid'
 import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/lib/string'
+import * as O from 'fp-ts/Option'
 import { nanoid } from 'nanoid'
 import { FC } from 'react'
+import 'styled-components/macro'
 import { invariant } from 'utils/invariant'
 import {
   ReportedDay,
@@ -22,7 +25,6 @@ import {
   TimeEntryViewModel,
 } from '../components/ReportedDays'
 import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
-import 'styled-components/macro'
 
 function createViewTimeEntry(timeEntry: InactiveTimeEntry): TimeEntryViewModel {
   return {
@@ -68,7 +70,7 @@ function groupTimeEntriesByDate(timeEntries: InactiveTimeEntry[]) {
       A.map(date => ({
         id: nanoid(),
         date: new Date(date),
-        totalTime: pipe(
+        reportedTime: pipe(
           timeEntries,
           filterTimeEntriesByDate(new Date(date)),
           calculateTimeEntriesTotalDuration,
@@ -121,14 +123,26 @@ export const TimeEntries: FC = () => {
         timeEntries,
         A.filter(isInactiveTimeEntry),
       )
-      const weekTimeEnties = pipe(
+      const activeTimeEntry = pipe(
+        timeEntries,
+        A.filter(isActiveTimeEntry),
+        A.lookup(0),
+      )
+      const activeTimeEntryStart = pipe(
+        activeTimeEntry,
+        O.map(({ timeInterval }) => new Date(timeInterval.start)),
+        O.getOrElseW(constUndefined),
+      )
+
+      const weekTimeEntries = pipe(
         inactiveTimeEntries,
         getTimeEntriesByDate(isSameWeek(new Date())),
       )
       const weekTotalDuration = pipe(
-        weekTimeEnties,
+        weekTimeEntries,
         calculateTimeEntriesTotalDuration,
       )
+
       const reportedDays = getReportedDays(inactiveTimeEntries)
       return (
         <div
@@ -138,8 +152,14 @@ export const TimeEntries: FC = () => {
             padding: 0 1rem 1rem;
           `}
         >
-          <TimeEntriesHeader weekTotalDuration={weekTotalDuration} />
-          <ReportedDays reportedDays={reportedDays} />
+          <TimeEntriesHeader
+            weekTotalDuration={weekTotalDuration}
+            activeTimeEntryStart={activeTimeEntryStart}
+          />
+          <ReportedDays
+            reportedDays={reportedDays}
+            activeTimeEntryStart={activeTimeEntryStart}
+          />
         </div>
       )
   }
