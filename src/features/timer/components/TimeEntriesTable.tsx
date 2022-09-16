@@ -45,6 +45,10 @@ const TimeEntryTable = styled.div`
   background: var(--neutral0);
   border-radius: var(--roundedMd);
   box-shadow: var(--shadowSm);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 `
 
 const Label = styled.div`

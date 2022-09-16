@@ -22,6 +22,7 @@ import {
   TimeEntryViewModel,
 } from '../components/ReportedDays'
 import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
+import 'styled-components/macro'
 
 function createViewTimeEntry(timeEntry: InactiveTimeEntry): TimeEntryViewModel {
   return {
@@ -134,6 +135,7 @@ export const TimeEntries: FC = () => {
           css={`
             min-height: 100%;
             background: var(--neutral1);
+            padding: 0 1rem 1rem;
           `}
         >
           <TimeEntriesHeader weekTotalDuration={weekTotalDuration} />
