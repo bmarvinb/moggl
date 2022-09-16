@@ -28,7 +28,7 @@ export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
         css={`
           display: flex;
           justify-content: space-between;
-          padding: 1rem;
+          padding: 1rem 0;
         `}
       >
         <Title>

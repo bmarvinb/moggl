@@ -86,6 +86,34 @@ const AdditionalInfo = styled.div<{ $color: string }>`
   }
 `
 
+const RoundedButton = styled.button`
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  border: 1px solid var(--neutral7);
+  background: transparent;
+  border-radius: 100%;
+  min-width: 2rem;
+  min-height: 2rem;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  margin-right: 1rem;
+  font-size: var(--fontSizeSm);
+
+  &:hover {
+    border-color: var(--primary4);
+    color: var(--primary4);
+    cursor: pointer;
+  }
+
+  &:active {
+    border-color: var(--primary5);
+    color: var(--primary5);
+  }
+`
+
 export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
   return (
     <>
@@ -112,35 +140,14 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
             </div>
           )}
           {isParentTimeEntry(props.data) && (
-            <div
+            <RoundedButton
               onClick={() =>
                 props.onExpandedClicked && props.onExpandedClicked()
               }
-              role="button"
               aria-label="expand"
-              css={`
-                margin-right: 1rem;
-                display: flex;
-                align-items: center;
-                padding: 0.25rem;
-                border: 1px solid var(--neutral7);
-                border-radius: 100%;
-                min-width: 2rem;
-                min-height: 2rem;
-                justify-content: center;
-                text-align: center;
-                margin: auto;
-                margin-right: 1rem;
-                font-size: var(--fontSizeSm);
-                &:hover {
-                  border-color: var(--primary4);
-                  color: var(--primary4);
-                  cursor: pointer;
-                }
-              `}
             >
               {props.data.children.length}
-            </div>
+            </RoundedButton>
           )}
           <div
             css={`
