@@ -1,13 +1,13 @@
 import { Checkbox, IconButton } from 'components'
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import {
-  formatTimEntryInfo,
-  formatTimeEntryDate,
   formatDurationToInlineTime,
+  formatTimeEntryDate,
+  formatTimEntryInfo,
   isChildTimeEntry,
   isParentTimeEntry,
 } from 'features/timer/utils/time-entries-utils'
-import { FC, useReducer } from 'react'
+import { FC } from 'react'
 import {
   BiDollar,
   BiDotsVerticalRounded,
@@ -49,6 +49,7 @@ export type TimeEntryRowProps = {
   edit: boolean
   checked: boolean
   onCheckedChange: (timeEntryId: string) => void
+  onExpandedClicked?: () => void
 }
 
 const TimeEntryItem = styled.div`
@@ -86,8 +87,6 @@ const AdditionalInfo = styled.div<{ $color: string }>`
 `
 
 export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
-  const [expanded, toggleExpanded] = useReducer(state => !state, false)
-
   return (
     <>
       <TimeEntryItem key={props.data.data.id}>
@@ -114,7 +113,9 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
           )}
           {isParentTimeEntry(props.data) && (
             <div
-              onClick={toggleExpanded}
+              onClick={() =>
+                props.onExpandedClicked && props.onExpandedClicked()
+              }
               role="button"
               aria-label="expand"
               css={`
@@ -224,18 +225,6 @@ export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
           </div>
         </div>
       </TimeEntryItem>
-
-      {expanded &&
-        isParentTimeEntry(props.data) &&
-        props.data.children.map(child => (
-          <TimeEntryRow
-            key={child.data.id}
-            data={child}
-            edit={props.edit}
-            checked={false}
-            onCheckedChange={() => {}}
-          />
-        ))}
     </>
   )
 }

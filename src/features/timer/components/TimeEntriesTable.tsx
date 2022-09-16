@@ -1,5 +1,6 @@
 import { Checkbox, IconButton } from 'components'
 import { isToday, isYesterday } from 'date-fns'
+import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow'
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import {
   ChildTimeEntry,
@@ -65,32 +66,42 @@ function formatDate(date: Date): string {
 }
 
 export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
-  const [bulkEditEnabled, toggleBulkEditEnabled] = useReducer(
-    state => !state,
-    false,
-  )
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [bulkEditMode, toggleBulkEditMode] = useReducer(state => !state, false)
+  const [checkedIds, setCheckedIds] = useState<string[]>([])
 
-  const allChecked = selectedIds.length === props.data.length
+  const allRowsChecked = checkedIds.length === props.data.length
 
-  const ids = props.data.map(({ id }) => id)
-
-  const onBulkSelectionToggleChanged = () => {
-    allChecked ? setSelectedIds([]) : setSelectedIds(ids)
+  const onBulkModeChanged = () => {
+    setCheckedIds(allRowsChecked ? [] : props.data.map(({ id }) => id))
   }
 
   const onToggleClicked = () => {
-    toggleBulkEditEnabled()
-    setSelectedIds([])
+    toggleBulkEditMode()
+    setCheckedIds([])
   }
 
-  const isTimeEntryRowChecked = (id: string) => selectedIds.includes(id)
+  const isTimeEntryRowChecked = (id: string) => checkedIds.includes(id)
+
+  const onParentTimeEntryCheckedChange = ([addedIds, removedIds]: [
+    string[],
+    string[],
+  ]) => {
+    pipe(
+      checkedIds,
+      A.filter(id => !removedIds.includes(id)),
+      A.concat(addedIds),
+      setCheckedIds,
+    )
+  }
 
   const onTimeEntryCheckedChange = (id: string) => {
-    const updated = selectedIds.includes(id)
-      ? selectedIds.filter(selectedId => selectedId !== id)
-      : [...selectedIds, id]
-    setSelectedIds(updated)
+    pipe(
+      () =>
+        checkedIds.includes(id)
+          ? checkedIds.filter(checkedId => checkedId !== id)
+          : checkedIds.concat([id]),
+      setCheckedIds,
+    )
   }
 
   const restTimeEntries = (x: TimeEntryViewModel) =>
@@ -185,16 +196,13 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
             align-items: center;
           `}
         >
-          {bulkEditEnabled && (
+          {bulkEditMode && (
             <div
               css={`
                 margin-right: 1rem;
               `}
             >
-              <Checkbox
-                onChange={onBulkSelectionToggleChanged}
-                checked={allChecked}
-              />
+              <Checkbox onChange={onBulkModeChanged} checked={allRowsChecked} />
             </div>
           )}
           <Label>
@@ -217,7 +225,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
         </div>
         <Label>
           <IconButton
-            $active={bulkEditEnabled}
+            $active={bulkEditMode}
             aria-label="toggle"
             onClick={onToggleClicked}
             css={`
@@ -228,15 +236,25 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
           </IconButton>
         </Label>
       </div>
-      {timeEntries.map(timeEntry => (
-        <TimeEntryRow
-          key={timeEntry.data.id}
-          data={timeEntry}
-          edit={bulkEditEnabled}
-          checked={isTimeEntryRowChecked(timeEntry.data.id)}
-          onCheckedChange={onTimeEntryCheckedChange}
-        />
-      ))}
+      {timeEntries.map(timeEntry => {
+        return isParentTimeEntry(timeEntry) ? (
+          <ParentTimeEntryRow
+            key={timeEntry.data.id}
+            data={timeEntry}
+            edit={bulkEditMode}
+            checkedIds={checkedIds}
+            onParentCheckedChange={onParentTimeEntryCheckedChange}
+          />
+        ) : (
+          <TimeEntryRow
+            key={timeEntry.data.id}
+            data={timeEntry}
+            edit={bulkEditMode}
+            checked={isTimeEntryRowChecked(timeEntry.data.id)}
+            onCheckedChange={onTimeEntryCheckedChange}
+          />
+        )
+      })}
     </TimeEntryTable>
   )
 }
