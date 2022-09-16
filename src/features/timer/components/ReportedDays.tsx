@@ -1,51 +1,51 @@
 import { TimeEntriesTable } from 'features/timer/components/TimeEntriesTable'
 import { FC } from 'react'
-import styled from 'styled-components/macro'
 
-export type TimeEntryRowData = {
+export type TimeEntryRowProject = {
+  name: string
+  color: string
+  clientName: string | undefined
+}
+
+export type TimeEntryViewModel = {
   id: string
   description: string
-  project: {
-    name: string
-    color: string
-    clientName: string | undefined
-  }
+  billable: boolean
+  project: TimeEntryRowProject
   task: string | undefined
   start: Date
   end: Date
-  duration: string
+  duration: number
 }
 
 export type ReportedDay = {
   id: string
   date: Date
-  totalTime: string
-  timeEntries: TimeEntryRowData[]
+  totalTime: number
+  data: TimeEntryViewModel[]
 }
 
 export type ReportedDaysProps = {
   reportedDays: ReportedDay[]
 }
 
-const Container = styled.div`
-  padding: 0 1rem;
-  color: var(--neutral9);
-  padding-bottom: 2rem;
-`
-
 export const ReportedDays: FC<ReportedDaysProps> = props => {
-  console.log('page render')
-
   return (
-    <Container>
-      {props.reportedDays.map(({ id, date, totalTime, timeEntries }) => (
+    <div
+      css={`
+        padding: 0 1rem;
+        color: var(--neutral9);
+        padding-bottom: 2rem;
+      `}
+    >
+      {props.reportedDays.map(({ id, date, totalTime, data: timeEntries }) => (
         <TimeEntriesTable
           key={id}
           date={date}
           totalTime={totalTime}
-          timeEntries={timeEntries}
+          data={timeEntries}
         />
       ))}
-    </Container>
+    </div>
   )
 }

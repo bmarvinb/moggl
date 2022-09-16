@@ -1,6 +1,12 @@
 import { Checkbox, IconButton } from 'components'
-import { format } from 'date-fns'
-import { TimeEntryRowData } from 'features/timer/components/ReportedDays'
+import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
+import {
+  formatDurationToInlineTime,
+  formatTimeEntryDate,
+  formatTimEntryInfo,
+  isChildTimeEntry,
+  isParentTimeEntry,
+} from 'features/timer/utils/time-entries-utils'
 import { FC } from 'react'
 import {
   BiDollar,
@@ -9,13 +15,41 @@ import {
   BiPurchaseTag,
 } from 'react-icons/bi'
 import styled from 'styled-components/macro'
-import { screen } from 'theme/index'
+
+export const enum TimeEntryRowType {
+  Regular = 'Regular',
+  Parent = 'Parent',
+  Child = 'Child',
+}
+
+type Common = {
+  data: TimeEntryViewModel
+}
+
+export type ParentTimeEntry = Common & {
+  type: TimeEntryRowType.Parent
+  children: ChildTimeEntry[]
+}
+
+export type RegularTimeEntry = Common & {
+  type: TimeEntryRowType.Regular
+}
+
+export type ChildTimeEntry = Common & {
+  type: TimeEntryRowType.Child
+}
+
+export type TimeEntryRowViewModel =
+  | RegularTimeEntry
+  | ParentTimeEntry
+  | ChildTimeEntry
 
 export type TimeEntryRowProps = {
-  timeEntry: TimeEntryRowData
+  data: TimeEntryRowViewModel
   edit: boolean
   checked: boolean
   onCheckedChange: (timeEntryId: string) => void
+  onExpandedClicked?: () => void
 }
 
 const TimeEntryItem = styled.div`
@@ -39,9 +73,6 @@ const AdditionalInfo = styled.div<{ $color: string }>`
   color: ${props => props.$color};
   padding-left: 0.75rem;
   font-size: var(--fontSizeSm);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 
   &:before {
     position: absolute;
@@ -55,135 +86,145 @@ const AdditionalInfo = styled.div<{ $color: string }>`
   }
 `
 
-const Date = styled.div`
-  display: none;
-`
-
-const TagIcon = styled(BiPurchaseTag)`
-  font-size: var(--fontSizeLg);
-  line-height: var(--lineHeightLg);
-`
-
-const BillableIcon = styled(BiDollar)`
-  font-size: var(--fontSizeLg);
-  line-height: var(--lineHeightLg);
-`
-
-const PlayIcon = styled(BiPlay)`
-  font-size: var(--fontSizeXl);
-`
-
-const DotsIcon = styled(BiDotsVerticalRounded)`
-  font-size: var(--fontSizeXl);
-`
-
-const Duration = styled.div`
-  font-weight: 500;
-  line-height: var(--lineHeightLg);
-`
-
-function formatDate(timeEntry: TimeEntryRowData): string {
-  return `${format(timeEntry.start, 'p')} - ${format(timeEntry.end, 'p')}`
-}
-
-function formatAdditionalInfo(timeEntry: TimeEntryRowData): string {
-  const { task, project } = timeEntry
-  if (task && project.clientName) {
-    return `${project.name}: ${task}, ${project.clientName}`
-  }
-  if (task) {
-    return `${project.name}: ${task}`
-  }
-  if (project.clientName) {
-    return `${project.name}, ${project.clientName}`
-  }
-  return `${project.name}`
-}
-
 export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
-  console.log('row render')
-
   return (
-    <TimeEntryItem key={props.timeEntry.id}>
-      {props.edit && (
+    <>
+      <TimeEntryItem key={props.data.data.id}>
         <div
           css={`
-            margin-right: 1rem;
             display: flex;
-            align-items: center;
+            flex-direction: row;
+            padding-right: 0.5rem;
           `}
         >
-          <Checkbox
-            checked={props.checked}
-            onChange={() => props.onCheckedChange(props.timeEntry.id)}
-          />
+          {props.edit && (
+            <div
+              css={`
+                margin-right: 1rem;
+                display: flex;
+                align-items: center;
+              `}
+            >
+              <Checkbox
+                checked={props.checked}
+                onChange={() => props.onCheckedChange(props.data.data.id)}
+              />
+            </div>
+          )}
+          {isParentTimeEntry(props.data) && (
+            <div
+              onClick={() =>
+                props.onExpandedClicked && props.onExpandedClicked()
+              }
+              role="button"
+              aria-label="expand"
+              css={`
+                margin-right: 1rem;
+                display: flex;
+                align-items: center;
+                padding: 0.25rem;
+                border: 1px solid var(--neutral7);
+                border-radius: 100%;
+                min-width: 2rem;
+                min-height: 2rem;
+                justify-content: center;
+                text-align: center;
+                margin: auto;
+                margin-right: 1rem;
+                font-size: var(--fontSizeSm);
+                &:hover {
+                  border-color: var(--primary4);
+                  color: var(--primary4);
+                  cursor: pointer;
+                }
+              `}
+            >
+              {props.data.children.length}
+            </div>
+          )}
+          <div
+            css={`
+              display: flex;
+              flex-direction: column;
+              padding-left: ${isChildTimeEntry(props.data) ? '3rem' : '0'};
+            `}
+          >
+            <Description $empty={props.data.data.description.length === 0}>
+              {props.data.data.description || 'Add description'}
+            </Description>
+            <AdditionalInfo $color={props.data.data.project.color}>
+              {formatTimEntryInfo(props.data.data)}
+            </AdditionalInfo>
+          </div>
         </div>
-      )}
-      <div
-        css={`
-          width: 50%;
+        <div>
+          <div
+            css={`
+              display: grid;
+              grid-template-columns: 2rem 2rem 1fr;
+              grid-column-gap: 0.25rem;
+            `}
+          >
+            <IconButton
+              aria-label="tags"
+              css={`
+                font-size: var(--fontSizeLg);
+              `}
+            >
+              <BiPurchaseTag title="Tags" />
+            </IconButton>
+            <IconButton
+              aria-label="billable"
+              css={`
+                font-size: var(--fontSizeLg);
+              `}
+            >
+              <BiDollar title="Billable" />
+            </IconButton>
+            <div
+              css={`
+                display: none;
+              `}
+            >
+              {formatTimeEntryDate(props.data.data)}
+            </div>
+            <div
+              css={`
+                font-weight: 500;
+                line-height: var(--lineHeightLg);
+              `}
+            >
+              {formatDurationToInlineTime(props.data.data.duration)}
+            </div>
+          </div>
 
-          @media ${screen.xs} {
-            width: 60%;
-          }
-        `}
-      >
-        <Description $empty={props.timeEntry.description.length === 0}>
-          {props.timeEntry.description || 'Add description'}
-        </Description>
-        <AdditionalInfo $color={props.timeEntry.project.color}>
-          {formatAdditionalInfo(props.timeEntry)}
-        </AdditionalInfo>
-      </div>
-      <div>
-        <div
-          css={`
-            display: flex;
-            margin-bottom: 0.5rem;
-            align-items: center;
-            justify-content: right;
-          `}
-        >
-          <IconButton
-            aria-label="tags"
+          <div
             css={`
-              margin-right: 0.5rem;
+              display: flex;
+              justify-content: right;
+              position: relative;
             `}
           >
-            <TagIcon />
-          </IconButton>
-          <IconButton
-            aria-label="billable"
-            css={`
-              margin-right: 0.5rem;
-            `}
-          >
-            <BillableIcon />
-          </IconButton>
-          <Date>{formatDate(props.timeEntry)}</Date>
-          <Duration>{props.timeEntry.duration}</Duration>
+            <IconButton
+              aria-label="start"
+              css={`
+                margin-right: 0.5rem;
+                font-size: var(--fontSizeXl);
+              `}
+            >
+              <BiPlay title="Play" />
+            </IconButton>
+            <IconButton
+              aria-label="actions"
+              css={`
+                font-size: var(--fontSizeXl);
+              `}
+            >
+              <BiDotsVerticalRounded title="Actions" />
+            </IconButton>
+          </div>
         </div>
-
-        <div
-          css={`
-            display: flex;
-            justify-content: right;
-            position: relative;
-          `}
-        >
-          <IconButton
-            aria-label="start"
-            css={`
-              margin-right: 0.5rem;
-            `}
-          >
-            <PlayIcon />
-          </IconButton>
-          <IconButton aria-label="actions">
-            <DotsIcon />
-          </IconButton>
-        </div>
-      </div>
-    </TimeEntryItem>
+      </TimeEntryItem>
+    </>
   )
 }
