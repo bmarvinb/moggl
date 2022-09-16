@@ -1,18 +1,16 @@
-import { Checkbox, IconButton } from 'components'
-import { isToday, isYesterday } from 'date-fns'
 import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow'
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
+import { TimeEntriesTableView } from 'features/timer/components/TimeEntriesTableView'
 import {
   ChildTimeEntry,
   ParentTimeEntry,
   RegularTimeEntry,
-  TimeEntryRow,
+  TimeEntryViewRow,
   TimeEntryRowType,
   TimeEntryRowViewModel,
-} from 'features/timer/components/TimeEntryRow'
+} from 'features/timer/components/TimeEntryViewRow'
 import {
   activeTimeEntryDuration,
-  formatDurationToInlineTime,
   isParentTimeEntry,
 } from 'features/timer/utils/time-entries-utils'
 import * as B from 'fp-ts/boolean'
@@ -23,8 +21,6 @@ import * as M from 'fp-ts/lib/Monoid'
 import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/string'
 import { FC, useEffect, useReducer, useState } from 'react'
-import { BiListUl } from 'react-icons/bi'
-import styled from 'styled-components/macro'
 
 export type TimeEntriesTableProps = {
   data: TimeEntryViewModel[]
@@ -41,35 +37,6 @@ const EqTimeEntryViewModel: Eq<TimeEntryViewModel> = struct({
     name: S.Eq,
   }),
 })
-
-const TimeEntryTable = styled.div`
-  margin-bottom: 2rem;
-  background: var(--neutral0);
-  border-radius: var(--roundedMd);
-  box-shadow: var(--shadowSm);
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`
-
-const Label = styled.div`
-  font-size: var(--fontLg);
-  line-height: var(--lineHeightLg);
-  display: flex;
-  align-items: center;
-  font-weight: 500;
-`
-
-function formatDate(date: Date): string {
-  if (isToday(date)) {
-    return 'Today'
-  }
-  if (isYesterday(date)) {
-    return 'Yesterday'
-  }
-  return date.toLocaleDateString()
-}
 
 export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   const [bulkEditMode, toggleBulkEditMode] = useReducer(state => !state, false)
@@ -200,67 +167,18 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     }),
   )
 
-  console.log('render table, date: ', props.date)
-
   return (
-    <TimeEntryTable>
-      <div
-        css={`
-          display: flex;
-          justify-content: space-between;
-          padding: 0.75rem 1rem;
-        `}
-      >
-        <div
-          css={`
-            display: flex;
-            align-items: center;
-          `}
-        >
-          {bulkEditMode && (
-            <div
-              css={`
-                margin-right: 1rem;
-              `}
-            >
-              <Checkbox onChange={onBulkModeChanged} checked={allRowsChecked} />
-            </div>
-          )}
-          <Label>
-            <div
-              css={`
-                margin-right: 0.25rem;
-              `}
-            >
-              {formatDate(props.date)}
-            </div>
-            <div
-              css={`
-                font-weight: 400;
-                color: var(--neutral7);
-              `}
-            >
-              {isToday(props.date)
-                ? formatDurationToInlineTime(totalTime)
-                : formatDurationToInlineTime(props.reportedTime)}
-            </div>
-          </Label>
-        </div>
-        <Label>
-          <IconButton
-            $active={bulkEditMode}
-            aria-label="toggle"
-            onClick={onToggleClicked}
-            css={`
-              font-size: var(--fontSizeLg);
-            `}
-          >
-            <BiListUl title="Toggle" />
-          </IconButton>
-        </Label>
-      </div>
-      {timeEntries.map(timeEntry => {
-        return isParentTimeEntry(timeEntry) ? (
+    <TimeEntriesTableView
+      bulkEditMode={bulkEditMode}
+      allRowsChecked={allRowsChecked}
+      totalTime={totalTime}
+      reportedTime={props.reportedTime}
+      date={props.date}
+      onBulkModeChanged={onBulkModeChanged}
+      onToggleClicked={onToggleClicked}
+    >
+      {timeEntries.map(timeEntry =>
+        isParentTimeEntry(timeEntry) ? (
           <ParentTimeEntryRow
             key={timeEntry.data.id}
             data={timeEntry}
@@ -269,15 +187,15 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
             onParentCheckedChange={onParentTimeEntryCheckedChange}
           />
         ) : (
-          <TimeEntryRow
+          <TimeEntryViewRow
             key={timeEntry.data.id}
             data={timeEntry}
             edit={bulkEditMode}
             checked={isTimeEntryRowChecked(timeEntry.data.id)}
             onCheckedChange={onTimeEntryCheckedChange}
           />
-        )
-      })}
-    </TimeEntryTable>
+        ),
+      )}
+    </TimeEntriesTableView>
   )
 }

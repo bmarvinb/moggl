@@ -5,6 +5,8 @@ import {
   secondsToHours,
   secondsToMinutes,
   format,
+  isToday,
+  isYesterday,
 } from 'date-fns'
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import {
@@ -13,7 +15,7 @@ import {
   TimeEntryRowViewModel,
   RegularTimeEntry,
   ChildTimeEntry,
-} from 'features/timer/components/TimeEntryRow'
+} from 'features/timer/components/TimeEntryViewRow'
 import {
   ActiveTimeEntry,
   InactiveTimeEntry,
@@ -85,3 +87,13 @@ export const activeTimeEntryDuration = (
   activeTimeEntryStart
     ? differenceInSeconds(new Date(), activeTimeEntryStart)
     : 0
+
+export function formatDate(date: Date): string {
+  if (isToday(date)) {
+    return 'Today'
+  }
+  if (isYesterday(date)) {
+    return 'Yesterday'
+  }
+  return date.toLocaleDateString()
+}

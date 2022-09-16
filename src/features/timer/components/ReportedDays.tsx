@@ -1,5 +1,5 @@
 import { isToday } from 'date-fns'
-import { TimeEntriesTable } from 'features/timer/components/TimeEntriesTable'
+import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable'
 import { FC } from 'react'
 
 export type TimeEntryRowProject = {

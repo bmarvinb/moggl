@@ -1,7 +1,7 @@
 import {
   ParentTimeEntry,
-  TimeEntryRow,
-} from 'features/timer/components/TimeEntryRow'
+  TimeEntryViewRow,
+} from 'features/timer/components/TimeEntryViewRow'
 import { FC, useReducer } from 'react'
 
 export type ParentTimeEntryRowProps = {
@@ -25,9 +25,7 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
     )
   }
 
-  const isChildChecked = (id: string) => {
-    return props.checkedIds.includes(id)
-  }
+  const isChildChecked = (id: string) => props.checkedIds.includes(id)
 
   const onChildCheckedChange = (id: string) => {
     const wasRemoved = props.checkedIds.includes(id)
@@ -36,7 +34,7 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
 
   return (
     <>
-      <TimeEntryRow
+      <TimeEntryViewRow
         data={props.data}
         edit={props.edit}
         checked={allChildrenChecked}
@@ -45,7 +43,7 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
       />
       {expanded &&
         props.data.children.map(child => (
-          <TimeEntryRow
+          <TimeEntryViewRow
             key={child.data.id}
             data={child}
             edit={props.edit}
