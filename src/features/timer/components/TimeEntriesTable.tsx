@@ -31,7 +31,7 @@ export type TimeEntriesTableProps = {
 }
 
 // TODO: compare optionals task, clientName
-const EqTimeEntryRowData: Eq<TimeEntryViewModel> = struct({
+const EqTimeEntryViewModel: Eq<TimeEntryViewModel> = struct({
   description: S.Eq,
   billable: B.Eq,
   project: struct({
@@ -104,7 +104,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     (xs: TimeEntryViewModel[]): TimeEntryViewModel[] =>
       pipe(
         xs,
-        A.filter(y => EqTimeEntryRowData.equals(x, y)),
+        A.filter(y => EqTimeEntryViewModel.equals(x, y)),
       )
 
   const createChild = (data: TimeEntryViewModel): ChildTimeEntry => ({
@@ -141,7 +141,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   const isParent = (x: TimeEntryViewModel): boolean =>
     pipe(
       restTimeEntries(x),
-      A.some(y => EqTimeEntryRowData.equals(x, y)),
+      A.some(y => EqTimeEntryViewModel.equals(x, y)),
     )
 
   const isChild =
