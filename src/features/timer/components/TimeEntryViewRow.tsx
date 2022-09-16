@@ -44,7 +44,7 @@ export type TimeEntryRowViewModel =
   | ParentTimeEntry
   | ChildTimeEntry
 
-export type TimeEntryRowProps = {
+export type TimeEntryViewRowProps = {
   data: TimeEntryRowViewModel
   edit: boolean
   checked: boolean
@@ -110,7 +110,7 @@ const RoundedButton = styled(Button)`
   }
 `
 
-export const TimeEntryRow: FC<TimeEntryRowProps> = props => {
+export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
   return (
     <>
       <TimeEntryItem key={props.data.data.id}>
