@@ -1,3 +1,4 @@
+import { isToday } from 'date-fns'
 import { TimeEntriesTable } from 'features/timer/components/TimeEntriesTable'
 import { FC } from 'react'
 
@@ -46,7 +47,9 @@ export const ReportedDays: FC<ReportedDaysProps> = props => {
             date={date}
             reportedTime={reportedTime}
             data={timeEntries}
-            activeTimeEntryStart={props.activeTimeEntryStart}
+            activeTimeEntryStart={
+              isToday(date) ? props.activeTimeEntryStart : undefined
+            }
           />
         ),
       )}
