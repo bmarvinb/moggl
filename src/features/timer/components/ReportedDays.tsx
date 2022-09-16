@@ -21,12 +21,13 @@ export type TimeEntryViewModel = {
 export type ReportedDay = {
   id: string
   date: Date
-  totalTime: number
+  reportedTime: number
   data: TimeEntryViewModel[]
 }
 
 export type ReportedDaysProps = {
   reportedDays: ReportedDay[]
+  activeTimeEntryStart: Date | undefined
 }
 
 export const ReportedDays: FC<ReportedDaysProps> = props => {
@@ -38,14 +39,17 @@ export const ReportedDays: FC<ReportedDaysProps> = props => {
         padding-bottom: 2rem;
       `}
     >
-      {props.reportedDays.map(({ id, date, totalTime, data: timeEntries }) => (
-        <TimeEntriesTable
-          key={id}
-          date={date}
-          totalTime={totalTime}
-          data={timeEntries}
-        />
-      ))}
+      {props.reportedDays.map(
+        ({ id, date, reportedTime, data: timeEntries }) => (
+          <TimeEntriesTable
+            key={id}
+            date={date}
+            reportedTime={reportedTime}
+            data={timeEntries}
+            activeTimeEntryStart={props.activeTimeEntryStart}
+          />
+        ),
+      )}
     </div>
   )
 }
