@@ -129,10 +129,6 @@ export const TimeEntries: FC = () => {
         timeEntries,
         A.filter(isActiveTimeEntry),
         A.lookup(0),
-      )
-      const activeTimeEntryStart = pipe(
-        activeTimeEntry,
-        O.map(({ timeInterval }) => new Date(timeInterval.start)),
         O.getOrElseW(constUndefined),
       )
 
@@ -146,17 +142,13 @@ export const TimeEntries: FC = () => {
       )
 
       const reportedDays = getReportedDays(inactiveTimeEntries)
-      const activeTimeEntryView = pipe(
-        activeTimeEntry,
-        O.getOrElseW(constUndefined),
-      )
       return (
         <div
           css={`
             background: var(--neutral1);
           `}
         >
-          <Timer activeTimeEntry={activeTimeEntryView} />
+          <Timer activeTimeEntry={activeTimeEntry} />
           <div
             css={`
               min-height: 100%;
@@ -165,11 +157,11 @@ export const TimeEntries: FC = () => {
           >
             <TimeEntriesHeader
               weekTotalDuration={weekTotalDuration}
-              activeTimeEntry={activeTimeEntryView}
+              activeTimeEntry={activeTimeEntry}
             />
             <ReportedDays
               reportedDays={reportedDays}
-              activeTimeEntry={activeTimeEntryView}
+              activeTimeEntry={activeTimeEntry}
             />
           </div>
         </div>
