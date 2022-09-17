@@ -6,7 +6,7 @@ import { BiBriefcase, BiDollar, BiPurchaseTag } from 'react-icons/bi'
 import 'styled-components/macro'
 
 export type TimerControlsProps = {
-  duration: number
+  duration: number | undefined
   onStartClicked: () => void
   onStopClicked: () => void
 }
@@ -53,10 +53,10 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             line-height: var(--lineHeightLg);
           `}
         >
-          {formatDurationToInlineTime(props.duration)}
+          {formatDurationToInlineTime(props.duration ? props.duration : 0)}
         </div>
 
-        {props.duration === 0 ? (
+        {typeof props.duration === 'undefined' ? (
           <Button
             aria-label="Start timer"
             title="Start timer"

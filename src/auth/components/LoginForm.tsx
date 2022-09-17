@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useAuthenticate } from 'auth/hooks/useAuthenticate'
+import { useMutation } from '@tanstack/react-query'
 import { Button, FieldError, FormErrorMessage, Input, Label } from 'components'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router'
 import 'styled-components/macro'
 import styled from 'styled-components/macro'
 import { screen } from 'theme'
@@ -23,7 +24,16 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 export function LoginForm() {
-  const auth = useAuthenticate()
+  const navigate = useNavigate()
+  const auth = useMutation(
+    ({ email, password }: { email: string; password: string }) =>
+      Promise.resolve({ email, password }),
+    {
+      onSuccess: () => {
+        navigate('/')
+      },
+    },
+  )
   const {
     register,
     handleSubmit,

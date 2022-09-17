@@ -40,8 +40,8 @@ const EqTimeEntryViewModel: Eq<TimeEntryViewModel> = struct({
 export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   const [bulkEditMode, toggleBulkEditMode] = useReducer(state => !state, false)
   const [checkedIds, setCheckedIds] = useState<string[]>([])
-  const duration = useActiveDuration(props.activeTimeEntry)
-  const totalTime = props.reportedTime + duration
+  const [duration] = useActiveDuration(props.activeTimeEntry)
+  const totalTime = props.reportedTime + (duration || 0)
 
   const allRowsChecked = checkedIds.length === props.data.length
 

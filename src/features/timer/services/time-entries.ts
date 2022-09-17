@@ -201,7 +201,7 @@ export type TimeEntriesRequestOptions = {
 }
 
 const timeEntriesSchema = z.array(timeEntrySchema)
-type TimeEntries = z.infer<typeof timeEntriesSchema>
+export type TimeEntries = z.infer<typeof timeEntriesSchema>
 
 export async function getTimeEntries(
   workspaceId: string,
@@ -220,7 +220,7 @@ const createdTimeEntrySchema = z.object({
   description: z.string(),
   id: z.string(),
   isLocked: z.boolean(),
-  projectId: z.string(),
+  projectId: z.string().nullable(),
   tagIds: z.array(z.string()).nullable(),
   taskId: z.string().nullable(),
   timeInterval: activeTimeEntryIntervalSchema,
@@ -245,10 +245,10 @@ export type CreateTimeEntryPayload = {
   start: string
   billable: boolean
   description: string
-  projectId: string
-  taskId: string
-  end: string
-  tagIds: string[]
+  projectId: string | undefined
+  taskId: string | undefined
+  end: string | undefined
+  tagIds: string[] | undefined
   customFields: { customFieldId: string; value: string }[]
 }
 

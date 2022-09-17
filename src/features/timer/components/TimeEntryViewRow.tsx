@@ -54,7 +54,7 @@ export type TimeEntryViewRowProps = {
 
 const TimeEntryItem = styled.div`
   display: flex;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   justify-content: space-between;
 
   &:not(:last-child) {
@@ -194,6 +194,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
             <div
               css={`
                 font-weight: 500;
+                font-size: var(--fontSizeLg);
                 line-height: var(--lineHeightLg);
               `}
             >

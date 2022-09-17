@@ -1,11 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useAuth } from 'auth/index'
 import { InlineInput } from 'components/Input'
 import { TimerControls } from 'features/timer/components/TimerControls'
 import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
-import { ActiveTimeEntry } from 'features/timer/services/time-entries'
+import {
+  ActiveTimeEntry,
+  createTimeEntry,
+  CreateTimeEntryPayload,
+  TimeEntries,
+} from 'features/timer/services/time-entries'
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import 'styled-components/macro'
+import { invariant } from 'utils/invariant'
 import { z } from 'zod'
 
 export type TimerProps = {
@@ -17,21 +25,66 @@ const schema = z.object({
   billable: z.boolean(),
   description: z.string(),
   projectId: z.string().min(1),
-  taskId: z.string(),
+  taskId: z.string().nullable(),
   end: z.string().nullable(),
   tagIds: z.array(z.string()).nullable(),
-  customFields: z
-    .array(z.object({ customFieldId: z.string(), value: z.string() }))
-    .nullable(),
+  customFields: z.array(
+    z.object({ customFieldId: z.string(), value: z.string() }),
+  ),
 })
 
 type FormValues = z.infer<typeof schema>
 
 export const Timer: FC<TimerProps> = props => {
-  const duration = useActiveDuration(props.activeTimeEntry)
+  const [duration, setDuration] = useActiveDuration(props.activeTimeEntry)
+
+  const { workspace } = useAuth()
+  invariant(workspace, 'Workspace must be provided')
+
+  const queryClient = useQueryClient()
+  const create = useMutation(
+    (payload: CreateTimeEntryPayload) => {
+      return createTimeEntry(workspace.id, payload)
+    },
+    {
+      onMutate: async timeEntry => {
+        setDuration(0)
+        const activeTimeEntry: Partial<ActiveTimeEntry> = {
+          description: timeEntry.description,
+          timeInterval: {
+            start: timeEntry.start,
+            end: null,
+            duration: null,
+          },
+        }
+        await queryClient.cancelQueries(['timeEntries'])
+        const previousTimeEntries = queryClient.getQueryData(['timeEntries'])
+        queryClient.setQueryData(['timeEntries'], timeEntries => [
+          ...(timeEntries as TimeEntries),
+          activeTimeEntry,
+        ])
+        return { previousTimeEntries }
+      },
+      onError: (_, __, context) => {
+        queryClient.setQueryData(['timeEntries'], context!.previousTimeEntries)
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries(['timeEntries'])
+      },
+    },
+  )
 
   const onStartClicked = () => {
-    console.log('start')
+    create.mutate({
+      start: new Date().toISOString(),
+      billable: false,
+      description: 'Test',
+      projectId: undefined,
+      taskId: undefined,
+      end: undefined,
+      tagIds: undefined,
+      customFields: [],
+    })
   }
 
   const onStopClicked = () => {

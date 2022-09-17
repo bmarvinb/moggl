@@ -25,7 +25,7 @@ const TotalTime = styled.span`
 `
 
 export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
-  const duration = useActiveDuration(props.activeTimeEntry)
+  const [duration] = useActiveDuration(props.activeTimeEntry)
 
   return (
     <>
@@ -38,7 +38,7 @@ export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
       >
         <Title>
           This week
-          <TotalTime>{formatDurationToInlineTime(duration)}</TotalTime>
+          <TotalTime>{formatDurationToInlineTime(duration || 0)}</TotalTime>
         </Title>
       </div>
     </>

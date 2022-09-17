@@ -28,7 +28,10 @@ export function isInactiveTimeEntry(x: TimeEntry): x is InactiveTimeEntry {
 }
 
 export function isActiveTimeEntry(x: TimeEntry): x is ActiveTimeEntry {
-  return !isInactiveTimeEntry(x)
+  return (
+    Boolean(x.timeInterval.start) &&
+    !(x.timeInterval.end && x.timeInterval.duration)
+  )
 }
 
 export function isRegularTimeEntry(
