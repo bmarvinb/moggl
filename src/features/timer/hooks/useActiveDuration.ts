@@ -17,6 +17,7 @@ export function useActiveDuration(
   const timeEntryDuration = getDuration(activeTimeEntry)
   const [duration, setDuration] = useState(timeEntryDuration)
   useEffect(() => {
+    pipe(activeTimeEntry, getDuration, setDuration)
     const interval = setInterval(
       () => pipe(activeTimeEntry, getDuration, setDuration),
       1000,
