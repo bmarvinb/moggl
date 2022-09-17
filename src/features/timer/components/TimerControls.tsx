@@ -2,7 +2,13 @@ import { Button, DangerButton } from 'components/Button'
 import { IconButton } from 'components/IconButton'
 import { formatDurationToInlineTime } from 'features/timer/utils/time-entries-utils'
 import { FC } from 'react'
-import { BiBriefcase, BiDollar, BiPurchaseTag } from 'react-icons/bi'
+import {
+  BiBriefcase,
+  BiDollar,
+  BiPlay,
+  BiPurchaseTag,
+  BiStop,
+} from 'react-icons/bi'
 import 'styled-components/macro'
 
 export type TimerControlsProps = {
@@ -61,16 +67,36 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             aria-label="Start timer"
             title="Start timer"
             onClick={() => props.onStartClicked()}
+            css={`
+              display: flex;
+              padding: 0.5rem;
+              border-radius: 100%;
+            `}
           >
-            Start
+            <BiPlay
+              css={`
+                font-size: var(--fontSizeXl);
+                line-height: var(--lineHeightXl);
+              `}
+            />
           </Button>
         ) : (
           <DangerButton
             aria-label="Stop timer"
             title="Stop timer"
-            onClick={() => props.onStartClicked()}
+            onClick={() => props.onStopClicked()}
+            css={`
+              display: flex;
+              padding: 0.5rem;
+              border-radius: 100%;
+            `}
           >
-            Stop
+            <BiStop
+              css={`
+                font-size: var(--fontSizeXl);
+                line-height: var(--lineHeightXl);
+              `}
+            />
           </DangerButton>
         )}
       </div>

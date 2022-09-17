@@ -152,6 +152,10 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     }),
   )
 
+  const onPlayClicked = (timeEntry: TimeEntryRowViewModel) => {
+    console.log('time entry', timeEntry)
+  }
+
   return (
     <TimeEntriesTableView
       bulkEditMode={bulkEditMode}
@@ -169,6 +173,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
             data={timeEntry}
             edit={bulkEditMode}
             checkedIds={checkedIds}
+            onPlayClicked={onPlayClicked}
             onParentCheckedChange={onParentTimeEntryCheckedChange}
           />
         ) : (
@@ -177,6 +182,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
             data={timeEntry}
             edit={bulkEditMode}
             checked={isTimeEntryRowChecked(timeEntry.data.id)}
+            onPlayClicked={onPlayClicked}
             onCheckedChange={onTimeEntryCheckedChange}
           />
         ),

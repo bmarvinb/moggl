@@ -66,6 +66,7 @@ export const Timer: FC<TimerProps> = props => {
         return { previousTimeEntries }
       },
       onError: (_, __, context) => {
+        setDuration(undefined)
         queryClient.setQueryData(['timeEntries'], context!.previousTimeEntries)
       },
       onSettled: () => {

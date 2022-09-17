@@ -49,6 +49,7 @@ export type TimeEntryViewRowProps = {
   edit: boolean
   checked: boolean
   onCheckedChange: (timeEntryId: string) => void
+  onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void
   onExpandedClicked?: () => void
 }
 
@@ -210,6 +211,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
             `}
           >
             <IconButton
+              onClick={() => props.onPlayClicked(props.data)}
               aria-label="Start timer"
               css={`
                 margin-right: 0.5rem;
