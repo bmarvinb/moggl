@@ -10,12 +10,24 @@ import {
   BiStop,
 } from 'react-icons/bi'
 import 'styled-components/macro'
+import styled from 'styled-components/macro'
 
 export type TimerControlsProps = {
   duration: number | undefined
   onStartClicked: () => void
   onStopClicked: () => void
 }
+
+const StartButton = styled(Button)`
+  display: flex;
+  padding: 0.5rem;
+  border-radius: 100%;
+`
+const StopButton = styled(DangerButton)`
+  display: flex;
+  padding: 0.5rem;
+  border-radius: 100%;
+`
 
 export const TimerControls: FC<TimerControlsProps> = props => {
   return (
@@ -63,15 +75,11 @@ export const TimerControls: FC<TimerControlsProps> = props => {
         </div>
 
         {typeof props.duration === 'undefined' ? (
-          <Button
+          <StartButton
             aria-label="Start timer"
             title="Start timer"
             onClick={() => props.onStartClicked()}
-            css={`
-              display: flex;
-              padding: 0.5rem;
-              border-radius: 100%;
-            `}
+            css={``}
           >
             <BiPlay
               css={`
@@ -79,17 +87,12 @@ export const TimerControls: FC<TimerControlsProps> = props => {
                 line-height: var(--lineHeightXl);
               `}
             />
-          </Button>
+          </StartButton>
         ) : (
-          <DangerButton
+          <StopButton
             aria-label="Stop timer"
             title="Stop timer"
             onClick={() => props.onStopClicked()}
-            css={`
-              display: flex;
-              padding: 0.5rem;
-              border-radius: 100%;
-            `}
           >
             <BiStop
               css={`
@@ -97,7 +100,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
                 line-height: var(--lineHeightXl);
               `}
             />
-          </DangerButton>
+          </StopButton>
         )}
       </div>
     </div>
