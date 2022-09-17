@@ -118,7 +118,7 @@ export const TimeEntries: FC = () => {
 
   const { status, data: timeEntries } = useQuery(
     ['timeEntries'],
-    () => getTimeEntries(workspace.id, user.id, { 'page-size': 50, page: 1 }),
+    () => getTimeEntries(workspace.id, user.id, { 'page-size': 100, page: 1 }),
     {
       onError: console.error,
     },
@@ -145,6 +145,7 @@ export const TimeEntries: FC = () => {
         inactiveTimeEntries,
         getTimeEntriesByDate(isSameWeek(new Date())),
       )
+
       const weekTotalDuration = pipe(
         weekTimeEntries,
         calculateTimeEntriesTotalDuration,

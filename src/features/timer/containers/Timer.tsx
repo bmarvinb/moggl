@@ -36,7 +36,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 export const Timer: FC<TimerProps> = props => {
-  const [duration, setDuration] = useActiveDuration(props.activeTimeEntry)
+  const [duration] = useActiveDuration(props.activeTimeEntry)
 
   const { workspace } = useAuth()
   invariant(workspace, 'Workspace must be provided')
@@ -48,7 +48,6 @@ export const Timer: FC<TimerProps> = props => {
     },
     {
       onMutate: async timeEntry => {
-        setDuration(0)
         const activeTimeEntry: Partial<ActiveTimeEntry> = {
           description: timeEntry.description,
           timeInterval: {
@@ -66,7 +65,6 @@ export const Timer: FC<TimerProps> = props => {
         return { previousTimeEntries }
       },
       onError: (_, __, context) => {
-        setDuration(undefined)
         queryClient.setQueryData(['timeEntries'], context!.previousTimeEntries)
       },
       onSettled: () => {
