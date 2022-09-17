@@ -140,7 +140,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               onClick={() =>
                 props.onExpandedClicked && props.onExpandedClicked()
               }
-              aria-label="expand"
+              aria-label="Expand time entries"
             >
               {props.data.children.length}
             </RoundedButton>
@@ -169,20 +169,20 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
             `}
           >
             <IconButton
-              aria-label="tags"
+              aria-label="Select tags"
               css={`
                 font-size: var(--fontSizeLg);
               `}
             >
-              <BiPurchaseTag title="Tags" />
+              <BiPurchaseTag title="Select tags" />
             </IconButton>
             <IconButton
-              aria-label="billable"
+              aria-label="Change billable status"
               css={`
                 font-size: var(--fontSizeLg);
               `}
             >
-              <BiDollar title="Billable" />
+              <BiDollar title="Change billable status" />
             </IconButton>
             <div
               css={`
@@ -209,7 +209,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
             `}
           >
             <IconButton
-              aria-label="start"
+              aria-label="Start timer"
               css={`
                 margin-right: 0.5rem;
                 font-size: var(--fontSizeXl);
@@ -218,7 +218,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               <BiPlay title="Play" />
             </IconButton>
             <IconButton
-              aria-label="actions"
+              aria-label="Open actions"
               css={`
                 font-size: var(--fontSizeXl);
               `}

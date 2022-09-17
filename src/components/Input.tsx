@@ -24,3 +24,15 @@ export const Input = styled.input`
     outline: 2px solid var(--red3);
   }
 `
+
+export const InlineInput = styled.input`
+  padding: 0.75rem;
+  font-size: var(--fontSm);
+  line-height: var(--lineHeightSm);
+  background: transparent;
+  border: 0;
+
+  &:focus {
+    outline: none;
+  }
+`
