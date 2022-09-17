@@ -1,4 +1,4 @@
-import { AppProviders } from 'context/index'
+import { AppProviders } from 'AppProviders'
 import { GlobalStyle } from 'globalStyle'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
