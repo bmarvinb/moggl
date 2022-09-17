@@ -1,5 +1,6 @@
 import { isToday } from 'date-fns'
 import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable'
+import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import { FC } from 'react'
 
 export type TimeEntryRowProject = {
@@ -28,7 +29,7 @@ export type ReportedDay = {
 
 export type ReportedDaysProps = {
   reportedDays: ReportedDay[]
-  activeTimeEntryStart: Date | undefined
+  activeTimeEntry: ActiveTimeEntry | undefined
 }
 
 export const ReportedDays: FC<ReportedDaysProps> = props => {
@@ -47,9 +48,7 @@ export const ReportedDays: FC<ReportedDaysProps> = props => {
             date={date}
             reportedTime={reportedTime}
             data={timeEntries}
-            activeTimeEntryStart={
-              isToday(date) ? props.activeTimeEntryStart : undefined
-            }
+            activeTimeEntry={isToday(date) ? props.activeTimeEntry : undefined}
           />
         ),
       )}

@@ -146,13 +146,17 @@ export const TimeEntries: FC = () => {
       )
 
       const reportedDays = getReportedDays(inactiveTimeEntries)
+      const activeTimeEntryView = pipe(
+        activeTimeEntry,
+        O.getOrElseW(constUndefined),
+      )
       return (
         <div
           css={`
             background: var(--neutral1);
           `}
         >
-          <Timer />
+          <Timer activeTimeEntry={activeTimeEntryView} />
           <div
             css={`
               min-height: 100%;
@@ -161,11 +165,11 @@ export const TimeEntries: FC = () => {
           >
             <TimeEntriesHeader
               weekTotalDuration={weekTotalDuration}
-              activeTimeEntryStart={activeTimeEntryStart}
+              activeTimeEntry={activeTimeEntryView}
             />
             <ReportedDays
               reportedDays={reportedDays}
-              activeTimeEntryStart={activeTimeEntryStart}
+              activeTimeEntry={activeTimeEntryView}
             />
           </div>
         </div>

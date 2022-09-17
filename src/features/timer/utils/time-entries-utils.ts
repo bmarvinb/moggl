@@ -83,10 +83,8 @@ export function formatTimEntryInfo(timeEntry: TimeEntryViewModel): string {
 
 export const activeTimeEntryDuration = (
   activeTimeEntryStart: Date | undefined,
-) =>
-  activeTimeEntryStart
-    ? differenceInSeconds(new Date(), activeTimeEntryStart)
-    : 0
+  now = new Date(),
+) => (activeTimeEntryStart ? differenceInSeconds(now, activeTimeEntryStart) : 0)
 
 export function formatDate(date: Date): string {
   if (isToday(date)) {

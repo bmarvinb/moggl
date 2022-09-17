@@ -9,6 +9,8 @@ import {
   TimeEntryRowType,
   TimeEntryRowViewModel,
 } from 'features/timer/components/TimeEntryViewRow'
+import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
+import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import {
   activeTimeEntryDuration,
   isParentTimeEntry,
@@ -26,7 +28,7 @@ export type TimeEntriesTableProps = {
   data: TimeEntryViewModel[]
   date: Date
   reportedTime: number
-  activeTimeEntryStart: Date | undefined
+  activeTimeEntry: ActiveTimeEntry | undefined
 }
 
 // TODO: compare task, clientName, tags, billable status
@@ -41,22 +43,8 @@ const EqTimeEntryViewModel: Eq<TimeEntryViewModel> = struct({
 export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   const [bulkEditMode, toggleBulkEditMode] = useReducer(state => !state, false)
   const [checkedIds, setCheckedIds] = useState<string[]>([])
-  const [totalTime, setTotalTime] = useState<number>(
-    props.reportedTime + activeTimeEntryDuration(props.activeTimeEntryStart),
-  )
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTotalTime(
-        props.reportedTime +
-          activeTimeEntryDuration(props.activeTimeEntryStart),
-      )
-    }, 1000)
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [props.activeTimeEntryStart, props.reportedTime])
+  const duration = useActiveDuration(props.activeTimeEntry)
+  const totalTime = props.reportedTime + duration
 
   const allRowsChecked = checkedIds.length === props.data.length
 

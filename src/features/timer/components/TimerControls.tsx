@@ -1,17 +1,14 @@
-import { Button } from 'components/Button'
+import { Button, DangerButton } from 'components/Button'
 import { IconButton } from 'components/IconButton'
+import { formatDurationToInlineTime } from 'features/timer/utils/time-entries-utils'
 import { FC } from 'react'
-import {
-  BiBriefcase,
-  BiBriefcaseAlt,
-  BiBriefcaseAlt2,
-  BiDollar,
-  BiPurchaseTag,
-} from 'react-icons/bi'
+import { BiBriefcase, BiDollar, BiPurchaseTag } from 'react-icons/bi'
 import 'styled-components/macro'
 
 export type TimerControlsProps = {
+  duration: number
   onStartClicked: () => void
+  onStopClicked: () => void
 }
 
 export const TimerControls: FC<TimerControlsProps> = props => {
@@ -20,7 +17,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
       <div
         css={`
           display: grid;
-          grid-template-columns: 2rem 2rem 2rem 1fr;
+          grid-template-columns: 2rem 2rem 2rem 4rem 1fr;
           grid-column-gap: 0.5rem;
           align-items: center;
         `}
@@ -49,13 +46,33 @@ export const TimerControls: FC<TimerControlsProps> = props => {
         >
           <BiDollar title="Change billable status" />
         </IconButton>
-        <Button
-          aria-label="Start timer"
-          title="Start timer"
-          onClick={() => props.onStartClicked()}
+
+        <div
+          css={`
+            font-weight: 500;
+            line-height: var(--lineHeightLg);
+          `}
         >
-          Start
-        </Button>
+          {formatDurationToInlineTime(props.duration)}
+        </div>
+
+        {props.duration === 0 ? (
+          <Button
+            aria-label="Start timer"
+            title="Start timer"
+            onClick={() => props.onStartClicked()}
+          >
+            Start
+          </Button>
+        ) : (
+          <DangerButton
+            aria-label="Stop timer"
+            title="Stop timer"
+            onClick={() => props.onStartClicked()}
+          >
+            Stop
+          </DangerButton>
+        )}
       </div>
     </div>
   )

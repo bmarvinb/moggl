@@ -7,7 +7,7 @@ export const Button = styled.button`
   background-color: var(--primary4);
   border-radius: var(--roundedLg);
   color: var(--neutral0);
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1.25rem;
   transition: all 150ms ease;
   cursor: pointer;
   border: none;
@@ -23,5 +23,17 @@ export const Button = styled.button`
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+`
+
+export const DangerButton = styled(Button)`
+  background: var(--red4);
+
+  &:hover {
+    background-color: var(--red5);
+  }
+
+  &:active {
+    background-color: var(--red6);
   }
 `
