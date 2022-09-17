@@ -5,16 +5,13 @@ import {
   ChildTimeEntry,
   ParentTimeEntry,
   RegularTimeEntry,
-  TimeEntryViewRow,
   TimeEntryRowType,
   TimeEntryRowViewModel,
+  TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow'
 import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
-import {
-  activeTimeEntryDuration,
-  isParentTimeEntry,
-} from 'features/timer/utils/time-entries-utils'
+import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils'
 import * as B from 'fp-ts/boolean'
 import { Eq, struct } from 'fp-ts/Eq'
 import * as A from 'fp-ts/lib/Array'
@@ -22,7 +19,7 @@ import { pipe } from 'fp-ts/lib/function'
 import * as M from 'fp-ts/lib/Monoid'
 import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/string'
-import { FC, useEffect, useReducer, useState } from 'react'
+import { FC, useReducer, useState } from 'react'
 
 export type TimeEntriesTableProps = {
   data: TimeEntryViewModel[]
