@@ -1,5 +1,6 @@
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import { activeTimeEntryDuration } from 'features/timer/utils/time-entries-utils'
+import { pipe } from 'fp-ts/lib/function'
 import { useEffect, useState } from 'react'
 
 function getDuration(activeTimeEntry: ActiveTimeEntry | undefined): number {
@@ -11,17 +12,14 @@ function getDuration(activeTimeEntry: ActiveTimeEntry | undefined): number {
 export function useActiveDuration(
   activeTimeEntry: ActiveTimeEntry | undefined,
 ) {
-  const [duration, setDuration] = useState(getDuration(activeTimeEntry))
-
+  const timeEntryDuration = getDuration(activeTimeEntry)
+  const [duration, setDuration] = useState(timeEntryDuration)
   useEffect(() => {
-    const interval = setInterval(() => {
-      setDuration(getDuration(activeTimeEntry))
-    }, 1000)
-
-    return () => {
-      clearInterval(interval)
-    }
+    const interval = setInterval(
+      () => pipe(activeTimeEntry, getDuration, setDuration),
+      1000,
+    )
+    return () => clearInterval(interval)
   }, [activeTimeEntry])
-
   return duration
 }
