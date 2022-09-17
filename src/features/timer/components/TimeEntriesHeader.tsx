@@ -38,7 +38,11 @@ export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
       >
         <Title>
           This week
-          <TotalTime>{formatDurationToInlineTime(duration || 0)}</TotalTime>
+          <TotalTime>
+            {formatDurationToInlineTime(
+              props.weekTotalDuration + (duration || 0),
+            )}
+          </TotalTime>
         </Title>
       </div>
     </>
