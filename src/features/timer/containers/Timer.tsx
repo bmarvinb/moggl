@@ -38,11 +38,7 @@ export const Timer: FC<TimerProps> = props => {
     console.log('end')
   }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>({
+  const { register } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
       start: '',
