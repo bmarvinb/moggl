@@ -3,8 +3,10 @@ import { Spinner } from 'components'
 import { format } from 'date-fns'
 import { isSameDay, isSameWeek } from 'date-fns/fp'
 import { Timer } from 'features/timer/containers/Timer'
-import { useTimeEntries } from 'features/timer/hooks/useTimeEntries'
-import { InactiveTimeEntry } from 'features/timer/services/time-entries'
+import {
+  getTimeEntries,
+  InactiveTimeEntry,
+} from 'features/timer/services/time-entries'
 import {
   isActiveTimeEntry,
   isInactiveTimeEntry,
@@ -27,6 +29,7 @@ import {
 } from '../components/ReportedDays'
 import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
 import 'styled-components/macro'
+import { useQuery } from '@tanstack/react-query'
 
 function createViewTimeEntry(timeEntry: InactiveTimeEntry): TimeEntryViewModel {
   return {
@@ -112,9 +115,15 @@ export const TimeEntries: FC = () => {
   const { user, workspace } = useAuth()
   invariant(user, 'User must be provided')
   invariant(workspace, 'Workspace must be provided')
-  console.log('container render')
 
-  const { status, data: timeEntries } = useTimeEntries(workspace.id, user.id)
+  const { status, data: timeEntries } = useQuery(
+    ['timeEntries'],
+    () => getTimeEntries(workspace.id, user.id, { 'page-size': 50, page: 1 }),
+    {
+      onError: console.error,
+    },
+  )
+
   switch (status) {
     case 'loading':
       return <Spinner />
