@@ -28,7 +28,10 @@ export function isInactiveTimeEntry(x: TimeEntry): x is InactiveTimeEntry {
 }
 
 export function isActiveTimeEntry(x: TimeEntry): x is ActiveTimeEntry {
-  return !isInactiveTimeEntry(x)
+  return (
+    Boolean(x.timeInterval.start) &&
+    !(x.timeInterval.end && x.timeInterval.duration)
+  )
 }
 
 export function isRegularTimeEntry(
@@ -83,10 +86,8 @@ export function formatTimEntryInfo(timeEntry: TimeEntryViewModel): string {
 
 export const activeTimeEntryDuration = (
   activeTimeEntryStart: Date | undefined,
-) =>
-  activeTimeEntryStart
-    ? differenceInSeconds(new Date(), activeTimeEntryStart)
-    : 0
+  now = new Date(),
+) => (activeTimeEntryStart ? differenceInSeconds(now, activeTimeEntryStart) : 0)
 
 export function formatDate(date: Date): string {
   if (isToday(date)) {

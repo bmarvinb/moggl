@@ -10,7 +10,7 @@ export const IconButton = styled.button<{ $active?: boolean }>`
   background: transparent;
   padding: 0;
   padding: 0.25rem;
-  color: ${props => (props.$active ? 'var(--primary4)' : 'var(--neutral9)')};
+  color: ${props => (props.$active ? 'var(--primary4)' : 'var(--neutral8)')};
 
   &:hover {
     color: var(--primary5);

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Input = styled.input`
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.5rem;
   font-size: var(--fontSm);
   line-height: var(--lineHeightSm);
   border-radius: var(--roundedXl);
@@ -22,5 +22,17 @@ export const Input = styled.input`
   &[aria-invalid='true'] {
     border-color: var(--red4);
     outline: 2px solid var(--red3);
+  }
+`
+
+export const InlineInput = styled.input`
+  padding: 0.5rem;
+  font-size: var(--fontSm);
+  line-height: var(--lineHeightSm);
+  background: transparent;
+  border: 0;
+
+  &:focus {
+    outline: none;
   }
 `

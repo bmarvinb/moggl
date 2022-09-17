@@ -1,13 +1,12 @@
-import {
-  activeTimeEntryDuration,
-  formatDurationToInlineTime
-} from 'features/timer/utils/time-entries-utils'
-import { FC, useEffect, useState } from 'react'
+import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
+import { ActiveTimeEntry } from 'features/timer/services/time-entries'
+import { formatDurationToInlineTime } from 'features/timer/utils/time-entries-utils'
+import { FC } from 'react'
 import styled from 'styled-components/macro'
 
 export type TimeEntriesHeaderProps = {
   weekTotalDuration: number
-  activeTimeEntryStart: Date | undefined
+  activeTimeEntry: ActiveTimeEntry | undefined
 }
 
 const Title = styled.div`
@@ -26,23 +25,7 @@ const TotalTime = styled.span`
 `
 
 export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
-  const [total, setTotal] = useState(
-    props.weekTotalDuration +
-      activeTimeEntryDuration(props.activeTimeEntryStart),
-  )
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTotal(
-        props.weekTotalDuration +
-          activeTimeEntryDuration(props.activeTimeEntryStart),
-      )
-    }, 1000)
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [props.activeTimeEntryStart, props.weekTotalDuration])
+  const [duration] = useActiveDuration(props.activeTimeEntry)
 
   return (
     <>
@@ -55,7 +38,7 @@ export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
       >
         <Title>
           This week
-          <TotalTime>{formatDurationToInlineTime(total)}</TotalTime>
+          <TotalTime>{formatDurationToInlineTime(duration || 0)}</TotalTime>
         </Title>
       </div>
     </>

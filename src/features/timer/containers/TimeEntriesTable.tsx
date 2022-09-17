@@ -5,14 +5,13 @@ import {
   ChildTimeEntry,
   ParentTimeEntry,
   RegularTimeEntry,
-  TimeEntryViewRow,
   TimeEntryRowType,
   TimeEntryRowViewModel,
+  TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow'
-import {
-  activeTimeEntryDuration,
-  isParentTimeEntry,
-} from 'features/timer/utils/time-entries-utils'
+import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
+import { ActiveTimeEntry } from 'features/timer/services/time-entries'
+import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils'
 import * as B from 'fp-ts/boolean'
 import { Eq, struct } from 'fp-ts/Eq'
 import * as A from 'fp-ts/lib/Array'
@@ -20,13 +19,13 @@ import { pipe } from 'fp-ts/lib/function'
 import * as M from 'fp-ts/lib/Monoid'
 import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/string'
-import { FC, useEffect, useReducer, useState } from 'react'
+import { FC, useReducer, useState } from 'react'
 
 export type TimeEntriesTableProps = {
   data: TimeEntryViewModel[]
   date: Date
   reportedTime: number
-  activeTimeEntryStart: Date | undefined
+  activeTimeEntry: ActiveTimeEntry | undefined
 }
 
 // TODO: compare task, clientName, tags, billable status
@@ -41,22 +40,8 @@ const EqTimeEntryViewModel: Eq<TimeEntryViewModel> = struct({
 export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   const [bulkEditMode, toggleBulkEditMode] = useReducer(state => !state, false)
   const [checkedIds, setCheckedIds] = useState<string[]>([])
-  const [totalTime, setTotalTime] = useState<number>(
-    props.reportedTime + activeTimeEntryDuration(props.activeTimeEntryStart),
-  )
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTotalTime(
-        props.reportedTime +
-          activeTimeEntryDuration(props.activeTimeEntryStart),
-      )
-    }, 1000)
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [props.activeTimeEntryStart, props.reportedTime])
+  const [duration] = useActiveDuration(props.activeTimeEntry)
+  const totalTime = props.reportedTime + (duration || 0)
 
   const allRowsChecked = checkedIds.length === props.data.length
 
@@ -167,6 +152,10 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     }),
   )
 
+  const onPlayClicked = (timeEntry: TimeEntryRowViewModel) => {
+    console.log('time entry', timeEntry)
+  }
+
   return (
     <TimeEntriesTableView
       bulkEditMode={bulkEditMode}
@@ -184,6 +173,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
             data={timeEntry}
             edit={bulkEditMode}
             checkedIds={checkedIds}
+            onPlayClicked={onPlayClicked}
             onParentCheckedChange={onParentTimeEntryCheckedChange}
           />
         ) : (
@@ -192,6 +182,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
             data={timeEntry}
             edit={bulkEditMode}
             checked={isTimeEntryRowChecked(timeEntry.data.id)}
+            onPlayClicked={onPlayClicked}
             onCheckedChange={onTimeEntryCheckedChange}
           />
         ),

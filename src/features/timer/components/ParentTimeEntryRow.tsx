@@ -1,5 +1,6 @@
 import {
   ParentTimeEntry,
+  TimeEntryRowViewModel,
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow'
 import { FC, useReducer } from 'react'
@@ -8,6 +9,7 @@ export type ParentTimeEntryRowProps = {
   data: ParentTimeEntry
   edit: boolean
   checkedIds: string[]
+  onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void
   onParentCheckedChange: (ids: [string[], string[]]) => void
 }
 
@@ -39,6 +41,7 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
         edit={props.edit}
         checked={allChildrenChecked}
         onCheckedChange={onParentCheckedChange}
+        onPlayClicked={props.onPlayClicked}
         onExpandedClicked={toggleExpanded}
       />
       {expanded &&
@@ -48,6 +51,7 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
             data={child}
             edit={props.edit}
             checked={isChildChecked(child.data.id)}
+            onPlayClicked={props.onPlayClicked}
             onCheckedChange={onChildCheckedChange}
           />
         ))}

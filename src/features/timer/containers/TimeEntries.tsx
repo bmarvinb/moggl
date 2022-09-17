@@ -2,6 +2,7 @@ import { useAuth } from 'auth/context/auth-context'
 import { Spinner } from 'components'
 import { format } from 'date-fns'
 import { isSameDay, isSameWeek } from 'date-fns/fp'
+import { Timer } from 'features/timer/containers/Timer'
 import { useTimeEntries } from 'features/timer/hooks/useTimeEntries'
 import { InactiveTimeEntry } from 'features/timer/services/time-entries'
 import {
@@ -25,6 +26,7 @@ import {
   TimeEntryViewModel,
 } from '../components/ReportedDays'
 import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
+import 'styled-components/macro'
 
 function createViewTimeEntry(timeEntry: InactiveTimeEntry): TimeEntryViewModel {
   return {
@@ -127,10 +129,6 @@ export const TimeEntries: FC = () => {
         timeEntries,
         A.filter(isActiveTimeEntry),
         A.lookup(0),
-      )
-      const activeTimeEntryStart = pipe(
-        activeTimeEntry,
-        O.map(({ timeInterval }) => new Date(timeInterval.start)),
         O.getOrElseW(constUndefined),
       )
 
@@ -147,19 +145,25 @@ export const TimeEntries: FC = () => {
       return (
         <div
           css={`
-            min-height: 100%;
             background: var(--neutral1);
-            padding: 0 1rem 1rem;
           `}
         >
-          <TimeEntriesHeader
-            weekTotalDuration={weekTotalDuration}
-            activeTimeEntryStart={activeTimeEntryStart}
-          />
-          <ReportedDays
-            reportedDays={reportedDays}
-            activeTimeEntryStart={activeTimeEntryStart}
-          />
+          <Timer activeTimeEntry={activeTimeEntry} />
+          <div
+            css={`
+              min-height: 100%;
+              padding: 5rem 1rem 1rem;
+            `}
+          >
+            <TimeEntriesHeader
+              weekTotalDuration={weekTotalDuration}
+              activeTimeEntry={activeTimeEntry}
+            />
+            <ReportedDays
+              reportedDays={reportedDays}
+              activeTimeEntry={activeTimeEntry}
+            />
+          </div>
         </div>
       )
   }
