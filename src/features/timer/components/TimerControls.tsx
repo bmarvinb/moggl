@@ -1,7 +1,13 @@
 import { Button } from 'components/Button'
 import { IconButton } from 'components/IconButton'
 import { FC } from 'react'
-import { BiPurchaseTag, BiDollar } from 'react-icons/bi'
+import {
+  BiBriefcase,
+  BiBriefcaseAlt,
+  BiBriefcaseAlt2,
+  BiDollar,
+  BiPurchaseTag,
+} from 'react-icons/bi'
 import 'styled-components/macro'
 
 export type TimerControlsProps = {
@@ -14,11 +20,19 @@ export const TimerControls: FC<TimerControlsProps> = props => {
       <div
         css={`
           display: grid;
-          grid-template-columns: 2rem 2rem 1fr;
+          grid-template-columns: 2rem 2rem 2rem 1fr;
           grid-column-gap: 0.5rem;
           align-items: center;
         `}
       >
+        <IconButton
+          aria-label="Select project"
+          css={`
+            font-size: var(--fontSizeXl);
+          `}
+        >
+          <BiBriefcase title="Select project" />
+        </IconButton>
         <IconButton
           aria-label="Select tags"
           css={`
