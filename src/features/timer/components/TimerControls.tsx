@@ -22,11 +22,14 @@ const StartButton = styled(Button)`
   display: flex;
   padding: 0.5rem;
   border-radius: 100%;
+  outline: 2px solid var(--primary1);
 `
+
 const StopButton = styled(DangerButton)`
   display: flex;
   padding: 0.5rem;
   border-radius: 100%;
+  outline: 2px solid var(--red1);
 `
 
 export const TimerControls: FC<TimerControlsProps> = props => {

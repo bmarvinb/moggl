@@ -5,7 +5,7 @@ import { FC } from 'react'
 import styled from 'styled-components/macro'
 
 export type TimeEntriesHeaderProps = {
-  weekTotalDuration: number
+  currentWeekDuration: number
   activeTimeEntry: ActiveTimeEntry | undefined
 }
 
@@ -26,6 +26,9 @@ const TotalTime = styled.span`
 
 export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
   const [duration] = useActiveDuration(props.activeTimeEntry)
+  const inlineTime = formatDurationToInlineTime(
+    duration ? props.currentWeekDuration + duration : props.currentWeekDuration,
+  )
 
   return (
     <>
@@ -38,11 +41,7 @@ export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
       >
         <Title>
           This week
-          <TotalTime>
-            {formatDurationToInlineTime(
-              props.weekTotalDuration + (duration || 0),
-            )}
-          </TotalTime>
+          <TotalTime>{inlineTime}</TotalTime>
         </Title>
       </div>
     </>

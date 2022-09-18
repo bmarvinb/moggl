@@ -94,7 +94,7 @@ const RoundedButton = styled(Button)`
   padding: 0.25rem;
   min-width: 2rem;
   height: 2rem;
-  border: 1px solid var(--neutral6);
+  border: 1px solid var(--neutral4);
   margin: auto;
   margin-right: 1rem;
 
