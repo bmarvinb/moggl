@@ -1,6 +1,11 @@
 import { isToday } from 'date-fns'
 import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable'
-import { ActiveTimeEntry } from 'features/timer/services/time-entries'
+import {
+  ActiveTimeEntry,
+  InactiveTimeEntry,
+} from 'features/timer/services/time-entries'
+import { timeEntryDuration } from 'features/timer/utils/time-entries-utils'
+import { pipe } from 'fp-ts/lib/function'
 import { FC } from 'react'
 
 export type TimeEntryRowProject = {
@@ -30,6 +35,25 @@ export type ReportedDay = {
 export type ReportedDaysProps = {
   reportedDays: ReportedDay[]
   activeTimeEntry: ActiveTimeEntry | undefined
+}
+
+export function createTimeEntryViewModel(
+  timeEntry: InactiveTimeEntry,
+): TimeEntryViewModel {
+  return {
+    id: timeEntry.id,
+    description: timeEntry.description,
+    billable: timeEntry.billable,
+    project: {
+      name: timeEntry.project.name,
+      color: timeEntry.project.color,
+      clientName: timeEntry.project.clientName || undefined,
+    },
+    task: timeEntry.task?.name || undefined,
+    start: new Date(timeEntry.timeInterval.start),
+    end: new Date(timeEntry.timeInterval.end),
+    duration: pipe(timeEntry, timeEntryDuration),
+  }
 }
 
 export const ReportedDays: FC<ReportedDaysProps> = props => {

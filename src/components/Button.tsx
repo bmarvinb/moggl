@@ -6,6 +6,7 @@ export const Button = styled.button`
   line-height: var(--lineHeightSm);
   background-color: var(--primary4);
   border-radius: var(--roundedLg);
+  box-shadow: var(--shadowSm);
   color: var(--neutral0);
   padding: 0.5rem 1.25rem;
   transition: all 150ms ease;

@@ -1,7 +1,14 @@
+import { useQuery } from '@tanstack/react-query'
 import { useAuth } from 'auth/context/auth-context'
 import { Spinner } from 'components'
-import { format } from 'date-fns'
-import { isSameDay, isSameWeek } from 'date-fns/fp'
+import { format, isSameWeek } from 'date-fns'
+import { isSameDay } from 'date-fns/fp'
+import {
+  createTimeEntryViewModel,
+  ReportedDay,
+  ReportedDays,
+} from 'features/timer/components/ReportedDays'
+import { TimeEntriesHeader } from 'features/timer/components/TimeEntriesHeader'
 import { Timer } from 'features/timer/containers/Timer'
 import {
   getTimeEntries,
@@ -13,7 +20,7 @@ import {
   timeEntryDuration,
 } from 'features/timer/utils/time-entries-utils'
 import * as A from 'fp-ts/lib/Array'
-import { constUndefined, flow, pipe } from 'fp-ts/lib/function'
+import { constUndefined, pipe } from 'fp-ts/lib/function'
 import * as M from 'fp-ts/lib/Monoid'
 import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/lib/string'
@@ -22,92 +29,42 @@ import { nanoid } from 'nanoid'
 import { FC } from 'react'
 import 'styled-components/macro'
 import { invariant } from 'utils/invariant'
-import {
-  ReportedDay,
-  ReportedDays,
-  TimeEntryViewModel,
-} from '../components/ReportedDays'
-import { TimeEntriesHeader } from '../components/TimeEntriesHeader'
-import 'styled-components/macro'
-import { useQuery } from '@tanstack/react-query'
 
-function createViewTimeEntry(timeEntry: InactiveTimeEntry): TimeEntryViewModel {
-  return {
-    id: timeEntry.id,
-    description: timeEntry.description,
-    billable: timeEntry.billable,
-    project: {
-      name: timeEntry.project.name,
-      color: timeEntry.project.color,
-      clientName: timeEntry.project.clientName || undefined,
-    },
-    task: timeEntry.task?.name || undefined,
-    start: new Date(timeEntry.timeInterval.start),
-    end: new Date(timeEntry.timeInterval.end),
-    duration: pipe(timeEntry, timeEntryDuration),
-  }
-}
-
-function filterTimeEntriesByDate(date: Date) {
-  return (timeEntries: InactiveTimeEntry[]): InactiveTimeEntry[] =>
-    pipe(
-      timeEntries,
-      A.filter(({ timeInterval }) =>
-        isSameDay(new Date(timeInterval.start), date),
-      ),
-    )
-}
-
-function getTimeEntriesByDate(predicate: (date: Date) => boolean) {
-  return (timeEntries: InactiveTimeEntry[]) =>
-    pipe(
-      timeEntries,
-      A.filter(
-        flow(({ timeInterval }) => new Date(timeInterval.start), predicate),
-      ),
-    )
-}
-
-function groupTimeEntriesByDate(timeEntries: InactiveTimeEntry[]) {
-  return (dates: string[]): ReportedDay[] =>
-    pipe(
-      dates,
-      A.map(date => ({
-        id: nanoid(),
-        date: new Date(date),
-        reportedTime: pipe(
-          timeEntries,
-          filterTimeEntriesByDate(new Date(date)),
-          calculateTimeEntriesTotalDuration,
-        ),
-        data: pipe(
-          timeEntries,
-          filterTimeEntriesByDate(new Date(date)),
-          A.map(createViewTimeEntry),
-        ),
-      })),
-    )
-}
-
-function calculateTimeEntriesTotalDuration(
-  timeEntries: InactiveTimeEntry[],
-): number {
+function getTotalDuration(timeEntries: InactiveTimeEntry[]): number {
   return pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum))
 }
 
-function getStartDate(timeEntry: InactiveTimeEntry[]): string[] {
+function getStartDates(timeEntry: InactiveTimeEntry[]): string[] {
   return pipe(
     timeEntry,
     A.map(({ timeInterval }) => format(new Date(timeInterval.start), 'PP')),
   )
 }
 
+function groupByDate(timeEntries: InactiveTimeEntry[]) {
+  return (dates: string[]): ReportedDay[] =>
+    pipe(
+      dates,
+      A.map(date => {
+        const dayTimeEntries = timeEntries.filter(({ timeInterval }) =>
+          isSameDay(new Date(timeInterval.start), new Date(date)),
+        )
+        return {
+          id: nanoid(),
+          date: new Date(date),
+          reportedTime: pipe(dayTimeEntries, getTotalDuration),
+          data: pipe(dayTimeEntries, A.map(createTimeEntryViewModel)),
+        }
+      }),
+    )
+}
+
 function getReportedDays(timeEntries: InactiveTimeEntry[]): ReportedDay[] {
   return pipe(
     timeEntries,
-    getStartDate,
+    getStartDates,
     A.uniq(S.Eq),
-    groupTimeEntriesByDate(timeEntries),
+    groupByDate(timeEntries),
   )
 }
 
@@ -134,6 +91,7 @@ export const TimeEntries: FC = () => {
         timeEntries,
         A.filter(isInactiveTimeEntry),
       )
+
       const activeTimeEntry = pipe(
         timeEntries,
         A.filter(isActiveTimeEntry),
@@ -141,17 +99,18 @@ export const TimeEntries: FC = () => {
         O.getOrElseW(constUndefined),
       )
 
-      const weekTimeEntries = pipe(
+      const currentWeekTimeEntries = pipe(
         inactiveTimeEntries,
-        getTimeEntriesByDate(isSameWeek(new Date())),
+        A.filter(({ timeInterval }) =>
+          isSameWeek(new Date(timeInterval.start), new Date(), {
+            weekStartsOn: 1,
+          }),
+        ),
       )
 
-      const weekTotalDuration = pipe(
-        weekTimeEntries,
-        calculateTimeEntriesTotalDuration,
-      )
-
+      const currentWeekDuration = getTotalDuration(currentWeekTimeEntries)
       const reportedDays = getReportedDays(inactiveTimeEntries)
+
       return (
         <div
           css={`
@@ -166,7 +125,7 @@ export const TimeEntries: FC = () => {
             `}
           >
             <TimeEntriesHeader
-              weekTotalDuration={weekTotalDuration}
+              currentWeekDuration={currentWeekDuration}
               activeTimeEntry={activeTimeEntry}
             />
             <ReportedDays

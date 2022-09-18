@@ -1,9 +1,9 @@
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import { activeTimeEntryDuration } from 'features/timer/utils/time-entries-utils'
-import { pipe } from 'fp-ts/lib/function'
+import { flow } from 'fp-ts/lib/function'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
-function getDuration(
+function getActiveTimeEntryDuration(
   activeTimeEntry: ActiveTimeEntry | undefined,
 ): number | undefined {
   return activeTimeEntry
@@ -14,14 +14,13 @@ function getDuration(
 export function useActiveDuration(
   activeTimeEntry: ActiveTimeEntry | undefined,
 ): [number | undefined, Dispatch<SetStateAction<number | undefined>>] {
-  const timeEntryDuration = getDuration(activeTimeEntry)
-  const [duration, setDuration] = useState(timeEntryDuration)
+  const [duration, setDuration] = useState(
+    getActiveTimeEntryDuration(activeTimeEntry),
+  )
   useEffect(() => {
-    pipe(activeTimeEntry, getDuration, setDuration)
-    const interval = setInterval(
-      () => pipe(activeTimeEntry, getDuration, setDuration),
-      1000,
-    )
+    const update = flow(getActiveTimeEntryDuration, setDuration)
+    update(activeTimeEntry)
+    const interval = setInterval(() => update(activeTimeEntry), 1000)
     return () => clearInterval(interval)
   }, [activeTimeEntry])
   return [duration, setDuration]
