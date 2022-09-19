@@ -13,11 +13,14 @@ import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils'
 import * as B from 'fp-ts/boolean'
+import * as D from 'fp-ts/Date'
 import { Eq, struct } from 'fp-ts/Eq'
 import * as A from 'fp-ts/lib/Array'
 import { pipe } from 'fp-ts/lib/function'
 import * as M from 'fp-ts/lib/Monoid'
+import * as NEA from 'fp-ts/lib/NonEmptyArray'
 import * as N from 'fp-ts/lib/number'
+import { contramap } from 'fp-ts/Ord'
 import * as S from 'fp-ts/string'
 import { FC, useReducer, useState } from 'react'
 
@@ -102,14 +105,30 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   })
 
   const createParentTimeEntry = (x: TimeEntryViewModel): ParentTimeEntry => {
-    const children = [
+    const children: NEA.NonEmptyArray<ChildTimeEntry> = [
       createChild(x),
       ...pipe(x, restTimeEntries, getParentChildren(x), A.map(createChild)),
     ]
+    const byDate = pipe(
+      D.Ord,
+      contramap((date: Date) => date),
+    )
     return {
       type: TimeEntryRowType.Parent,
       data: {
         ...x,
+        start: pipe(
+          children,
+          NEA.map(({ data }) => data.start),
+          NEA.sortBy([byDate]),
+          NEA.head,
+        ),
+        end: pipe(
+          children,
+          NEA.map(({ data }) => data.end),
+          NEA.sortBy([byDate]),
+          NEA.last,
+        ),
         duration: pipe(
           children,
           A.map(({ data }) => data.duration),
@@ -170,7 +189,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
         isParentTimeEntry(timeEntry) ? (
           <ParentTimeEntryRow
             key={timeEntry.data.id}
-            data={timeEntry}
+            timeEntry={timeEntry}
             edit={bulkEditMode}
             checkedIds={checkedIds}
             onPlayClicked={onPlayClicked}
@@ -179,7 +198,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
         ) : (
           <TimeEntryViewRow
             key={timeEntry.data.id}
-            data={timeEntry}
+            timeEntry={timeEntry}
             edit={bulkEditMode}
             checked={isTimeEntryRowChecked(timeEntry.data.id)}
             onPlayClicked={onPlayClicked}

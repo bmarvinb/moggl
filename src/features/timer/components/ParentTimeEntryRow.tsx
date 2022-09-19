@@ -6,7 +6,7 @@ import {
 import { FC, useReducer } from 'react'
 
 export type ParentTimeEntryRowProps = {
-  data: ParentTimeEntry
+  timeEntry: ParentTimeEntry
   edit: boolean
   checkedIds: string[]
   onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void
@@ -16,12 +16,12 @@ export type ParentTimeEntryRowProps = {
 export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
   const [expanded, toggleExpanded] = useReducer(state => !state, false)
 
-  const allChildrenChecked = props.data.children.every(child =>
+  const allChildrenChecked = props.timeEntry.children.every(child =>
     props.checkedIds.includes(child.data.id),
   )
 
   const onParentCheckedChange = () => {
-    const childrenIds = props.data.children.map(({ data }) => data.id)
+    const childrenIds = props.timeEntry.children.map(({ data }) => data.id)
     props.onParentCheckedChange(
       allChildrenChecked ? [[], childrenIds] : [childrenIds, []],
     )
@@ -37,22 +37,24 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
   return (
     <>
       <TimeEntryViewRow
-        data={props.data}
+        timeEntry={props.timeEntry}
         edit={props.edit}
         checked={allChildrenChecked}
         onCheckedChange={onParentCheckedChange}
         onPlayClicked={props.onPlayClicked}
-        onExpandedClicked={toggleExpanded}
+        onToggleChildrenVisibility={toggleExpanded}
+        data-testid="PARENT_TIME_ENTRY"
       />
       {expanded &&
-        props.data.children.map(child => (
+        props.timeEntry.children.map(child => (
           <TimeEntryViewRow
             key={child.data.id}
-            data={child}
+            timeEntry={child}
             edit={props.edit}
             checked={isChildChecked(child.data.id)}
             onPlayClicked={props.onPlayClicked}
             onCheckedChange={onChildCheckedChange}
+            data-testid="PARENT_CHILD_TIME_ENTRY"
           />
         ))}
     </>

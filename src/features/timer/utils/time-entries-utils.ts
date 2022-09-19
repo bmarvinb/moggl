@@ -70,31 +70,47 @@ export function formatTimeEntryDate(timeEntry: TimeEntryViewModel): string {
   return `${format(timeEntry.start, 'p')} - ${format(timeEntry.end, 'p')}`
 }
 
-export function formatTimEntryInfo(timeEntry: TimeEntryViewModel): string {
-  const { task, project } = timeEntry
-  if (task && project.clientName) {
-    return `${project.name}: ${task}, ${project.clientName}`
+export function getTimeEntryInfo(
+  project: string,
+  client: string | undefined,
+  task: string | undefined,
+): string {
+  if (task && client) {
+    return `${project}: ${task}, ${client}`
   }
   if (task) {
-    return `${project.name}: ${task}`
+    return `${project}: ${task}`
   }
-  if (project.clientName) {
-    return `${project.name}, ${project.clientName}`
+  if (client) {
+    return `${project}, ${client}`
   }
-  return `${project.name}`
+  return `${project}`
 }
 
-export const activeTimeEntryDuration = (
+export function activeTimeEntryDuration(
   activeTimeEntryStart: Date | undefined,
   now = new Date(),
-) => (activeTimeEntryStart ? differenceInSeconds(now, activeTimeEntryStart) : 0)
+) {
+  return activeTimeEntryStart
+    ? differenceInSeconds(now, activeTimeEntryStart)
+    : 0
+}
 
-export function formatDate(date: Date): string {
+export function formatDate(
+  date: Date,
+  currentYear = new Date().getFullYear(),
+): string {
   if (isToday(date)) {
     return 'Today'
   }
   if (isYesterday(date)) {
     return 'Yesterday'
   }
-  return date.toLocaleDateString()
+  const dayOfWeek = format(date, 'iii')
+  const day = format(date, 'd')
+  const month = format(date, 'MMM')
+  const inlineDate = `${dayOfWeek}, ${day} ${month}`
+  return date.getFullYear() !== currentYear
+    ? `${inlineDate}, ${date.getFullYear()}`
+    : inlineDate
 }
