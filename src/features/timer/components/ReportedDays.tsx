@@ -3,7 +3,7 @@ import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable'
 import {
   ActiveTimeEntry,
   InactiveTimeEntry,
-} from 'features/timer/services/time-entries'
+} from 'features/timer/types/time-entries'
 import { timeEntryDuration } from 'features/timer/utils/time-entries-utils'
 import { pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'

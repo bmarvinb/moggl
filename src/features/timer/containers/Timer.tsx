@@ -1,25 +1,24 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useAuth } from 'auth/index'
 import { InlineInput } from 'components/Input'
 import { TimerControls } from 'features/timer/components/TimerControls'
-import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
+import { CreateTimeEntryPayload } from 'features/timer/types/created-time-entry'
 import {
   ActiveTimeEntry,
-  createTimeEntry,
-  CreateTimeEntryPayload,
   TimeEntries,
-} from 'features/timer/services/time-entries'
+} from 'features/timer/types/time-entries'
+import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
+import { createTimeEntry } from 'features/timer/infra/time-entries'
+import { pipe } from 'fp-ts/lib/function'
+import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import 'styled-components/macro'
-import { invariant } from 'utils/invariant'
 import { z } from 'zod'
-import * as O from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/function'
 
 export type TimerProps = {
   activeTimeEntry: O.Option<ActiveTimeEntry>
+  workspaceId: string
 }
 
 const schema = z.object({
@@ -39,13 +38,11 @@ type FormValues = z.infer<typeof schema>
 
 export const Timer: FC<TimerProps> = props => {
   const duration = useActiveDuration(props.activeTimeEntry)
-  const { workspace } = useAuth()
-  invariant(workspace, 'Workspace must be provided')
 
   const queryClient = useQueryClient()
   const create = useMutation(
     (payload: CreateTimeEntryPayload) => {
-      return createTimeEntry(workspace.id, payload)
+      return createTimeEntry(props.workspaceId, payload)
     },
     {
       onMutate: async timeEntry => {

@@ -1,4 +1,3 @@
-import { client } from 'utils/api-client'
 import { z } from 'zod'
 
 const rateSchema = z.object({
@@ -69,9 +68,6 @@ const workspaceSchema = z.object({
 
 export type Workspace = z.infer<typeof workspaceSchema>
 
-const workspacesSchema = z.array(workspaceSchema)
-type Workspaces = z.infer<typeof workspacesSchema>
+export const workspacesSchema = z.array(workspaceSchema)
 
-export function getWorkspaces() {
-  return client<Workspaces>('workspaces', workspacesSchema)
-}
+export type Workspaces = z.infer<typeof workspacesSchema>

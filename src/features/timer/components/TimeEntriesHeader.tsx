@@ -1,5 +1,5 @@
 import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
-import { ActiveTimeEntry } from 'features/timer/services/time-entries'
+import { ActiveTimeEntry } from 'features/timer/types/time-entries'
 import { formatDurationToInlineTime } from 'features/timer/utils/time-entries-utils'
 import { pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'

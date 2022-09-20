@@ -11,7 +11,7 @@ import {
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow'
 import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
-import { ActiveTimeEntry } from 'features/timer/services/time-entries'
+import { ActiveTimeEntry } from 'features/timer/types/time-entries'
 import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils'
 import * as B from 'fp-ts/boolean'
 import { Eq, struct } from 'fp-ts/Eq'

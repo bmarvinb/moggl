@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { useAuth } from 'auth/context/auth-context'
+import { User } from 'auth/types/user'
+import { Workspace } from 'auth/types/workspace'
 import { Spinner } from 'components'
 import { format, isSameWeek } from 'date-fns'
 import { isSameDay } from 'date-fns/fp'
@@ -10,10 +11,8 @@ import {
 } from 'features/timer/components/ReportedDays'
 import { TimeEntriesHeader } from 'features/timer/components/TimeEntriesHeader'
 import { Timer } from 'features/timer/containers/Timer'
-import {
-  getTimeEntries,
-  InactiveTimeEntry,
-} from 'features/timer/services/time-entries'
+import { getTimeEntries } from 'features/timer/infra/time-entries'
+import { InactiveTimeEntry } from 'features/timer/types/time-entries'
 import {
   isActiveTimeEntry,
   isInactiveTimeEntry,
@@ -27,7 +26,11 @@ import * as S from 'fp-ts/lib/string'
 import { nanoid } from 'nanoid'
 import { FC } from 'react'
 import 'styled-components/macro'
-import { invariant } from 'utils/invariant'
+
+export type TimeEntriesProps = {
+  user: User
+  workspace: Workspace
+}
 
 function getTotalDuration(timeEntries: InactiveTimeEntry[]): number {
   return pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum))
@@ -67,14 +70,14 @@ function getReportedDays(timeEntries: InactiveTimeEntry[]): ReportedDay[] {
   )
 }
 
-export const TimeEntries: FC = () => {
-  const { user, workspace } = useAuth()
-  invariant(user, 'User must be provided')
-  invariant(workspace, 'Workspace must be provided')
-
+export const TimeEntries: FC<TimeEntriesProps> = props => {
   const { status, data: timeEntries } = useQuery(
     ['timeEntries'],
-    () => getTimeEntries(workspace.id, user.id, { 'page-size': 25, page: 1 }),
+    () =>
+      getTimeEntries(props.workspace.id, props.user.id, {
+        'page-size': 25,
+        page: 1,
+      }),
     {
       onError: console.error,
     },
@@ -115,7 +118,10 @@ export const TimeEntries: FC = () => {
             background: var(--neutral1);
           `}
         >
-          <Timer activeTimeEntry={activeTimeEntry} />
+          <Timer
+            activeTimeEntry={activeTimeEntry}
+            workspaceId={props.workspace.id}
+          />
           <div
             css={`
               min-height: 100%;

@@ -1,24 +1,23 @@
-import { client, createURLSearchParams } from 'utils/api-client'
 import { z } from 'zod'
 
-const inactiveTimeEntryIntervalSchema = z.object({
+export const inactiveTimeEntryIntervalSchema = z.object({
   start: z.string(),
   end: z.string(),
   duration: z.string(),
 })
 
-const activeTimeEntryIntervalSchema = z.object({
+export const activeTimeEntryIntervalSchema = z.object({
   start: z.string(),
   end: z.null(),
   duration: z.null(),
 })
 
-const summaryReportSettingsSchema = z.object({
+export const summaryReportSettingsSchema = z.object({
   group: z.string(),
   subgroup: z.string(),
 })
 
-const settingsSchema = z.object({
+export const settingsSchema = z.object({
   weekStart: z.string(),
   timeZone: z.string(),
   timeFormat: z.string(),
@@ -50,7 +49,7 @@ const settingsSchema = z.object({
   showOnlyWorkingDays: z.boolean(),
 })
 
-const userSchema = z.object({
+export const userSchema = z.object({
   id: z.string(),
   email: z.string(),
   name: z.string(),
@@ -63,12 +62,12 @@ const userSchema = z.object({
   customFields: z.array(z.unknown()),
 })
 
-const hourlyRateSchema = z.object({
+export const hourlyRateSchema = z.object({
   amount: z.number(),
   currency: z.string().nullable(),
 })
 
-const membershipSchema = z.object({
+export const membershipSchema = z.object({
   userId: z.string(),
   hourlyRate: hourlyRateSchema.nullable(),
   costRate: z.unknown(),
@@ -77,7 +76,7 @@ const membershipSchema = z.object({
   membershipStatus: z.enum(['ACTIVE', 'INACTIVE']),
 })
 
-const taskSchema = z.object({
+export const taskSchema = z.object({
   id: z.string(),
   name: z.string(),
   projectId: z.string(),
@@ -97,19 +96,19 @@ const taskSchema = z.object({
     .nullable(),
 })
 
-const tagsSchema = z.object({
+export const tagsSchema = z.object({
   archived: z.boolean(),
   id: z.string(),
   name: z.string(),
   workspaceId: z.string(),
 })
 
-const estimateSchema = z.object({
+export const estimateSchema = z.object({
   estimate: z.string(),
   type: z.string(),
 })
 
-const timeEstimateSchema = z.object({
+export const timeEstimateSchema = z.object({
   estimate: z.string(),
   type: z.string(),
   resetOption: z.unknown().nullable(),
@@ -117,7 +116,7 @@ const timeEstimateSchema = z.object({
   includeNonBillable: z.boolean(),
 })
 
-const projectSchema = z.object({
+export const projectSchema = z.object({
   id: z.string(),
   name: z.string(),
   hourlyRate: hourlyRateSchema,
@@ -138,7 +137,7 @@ const projectSchema = z.object({
   public: z.boolean(),
 })
 
-const commonTimeEntrySchema = z.object({
+export const commonTimeEntrySchema = z.object({
   id: z.string(),
   description: z.string(),
   tags: z.array(tagsSchema),
@@ -155,7 +154,7 @@ const commonTimeEntrySchema = z.object({
   userId: z.string(),
 })
 
-const activeTimeEntrySchema = z.intersection(
+export const activeTimeEntrySchema = z.intersection(
   commonTimeEntrySchema,
   z.object({
     project: projectSchema.nullable(),
@@ -164,7 +163,7 @@ const activeTimeEntrySchema = z.intersection(
   }),
 )
 
-const inactiveTimeEntrySchema = z.intersection(
+export const inactiveTimeEntrySchema = z.intersection(
   commonTimeEntrySchema,
   z.object({
     project: projectSchema,
@@ -173,7 +172,7 @@ const inactiveTimeEntrySchema = z.intersection(
   }),
 )
 
-const timeEntrySchema = z.union([
+export const timeEntrySchema = z.union([
   activeTimeEntrySchema,
   inactiveTimeEntrySchema,
 ])
@@ -200,65 +199,6 @@ export type TimeEntriesRequestOptions = {
   'page-size'?: number
 }
 
-const timeEntriesSchema = z.array(timeEntrySchema)
+export const timeEntriesSchema = z.array(timeEntrySchema)
+
 export type TimeEntries = z.infer<typeof timeEntriesSchema>
-
-export async function getTimeEntries(
-  workspaceId: string,
-  userId: string,
-  options: TimeEntriesRequestOptions = {},
-) {
-  const params = createURLSearchParams({ ...options, hydrated: true })
-  return client<TimeEntries>(
-    `workspaces/${workspaceId}/user/${userId}/time-entries?${params}`,
-    timeEntriesSchema,
-  )
-}
-
-const createdTimeEntrySchema = z.object({
-  billable: z.boolean(),
-  description: z.string(),
-  id: z.string(),
-  isLocked: z.boolean(),
-  projectId: z.string().nullable(),
-  tagIds: z.array(z.string()).nullable(),
-  taskId: z.string().nullable(),
-  timeInterval: activeTimeEntryIntervalSchema,
-  userId: z.string(),
-  workspaceId: z.string(),
-  customFieldValues: z
-    .array(
-      z.object({
-        customFieldId: z.string(),
-        timeEntryId: z.string(),
-        value: z.string(),
-        name: z.string(),
-        type: z.string(),
-      }),
-    )
-    .nullable(),
-})
-
-export type CreatedTimeEntry = z.infer<typeof createdTimeEntrySchema>
-
-export type CreateTimeEntryPayload = {
-  start: string
-  billable: boolean
-  description: string
-  projectId: string | undefined
-  taskId: string | undefined
-  end: string | undefined
-  tagIds: string[] | undefined
-  customFields: { customFieldId: string; value: string }[]
-}
-
-export async function createTimeEntry(
-  workspaceId: string,
-  data: CreateTimeEntryPayload,
-) {
-  return client<CreatedTimeEntry>(
-    `/workspaces/${workspaceId}/time-entries`,
-    createdTimeEntrySchema,
-    { data },
-  )
-}

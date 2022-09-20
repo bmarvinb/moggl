@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow'
 import { timeEntryViewRowData } from 'features/timer/fixtures/time-entry-view-row-data'
-import { noop } from 'test/test-utils'
+import { noop } from 'utils/test-utils'
 
 const selectors = {
   toggleChildrenButton: 'TOGGLE_CHILDREN_VISIBILITY_BUTTON',
