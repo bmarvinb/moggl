@@ -38,6 +38,19 @@ export type ReportedDaysProps = {
   activeTimeEntry: O.Option<ActiveTimeEntry>
 }
 
+function mapColors(color: string): string {
+  switch (color) {
+    case '#E91E63':
+      return '#de1d5e'
+    case '#FF9800':
+      return '#a76400'
+    case '#4CAF50':
+      return '#39823c'
+    default:
+      return 'var(--neutral8)'
+  }
+}
+
 export function createTimeEntryViewModel(
   timeEntry: InactiveTimeEntry,
 ): TimeEntryViewModel {
@@ -47,7 +60,7 @@ export function createTimeEntryViewModel(
     billable: timeEntry.billable,
     project: {
       name: timeEntry.project.name,
-      color: timeEntry.project.color,
+      color: mapColors(timeEntry.project.color),
       clientName: pipe(timeEntry.project.clientName, O.fromNullable),
     },
     task: pipe(

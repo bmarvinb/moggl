@@ -13,7 +13,6 @@ export type TimeEntriesHeaderProps = {
 
 const Title = styled.div`
   font-weight: 700;
-  color: var(--neutral9);
   font-size: var(--fontSizeXl);
   line-height: var(--lineHeightXl);
 `
@@ -22,7 +21,7 @@ const TotalTime = styled.span`
   font-weight: 400;
   font-size: var(--fontSizeLg);
   line-height: var(--lineHeightLg);
-  color: var(--neutral7);
+  color: var(--neutral8);
   margin-left: 0.5rem;
 `
 
