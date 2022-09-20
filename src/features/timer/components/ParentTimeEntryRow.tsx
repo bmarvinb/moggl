@@ -20,14 +20,14 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
     props.checkedIds.includes(child.data.id),
   )
 
+  const isChildChecked = (id: string) => props.checkedIds.includes(id)
+
   const onParentCheckedChange = () => {
     const childrenIds = props.timeEntry.children.map(({ data }) => data.id)
     props.onParentCheckedChange(
       allChildrenChecked ? [[], childrenIds] : [childrenIds, []],
     )
   }
-
-  const isChildChecked = (id: string) => props.checkedIds.includes(id)
 
   const onChildCheckedChange = (id: string) => {
     const wasRemoved = props.checkedIds.includes(id)
@@ -36,17 +36,29 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
 
   return (
     <>
-      <TimeEntryViewRow
-        timeEntry={props.timeEntry}
-        edit={props.edit}
-        checked={allChildrenChecked}
-        onCheckedChange={onParentCheckedChange}
-        onPlayClicked={props.onPlayClicked}
-        onToggleChildrenVisibility={toggleExpanded}
-        data-testid="PARENT_TIME_ENTRY"
-      />
-      {expanded &&
-        props.timeEntry.children.map(child => (
+      <div
+        id={`${props.timeEntry.data.id}`}
+        aria-expanded={expanded}
+        aria-controls={`${props.timeEntry.data.id}-children`}
+        data-testid={`${props.timeEntry.data.id}`}
+      >
+        <TimeEntryViewRow
+          timeEntry={props.timeEntry}
+          edit={props.edit}
+          checked={allChildrenChecked}
+          onCheckedChange={onParentCheckedChange}
+          onPlayClicked={props.onPlayClicked}
+          onToggleChildrenVisibility={toggleExpanded}
+        />
+      </div>
+      <div
+        id={`${props.timeEntry.data.id}-children`}
+        role="region"
+        aria-labelledby={`${props.timeEntry.data.id}`}
+        hidden={!expanded}
+        data-testid={`${props.timeEntry.data.id}-children`}
+      >
+        {props.timeEntry.children.map(child => (
           <TimeEntryViewRow
             key={child.data.id}
             timeEntry={child}
@@ -54,9 +66,9 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
             checked={isChildChecked(child.data.id)}
             onPlayClicked={props.onPlayClicked}
             onCheckedChange={onChildCheckedChange}
-            data-testid="PARENT_CHILD_TIME_ENTRY"
           />
         ))}
+      </div>
     </>
   )
 }

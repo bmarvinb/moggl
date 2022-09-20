@@ -4,7 +4,7 @@ import {
 } from 'features/timer/components/TimeEntryViewRow'
 import { seconds } from 'test/test-utils'
 
-export const parentTimeEntry: ParentTimeEntry = {
+const tesla: ParentTimeEntry = {
   type: TimeEntryRowType.Parent,
   data: {
     id: '1',
@@ -29,7 +29,7 @@ export const parentTimeEntry: ParentTimeEntry = {
         billable: true,
         project: {
           name: 'Tesla',
-          color: '#F44336',
+          color: 'red',
           clientName: 'Elon Musk',
         },
         task: undefined,
@@ -56,4 +56,46 @@ export const parentTimeEntry: ParentTimeEntry = {
       },
     },
   ],
+}
+
+const facebook: ParentTimeEntry = {
+  type: TimeEntryRowType.Parent,
+  data: {
+    id: '1',
+    description: 'News feed',
+    billable: true,
+    project: {
+      name: 'Facebook',
+      color: 'blue',
+      clientName: 'Mark',
+    },
+    task: 'UI refactoring',
+    start: new Date('2022-10-20T19:00:00.000Z'),
+    end: new Date('2022-10-20T23:30:00.000Z'),
+    duration: seconds({ hours: 4, minutes: 30 }),
+  },
+  children: [
+    {
+      type: TimeEntryRowType.Child,
+      data: {
+        id: '2',
+        description: 'News feed',
+        billable: true,
+        project: {
+          name: 'Facebook',
+          color: 'blue',
+          clientName: 'Mark',
+        },
+        task: 'UI refactoring',
+        start: new Date('2022-10-20T19:00:00.000Z'),
+        end: new Date('2022-10-17T23:30:00.000Z'),
+        duration: seconds({ hours: 4, minutes: 30 }),
+      },
+    },
+  ],
+}
+
+export const timeEntryViewRowData = {
+  tesla,
+  facebook,
 }

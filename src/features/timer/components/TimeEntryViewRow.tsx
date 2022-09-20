@@ -110,10 +110,22 @@ const RoundedButton = styled(Button)`
   }
 `
 
-export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
+export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = ({
+  timeEntry,
+  edit,
+  checked,
+  onToggleChildrenVisibility,
+  onCheckedChange,
+  onPlayClicked,
+  ...rest
+}) => {
   return (
     <>
-      <TimeEntryItem key={props.timeEntry.data.id}>
+      <TimeEntryItem
+        key={timeEntry.data.id}
+        data-testid="TIME_ENTRY_VIEW_ROW"
+        {...rest}
+      >
         <div
           css={`
             display: flex;
@@ -121,7 +133,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
             padding-right: 0.5rem;
           `}
         >
-          {props.edit && (
+          {edit && (
             <div
               css={`
                 margin-right: 1rem;
@@ -130,44 +142,43 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               `}
             >
               <Checkbox
-                checked={props.checked}
-                onChange={() => props.onCheckedChange(props.timeEntry.data.id)}
+                checked={checked}
+                onChange={() => onCheckedChange(timeEntry.data.id)}
               />
             </div>
           )}
-          {isParentTimeEntry(props.timeEntry) && (
+          {isParentTimeEntry(timeEntry) && (
             <RoundedButton
               onClick={() =>
-                props.onToggleChildrenVisibility &&
-                props.onToggleChildrenVisibility()
+                onToggleChildrenVisibility && onToggleChildrenVisibility()
               }
               aria-label="Toggle children visibility"
               data-testid="TOGGLE_CHILDREN_VISIBILITY_BUTTON"
             >
-              {props.timeEntry.children.length}
+              {timeEntry.children.length}
             </RoundedButton>
           )}
           <div
             css={`
               display: flex;
               flex-direction: column;
-              padding-left: ${isChildTimeEntry(props.timeEntry) ? '3rem' : '0'};
+              padding-left: ${isChildTimeEntry(timeEntry) ? '3rem' : '0'};
             `}
           >
             <Description
-              $empty={props.timeEntry.data.description.length === 0}
+              $empty={timeEntry.data.description.length === 0}
               data-testid="TIME_ENTRY_DESCRIPTION"
             >
-              {props.timeEntry.data.description || 'Add description'}
+              {timeEntry.data.description || 'Add description'}
             </Description>
             <AdditionalInfo
-              $color={props.timeEntry.data.project.color}
+              $color={timeEntry.data.project.color}
               data-testid="TIME_ENTRY_ADDITIONAL_INFO"
             >
               {getTimeEntryInfo(
-                props.timeEntry.data.project.name,
-                props.timeEntry.data.project.clientName,
-                props.timeEntry.data.task,
+                timeEntry.data.project.name,
+                timeEntry.data.project.clientName,
+                timeEntry.data.task,
               )}
             </AdditionalInfo>
           </div>
@@ -201,7 +212,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                 display: none;
               `}
             >
-              {formatTimeEntryDate(props.timeEntry.data)}
+              {formatTimeEntryDate(timeEntry.data)}
             </div>
             <div
               css={`
@@ -211,7 +222,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               `}
               data-testid="TIME_ENTRY_DURATION"
             >
-              {formatDurationToInlineTime(props.timeEntry.data.duration)}
+              {formatDurationToInlineTime(timeEntry.data.duration)}
             </div>
           </div>
 
@@ -223,7 +234,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
             `}
           >
             <IconButton
-              onClick={() => props.onPlayClicked(props.timeEntry)}
+              onClick={() => onPlayClicked(timeEntry)}
               aria-label="Start timer"
               css={`
                 margin-right: 0.5rem;
