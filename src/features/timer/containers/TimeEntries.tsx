@@ -20,11 +20,10 @@ import {
   timeEntryDuration,
 } from 'features/timer/utils/time-entries-utils'
 import * as A from 'fp-ts/lib/Array'
-import { constUndefined, pipe } from 'fp-ts/lib/function'
+import { pipe } from 'fp-ts/lib/function'
 import * as M from 'fp-ts/lib/Monoid'
 import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/lib/string'
-import * as O from 'fp-ts/Option'
 import { nanoid } from 'nanoid'
 import { FC } from 'react'
 import 'styled-components/macro'
