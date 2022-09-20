@@ -6,12 +6,13 @@ import {
 } from 'features/timer/services/time-entries'
 import { timeEntryDuration } from 'features/timer/utils/time-entries-utils'
 import { pipe } from 'fp-ts/lib/function'
+import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
 
 export type TimeEntryRowProject = {
   name: string
   color: string
-  clientName: string | undefined
+  clientName: O.Option<string>
 }
 
 export type TimeEntryViewModel = {
@@ -19,7 +20,7 @@ export type TimeEntryViewModel = {
   description: string
   billable: boolean
   project: TimeEntryRowProject
-  task: string | undefined
+  task: O.Option<string>
   start: Date
   end: Date
   duration: number
@@ -34,7 +35,7 @@ export type ReportedDay = {
 
 export type ReportedDaysProps = {
   reportedDays: ReportedDay[]
-  activeTimeEntry: ActiveTimeEntry | undefined
+  activeTimeEntry: O.Option<ActiveTimeEntry>
 }
 
 export function createTimeEntryViewModel(
@@ -47,9 +48,13 @@ export function createTimeEntryViewModel(
     project: {
       name: timeEntry.project.name,
       color: timeEntry.project.color,
-      clientName: timeEntry.project.clientName || undefined,
+      clientName: pipe(timeEntry.project.clientName, O.fromNullable),
     },
-    task: timeEntry.task?.name || undefined,
+    task: pipe(
+      timeEntry.task,
+      O.fromNullable,
+      O.map(({ name }) => name),
+    ),
     start: new Date(timeEntry.timeInterval.start),
     end: new Date(timeEntry.timeInterval.end),
     duration: pipe(timeEntry, timeEntryDuration),
@@ -72,7 +77,7 @@ export const ReportedDays: FC<ReportedDaysProps> = props => {
             date={date}
             reportedTime={reportedTime}
             data={timeEntries}
-            activeTimeEntry={isToday(date) ? props.activeTimeEntry : undefined}
+            activeTimeEntry={isToday(date) ? props.activeTimeEntry : O.none}
           />
         ),
       )}

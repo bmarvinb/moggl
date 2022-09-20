@@ -1,26 +1,27 @@
 import {
   differenceInSeconds,
+  format,
   hoursToSeconds,
+  isToday,
+  isYesterday,
   minutesToSeconds,
   secondsToHours,
   secondsToMinutes,
-  format,
-  isToday,
-  isYesterday,
 } from 'date-fns'
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import {
+  ChildTimeEntry,
   ParentTimeEntry,
+  RegularTimeEntry,
   TimeEntryRowType,
   TimeEntryRowViewModel,
-  RegularTimeEntry,
-  ChildTimeEntry,
 } from 'features/timer/components/TimeEntryViewRow'
 import {
   ActiveTimeEntry,
   InactiveTimeEntry,
   TimeEntry,
 } from 'features/timer/services/time-entries'
+import * as O from 'fp-ts/lib/Option'
 import { numberPad } from 'utils/number'
 
 export function isInactiveTimeEntry(x: TimeEntry): x is InactiveTimeEntry {
@@ -72,28 +73,26 @@ export function formatTimeEntryDate(timeEntry: TimeEntryViewModel): string {
 
 export function getTimeEntryInfo(
   project: string,
-  client: string | undefined,
-  task: string | undefined,
+  client: O.Option<string>,
+  task: O.Option<string>,
 ): string {
-  if (task && client) {
-    return `${project}: ${task}, ${client}`
+  if (O.isSome(task) && O.isSome(client)) {
+    return `${project}: ${task.value}, ${client.value}`
   }
-  if (task) {
-    return `${project}: ${task}`
+  if (O.isSome(task)) {
+    return `${project}: ${task.value}`
   }
-  if (client) {
-    return `${project}, ${client}`
+  if (O.isSome(client)) {
+    return `${project}, ${client.value}`
   }
   return `${project}`
 }
 
 export function activeTimeEntryDuration(
-  activeTimeEntryStart: Date | undefined,
+  activeTimeEntryStart: Date,
   now = new Date(),
 ) {
-  return activeTimeEntryStart
-    ? differenceInSeconds(now, activeTimeEntryStart)
-    : 0
+  return differenceInSeconds(now, activeTimeEntryStart)
 }
 
 export function formatDate(

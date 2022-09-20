@@ -1,12 +1,14 @@
 import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import { formatDurationToInlineTime } from 'features/timer/utils/time-entries-utils'
+import { pipe } from 'fp-ts/lib/function'
+import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
 import styled from 'styled-components/macro'
 
 export type TimeEntriesHeaderProps = {
   currentWeekDuration: number
-  activeTimeEntry: ActiveTimeEntry | undefined
+  activeTimeEntry: O.Option<ActiveTimeEntry>
 }
 
 const Title = styled.div`
@@ -25,9 +27,13 @@ const TotalTime = styled.span`
 `
 
 export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {
-  const [duration] = useActiveDuration(props.activeTimeEntry)
-  const inlineTime = formatDurationToInlineTime(
-    duration ? props.currentWeekDuration + duration : props.currentWeekDuration,
+  const duration = useActiveDuration(props.activeTimeEntry)
+  const inlineTime = pipe(
+    duration,
+    O.map(duration =>
+      formatDurationToInlineTime(duration + props.currentWeekDuration),
+    ),
+    O.getOrElse(() => formatDurationToInlineTime(props.currentWeekDuration)),
   )
 
   return (

@@ -1,20 +1,22 @@
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import { activeTimeEntryDuration } from 'features/timer/utils/time-entries-utils'
-import { flow } from 'fp-ts/lib/function'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { flow, pipe } from 'fp-ts/lib/function'
+import * as O from 'fp-ts/lib/Option'
+import { useEffect, useState } from 'react'
 
 function getActiveTimeEntryDuration(
-  activeTimeEntry: ActiveTimeEntry | undefined,
-): number | undefined {
-  return activeTimeEntry
-    ? activeTimeEntryDuration(new Date(activeTimeEntry.timeInterval.start))
-    : undefined
+  activeTimeEntry: O.Option<ActiveTimeEntry>,
+): O.Option<number> {
+  return pipe(
+    activeTimeEntry,
+    O.map(({ timeInterval }) =>
+      activeTimeEntryDuration(new Date(timeInterval.start)),
+    ),
+  )
 }
 
-export function useActiveDuration(
-  activeTimeEntry: ActiveTimeEntry | undefined,
-): [number | undefined, Dispatch<SetStateAction<number | undefined>>] {
-  const [duration, setDuration] = useState(
+export function useActiveDuration(activeTimeEntry: O.Option<ActiveTimeEntry>) {
+  const [duration, setDuration] = useState<O.Option<number>>(
     getActiveTimeEntryDuration(activeTimeEntry),
   )
   useEffect(() => {
@@ -23,5 +25,5 @@ export function useActiveDuration(
     const interval = setInterval(() => update(activeTimeEntry), 1000)
     return () => clearInterval(interval)
   }, [activeTimeEntry])
-  return [duration, setDuration]
+  return duration
 }

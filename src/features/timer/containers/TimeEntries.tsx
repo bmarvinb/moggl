@@ -96,7 +96,6 @@ export const TimeEntries: FC = () => {
         timeEntries,
         A.filter(isActiveTimeEntry),
         A.lookup(0),
-        O.getOrElseW(constUndefined),
       )
 
       const currentWeekTimeEntries = pipe(

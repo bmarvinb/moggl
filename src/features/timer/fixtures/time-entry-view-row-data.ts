@@ -3,6 +3,7 @@ import {
   TimeEntryRowType,
 } from 'features/timer/components/TimeEntryViewRow'
 import { seconds } from 'test/test-utils'
+import * as O from 'fp-ts/lib/Option'
 
 const tesla: ParentTimeEntry = {
   type: TimeEntryRowType.Parent,
@@ -13,9 +14,9 @@ const tesla: ParentTimeEntry = {
     project: {
       name: 'Tesla',
       color: '#F44336',
-      clientName: 'Elon Musk',
+      clientName: O.some('Elon Musk'),
     },
-    task: undefined,
+    task: O.none,
     start: new Date('2022-09-17T12:00:00.000Z'),
     end: new Date('2022-09-17T12:31:30.000Z'),
     duration: seconds({ minutes: 2, seconds: 45 }),
@@ -30,9 +31,9 @@ const tesla: ParentTimeEntry = {
         project: {
           name: 'Tesla',
           color: 'red',
-          clientName: 'Elon Musk',
+          clientName: O.some('Elon Musk'),
         },
-        task: undefined,
+        task: O.none,
         start: new Date('2022-09-17T12:00:00.000Z'),
         end: new Date('2022-09-17T12:01:30.000Z'),
         duration: seconds({ minutes: 1, seconds: 30 }),
@@ -47,9 +48,9 @@ const tesla: ParentTimeEntry = {
         project: {
           name: 'Tesla',
           color: '#F44336',
-          clientName: 'Elon Musk',
+          clientName: O.some('Elon Musk'),
         },
-        task: undefined,
+        task: O.none,
         start: new Date('2022-09-17T12:30:15.000Z'),
         end: new Date('2022-09-17T12:31:30.000Z'),
         duration: seconds({ minutes: 1, seconds: 15 }),
@@ -67,9 +68,9 @@ const facebook: ParentTimeEntry = {
     project: {
       name: 'Facebook',
       color: 'blue',
-      clientName: 'Mark',
+      clientName: O.some('Mark'),
     },
-    task: 'UI refactoring',
+    task: O.some('UI refactoring'),
     start: new Date('2022-10-20T19:00:00.000Z'),
     end: new Date('2022-10-20T23:30:00.000Z'),
     duration: seconds({ hours: 4, minutes: 30 }),
@@ -84,9 +85,9 @@ const facebook: ParentTimeEntry = {
         project: {
           name: 'Facebook',
           color: 'blue',
-          clientName: 'Mark',
+          clientName: O.some('Mark'),
         },
-        task: 'UI refactoring',
+        task: O.some('UI refactoring'),
         start: new Date('2022-10-20T19:00:00.000Z'),
         end: new Date('2022-10-17T23:30:00.000Z'),
         duration: seconds({ hours: 4, minutes: 30 }),

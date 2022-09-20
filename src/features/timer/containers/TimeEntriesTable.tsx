@@ -1,3 +1,4 @@
+import { max, min } from 'date-fns'
 import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow'
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import { TimeEntriesTableView } from 'features/timer/components/TimeEntriesTableView'
@@ -13,14 +14,12 @@ import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils'
 import * as B from 'fp-ts/boolean'
-import * as D from 'fp-ts/Date'
 import { Eq, struct } from 'fp-ts/Eq'
 import * as A from 'fp-ts/lib/Array'
 import { pipe } from 'fp-ts/lib/function'
 import * as M from 'fp-ts/lib/Monoid'
-import * as NEA from 'fp-ts/lib/NonEmptyArray'
 import * as N from 'fp-ts/lib/number'
-import { contramap } from 'fp-ts/Ord'
+import * as O from 'fp-ts/lib/Option'
 import * as S from 'fp-ts/string'
 import { FC, useReducer, useState } from 'react'
 
@@ -28,7 +27,7 @@ export type TimeEntriesTableProps = {
   data: TimeEntryViewModel[]
   date: Date
   reportedTime: number
-  activeTimeEntry: ActiveTimeEntry | undefined
+  activeTimeEntry: O.Option<ActiveTimeEntry>
 }
 
 // TODO: compare task, clientName, tags, billable status
@@ -43,8 +42,12 @@ const EqTimeEntryViewModel: Eq<TimeEntryViewModel> = struct({
 export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   const [bulkEditMode, toggleBulkEditMode] = useReducer(state => !state, false)
   const [checkedIds, setCheckedIds] = useState<string[]>([])
-  const [duration] = useActiveDuration(props.activeTimeEntry)
-  const totalTime = props.reportedTime + (duration || 0)
+  const duration = useActiveDuration(props.activeTimeEntry)
+  const totalTime = pipe(
+    duration,
+    O.map(duration => props.reportedTime + duration),
+    O.getOrElse(() => props.reportedTime),
+  )
 
   const allRowsChecked = checkedIds.length === props.data.length
 
@@ -105,29 +108,23 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   })
 
   const createParentTimeEntry = (x: TimeEntryViewModel): ParentTimeEntry => {
-    const children: NEA.NonEmptyArray<ChildTimeEntry> = [
+    const children = [
       createChild(x),
       ...pipe(x, restTimeEntries, getParentChildren(x), A.map(createChild)),
     ]
-    const byDate = pipe(
-      D.Ord,
-      contramap((date: Date) => date),
-    )
     return {
       type: TimeEntryRowType.Parent,
       data: {
         ...x,
         start: pipe(
           children,
-          NEA.map(({ data }) => data.start),
-          NEA.sortBy([byDate]),
-          NEA.head,
+          A.map(({ data }) => data.start),
+          min,
         ),
         end: pipe(
           children,
-          NEA.map(({ data }) => data.end),
-          NEA.sortBy([byDate]),
-          NEA.last,
+          A.map(({ data }) => data.end),
+          max,
         ),
         duration: pipe(
           children,

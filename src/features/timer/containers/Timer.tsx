@@ -15,9 +15,11 @@ import { useForm } from 'react-hook-form'
 import 'styled-components/macro'
 import { invariant } from 'utils/invariant'
 import { z } from 'zod'
+import * as O from 'fp-ts/lib/Option'
+import { pipe } from 'fp-ts/lib/function'
 
 export type TimerProps = {
-  activeTimeEntry: ActiveTimeEntry | undefined
+  activeTimeEntry: O.Option<ActiveTimeEntry>
 }
 
 const schema = z.object({
@@ -36,8 +38,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 export const Timer: FC<TimerProps> = props => {
-  const [duration] = useActiveDuration(props.activeTimeEntry)
-
+  const duration = useActiveDuration(props.activeTimeEntry)
   const { workspace } = useAuth()
   invariant(workspace, 'Workspace must be provided')
 
@@ -95,9 +96,11 @@ export const Timer: FC<TimerProps> = props => {
     defaultValues: {
       start: '',
       billable: false,
-      description: props.activeTimeEntry
-        ? props.activeTimeEntry.description
-        : '',
+      description: pipe(
+        props.activeTimeEntry,
+        O.map(({ description }) => description),
+        O.getOrElse(() => ''),
+      ),
       projectId: '',
     },
   })

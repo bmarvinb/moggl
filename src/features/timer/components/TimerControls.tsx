@@ -1,6 +1,8 @@
 import { Button, DangerButton } from 'components/Button'
 import { IconButton } from 'components/IconButton'
 import { formatDurationToInlineTime } from 'features/timer/utils/time-entries-utils'
+import { pipe } from 'fp-ts/lib/function'
+import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
 import {
   BiBriefcase,
@@ -13,7 +15,7 @@ import 'styled-components/macro'
 import styled from 'styled-components/macro'
 
 export type TimerControlsProps = {
-  duration: number | undefined
+  duration: O.Option<number>
   onStartClicked: () => void
   onStopClicked: () => void
 }
@@ -33,6 +35,11 @@ const StopButton = styled(DangerButton)`
 `
 
 export const TimerControls: FC<TimerControlsProps> = props => {
+  const inlineTime = pipe(
+    props.duration,
+    O.map(formatDurationToInlineTime),
+    O.getOrElse(() => formatDurationToInlineTime(0)),
+  )
   return (
     <div>
       <div
@@ -74,10 +81,10 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             line-height: var(--lineHeightLg);
           `}
         >
-          {formatDurationToInlineTime(props.duration ? props.duration : 0)}
+          {inlineTime}
         </div>
 
-        {typeof props.duration === 'undefined' ? (
+        {O.isNone(props.duration) ? (
           <StartButton
             aria-label="Start timer"
             title="Start timer"
