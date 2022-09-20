@@ -53,10 +53,11 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
       </div>
       <div
         id={`${props.timeEntry.data.id}-children`}
+        data-testid={`${props.timeEntry.data.id}-children`}
+        hidden={!expanded}
         role="region"
         aria-labelledby={`${props.timeEntry.data.id}`}
-        hidden={!expanded}
-        data-testid={`${props.timeEntry.data.id}-children`}
+        aria-hidden={!expanded}
       >
         {props.timeEntry.children.map(child => (
           <TimeEntryViewRow
