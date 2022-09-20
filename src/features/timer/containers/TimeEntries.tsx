@@ -74,7 +74,7 @@ export const TimeEntries: FC = () => {
 
   const { status, data: timeEntries } = useQuery(
     ['timeEntries'],
-    () => getTimeEntries(workspace.id, user.id, { 'page-size': 100, page: 1 }),
+    () => getTimeEntries(workspace.id, user.id, { 'page-size': 25, page: 1 }),
     {
       onError: console.error,
     },
