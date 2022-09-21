@@ -38,23 +38,6 @@ export type ReportedDaysProps = {
   activeTimeEntry: O.Option<ActiveTimeEntry>
 }
 
-function fixContrastRatio(color: string): string {
-  switch (color) {
-    case '#f44336':
-      return '#d43a2f'
-    case '#e91e63':
-      return '#de1d5e'
-    case '#ff9800':
-      return '#a76400'
-    case '#4caf50':
-      return '#39823c'
-    case '#009688':
-      return '#008276'
-    default:
-      return color
-  }
-}
-
 export function createTimeEntryViewModel(
   timeEntry: InactiveTimeEntry,
 ): TimeEntryViewModel {
@@ -64,7 +47,7 @@ export function createTimeEntryViewModel(
     billable: timeEntry.billable,
     project: {
       name: timeEntry.project.name,
-      color: fixContrastRatio(timeEntry.project.color),
+      color: timeEntry.project.color,
       clientName: pipe(
         timeEntry.project.clientName,
         O.fromNullable,
