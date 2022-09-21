@@ -26,11 +26,6 @@ const StartButton = styled(Button)`
   border-radius: 100%;
   border: 1px solid var(--primary1);
   width: fit-content;
-
-  svg {
-    position: relative;
-    right: -0.1rem;
-  }
 `
 
 const StopButton = styled(DangerButton)`
