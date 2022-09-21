@@ -26,7 +26,7 @@ export const Input = styled.input`
 `
 
 export const InlineInput = styled.input`
-  padding: 0.5rem;
+  padding: 0.5rem 0rem;
   font-size: var(--fontSm);
   line-height: var(--lineHeightSm);
   background: transparent;

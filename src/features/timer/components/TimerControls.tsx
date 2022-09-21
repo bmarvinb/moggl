@@ -62,6 +62,8 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             column-gap: 1rem;
+            position: relative;
+            left: -0.3rem;
           `}
         >
           <IconButton
