@@ -21,7 +21,7 @@ export type TimeEntriesTableViewProps = {
 }
 
 const TimeEntriesTable = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   background: var(--neutral0);
   border-radius: var(--roundedMd);
   box-shadow: var(--shadowSm);
