@@ -231,6 +231,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = ({
               display: flex;
               justify-content: right;
               position: relative;
+              right: -0.7rem;
             `}
           >
             <IconButton

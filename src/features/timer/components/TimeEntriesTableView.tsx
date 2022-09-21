@@ -94,6 +94,8 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
             onClick={props.onToggleClicked}
             css={`
               font-size: var(--fontSizeLg);
+              position: relative;
+              right: -0.4rem;
             `}
           >
             <BiListUl title="Toggle" />
