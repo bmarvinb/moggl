@@ -23,16 +23,21 @@ export type TimerControlsProps = {
 const StartButton = styled(Button)`
   display: inline-flex;
   padding: 0.5rem;
-  border-radius: 9999px;
-  outline: 2px solid var(--primary1);
+  border-radius: 100%;
+  border: 1px solid var(--primary1);
   width: fit-content;
+
+  svg {
+    position: relative;
+    right: -0.1rem;
+  }
 `
 
 const StopButton = styled(DangerButton)`
   display: inline-flex;
   padding: 0.5rem;
-  border-radius: 9999px;
-  outline: 2px solid var(--red1);
+  border-radius: 100%;
+  border: 2px solid var(--red1);
   width: fit-content;
 `
 
