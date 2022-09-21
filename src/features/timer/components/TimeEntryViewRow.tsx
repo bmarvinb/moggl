@@ -57,15 +57,15 @@ const TimeEntryItem = styled.div`
   padding: 0.75rem 1rem;
   justify-content: space-between;
 
+  border-bottom: 1px solid var(--neutral1);
   &:not(:last-child) {
-    border-bottom: 1px solid var(--neutral1);
   }
 `
 
 const Description = styled.div<{ $empty: boolean }>`
   line-height: var(--lineHeightLg);
   margin-bottom: 0.5rem;
-  color: ${props => (props.$empty ? 'var(--neutral7)' : 'var(--neutral9)')};
+  color: ${props => (props.$empty ? 'var(--neutral6)' : 'var(--neutral9)')};
 `
 
 const AdditionalInfo = styled.div<{ $color: string }>`
@@ -89,13 +89,14 @@ const AdditionalInfo = styled.div<{ $color: string }>`
 const RoundedButton = styled(Button)`
   border-radius: 100%;
   background: transparent;
-  color: var(--neutral9);
   padding: 0.25rem;
   min-width: 2rem;
   height: 2rem;
-  border: 1px solid var(--neutral4);
+  color: var(--neutral6);
+  border: 1px solid var(--neutral6);
   margin: auto;
   margin-right: 1rem;
+  box-shadow: none;
 
   &:hover {
     background: transparent;
