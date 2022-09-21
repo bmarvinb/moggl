@@ -37,7 +37,7 @@ const StopButton = styled(DangerButton)`
   display: inline-flex;
   padding: 0.5rem;
   border-radius: 100%;
-  border: 2px solid var(--red1);
+  border: 1px solid var(--red1);
   width: fit-content;
 `
 
