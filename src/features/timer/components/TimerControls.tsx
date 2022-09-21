@@ -23,7 +23,7 @@ export type TimerControlsProps = {
 const StartButton = styled(Button)`
   display: inline-flex;
   padding: 0.5rem;
-  border-radius: 100%;
+  border-radius: 9999px;
   outline: 2px solid var(--primary1);
   width: fit-content;
 `
@@ -31,7 +31,7 @@ const StartButton = styled(Button)`
 const StopButton = styled(DangerButton)`
   display: inline-flex;
   padding: 0.5rem;
-  border-radius: 100%;
+  border-radius: 9999px;
   outline: 2px solid var(--red1);
   width: fit-content;
 `
@@ -49,6 +49,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          width: 100%;
         `}
       >
         <div
