@@ -17,12 +17,14 @@ const Title = styled.div`
   line-height: var(--lineHeightXl);
 `
 
-const TotalTime = styled.span`
+const TotalTime = styled.div`
+  display: inline-flex;
   font-weight: 400;
   font-size: var(--fontSizeLg);
   line-height: var(--lineHeightLg);
   color: var(--neutral8);
   margin-left: 0.5rem;
+  min-width: 5rem;
 `
 
 export const TimeEntriesHeader: FC<TimeEntriesHeaderProps> = props => {

@@ -99,6 +99,8 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             css={`
               font-weight: 500;
               line-height: var(--lineHeightLg);
+              min-width: 4rem;
+              text-align: right;
             `}
           >
             {inlineTime}

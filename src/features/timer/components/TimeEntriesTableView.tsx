@@ -79,6 +79,7 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
               css={`
                 font-weight: 400;
                 color: var(--neutral8);
+                min-width: 4rem;
               `}
             >
               {isToday(props.date)
