@@ -21,17 +21,19 @@ export type TimerControlsProps = {
 }
 
 const StartButton = styled(Button)`
-  display: flex;
+  display: inline-flex;
   padding: 0.5rem;
   border-radius: 100%;
   outline: 2px solid var(--primary1);
+  width: fit-content;
 `
 
 const StopButton = styled(DangerButton)`
-  display: flex;
+  display: inline-flex;
   padding: 0.5rem;
   border-radius: 100%;
   outline: 2px solid var(--red1);
+  width: fit-content;
 `
 
 export const TimerControls: FC<TimerControlsProps> = props => {
@@ -44,74 +46,89 @@ export const TimerControls: FC<TimerControlsProps> = props => {
     <div>
       <div
         css={`
-          display: grid;
-          grid-template-columns: 2rem 2rem 2rem 4rem 1fr;
-          grid-column-gap: 0.5rem;
+          display: flex;
           align-items: center;
+          justify-content: space-between;
         `}
       >
-        <IconButton
-          aria-label="Select project"
+        <div
           css={`
-            font-size: var(--fontSizeXl);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            column-gap: 1rem;
           `}
         >
-          <BiBriefcase title="Select project" />
-        </IconButton>
-        <IconButton
-          aria-label="Select tags"
-          css={`
-            font-size: var(--fontSizeXl);
-          `}
-        >
-          <BiPurchaseTag title="Select tags" />
-        </IconButton>
-        <IconButton
-          aria-label="Change billable status"
-          css={`
-            font-size: var(--fontSizeXl);
-          `}
-        >
-          <BiDollar title="Change billable status" />
-        </IconButton>
+          <IconButton
+            aria-label="Select project"
+            css={`
+              font-size: var(--fontSizeXl);
+            `}
+          >
+            <BiBriefcase title="Select project" />
+          </IconButton>
+          <IconButton
+            aria-label="Select tags"
+            css={`
+              font-size: var(--fontSizeXl);
+            `}
+          >
+            <BiPurchaseTag title="Select tags" />
+          </IconButton>
+          <IconButton
+            aria-label="Change billable status"
+            css={`
+              font-size: var(--fontSizeXl);
+            `}
+          >
+            <BiDollar title="Change billable status" />
+          </IconButton>
+        </div>
 
         <div
           css={`
-            font-weight: 500;
-            line-height: var(--lineHeightLg);
+            display: grid;
+            grid-template-columns: 1fr 100%;
+            column-gap: 1rem;
+            align-items: center;
           `}
         >
-          {inlineTime}
-        </div>
+          <div
+            css={`
+              font-weight: 500;
+              line-height: var(--lineHeightLg);
+            `}
+          >
+            {inlineTime}
+          </div>
 
-        {O.isNone(props.duration) ? (
-          <StartButton
-            aria-label="Start timer"
-            title="Start timer"
-            onClick={() => props.onStartClicked()}
-            css={``}
-          >
-            <BiPlay
-              css={`
-                font-size: var(--fontSizeXl);
-                line-height: var(--lineHeightXl);
-              `}
-            />
-          </StartButton>
-        ) : (
-          <StopButton
-            aria-label="Stop timer"
-            title="Stop timer"
-            onClick={() => props.onStopClicked()}
-          >
-            <BiStop
-              css={`
-                font-size: var(--fontSizeXl);
-                line-height: var(--lineHeightXl);
-              `}
-            />
-          </StopButton>
-        )}
+          {O.isNone(props.duration) ? (
+            <StartButton
+              aria-label="Start timer"
+              title="Start timer"
+              onClick={() => props.onStartClicked()}
+            >
+              <BiPlay
+                css={`
+                  font-size: var(--fontSizeXl);
+                  line-height: var(--lineHeightXl);
+                `}
+              />
+            </StartButton>
+          ) : (
+            <StopButton
+              aria-label="Stop timer"
+              title="Stop timer"
+              onClick={() => props.onStopClicked()}
+            >
+              <BiStop
+                css={`
+                  font-size: var(--fontSizeXl);
+                  line-height: var(--lineHeightXl);
+                `}
+              />
+            </StopButton>
+          )}
+        </div>
       </div>
     </div>
   )

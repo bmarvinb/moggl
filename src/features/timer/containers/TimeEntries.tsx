@@ -125,7 +125,7 @@ export const TimeEntries: FC<TimeEntriesProps> = props => {
           <div
             css={`
               min-height: 100%;
-              padding: 5rem 1rem 1rem;
+              padding: 7rem 1rem 1rem;
             `}
           >
             <TimeEntriesHeader

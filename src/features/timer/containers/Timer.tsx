@@ -3,10 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { InlineInput } from 'components/Input'
 import { TimerControls } from 'features/timer/components/TimerControls'
 import { CreateTimeEntryPayload } from 'features/timer/types/created-time-entry'
-import {
-  ActiveTimeEntry,
-  TimeEntries,
-} from 'features/timer/types/time-entries'
+import { ActiveTimeEntry, TimeEntries } from 'features/timer/types/time-entries'
 import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
 import { createTimeEntry } from 'features/timer/infra/time-entries'
 import { pipe } from 'fp-ts/lib/function'
@@ -110,18 +107,14 @@ export const Timer: FC<TimerProps> = props => {
         left: 0;
         width: 100%;
         display: flex;
+        flex-direction: column;
         padding: 1rem 1rem;
         box-shadow: var(--shadowMd);
         background: var(--neutral0);
         z-index: 1;
       `}
     >
-      <div
-        css={`
-          flex: 1;
-          margin-right: 1rem;
-        `}
-      >
+      <div>
         <InlineInput
           css={`
             width: 100%;
