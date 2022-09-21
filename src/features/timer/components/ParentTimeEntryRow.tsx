@@ -36,10 +36,7 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
 
   return (
     <>
-      <div
-        id={`${props.timeEntry.data.id}`}
-        data-testid={`${props.timeEntry.data.id}`}
-      >
+      <div data-testid={`${props.timeEntry.data.id}-parent`}>
         <TimeEntryViewRow
           timeEntry={props.timeEntry}
           edit={props.edit}
@@ -50,7 +47,6 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
         />
       </div>
       <div
-        id={`${props.timeEntry.data.id}-children`}
         data-testid={`${props.timeEntry.data.id}-children`}
         hidden={!expanded}
       >

@@ -31,6 +31,9 @@ export const InlineInput = styled.input`
   line-height: var(--lineHeightSm);
   background: transparent;
   border: 0;
+  &::placeholder {
+    color: var(--neutral7);
+  }
 
   &:focus {
     outline: none;

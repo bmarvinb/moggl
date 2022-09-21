@@ -77,13 +77,13 @@ export function getTimeEntryInfo(
   task: O.Option<string>,
 ): string {
   if (O.isSome(task) && O.isSome(client)) {
-    return `${project}: ${task.value}, ${client.value}`
+    return `${project}: ${task.value} (${client.value})`
   }
   if (O.isSome(task)) {
     return `${project}: ${task.value}`
   }
   if (O.isSome(client)) {
-    return `${project}, ${client.value}`
+    return `${project} (${client.value})`
   }
   return `${project}`
 }

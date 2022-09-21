@@ -90,7 +90,7 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
         <Label>
           <IconButton
             $active={props.bulkEditMode}
-            aria-label="toggle"
+            aria-label="Toggle edit mode"
             onClick={props.onToggleClicked}
             css={`
               font-size: var(--fontSizeLg);

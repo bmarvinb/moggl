@@ -23,7 +23,9 @@ test('should render tesla project', async () => {
   const toggleChildrenButton = screen.getByTestId(
     selectors.toggleChildrenButton,
   )
-  const parent = within(screen.getByTestId(timeEntryViewRowData.tesla.data.id))
+  const parent = within(
+    screen.getByTestId(`${timeEntryViewRowData.tesla.data.id}-parent`),
+  )
   const description = parent.getByTestId(selectors.description)
   const duration = parent.getByTestId(selectors.duration)
 
@@ -45,7 +47,9 @@ test('should render facebook project', async () => {
   const toggleChildrenButton = screen.getByTestId(
     selectors.toggleChildrenButton,
   )
-  const parent = within(screen.getByTestId(timeEntryViewRowData.tesla.data.id))
+  const parent = within(
+    screen.getByTestId(`${timeEntryViewRowData.tesla.data.id}-parent`),
+  )
   const description = parent.getByTestId(selectors.description)
   const duration = parent.getByTestId(selectors.duration)
 
