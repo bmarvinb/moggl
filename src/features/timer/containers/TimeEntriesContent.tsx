@@ -1,14 +1,14 @@
+import { useMachine } from '@xstate/react'
 import {
   ReportedDay,
   ReportedDays,
 } from 'features/timer/components/ReportedDays'
 import { WeekDuration } from 'features/timer/components/WeekDuration'
 import { Timer } from 'features/timer/containers/Timer'
-import { useActiveTimeEntryDuration as useTimeEntryDuration } from 'features/timer/hooks/useActiveTimeEntryDuration'
+import { timerMachine } from 'features/timer/machines/timerMachine'
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
-import { pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import 'styled-components/macro'
 
 export type TimeEntriesViewProps = {
@@ -19,12 +19,18 @@ export type TimeEntriesViewProps = {
 }
 
 export const TimeEntriesView: FC<TimeEntriesViewProps> = props => {
-  const timeEntryDuration = useTimeEntryDuration(props.activeTimeEntry)
-  const weekDuration = pipe(
-    timeEntryDuration,
-    O.map(duration => duration + props.weekDuration),
-    O.getOrElse(() => props.weekDuration),
-  )
+  const [state, send] = useMachine(timerMachine)
+  useEffect(() => {
+    O.isSome(props.activeTimeEntry) &&
+      send('CONTINUE', {
+        activeTimeEntry: props.activeTimeEntry.value,
+      })
+  }, [props.activeTimeEntry, send])
+
+  const activeDuration = state.matches('running')
+    ? O.some(state.context.duration)
+    : O.none
+  const weekDuration = state.context.duration + props.weekDuration
   return (
     <div
       css={`
@@ -33,8 +39,10 @@ export const TimeEntriesView: FC<TimeEntriesViewProps> = props => {
     >
       <Timer
         activeTimeEntry={props.activeTimeEntry}
-        timeEntryDuration={timeEntryDuration}
+        timeEntryDuration={activeDuration}
         workspaceId={props.workspaceId}
+        onStart={() => send('START')}
+        onStop={() => send('STOP')}
       />
       <div
         css={`
@@ -45,7 +53,7 @@ export const TimeEntriesView: FC<TimeEntriesViewProps> = props => {
         <WeekDuration weekDuration={weekDuration} />
         <ReportedDays
           activeTimeEntry={props.activeTimeEntry}
-          activeTimeEntryDuration={timeEntryDuration}
+          activeTimeEntryDuration={activeDuration}
           reportedDays={props.reportedDays}
         />
       </div>

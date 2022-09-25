@@ -8,7 +8,7 @@ import {
   createTimeEntryViewModel,
   ReportedDay,
 } from 'features/timer/components/ReportedDays'
-import { TimeEntriesView } from 'features/timer/components/TimeEntriesView'
+import { TimeEntriesView } from 'features/timer/containers/TimeEntriesContent'
 import { InactiveTimeEntry } from 'features/timer/services/time-entries'
 import { getTimeEntries } from 'features/timer/services/time-entries-api'
 import {

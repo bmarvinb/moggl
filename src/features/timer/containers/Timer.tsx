@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { InlineInput } from 'components/Input'
 import { TimerControls } from 'features/timer/components/TimerControls'
-import { createTimeEntry } from 'features/timer/services/time-entries-api'
 import { CreateTimeEntryPayload } from 'features/timer/services/created-time-entry'
-import { ActiveTimeEntry, TimeEntries } from 'features/timer/services/time-entries'
+import { ActiveTimeEntry } from 'features/timer/services/time-entries'
+import { createTimeEntry } from 'features/timer/services/time-entries-api'
 import { pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
@@ -16,6 +16,8 @@ export type TimerProps = {
   activeTimeEntry: O.Option<ActiveTimeEntry>
   timeEntryDuration: O.Option<number>
   workspaceId: string
+  onStart: () => {}
+  onStop: () => {}
 }
 
 const schema = z.object({
@@ -34,34 +36,21 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 export const Timer: FC<TimerProps> = props => {
-  const queryClient = useQueryClient()
   const create = useMutation(
     (payload: CreateTimeEntryPayload) => {
       return createTimeEntry(props.workspaceId, payload)
     },
     {
-      onMutate: async timeEntry => {
-        const activeTimeEntry: Partial<ActiveTimeEntry> = {
-          description: timeEntry.description,
-          timeInterval: {
-            start: timeEntry.start,
-            end: null,
-            duration: null,
-          },
-        }
-        await queryClient.cancelQueries(['timeEntries'])
-        const previousTimeEntries = queryClient.getQueryData(['timeEntries'])
-        queryClient.setQueryData(['timeEntries'], timeEntries => [
-          ...(timeEntries as TimeEntries),
-          activeTimeEntry,
-        ])
-        return { previousTimeEntries }
+      onMutate: () => {
+        console.log('mutate')
+        props.onStart()
       },
-      onError: (_, __, context) => {
-        queryClient.setQueryData(['timeEntries'], context!.previousTimeEntries)
+      onError: () => {
+        console.log('error')
+        props.onStop()
       },
       onSettled: () => {
-        queryClient.invalidateQueries(['timeEntries'])
+        console.log('settled')
       },
     },
   )
@@ -80,7 +69,7 @@ export const Timer: FC<TimerProps> = props => {
   }
 
   const onStopClicked = () => {
-    console.log('Stop')
+    props.onStop()
   }
 
   const { register } = useForm<FormValues>({
