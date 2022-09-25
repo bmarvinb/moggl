@@ -25,27 +25,27 @@ function getActiveTimeEntryDuration(activeTimeEntry: ActiveTimeEntry): number {
   return activeTimeEntryDuration(new Date(activeTimeEntry.timeInterval.start))
 }
 
-export const timerMachine = createMachine<TimerContext, TimerEvent>({
+export const timerMachine =
+  /** @xstate-layout N4IgpgJg5mDOIC5QBcCWBbMAnAdKiANmAMQDKAKgIIBK5ioADgPayppMB29IAHogIwBWAJw5+ABgBMwgOxyAHABYAzIunKANCACeAmYJzDFU5fOHj5-AGzDBygL72taTLnxFiAYQDyAOXIAkr4AqgCi3Mys7FxIvAIiYlKyCipqwpo6iJJW-DhmktaK8qpmgpKOzhjYOFgArhwcqBxQxIGeANIRLGyonNx8CKqSODLKgvLiyqPy2YqKglq6CELiOHaq-MJKMvzKRhUgLtV1DU0tFN4ACl1RvTGgA-zy8jjKQrviwtJWVvILmQgzIZnm9pJY5nsHAcOEwIHBuEc3IQwDcen1YgM1IsBPIrIZJJJxPNTBYJIoDoiavVGs1UdF+ohlJMcOIpDICVZIYJWf8lpJFLkinZ5nJTFZuYIKVUsHS7gzlvJsQqWazJsIbFZpITxFZHI4gA */
+  createMachine<TimerContext, TimerEvent>({
+  context: { duration: 0 },
   id: 'timer',
-  initial: 'stopped',
-  context: {
-    duration: 0,
-  },
+  initial: 'idle',
   states: {
-    stopped: {
+    idle: {
       on: {
         START: {
-          target: 'running',
           actions: assign({
             duration: 0,
           }),
+          target: 'running',
         },
         CONTINUE: {
-          target: 'running',
           actions: assign({
             duration: (_, payload) =>
               getActiveTimeEntryDuration(payload.activeTimeEntry),
           }),
+          target: 'running',
         },
       },
     },
@@ -65,10 +65,10 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
           }),
         },
         STOP: {
-          target: 'stopped',
           actions: assign({
             duration: 0,
           }),
+          target: 'idle',
         },
       },
     },
