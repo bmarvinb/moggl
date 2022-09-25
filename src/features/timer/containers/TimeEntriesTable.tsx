@@ -51,35 +51,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
 
   const allRowsChecked = checkedIds.length === props.data.length
 
-  const onBulkModeChanged = () => {
-    setCheckedIds(allRowsChecked ? [] : props.data.map(({ id }) => id))
-  }
-
-  const onToggleClicked = () => {
-    toggleBulkEditMode()
-    setCheckedIds([])
-  }
-
   const isTimeEntryRowChecked = (id: string) => checkedIds.includes(id)
-
-  const onParentTimeEntryCheckedChange = ([addedIds, removedIds]: [
-    string[],
-    string[],
-  ]) => {
-    pipe(
-      checkedIds,
-      A.filter(id => !removedIds.includes(id)),
-      A.concat(addedIds),
-      setCheckedIds,
-    )
-  }
-
-  const onTimeEntryCheckedChange = (id: string) => {
-    const ids = checkedIds.includes(id)
-      ? checkedIds.filter(checkedId => checkedId !== id)
-      : checkedIds.concat([id])
-    setCheckedIds(ids)
-  }
 
   const restTimeEntries = (x: TimeEntryViewModel) =>
     pipe(
@@ -168,8 +140,36 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     }),
   )
 
+  const onBulkModeChanged = () => {
+    setCheckedIds(allRowsChecked ? [] : props.data.map(({ id }) => id))
+  }
+
+  const onToggleClicked = () => {
+    toggleBulkEditMode()
+    setCheckedIds([])
+  }
+
+  const onParentSelectionChange = (
+    added: string[] = [],
+    removed: string[] = [],
+  ) => {
+    pipe(
+      checkedIds,
+      A.filter(id => !removed.includes(id)),
+      A.concat(added),
+      setCheckedIds,
+    )
+  }
+
+  const onChildSelectionChange = (id: string) => {
+    const ids = checkedIds.includes(id)
+      ? checkedIds.filter(checkedId => checkedId !== id)
+      : checkedIds.concat([id])
+    setCheckedIds(ids)
+  }
+
   const onPlayClicked = (timeEntry: TimeEntryRowViewModel) => {
-    console.log('time entry', timeEntry)
+    console.log('Play', timeEntry)
   }
 
   return (
@@ -190,7 +190,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
             edit={bulkEditMode}
             checkedIds={checkedIds}
             onPlayClicked={onPlayClicked}
-            onParentCheckedChange={onParentTimeEntryCheckedChange}
+            onSelectionChange={onParentSelectionChange}
           />
         ) : (
           <TimeEntryViewRow
@@ -199,7 +199,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
             edit={bulkEditMode}
             checked={isTimeEntryRowChecked(timeEntry.data.id)}
             onPlayClicked={onPlayClicked}
-            onCheckedChange={onTimeEntryCheckedChange}
+            onSelectionChange={onChildSelectionChange}
           />
         ),
       )}

@@ -47,7 +47,7 @@ export type TimeEntryViewRowProps = {
   timeEntry: TimeEntryRowViewModel
   edit: boolean
   checked: boolean
-  onCheckedChange: (timeEntryId: string) => void
+  onSelectionChange: (timeEntryId: string) => void
   onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void
   onToggleChildrenVisibility?: () => void
 }
@@ -116,7 +116,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = ({
   edit,
   checked,
   onToggleChildrenVisibility,
-  onCheckedChange,
+  onSelectionChange: onCheckedChange,
   onPlayClicked,
   ...rest
 }) => {

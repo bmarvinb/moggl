@@ -25,7 +25,7 @@ const tesla: ParentTimeEntry = {
     {
       type: TimeEntryRowType.Child,
       data: {
-        id: '2',
+        id: '1',
         description: '',
         billable: true,
         project: {
@@ -42,7 +42,7 @@ const tesla: ParentTimeEntry = {
     {
       type: TimeEntryRowType.Child,
       data: {
-        id: '3',
+        id: '2',
         description: '',
         billable: true,
         project: {
@@ -79,7 +79,7 @@ const facebook: ParentTimeEntry = {
     {
       type: TimeEntryRowType.Child,
       data: {
-        id: '2',
+        id: '1',
         description: 'News feed',
         billable: true,
         project: {

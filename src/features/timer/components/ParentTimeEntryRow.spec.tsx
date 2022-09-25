@@ -5,27 +5,27 @@ import { timeEntryViewRowData } from 'features/timer/fixtures/time-entry-view-ro
 import { noop } from 'utils/test-utils'
 
 const selectors = {
+  parent: (id: string) => `${id}-parent`,
+  parentChildren: (id: string) => `${id}-children`,
   toggleChildrenButton: 'TOGGLE_CHILDREN_VISIBILITY_BUTTON',
   description: 'TIME_ENTRY_DESCRIPTION',
   duration: 'TIME_ENTRY_DURATION',
 }
 
-test('should render tesla project', async () => {
+test('should render Tesla', async () => {
   render(
     <ParentTimeEntryRow
       timeEntry={timeEntryViewRowData.tesla}
       edit={false}
       checkedIds={[]}
       onPlayClicked={noop}
-      onParentCheckedChange={noop}
+      onSelectionChange={noop}
     />,
   )
   const toggleChildrenButton = screen.getByTestId(
     selectors.toggleChildrenButton,
   )
-  const parent = within(
-    screen.getByTestId(`${timeEntryViewRowData.tesla.data.id}-parent`),
-  )
+  const parent = within(screen.getByTestId(selectors.parent('1')))
   const description = parent.getByTestId(selectors.description)
   const duration = parent.getByTestId(selectors.duration)
 
@@ -34,22 +34,20 @@ test('should render tesla project', async () => {
   expect(duration.textContent).toBe('0:02:45')
 })
 
-test('should render facebook project', async () => {
+test('should render Facebook', async () => {
   render(
     <ParentTimeEntryRow
       timeEntry={timeEntryViewRowData.facebook}
       edit={false}
       checkedIds={[]}
       onPlayClicked={noop}
-      onParentCheckedChange={noop}
+      onSelectionChange={noop}
     />,
   )
   const toggleChildrenButton = screen.getByTestId(
     selectors.toggleChildrenButton,
   )
-  const parent = within(
-    screen.getByTestId(`${timeEntryViewRowData.tesla.data.id}-parent`),
-  )
+  const parent = within(screen.getByTestId(selectors.parent('1')))
   const description = parent.getByTestId(selectors.description)
   const duration = parent.getByTestId(selectors.duration)
 
@@ -65,13 +63,10 @@ test('should toggle children visibility', async () => {
       edit={false}
       checkedIds={[]}
       onPlayClicked={noop}
-      onParentCheckedChange={noop}
+      onSelectionChange={noop}
     />,
   )
-
-  const children = screen.getByTestId(
-    `${timeEntryViewRowData.tesla.data.id}-children`,
-  )
+  const children = screen.getByTestId(selectors.parentChildren('1'))
   const toggleChildrenButton = screen.getByTestId(
     selectors.toggleChildrenButton,
   )
@@ -83,8 +78,44 @@ test('should toggle children visibility', async () => {
   expect(children.hidden).toBe(true)
 })
 
-// should show/hide checkboxes
+test('parent should be checked if all children are checked', async () => {
+  render(
+    <ParentTimeEntryRow
+      timeEntry={timeEntryViewRowData.tesla}
+      edit={true}
+      checkedIds={['1', '2']}
+      onPlayClicked={noop}
+      onSelectionChange={noop}
+    />,
+  )
+  const parent = screen.getByTestId(selectors.parent('1'))
+  const checkbox = await within(parent).findByRole('checkbox')
+  const toggleChildrenButton = screen.getByTestId(
+    selectors.toggleChildrenButton,
+  )
 
-// should toggle checking children correctly
+  userEvent.click(toggleChildrenButton)
 
-// should change checked children
+  expect(checkbox).toBeChecked()
+})
+
+test('parent should be unchecked if some child is not checked', async () => {
+  render(
+    <ParentTimeEntryRow
+      timeEntry={timeEntryViewRowData.tesla}
+      edit={true}
+      checkedIds={['1']}
+      onPlayClicked={noop}
+      onSelectionChange={noop}
+    />,
+  )
+  const parent = screen.getByTestId(selectors.parent('1'))
+  const checkbox = await within(parent).findByRole('checkbox')
+  const toggleChildrenButton = screen.getByTestId(
+    selectors.toggleChildrenButton,
+  )
+
+  userEvent.click(toggleChildrenButton)
+
+  expect(checkbox).not.toBeChecked()
+})
