@@ -10,7 +10,6 @@ import {
   TimeEntryRowViewModel,
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow'
-import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
 import { ActiveTimeEntry } from 'features/timer/types/time-entries'
 import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils'
 import * as B from 'fp-ts/boolean'
@@ -26,6 +25,7 @@ import { FC, useReducer, useState } from 'react'
 export type TimeEntriesTableProps = {
   data: TimeEntryViewModel[]
   date: Date
+  duration: O.Option<number>
   reportedTime: number
   activeTimeEntry: O.Option<ActiveTimeEntry>
 }
@@ -42,9 +42,8 @@ const EqTimeEntryViewModel: Eq<TimeEntryViewModel> = struct({
 export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   const [bulkEditMode, toggleBulkEditMode] = useReducer(state => !state, false)
   const [checkedIds, setCheckedIds] = useState<string[]>([])
-  const duration = useActiveDuration(props.activeTimeEntry)
   const totalTime = pipe(
-    duration,
+    props.duration,
     O.map(duration => props.reportedTime + duration),
     O.getOrElse(() => props.reportedTime),
   )

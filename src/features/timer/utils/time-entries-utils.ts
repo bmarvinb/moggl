@@ -60,7 +60,7 @@ export function timeEntryDuration({ timeInterval }: InactiveTimeEntry): number {
   )
 }
 
-export function formatDurationToInlineTime(duration: number): string {
+export function formatDuration(duration: number): string {
   const hours = secondsToHours(duration)
   const minutes = secondsToMinutes(duration - hoursToSeconds(hours))
   const seconds = duration - hoursToSeconds(hours) - minutesToSeconds(minutes)

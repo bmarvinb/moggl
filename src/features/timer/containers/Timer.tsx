@@ -2,10 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { InlineInput } from 'components/Input'
 import { TimerControls } from 'features/timer/components/TimerControls'
+import { createTimeEntry } from 'features/timer/infra/time-entries'
 import { CreateTimeEntryPayload } from 'features/timer/types/created-time-entry'
 import { ActiveTimeEntry, TimeEntries } from 'features/timer/types/time-entries'
-import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
-import { createTimeEntry } from 'features/timer/infra/time-entries'
 import { pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
@@ -15,6 +14,7 @@ import { z } from 'zod'
 
 export type TimerProps = {
   activeTimeEntry: O.Option<ActiveTimeEntry>
+  duration: O.Option<number>
   workspaceId: string
 }
 
@@ -34,8 +34,6 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 export const Timer: FC<TimerProps> = props => {
-  const duration = useActiveDuration(props.activeTimeEntry)
-
   const queryClient = useQueryClient()
   const create = useMutation(
     (payload: CreateTimeEntryPayload) => {
@@ -125,7 +123,7 @@ export const Timer: FC<TimerProps> = props => {
       </div>
       <div>
         <TimerControls
-          duration={duration}
+          duration={props.duration}
           onStartClicked={onStartClicked}
           onStopClicked={onStopClicked}
         />

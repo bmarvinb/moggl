@@ -7,10 +7,8 @@ import { isSameDay } from 'date-fns/fp'
 import {
   createTimeEntryViewModel,
   ReportedDay,
-  ReportedDays,
 } from 'features/timer/components/ReportedDays'
-import { TimeEntriesHeader } from 'features/timer/components/TimeEntriesHeader'
-import { Timer } from 'features/timer/containers/Timer'
+import { TimeEntriesView } from 'features/timer/components/TimeEntriesView'
 import { getTimeEntries } from 'features/timer/infra/time-entries'
 import { InactiveTimeEntry } from 'features/timer/types/time-entries'
 import {
@@ -25,7 +23,6 @@ import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/lib/string'
 import { nanoid } from 'nanoid'
 import { FC } from 'react'
-import 'styled-components/macro'
 
 export type TimeEntriesProps = {
   user: User
@@ -71,16 +68,11 @@ function getReportedDays(timeEntries: InactiveTimeEntry[]): ReportedDay[] {
 }
 
 export const TimeEntries: FC<TimeEntriesProps> = props => {
-  const { status, data: timeEntries } = useQuery(
-    ['timeEntries'],
-    () =>
-      getTimeEntries(props.workspace.id, props.user.id, {
-        'page-size': 25,
-        page: 1,
-      }),
-    {
-      onError: console.error,
-    },
+  const { status, data: timeEntries } = useQuery(['timeEntries'], () =>
+    getTimeEntries(props.workspace.id, props.user.id, {
+      'page-size': 25,
+      page: 1,
+    }),
   )
 
   switch (status) {
@@ -93,14 +85,12 @@ export const TimeEntries: FC<TimeEntriesProps> = props => {
         timeEntries,
         A.filter(isInactiveTimeEntry),
       )
-
       const activeTimeEntry = pipe(
         timeEntries,
         A.filter(isActiveTimeEntry),
         A.lookup(0),
       )
-
-      const currentWeekTimeEntries = pipe(
+      const weekTimeEntries = pipe(
         inactiveTimeEntries,
         A.filter(({ timeInterval }) =>
           isSameWeek(new Date(timeInterval.start), new Date(), {
@@ -108,36 +98,15 @@ export const TimeEntries: FC<TimeEntriesProps> = props => {
           }),
         ),
       )
-
-      const currentWeekDuration = getTotalDuration(currentWeekTimeEntries)
+      const weekDuration = getTotalDuration(weekTimeEntries)
       const reportedDays = getReportedDays(inactiveTimeEntries)
-
       return (
-        <div
-          css={`
-            background: var(--neutral1);
-          `}
-        >
-          <Timer
-            activeTimeEntry={activeTimeEntry}
-            workspaceId={props.workspace.id}
-          />
-          <div
-            css={`
-              min-height: 100%;
-              padding: 7.5rem 1rem 1rem;
-            `}
-          >
-            <TimeEntriesHeader
-              currentWeekDuration={currentWeekDuration}
-              activeTimeEntry={activeTimeEntry}
-            />
-            <ReportedDays
-              reportedDays={reportedDays}
-              activeTimeEntry={activeTimeEntry}
-            />
-          </div>
-        </div>
+        <TimeEntriesView
+          activeTimeEntry={activeTimeEntry}
+          weekDuration={weekDuration}
+          reportedDays={reportedDays}
+          workspaceId={props.workspace.id}
+        />
       )
   }
 }

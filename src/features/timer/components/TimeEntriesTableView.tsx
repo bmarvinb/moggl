@@ -2,7 +2,7 @@ import { Checkbox, IconButton } from 'components'
 import { isToday } from 'date-fns'
 import {
   formatDate,
-  formatDurationToInlineTime,
+  formatDuration,
 } from 'features/timer/utils/time-entries-utils'
 import { FC, ReactNode } from 'react'
 import { BiListUl } from 'react-icons/bi'
@@ -15,7 +15,6 @@ export type TimeEntriesTableViewProps = {
   totalTime: number
   reportedTime: number
   date: Date
-
   onBulkModeChanged: () => void
   onToggleClicked: () => void
 }
@@ -83,8 +82,8 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
               `}
             >
               {isToday(props.date)
-                ? formatDurationToInlineTime(props.totalTime)
-                : formatDurationToInlineTime(props.reportedTime)}
+                ? formatDuration(props.totalTime)
+                : formatDuration(props.reportedTime)}
             </div>
           </Label>
         </div>

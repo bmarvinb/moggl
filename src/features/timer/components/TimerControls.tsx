@@ -1,6 +1,6 @@
 import { Button, DangerButton } from 'components/Button'
 import { IconButton } from 'components/IconButton'
-import { formatDurationToInlineTime } from 'features/timer/utils/time-entries-utils'
+import { formatDuration } from 'features/timer/utils/time-entries-utils'
 import { pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
@@ -39,8 +39,8 @@ const StopButton = styled(DangerButton)`
 export const TimerControls: FC<TimerControlsProps> = props => {
   const inlineTime = pipe(
     props.duration,
-    O.map(formatDurationToInlineTime),
-    O.getOrElse(() => formatDurationToInlineTime(0)),
+    O.map(formatDuration),
+    O.getOrElse(() => formatDuration(0)),
   )
   return (
     <div>

@@ -1,26 +1,22 @@
 import { sub } from 'date-fns'
 import {
   formatDate,
-  formatDurationToInlineTime,
+  formatDuration,
 } from 'features/timer/utils/time-entries-utils'
 import { seconds } from 'utils/test-utils'
 
 test('formatDurationToInlineTime', () => {
-  expect(
-    formatDurationToInlineTime(seconds({ hours: 1, minutes: 45, seconds: 30 })),
-  ).toBe('1:45:30')
-
-  expect(
-    formatDurationToInlineTime(seconds({ minutes: 45, seconds: 30 })),
-  ).toBe('0:45:30')
-
-  expect(formatDurationToInlineTime(seconds({ minutes: 1, seconds: 5 }))).toBe(
-    '0:01:05',
+  expect(formatDuration(seconds({ hours: 1, minutes: 45, seconds: 30 }))).toBe(
+    '1:45:30',
   )
 
-  expect(formatDurationToInlineTime(seconds({ seconds: 5 }))).toBe('0:00:05')
+  expect(formatDuration(seconds({ minutes: 45, seconds: 30 }))).toBe('0:45:30')
 
-  expect(formatDurationToInlineTime(0)).toBe('0:00:00')
+  expect(formatDuration(seconds({ minutes: 1, seconds: 5 }))).toBe('0:01:05')
+
+  expect(formatDuration(seconds({ seconds: 5 }))).toBe('0:00:05')
+
+  expect(formatDuration(0)).toBe('0:00:00')
 })
 
 test('formatDate', () => {
