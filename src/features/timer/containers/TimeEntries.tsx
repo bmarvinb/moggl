@@ -9,8 +9,8 @@ import {
   ReportedDay,
 } from 'features/timer/components/ReportedDays'
 import { TimeEntriesView } from 'features/timer/components/TimeEntriesView'
-import { getTimeEntries } from 'features/timer/services/time-entries-api'
 import { InactiveTimeEntry } from 'features/timer/services/time-entries'
+import { getTimeEntries } from 'features/timer/services/time-entries-api'
 import {
   isActiveTimeEntry,
   isInactiveTimeEntry,

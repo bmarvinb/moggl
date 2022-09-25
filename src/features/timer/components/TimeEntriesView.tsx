@@ -2,10 +2,11 @@ import {
   ReportedDay,
   ReportedDays,
 } from 'features/timer/components/ReportedDays'
-import { WeekLength } from 'features/timer/components/WeekLength'
+import { WeekDuration } from 'features/timer/components/WeekDuration'
 import { Timer } from 'features/timer/containers/Timer'
 import { useActiveTimeEntryDuration as useTimeEntryDuration } from 'features/timer/hooks/useActiveTimeEntryDuration'
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
+import { pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
 import 'styled-components/macro'
@@ -19,6 +20,11 @@ export type TimeEntriesViewProps = {
 
 export const TimeEntriesView: FC<TimeEntriesViewProps> = props => {
   const timeEntryDuration = useTimeEntryDuration(props.activeTimeEntry)
+  const weekDuration = pipe(
+    timeEntryDuration,
+    O.map(duration => duration + props.weekDuration),
+    O.getOrElse(() => props.weekDuration),
+  )
   return (
     <div
       css={`
@@ -36,11 +42,7 @@ export const TimeEntriesView: FC<TimeEntriesViewProps> = props => {
           padding: 7.5rem 1rem 1rem;
         `}
       >
-        <WeekLength
-          activeTimeEntry={props.activeTimeEntry}
-          timeEntryDuration={timeEntryDuration}
-          weekDuration={props.weekDuration}
-        />
+        <WeekDuration weekDuration={weekDuration} />
         <ReportedDays
           activeTimeEntry={props.activeTimeEntry}
           activeTimeEntryDuration={timeEntryDuration}
