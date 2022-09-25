@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { User } from 'auth/types/user'
-import { Workspace } from 'auth/types/workspace'
+import { User } from 'auth/services/user'
+import { Workspace } from 'auth/services/workspace'
 import { Spinner } from 'components'
 import { format, isSameWeek } from 'date-fns'
 import { isSameDay } from 'date-fns/fp'
@@ -9,8 +9,8 @@ import {
   ReportedDay,
 } from 'features/timer/components/ReportedDays'
 import { TimeEntriesView } from 'features/timer/components/TimeEntriesView'
-import { getTimeEntries } from 'features/timer/infra/time-entries'
-import { InactiveTimeEntry } from 'features/timer/types/time-entries'
+import { getTimeEntries } from 'features/timer/services/time-entries-api'
+import { InactiveTimeEntry } from 'features/timer/services/time-entries'
 import {
   isActiveTimeEntry,
   isInactiveTimeEntry,
@@ -51,7 +51,7 @@ function groupByDate(timeEntries: InactiveTimeEntry[]) {
         return {
           id: nanoid(),
           date: new Date(date),
-          reportedTime: pipe(dayTimeEntries, getTotalDuration),
+          reportedDuration: pipe(dayTimeEntries, getTotalDuration),
           data: pipe(dayTimeEntries, A.map(createTimeEntryViewModel)),
         }
       }),

@@ -4,8 +4,8 @@ import {
 } from 'features/timer/components/ReportedDays'
 import { WeekLength } from 'features/timer/components/WeekLength'
 import { Timer } from 'features/timer/containers/Timer'
-import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
-import { ActiveTimeEntry } from 'features/timer/types/time-entries'
+import { useActiveTimeEntryDuration as useTimeEntryDuration } from 'features/timer/hooks/useActiveTimeEntryDuration'
+import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
 import 'styled-components/macro'
@@ -18,7 +18,7 @@ export type TimeEntriesViewProps = {
 }
 
 export const TimeEntriesView: FC<TimeEntriesViewProps> = props => {
-  const duration = useActiveDuration(props.activeTimeEntry)
+  const timeEntryDuration = useTimeEntryDuration(props.activeTimeEntry)
   return (
     <div
       css={`
@@ -27,7 +27,7 @@ export const TimeEntriesView: FC<TimeEntriesViewProps> = props => {
     >
       <Timer
         activeTimeEntry={props.activeTimeEntry}
-        duration={duration}
+        timeEntryDuration={timeEntryDuration}
         workspaceId={props.workspaceId}
       />
       <div
@@ -38,12 +38,12 @@ export const TimeEntriesView: FC<TimeEntriesViewProps> = props => {
       >
         <WeekLength
           activeTimeEntry={props.activeTimeEntry}
-          duration={duration}
+          timeEntryDuration={timeEntryDuration}
           weekDuration={props.weekDuration}
         />
         <ReportedDays
           activeTimeEntry={props.activeTimeEntry}
-          duration={duration}
+          activeTimeEntryDuration={timeEntryDuration}
           reportedDays={props.reportedDays}
         />
       </div>

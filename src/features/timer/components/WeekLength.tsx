@@ -1,4 +1,4 @@
-import { ActiveTimeEntry } from 'features/timer/types/time-entries'
+import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import { formatDuration } from 'features/timer/utils/time-entries-utils'
 import { pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'
@@ -6,7 +6,7 @@ import { FC } from 'react'
 import styled from 'styled-components/macro'
 
 export type WeekLengthProps = {
-  duration: O.Option<number>
+  timeEntryDuration: O.Option<number>
   weekDuration: number
   activeTimeEntry: O.Option<ActiveTimeEntry>
 }
@@ -29,7 +29,7 @@ const TotalTime = styled.div`
 
 export const WeekLength: FC<WeekLengthProps> = props => {
   const totalTime = pipe(
-    props.duration,
+    props.timeEntryDuration,
     O.map(duration => formatDuration(duration + props.weekDuration)),
     O.getOrElse(() => formatDuration(props.weekDuration)),
   )

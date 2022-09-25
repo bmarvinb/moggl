@@ -10,7 +10,7 @@ import {
   TimeEntryRowViewModel,
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow'
-import { ActiveTimeEntry } from 'features/timer/types/time-entries'
+import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils'
 import * as B from 'fp-ts/boolean'
 import { Eq, struct } from 'fp-ts/Eq'
@@ -25,8 +25,8 @@ import { FC, useReducer, useState } from 'react'
 export type TimeEntriesTableProps = {
   data: TimeEntryViewModel[]
   date: Date
-  duration: O.Option<number>
-  reportedTime: number
+  activeTimeEntryDuration: O.Option<number>
+  reportedDuration: number
   activeTimeEntry: O.Option<ActiveTimeEntry>
 }
 
@@ -43,9 +43,9 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   const [bulkEditMode, toggleBulkEditMode] = useReducer(state => !state, false)
   const [checkedIds, setCheckedIds] = useState<string[]>([])
   const totalTime = pipe(
-    props.duration,
-    O.map(duration => props.reportedTime + duration),
-    O.getOrElse(() => props.reportedTime),
+    props.activeTimeEntryDuration,
+    O.map(duration => props.reportedDuration + duration),
+    O.getOrElse(() => props.reportedDuration),
   )
 
   const allRowsChecked = checkedIds.length === props.data.length
@@ -176,7 +176,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
       bulkEditMode={bulkEditMode}
       allRowsChecked={allRowsChecked}
       totalTime={totalTime}
-      reportedTime={props.reportedTime}
+      reportedTime={props.reportedDuration}
       date={props.date}
       onBulkModeChanged={onBulkModeChanged}
       onToggleClicked={onToggleClicked}

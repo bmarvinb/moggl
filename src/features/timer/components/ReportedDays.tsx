@@ -3,7 +3,7 @@ import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable'
 import {
   ActiveTimeEntry,
   InactiveTimeEntry,
-} from 'features/timer/types/time-entries'
+} from 'features/timer/services/time-entries'
 import { timeEntryDuration } from 'features/timer/utils/time-entries-utils'
 import { pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'
@@ -29,14 +29,14 @@ export type TimeEntryViewModel = {
 export type ReportedDay = {
   id: string
   date: Date
-  reportedTime: number
+  reportedDuration: number
   data: TimeEntryViewModel[]
 }
 
 export type ReportedDaysProps = {
   reportedDays: ReportedDay[]
   activeTimeEntry: O.Option<ActiveTimeEntry>
-  duration: O.Option<number>
+  activeTimeEntryDuration: O.Option<number>
 }
 
 export function createTimeEntryViewModel(
@@ -78,14 +78,14 @@ export const ReportedDays: FC<ReportedDaysProps> = props => {
       `}
     >
       {props.reportedDays.map(
-        ({ id, date, reportedTime, data: timeEntries }) => (
+        ({ id, date, reportedDuration, data: timeEntries }) => (
           <TimeEntriesTable
             key={id}
-            date={date}
-            reportedTime={reportedTime}
-            data={timeEntries}
-            duration={props.duration}
             activeTimeEntry={isToday(date) ? props.activeTimeEntry : O.none}
+            date={date}
+            data={timeEntries}
+            reportedDuration={reportedDuration}
+            activeTimeEntryDuration={props.activeTimeEntryDuration}
           />
         ),
       )}

@@ -1,4 +1,4 @@
-import { activeTimeEntryIntervalSchema } from 'features/timer/types/time-entries'
+import { activeTimeEntryIntervalSchema } from 'features/timer/services/time-entries'
 import { z } from 'zod'
 
 export const createdTimeEntrySchema = z.object({

@@ -2,12 +2,12 @@ import {
   CreatedTimeEntry,
   createdTimeEntrySchema,
   CreateTimeEntryPayload,
-} from 'features/timer/types/created-time-entry'
+} from 'features/timer/services/created-time-entry'
 import {
   TimeEntries,
   TimeEntriesRequestOptions,
   timeEntriesSchema,
-} from 'features/timer/types/time-entries'
+} from 'features/timer/services/time-entries'
 import { client, createURLSearchParams } from 'utils/api-client'
 
 export async function getTimeEntries(

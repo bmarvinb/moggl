@@ -1,4 +1,4 @@
-import { ActiveTimeEntry } from 'features/timer/types/time-entries'
+import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import { activeTimeEntryDuration } from 'features/timer/utils/time-entries-utils'
 import { flow, pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'
@@ -15,7 +15,9 @@ function getActiveTimeEntryDuration(
   )
 }
 
-export function useActiveDuration(activeTimeEntry: O.Option<ActiveTimeEntry>) {
+export function useActiveTimeEntryDuration(
+  activeTimeEntry: O.Option<ActiveTimeEntry>,
+) {
   const [duration, setDuration] = useState<O.Option<number>>(
     getActiveTimeEntryDuration(activeTimeEntry),
   )

@@ -1,5 +1,5 @@
-import { User, userSchema } from 'auth/types/user'
-import { Workspaces, workspacesSchema } from 'auth/types/workspace'
+import { User, userSchema } from 'auth/services/user'
+import { Workspaces, workspacesSchema } from 'auth/services/workspace'
 import { client } from 'utils/api-client'
 
 export function user() {
