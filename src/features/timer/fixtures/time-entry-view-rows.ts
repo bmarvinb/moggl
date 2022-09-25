@@ -96,7 +96,7 @@ const facebook: ParentTimeEntry = {
   ],
 }
 
-export const timeEntryViewRowData = {
+export const timeEntryViewRows = {
   tesla,
   facebook,
 }

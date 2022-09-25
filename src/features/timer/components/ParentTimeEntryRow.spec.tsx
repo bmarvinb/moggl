@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow'
-import { timeEntryViewRowData } from 'features/timer/fixtures/time-entry-view-row-data'
+import { timeEntryViewRows } from 'features/timer/fixtures/time-entry-view-rows'
 import { noop } from 'utils/test-utils'
 
 const selectors = {
@@ -15,7 +15,7 @@ const selectors = {
 test('should render Tesla', async () => {
   render(
     <ParentTimeEntryRow
-      timeEntry={timeEntryViewRowData.tesla}
+      timeEntry={timeEntryViewRows.tesla}
       edit={false}
       checkedIds={[]}
       onPlayClicked={noop}
@@ -37,7 +37,7 @@ test('should render Tesla', async () => {
 test('should render Facebook', async () => {
   render(
     <ParentTimeEntryRow
-      timeEntry={timeEntryViewRowData.facebook}
+      timeEntry={timeEntryViewRows.facebook}
       edit={false}
       checkedIds={[]}
       onPlayClicked={noop}
@@ -59,7 +59,7 @@ test('should render Facebook', async () => {
 test('should toggle children visibility', async () => {
   render(
     <ParentTimeEntryRow
-      timeEntry={timeEntryViewRowData.tesla}
+      timeEntry={timeEntryViewRows.tesla}
       edit={false}
       checkedIds={[]}
       onPlayClicked={noop}
@@ -81,7 +81,7 @@ test('should toggle children visibility', async () => {
 test('parent should be checked if all children are checked', async () => {
   render(
     <ParentTimeEntryRow
-      timeEntry={timeEntryViewRowData.tesla}
+      timeEntry={timeEntryViewRows.tesla}
       edit={true}
       checkedIds={['1', '2']}
       onPlayClicked={noop}
@@ -102,7 +102,7 @@ test('parent should be checked if all children are checked', async () => {
 test('parent should be unchecked if some child is not checked', async () => {
   render(
     <ParentTimeEntryRow
-      timeEntry={timeEntryViewRowData.tesla}
+      timeEntry={timeEntryViewRows.tesla}
       edit={true}
       checkedIds={['1']}
       onPlayClicked={noop}
