@@ -13,7 +13,7 @@ const tesla: ParentTimeEntry = {
     billable: true,
     project: {
       name: 'Tesla',
-      color: '#F44336',
+      color: 'red',
       clientName: O.some('Elon Musk'),
     },
     task: O.none,
@@ -47,7 +47,7 @@ const tesla: ParentTimeEntry = {
         billable: true,
         project: {
           name: 'Tesla',
-          color: '#F44336',
+          color: 'blue',
           clientName: O.some('Elon Musk'),
         },
         task: O.none,
