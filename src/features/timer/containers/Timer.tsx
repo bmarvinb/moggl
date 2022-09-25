@@ -80,7 +80,7 @@ export const Timer: FC<TimerProps> = props => {
   }
 
   const onStopClicked = () => {
-    console.log('end')
+    console.log('Stop')
   }
 
   const { register } = useForm<FormValues>({
