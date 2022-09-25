@@ -11,14 +11,14 @@ import * as O from 'fp-ts/lib/Option'
 import { FC, useEffect } from 'react'
 import 'styled-components/macro'
 
-export type TimeEntriesViewProps = {
+export type TimeEntriesContentProps = {
   activeTimeEntry: O.Option<ActiveTimeEntry>
   weekDuration: number
   reportedDays: ReportedDay[]
   workspaceId: string
 }
 
-export const TimeEntriesView: FC<TimeEntriesViewProps> = props => {
+export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
   const [state, send] = useMachine(timerMachine)
   useEffect(() => {
     O.isSome(props.activeTimeEntry) &&

@@ -8,7 +8,7 @@ import {
   createTimeEntryViewModel,
   ReportedDay,
 } from 'features/timer/components/ReportedDays'
-import { TimeEntriesView } from 'features/timer/containers/TimeEntriesContent'
+import { TimeEntriesContent } from 'features/timer/containers/TimeEntriesContent'
 import { InactiveTimeEntry } from 'features/timer/services/time-entries'
 import { getTimeEntries } from 'features/timer/services/time-entries-api'
 import {
@@ -101,7 +101,7 @@ export const TimeEntries: FC<TimeEntriesProps> = props => {
       const weekDuration = getTotalDuration(weekTimeEntries)
       const reportedDays = getReportedDays(inactiveTimeEntries)
       return (
-        <TimeEntriesView
+        <TimeEntriesContent
           activeTimeEntry={activeTimeEntry}
           weekDuration={weekDuration}
           reportedDays={reportedDays}
