@@ -23,7 +23,7 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
   useEffect(() => {
     O.isSome(props.activeTimeEntry) &&
       send('CONTINUE', {
-        activeTimeEntry: props.activeTimeEntry.value,
+        payload: props.activeTimeEntry.value,
       })
   }, [props.activeTimeEntry, send])
 

@@ -11,7 +11,7 @@ import styled from 'styled-components/macro'
 export type TimeEntriesTableViewProps = {
   children: ReactNode
   bulkEditMode: boolean
-  allRowsChecked: boolean
+  allSelected: boolean
   totalTime: number
   reportedTime: number
   date: Date
@@ -62,7 +62,7 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
             >
               <Checkbox
                 onChange={props.onBulkModeChanged}
-                checked={props.allRowsChecked}
+                checked={props.allSelected}
               />
             </div>
           )}

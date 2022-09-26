@@ -17,9 +17,10 @@ test('should render Tesla', async () => {
     <ParentTimeEntryRow
       timeEntry={timeEntryViewRows.tesla}
       edit={false}
-      checkedIds={[]}
+      selectedIds={[]}
       onPlayClicked={noop}
-      onSelectionChange={noop}
+      onParentSelectionChange={noop}
+      onChildSelectionChange={noop}
     />,
   )
   const toggleChildrenButton = screen.getByTestId(
@@ -39,9 +40,10 @@ test('should render Facebook', async () => {
     <ParentTimeEntryRow
       timeEntry={timeEntryViewRows.facebook}
       edit={false}
-      checkedIds={[]}
+      selectedIds={[]}
       onPlayClicked={noop}
-      onSelectionChange={noop}
+      onParentSelectionChange={noop}
+      onChildSelectionChange={noop}
     />,
   )
   const toggleChildrenButton = screen.getByTestId(
@@ -61,9 +63,10 @@ test('should toggle children visibility', async () => {
     <ParentTimeEntryRow
       timeEntry={timeEntryViewRows.tesla}
       edit={false}
-      checkedIds={[]}
+      selectedIds={[]}
       onPlayClicked={noop}
-      onSelectionChange={noop}
+      onParentSelectionChange={noop}
+      onChildSelectionChange={noop}
     />,
   )
   const children = screen.getByTestId(selectors.parentChildren('1'))
@@ -83,9 +86,10 @@ test('parent should be checked if all children are checked', async () => {
     <ParentTimeEntryRow
       timeEntry={timeEntryViewRows.tesla}
       edit={true}
-      checkedIds={['1', '2']}
+      selectedIds={['1', '2']}
       onPlayClicked={noop}
-      onSelectionChange={noop}
+      onParentSelectionChange={noop}
+      onChildSelectionChange={noop}
     />,
   )
   const parent = screen.getByTestId(selectors.parent('1'))
@@ -104,9 +108,10 @@ test('parent should be unchecked if some child is not checked', async () => {
     <ParentTimeEntryRow
       timeEntry={timeEntryViewRows.tesla}
       edit={true}
-      checkedIds={['1']}
+      selectedIds={['1']}
       onPlayClicked={noop}
-      onSelectionChange={noop}
+      onParentSelectionChange={noop}
+      onChildSelectionChange={noop}
     />,
   )
   const parent = screen.getByTestId(selectors.parent('1'))

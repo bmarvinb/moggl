@@ -46,7 +46,7 @@ export type TimeEntryRowViewModel =
 export type TimeEntryViewRowProps = {
   timeEntry: TimeEntryRowViewModel
   edit: boolean
-  checked: boolean
+  selected: boolean
   onSelectionChange: (timeEntryId: string) => void
   onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void
   onToggleChildrenVisibility?: () => void
@@ -134,7 +134,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               `}
             >
               <Checkbox
-                checked={props.checked}
+                checked={props.selected}
                 onChange={() =>
                   props.onSelectionChange(props.timeEntry.data.id)
                 }

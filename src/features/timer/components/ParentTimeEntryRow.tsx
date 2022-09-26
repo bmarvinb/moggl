@@ -3,14 +3,16 @@ import {
   TimeEntryRowViewModel,
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow'
+import { SelectionChanges } from 'features/timer/hooks/useSelection'
 import { FC, useReducer } from 'react'
 
 export type ParentTimeEntryRowProps = {
   timeEntry: ParentTimeEntry
   edit: boolean
-  checkedIds: string[]
+  selectedIds: string[]
   onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void
-  onSelectionChange: (added: string[], removed: string[]) => void
+  onParentSelectionChange: (changes: SelectionChanges) => void
+  onChildSelectionChange: (id: string) => void
 }
 
 export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
@@ -19,20 +21,19 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
   const childrenIds = props.timeEntry.children.map(({ data }) => data.id)
 
   const allChildrenChecked = childrenIds.every(id =>
-    props.checkedIds.includes(id),
+    props.selectedIds.includes(id),
   )
 
-  const isChildChecked = (id: string) => props.checkedIds.includes(id)
+  const isChildChecked = (id: string) => props.selectedIds.includes(id)
 
-  const onParentCheckedChange = () =>
-    props.onSelectionChange(
-      allChildrenChecked ? [] : childrenIds,
-      allChildrenChecked ? childrenIds : [],
-    )
+  const onParentSelectionChange = () =>
+    props.onParentSelectionChange({
+      added: allChildrenChecked ? [] : childrenIds,
+      removed: allChildrenChecked ? childrenIds : [],
+    })
 
-  const onChildCheckedChange = (id: string) => {
-    const removed = props.checkedIds.includes(id)
-    props.onSelectionChange(removed ? [] : [id], removed ? [id] : [])
+  const onChildSelectionChange = (id: string) => {
+    props.onChildSelectionChange(id)
   }
 
   return (
@@ -41,8 +42,8 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
         <TimeEntryViewRow
           timeEntry={props.timeEntry}
           edit={props.edit}
-          checked={allChildrenChecked}
-          onSelectionChange={onParentCheckedChange}
+          selected={allChildrenChecked}
+          onSelectionChange={onParentSelectionChange}
           onPlayClicked={props.onPlayClicked}
           onToggleChildrenVisibility={toggleExpanded}
         />
@@ -56,9 +57,9 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
             key={child.data.id}
             timeEntry={child}
             edit={props.edit}
-            checked={isChildChecked(child.data.id)}
+            selected={isChildChecked(child.data.id)}
             onPlayClicked={props.onPlayClicked}
-            onSelectionChange={onChildCheckedChange}
+            onSelectionChange={onChildSelectionChange}
           />
         ))}
       </div>
