@@ -100,8 +100,18 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             aria-label="Select project"
             css={`
               font-size: var(--fontSizeXl);
+              position: relative;
             `}
           >
+            <span
+              css={`
+                position: absolute;
+                top: -4px;
+                right: 0;
+              `}
+            >
+              *
+            </span>
             <BiBriefcase title="Select project" />
           </IconButton>
           <IconButton
