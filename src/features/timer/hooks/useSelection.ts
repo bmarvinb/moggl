@@ -13,7 +13,7 @@ export type SelectionEvent =
       type: 'RESET'
     }
   | {
-      type: 'TOGGLE'
+      type: 'SELECT.ALL'
     }
   | {
       type: 'SELECT.PARENT'
@@ -38,7 +38,7 @@ function reducer(state: SelectionState, action: SelectionEvent) {
   switch (action.type) {
     case 'RESET':
       return { ...state, selectedIds: [] }
-    case 'TOGGLE':
+    case 'SELECT.ALL':
       return {
         ...state,
         selectedIds:

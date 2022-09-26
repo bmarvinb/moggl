@@ -179,13 +179,13 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     }),
   )
 
-  const onBulkModeChanged = () => {
-    dispatch({ type: 'TOGGLE' })
-  }
-
   const onToggleClicked = () => {
     toggleBulkEditMode()
     dispatch({ type: 'RESET' })
+  }
+
+  const onBulkModeChanged = () => {
+    dispatch({ type: 'SELECT.ALL' })
   }
 
   const onParentSelectionChange = (changes: SelectionChanges) => {
