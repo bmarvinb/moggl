@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const IconButton = styled.button<{ $active?: boolean }>`
   display: inline-flex;
   justify-content: center;
+  align-items: center;
   font-weight: bold;
   transition: all 150ms ease;
   cursor: pointer;
