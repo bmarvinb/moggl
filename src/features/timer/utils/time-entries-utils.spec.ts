@@ -3,7 +3,7 @@ import {
   formatDate,
   formatDuration,
 } from 'features/timer/utils/time-entries-utils'
-import { seconds } from 'utils/test-utils'
+import { seconds } from 'test/utils/test-utils'
 
 test('formatDurationToInlineTime', () => {
   expect(formatDuration(seconds({ hours: 1, minutes: 45, seconds: 30 }))).toBe(

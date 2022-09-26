@@ -2,7 +2,7 @@ import {
   ParentTimeEntry,
   TimeEntryRowType,
 } from 'features/timer/components/TimeEntryViewRow'
-import { seconds } from 'utils/test-utils'
+import { seconds } from 'test/utils/test-utils'
 import * as O from 'fp-ts/lib/Option'
 
 const tesla: ParentTimeEntry = {

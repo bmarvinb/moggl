@@ -87,41 +87,36 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     data,
   })
 
-  const createParentChildren = (timeEntry: TimeEntryViewModel) => {
-    return [
-      createChild(timeEntry),
-      ...pipe(
-        timeEntry,
-        restTimeEntries,
-        getParentChildren(timeEntry),
-        A.map(createChild),
-      ),
-    ]
-  }
+  const createParentChildren = (timeEntry: TimeEntryViewModel) => [
+    createChild(timeEntry),
+    ...pipe(
+      timeEntry,
+      restTimeEntries,
+      getParentChildren(timeEntry),
+      A.map(createChild),
+    ),
+  ]
 
-  const calculateParentStart = (children: ChildTimeEntry[]): Date => {
-    return pipe(
+  const calculateParentStartDate = (children: ChildTimeEntry[]): Date =>
+    pipe(
       children,
       A.map(({ data }) => data.start),
       min,
     )
-  }
 
-  const calculateParentEnd = (children: ChildTimeEntry[]): Date => {
-    return pipe(
+  const calculateParentEndDate = (children: ChildTimeEntry[]): Date =>
+    pipe(
       children,
       A.map(({ data }) => data.end),
       max,
     )
-  }
 
-  const calculateParentDuration = (children: ChildTimeEntry[]): number => {
-    return pipe(
+  const calculateParentDuration = (children: ChildTimeEntry[]): number =>
+    pipe(
       children,
       A.map(({ data }) => data.duration),
       M.concatAll(N.MonoidSum),
     )
-  }
 
   const createParentTimeEntry = (
     timeEntry: TimeEntryViewModel,
@@ -131,8 +126,8 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
       type: TimeEntryRowType.Parent,
       data: {
         ...timeEntry,
-        start: calculateParentStart(children),
-        end: calculateParentEnd(children),
+        start: calculateParentStartDate(children),
+        end: calculateParentEndDate(children),
         duration: calculateParentDuration(children),
       },
       children,

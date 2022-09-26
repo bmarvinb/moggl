@@ -32,10 +32,6 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
       removed: allChildrenChecked ? childrenIds : [],
     })
 
-  const onChildSelectionChange = (id: string) => {
-    props.onChildSelectionChange(id)
-  }
-
   return (
     <>
       <div data-testid={`${props.timeEntry.data.id}-parent`}>
@@ -59,7 +55,7 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
             edit={props.edit}
             selected={isChildChecked(child.data.id)}
             onPlayClicked={props.onPlayClicked}
-            onSelectionChange={onChildSelectionChange}
+            onSelectionChange={props.onChildSelectionChange}
           />
         ))}
       </div>

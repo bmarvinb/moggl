@@ -1,8 +1,8 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow'
-import { timeEntryViewRows } from 'features/timer/fixtures/time-entry-view-rows'
-import { noop } from 'utils/test-utils'
+import { timeEntryViewRows } from 'test/fixtures/time-entry-view-rows'
+import { noop } from 'test/utils/test-utils'
 
 const selectors = {
   parent: (id: string) => `${id}-parent`,
