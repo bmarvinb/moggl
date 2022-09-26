@@ -2,7 +2,7 @@ import { Checkbox, IconButton } from 'components'
 import { isToday } from 'date-fns'
 import {
   formatDate,
-  formatDurationToInlineTime,
+  formatDuration,
 } from 'features/timer/utils/time-entries-utils'
 import { FC, ReactNode } from 'react'
 import { BiListUl } from 'react-icons/bi'
@@ -11,17 +11,16 @@ import styled from 'styled-components/macro'
 export type TimeEntriesTableViewProps = {
   children: ReactNode
   bulkEditMode: boolean
-  allRowsChecked: boolean
+  allSelected: boolean
   totalTime: number
   reportedTime: number
   date: Date
-
   onBulkModeChanged: () => void
   onToggleClicked: () => void
 }
 
 const TimeEntriesTable = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   background: var(--neutral0);
   border-radius: var(--roundedMd);
   box-shadow: var(--shadowSm);
@@ -63,7 +62,7 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
             >
               <Checkbox
                 onChange={props.onBulkModeChanged}
-                checked={props.allRowsChecked}
+                checked={props.allSelected}
               />
             </div>
           )}
@@ -78,22 +77,25 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
             <div
               css={`
                 font-weight: 400;
-                color: var(--neutral7);
+                color: var(--neutral8);
+                min-width: 4rem;
               `}
             >
               {isToday(props.date)
-                ? formatDurationToInlineTime(props.totalTime)
-                : formatDurationToInlineTime(props.reportedTime)}
+                ? formatDuration(props.totalTime)
+                : formatDuration(props.reportedTime)}
             </div>
           </Label>
         </div>
         <Label>
           <IconButton
             $active={props.bulkEditMode}
-            aria-label="toggle"
+            aria-label="Toggle edit mode"
             onClick={props.onToggleClicked}
             css={`
               font-size: var(--fontSizeLg);
+              position: relative;
+              right: -0.4rem;
             `}
           >
             <BiListUl title="Toggle" />

@@ -1,6 +1,8 @@
 import { Button, DangerButton } from 'components/Button'
 import { IconButton } from 'components/IconButton'
-import { formatDurationToInlineTime } from 'features/timer/utils/time-entries-utils'
+import { formatDuration } from 'features/timer/utils/time-entries-utils'
+import { pipe } from 'fp-ts/lib/function'
+import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
 import {
   BiBriefcase,
@@ -13,98 +15,125 @@ import 'styled-components/macro'
 import styled from 'styled-components/macro'
 
 export type TimerControlsProps = {
-  duration: number | undefined
+  duration: O.Option<number>
   onStartClicked: () => void
   onStopClicked: () => void
 }
 
 const StartButton = styled(Button)`
-  display: flex;
+  display: inline-flex;
   padding: 0.5rem;
   border-radius: 100%;
-  outline: 2px solid var(--primary1);
+  border: 1px solid var(--primary1);
+  width: fit-content;
 `
 
 const StopButton = styled(DangerButton)`
-  display: flex;
+  display: inline-flex;
   padding: 0.5rem;
   border-radius: 100%;
-  outline: 2px solid var(--red1);
+  border: 1px solid var(--red1);
+  width: fit-content;
 `
 
 export const TimerControls: FC<TimerControlsProps> = props => {
+  const inlineTime = pipe(
+    props.duration,
+    O.map(formatDuration),
+    O.getOrElse(() => formatDuration(0)),
+  )
   return (
     <div>
       <div
         css={`
-          display: grid;
-          grid-template-columns: 2rem 2rem 2rem 4rem 1fr;
-          grid-column-gap: 0.5rem;
+          display: flex;
           align-items: center;
+          justify-content: space-between;
+          width: 100%;
         `}
       >
-        <IconButton
-          aria-label="Select project"
+        <div
           css={`
-            font-size: var(--fontSizeXl);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            column-gap: 1rem;
+            position: relative;
+            left: -0.3rem;
           `}
         >
-          <BiBriefcase title="Select project" />
-        </IconButton>
-        <IconButton
-          aria-label="Select tags"
-          css={`
-            font-size: var(--fontSizeXl);
-          `}
-        >
-          <BiPurchaseTag title="Select tags" />
-        </IconButton>
-        <IconButton
-          aria-label="Change billable status"
-          css={`
-            font-size: var(--fontSizeXl);
-          `}
-        >
-          <BiDollar title="Change billable status" />
-        </IconButton>
+          <IconButton
+            aria-label="Select project"
+            css={`
+              font-size: var(--fontSizeXl);
+            `}
+          >
+            <BiBriefcase title="Select project" />
+          </IconButton>
+          <IconButton
+            aria-label="Select tags"
+            css={`
+              font-size: var(--fontSizeXl);
+            `}
+          >
+            <BiPurchaseTag title="Select tags" />
+          </IconButton>
+          <IconButton
+            aria-label="Change billable status"
+            css={`
+              font-size: var(--fontSizeXl);
+            `}
+          >
+            <BiDollar title="Change billable status" />
+          </IconButton>
+        </div>
 
         <div
           css={`
-            font-weight: 500;
-            line-height: var(--lineHeightLg);
+            display: grid;
+            grid-template-columns: 1fr 100%;
+            column-gap: 1rem;
+            align-items: center;
           `}
         >
-          {formatDurationToInlineTime(props.duration ? props.duration : 0)}
-        </div>
+          <div
+            css={`
+              font-weight: 500;
+              line-height: var(--lineHeightLg);
+              min-width: 4rem;
+              text-align: right;
+            `}
+          >
+            {inlineTime}
+          </div>
 
-        {typeof props.duration === 'undefined' ? (
-          <StartButton
-            aria-label="Start timer"
-            title="Start timer"
-            onClick={() => props.onStartClicked()}
-            css={``}
-          >
-            <BiPlay
-              css={`
-                font-size: var(--fontSizeXl);
-                line-height: var(--lineHeightXl);
-              `}
-            />
-          </StartButton>
-        ) : (
-          <StopButton
-            aria-label="Stop timer"
-            title="Stop timer"
-            onClick={() => props.onStopClicked()}
-          >
-            <BiStop
-              css={`
-                font-size: var(--fontSizeXl);
-                line-height: var(--lineHeightXl);
-              `}
-            />
-          </StopButton>
-        )}
+          {O.isNone(props.duration) ? (
+            <StartButton
+              aria-label="Start timer"
+              title="Start timer"
+              onClick={() => props.onStartClicked()}
+            >
+              <BiPlay
+                css={`
+                  font-size: var(--fontSizeXl);
+                  line-height: var(--lineHeightXl);
+                `}
+              />
+            </StartButton>
+          ) : (
+            <StopButton
+              aria-label="Stop timer"
+              title="Stop timer"
+              onClick={() => props.onStopClicked()}
+            >
+              <BiStop
+                css={`
+                  font-size: var(--fontSizeXl);
+                  line-height: var(--lineHeightXl);
+                `}
+              />
+            </StopButton>
+          )}
+        </div>
       </div>
     </div>
   )

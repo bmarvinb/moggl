@@ -1,9 +1,9 @@
 import { Button, Checkbox, IconButton } from 'components'
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import {
-  formatDurationToInlineTime,
+  formatDuration,
   formatTimeEntryDate,
-  formatTimEntryInfo,
+  getTimeEntryInfo,
   isChildTimeEntry,
   isParentTimeEntry,
 } from 'features/timer/utils/time-entries-utils'
@@ -22,20 +22,19 @@ export const enum TimeEntryRowType {
   Child = 'Child',
 }
 
-type Common = {
+export type ParentTimeEntry = {
   data: TimeEntryViewModel
-}
-
-export type ParentTimeEntry = Common & {
   type: TimeEntryRowType.Parent
   children: ChildTimeEntry[]
 }
 
-export type RegularTimeEntry = Common & {
+export type RegularTimeEntry = {
+  data: TimeEntryViewModel
   type: TimeEntryRowType.Regular
 }
 
-export type ChildTimeEntry = Common & {
+export type ChildTimeEntry = {
+  data: TimeEntryViewModel
   type: TimeEntryRowType.Child
 }
 
@@ -45,12 +44,12 @@ export type TimeEntryRowViewModel =
   | ChildTimeEntry
 
 export type TimeEntryViewRowProps = {
-  data: TimeEntryRowViewModel
+  timeEntry: TimeEntryRowViewModel
   edit: boolean
-  checked: boolean
-  onCheckedChange: (timeEntryId: string) => void
+  selected: boolean
+  onSelectionChange: (timeEntryId: string) => void
   onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void
-  onExpandedClicked?: () => void
+  onToggleChildrenVisibility?: () => void
 }
 
 const TimeEntryItem = styled.div`
@@ -58,8 +57,8 @@ const TimeEntryItem = styled.div`
   padding: 0.75rem 1rem;
   justify-content: space-between;
 
+  border-bottom: 1px solid var(--neutral1);
   &:not(:last-child) {
-    border-bottom: 1px solid var(--neutral1);
   }
 `
 
@@ -90,13 +89,14 @@ const AdditionalInfo = styled.div<{ $color: string }>`
 const RoundedButton = styled(Button)`
   border-radius: 100%;
   background: transparent;
-  color: var(--neutral8);
   padding: 0.25rem;
   min-width: 2rem;
   height: 2rem;
-  border: 1px solid var(--neutral4);
+  color: var(--neutral6);
+  border: 1px solid var(--neutral6);
   margin: auto;
   margin-right: 1rem;
+  box-shadow: none;
 
   &:hover {
     background: transparent;
@@ -114,7 +114,10 @@ const RoundedButton = styled(Button)`
 export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
   return (
     <>
-      <TimeEntryItem key={props.data.data.id}>
+      <TimeEntryItem
+        key={props.timeEntry.data.id}
+        data-testid="TIME_ENTRY_VIEW_ROW"
+      >
         <div
           css={`
             display: flex;
@@ -131,33 +134,47 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               `}
             >
               <Checkbox
-                checked={props.checked}
-                onChange={() => props.onCheckedChange(props.data.data.id)}
+                checked={props.selected}
+                onChange={() =>
+                  props.onSelectionChange(props.timeEntry.data.id)
+                }
               />
             </div>
           )}
-          {isParentTimeEntry(props.data) && (
+          {isParentTimeEntry(props.timeEntry) && (
             <RoundedButton
               onClick={() =>
-                props.onExpandedClicked && props.onExpandedClicked()
+                props.onToggleChildrenVisibility &&
+                props.onToggleChildrenVisibility()
               }
-              aria-label="Expand time entries"
+              aria-label="Toggle children visibility"
+              data-testid="TOGGLE_CHILDREN_VISIBILITY_BUTTON"
             >
-              {props.data.children.length}
+              {props.timeEntry.children.length}
             </RoundedButton>
           )}
           <div
             css={`
               display: flex;
               flex-direction: column;
-              padding-left: ${isChildTimeEntry(props.data) ? '3rem' : '0'};
+              padding-left: ${isChildTimeEntry(props.timeEntry) ? '3rem' : '0'};
             `}
           >
-            <Description $empty={props.data.data.description.length === 0}>
-              {props.data.data.description || 'Add description'}
+            <Description
+              $empty={props.timeEntry.data.description.length === 0}
+              data-testid="TIME_ENTRY_DESCRIPTION"
+            >
+              {props.timeEntry.data.description || 'Add description'}
             </Description>
-            <AdditionalInfo $color={props.data.data.project.color}>
-              {formatTimEntryInfo(props.data.data)}
+            <AdditionalInfo
+              $color={props.timeEntry.data.project.color}
+              data-testid="TIME_ENTRY_ADDITIONAL_INFO"
+            >
+              {getTimeEntryInfo(
+                props.timeEntry.data.project.name,
+                props.timeEntry.data.project.clientName,
+                props.timeEntry.data.task,
+              )}
             </AdditionalInfo>
           </div>
         </div>
@@ -190,7 +207,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                 display: none;
               `}
             >
-              {formatTimeEntryDate(props.data.data)}
+              {formatTimeEntryDate(props.timeEntry.data)}
             </div>
             <div
               css={`
@@ -198,8 +215,9 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                 font-size: var(--fontSizeLg);
                 line-height: var(--lineHeightLg);
               `}
+              data-testid="TIME_ENTRY_DURATION"
             >
-              {formatDurationToInlineTime(props.data.data.duration)}
+              {formatDuration(props.timeEntry.data.duration)}
             </div>
           </div>
 
@@ -208,10 +226,11 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               display: flex;
               justify-content: right;
               position: relative;
+              right: -0.7rem;
             `}
           >
             <IconButton
-              onClick={() => props.onPlayClicked(props.data)}
+              onClick={() => props.onPlayClicked(props.timeEntry)}
               aria-label="Start timer"
               css={`
                 margin-right: 0.5rem;

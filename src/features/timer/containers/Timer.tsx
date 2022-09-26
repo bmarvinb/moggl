@@ -1,23 +1,23 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useAuth } from 'auth/index'
+import { useMutation } from '@tanstack/react-query'
 import { InlineInput } from 'components/Input'
 import { TimerControls } from 'features/timer/components/TimerControls'
-import { useActiveDuration } from 'features/timer/hooks/useActiveDuration'
-import {
-  ActiveTimeEntry,
-  createTimeEntry,
-  CreateTimeEntryPayload,
-  TimeEntries,
-} from 'features/timer/services/time-entries'
+import { CreateTimeEntryPayload } from 'features/timer/services/created-time-entry'
+import { ActiveTimeEntry } from 'features/timer/services/time-entries'
+import { createTimeEntry } from 'features/timer/services/time-entries-api'
+import { pipe } from 'fp-ts/lib/function'
+import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import 'styled-components/macro'
-import { invariant } from 'utils/invariant'
 import { z } from 'zod'
 
 export type TimerProps = {
-  activeTimeEntry: ActiveTimeEntry | undefined
+  activeTimeEntry: O.Option<ActiveTimeEntry>
+  timeEntryDuration: O.Option<number>
+  workspaceId: string
+  onStart: () => {}
+  onStop: () => {}
 }
 
 const schema = z.object({
@@ -36,39 +36,21 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 export const Timer: FC<TimerProps> = props => {
-  const [duration] = useActiveDuration(props.activeTimeEntry)
-
-  const { workspace } = useAuth()
-  invariant(workspace, 'Workspace must be provided')
-
-  const queryClient = useQueryClient()
   const create = useMutation(
     (payload: CreateTimeEntryPayload) => {
-      return createTimeEntry(workspace.id, payload)
+      return createTimeEntry(props.workspaceId, payload)
     },
     {
-      onMutate: async timeEntry => {
-        const activeTimeEntry: Partial<ActiveTimeEntry> = {
-          description: timeEntry.description,
-          timeInterval: {
-            start: timeEntry.start,
-            end: null,
-            duration: null,
-          },
-        }
-        await queryClient.cancelQueries(['timeEntries'])
-        const previousTimeEntries = queryClient.getQueryData(['timeEntries'])
-        queryClient.setQueryData(['timeEntries'], timeEntries => [
-          ...(timeEntries as TimeEntries),
-          activeTimeEntry,
-        ])
-        return { previousTimeEntries }
+      onMutate: () => {
+        console.log('mutate')
+        props.onStart()
       },
-      onError: (_, __, context) => {
-        queryClient.setQueryData(['timeEntries'], context!.previousTimeEntries)
+      onError: () => {
+        console.log('error')
+        props.onStop()
       },
       onSettled: () => {
-        queryClient.invalidateQueries(['timeEntries'])
+        console.log('settled')
       },
     },
   )
@@ -87,7 +69,7 @@ export const Timer: FC<TimerProps> = props => {
   }
 
   const onStopClicked = () => {
-    console.log('end')
+    props.onStop()
   }
 
   const { register } = useForm<FormValues>({
@@ -95,9 +77,11 @@ export const Timer: FC<TimerProps> = props => {
     defaultValues: {
       start: '',
       billable: false,
-      description: props.activeTimeEntry
-        ? props.activeTimeEntry.description
-        : '',
+      description: pipe(
+        props.activeTimeEntry,
+        O.map(({ description }) => description),
+        O.getOrElse(() => ''),
+      ),
       projectId: '',
     },
   })
@@ -110,18 +94,14 @@ export const Timer: FC<TimerProps> = props => {
         left: 0;
         width: 100%;
         display: flex;
+        flex-direction: column;
         padding: 1rem 1rem;
         box-shadow: var(--shadowMd);
         background: var(--neutral0);
         z-index: 1;
       `}
     >
-      <div
-        css={`
-          flex: 1;
-          margin-right: 1rem;
-        `}
-      >
+      <div>
         <InlineInput
           css={`
             width: 100%;
@@ -132,7 +112,7 @@ export const Timer: FC<TimerProps> = props => {
       </div>
       <div>
         <TimerControls
-          duration={duration}
+          duration={props.timeEntryDuration}
           onStartClicked={onStartClicked}
           onStopClicked={onStopClicked}
         />

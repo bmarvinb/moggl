@@ -1,34 +1,33 @@
 import { useQuery } from '@tanstack/react-query'
-import { useAuth } from 'auth/context/auth-context'
+import { User } from 'auth/services/user'
+import { Workspace } from 'auth/services/workspace'
 import { Spinner } from 'components'
 import { format, isSameWeek } from 'date-fns'
 import { isSameDay } from 'date-fns/fp'
 import {
   createTimeEntryViewModel,
   ReportedDay,
-  ReportedDays,
 } from 'features/timer/components/ReportedDays'
-import { TimeEntriesHeader } from 'features/timer/components/TimeEntriesHeader'
-import { Timer } from 'features/timer/containers/Timer'
-import {
-  getTimeEntries,
-  InactiveTimeEntry,
-} from 'features/timer/services/time-entries'
+import { TimeEntriesContent } from 'features/timer/containers/TimeEntriesContent'
+import { InactiveTimeEntry } from 'features/timer/services/time-entries'
+import { getTimeEntries } from 'features/timer/services/time-entries-api'
 import {
   isActiveTimeEntry,
   isInactiveTimeEntry,
   timeEntryDuration,
 } from 'features/timer/utils/time-entries-utils'
 import * as A from 'fp-ts/lib/Array'
-import { constUndefined, pipe } from 'fp-ts/lib/function'
+import { pipe } from 'fp-ts/lib/function'
 import * as M from 'fp-ts/lib/Monoid'
 import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/lib/string'
-import * as O from 'fp-ts/Option'
 import { nanoid } from 'nanoid'
 import { FC } from 'react'
-import 'styled-components/macro'
-import { invariant } from 'utils/invariant'
+
+export type TimeEntriesProps = {
+  user: User
+  workspace: Workspace
+}
 
 function getTotalDuration(timeEntries: InactiveTimeEntry[]): number {
   return pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum))
@@ -52,7 +51,7 @@ function groupByDate(timeEntries: InactiveTimeEntry[]) {
         return {
           id: nanoid(),
           date: new Date(date),
-          reportedTime: pipe(dayTimeEntries, getTotalDuration),
+          reportedDuration: pipe(dayTimeEntries, getTotalDuration),
           data: pipe(dayTimeEntries, A.map(createTimeEntryViewModel)),
         }
       }),
@@ -68,17 +67,12 @@ function getReportedDays(timeEntries: InactiveTimeEntry[]): ReportedDay[] {
   )
 }
 
-export const TimeEntries: FC = () => {
-  const { user, workspace } = useAuth()
-  invariant(user, 'User must be provided')
-  invariant(workspace, 'Workspace must be provided')
-
-  const { status, data: timeEntries } = useQuery(
-    ['timeEntries'],
-    () => getTimeEntries(workspace.id, user.id, { 'page-size': 100, page: 1 }),
-    {
-      onError: console.error,
-    },
+export const TimeEntries: FC<TimeEntriesProps> = props => {
+  const { status, data: timeEntries } = useQuery(['timeEntries'], () =>
+    getTimeEntries(props.workspace.id, props.user.id, {
+      'page-size': 25,
+      page: 1,
+    }),
   )
 
   switch (status) {
@@ -91,15 +85,12 @@ export const TimeEntries: FC = () => {
         timeEntries,
         A.filter(isInactiveTimeEntry),
       )
-
       const activeTimeEntry = pipe(
         timeEntries,
         A.filter(isActiveTimeEntry),
         A.lookup(0),
-        O.getOrElseW(constUndefined),
       )
-
-      const currentWeekTimeEntries = pipe(
+      const weekTimeEntries = pipe(
         inactiveTimeEntries,
         A.filter(({ timeInterval }) =>
           isSameWeek(new Date(timeInterval.start), new Date(), {
@@ -107,33 +98,15 @@ export const TimeEntries: FC = () => {
           }),
         ),
       )
-
-      const currentWeekDuration = getTotalDuration(currentWeekTimeEntries)
+      const weekDuration = getTotalDuration(weekTimeEntries)
       const reportedDays = getReportedDays(inactiveTimeEntries)
-
       return (
-        <div
-          css={`
-            background: var(--neutral1);
-          `}
-        >
-          <Timer activeTimeEntry={activeTimeEntry} />
-          <div
-            css={`
-              min-height: 100%;
-              padding: 5rem 1rem 1rem;
-            `}
-          >
-            <TimeEntriesHeader
-              currentWeekDuration={currentWeekDuration}
-              activeTimeEntry={activeTimeEntry}
-            />
-            <ReportedDays
-              reportedDays={reportedDays}
-              activeTimeEntry={activeTimeEntry}
-            />
-          </div>
-        </div>
+        <TimeEntriesContent
+          activeTimeEntry={activeTimeEntry}
+          weekDuration={weekDuration}
+          reportedDays={reportedDays}
+          workspaceId={props.workspace.id}
+        />
       )
   }
 }

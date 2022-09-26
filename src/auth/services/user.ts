@@ -1,4 +1,3 @@
-import { client } from 'utils/api-client'
 import { z } from 'zod'
 
 const summaryReportSettingsSchema = z.object({
@@ -60,7 +59,7 @@ const customFieldSchema = z.object({
   type: z.string(),
 })
 
-const userSchema = z.object({
+export const userSchema = z.object({
   id: z.string(),
   email: z.string(),
   name: z.string(),
@@ -74,7 +73,3 @@ const userSchema = z.object({
 })
 
 export type User = z.infer<typeof userSchema>
-
-export function me() {
-  return client<User>('user', userSchema)
-}

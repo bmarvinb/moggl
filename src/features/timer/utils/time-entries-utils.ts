@@ -1,26 +1,27 @@
 import {
   differenceInSeconds,
+  format,
   hoursToSeconds,
+  isToday,
+  isYesterday,
   minutesToSeconds,
   secondsToHours,
   secondsToMinutes,
-  format,
-  isToday,
-  isYesterday,
 } from 'date-fns'
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import {
+  ChildTimeEntry,
   ParentTimeEntry,
+  RegularTimeEntry,
   TimeEntryRowType,
   TimeEntryRowViewModel,
-  RegularTimeEntry,
-  ChildTimeEntry,
 } from 'features/timer/components/TimeEntryViewRow'
 import {
   ActiveTimeEntry,
   InactiveTimeEntry,
   TimeEntry,
 } from 'features/timer/services/time-entries'
+import * as O from 'fp-ts/lib/Option'
 import { numberPad } from 'utils/number'
 
 export function isInactiveTimeEntry(x: TimeEntry): x is InactiveTimeEntry {
@@ -59,7 +60,7 @@ export function timeEntryDuration({ timeInterval }: InactiveTimeEntry): number {
   )
 }
 
-export function formatDurationToInlineTime(duration: number): string {
+export function formatDuration(duration: number): string {
   const hours = secondsToHours(duration)
   const minutes = secondsToMinutes(duration - hoursToSeconds(hours))
   const seconds = duration - hoursToSeconds(hours) - minutesToSeconds(minutes)
@@ -70,31 +71,45 @@ export function formatTimeEntryDate(timeEntry: TimeEntryViewModel): string {
   return `${format(timeEntry.start, 'p')} - ${format(timeEntry.end, 'p')}`
 }
 
-export function formatTimEntryInfo(timeEntry: TimeEntryViewModel): string {
-  const { task, project } = timeEntry
-  if (task && project.clientName) {
-    return `${project.name}: ${task}, ${project.clientName}`
+export function getTimeEntryInfo(
+  project: string,
+  client: O.Option<string>,
+  task: O.Option<string>,
+): string {
+  if (O.isSome(task) && O.isSome(client)) {
+    return `${project}: ${task.value} (${client.value})`
   }
-  if (task) {
-    return `${project.name}: ${task}`
+  if (O.isSome(task)) {
+    return `${project}: ${task.value}`
   }
-  if (project.clientName) {
-    return `${project.name}, ${project.clientName}`
+  if (O.isSome(client)) {
+    return `${project} (${client.value})`
   }
-  return `${project.name}`
+  return `${project}`
 }
 
-export const activeTimeEntryDuration = (
-  activeTimeEntryStart: Date | undefined,
+export function activeTimeEntryDuration(
+  activeTimeEntryStart: Date,
   now = new Date(),
-) => (activeTimeEntryStart ? differenceInSeconds(now, activeTimeEntryStart) : 0)
+) {
+  return differenceInSeconds(now, activeTimeEntryStart)
+}
 
-export function formatDate(date: Date): string {
+export function formatDate(
+  date: Date,
+  currentYear = new Date().getFullYear(),
+): string {
   if (isToday(date)) {
     return 'Today'
   }
   if (isYesterday(date)) {
     return 'Yesterday'
   }
-  return date.toLocaleDateString()
+  const dayOfWeek = format(date, 'iii')
+  const day = format(date, 'd')
+  const month = format(date, 'MMM')
+  const inlineDate = `${dayOfWeek}, ${day} ${month}`
+  return date.getFullYear() !== currentYear
+    ? `${inlineDate}, ${date.getFullYear()}`
+    : inlineDate
 }
