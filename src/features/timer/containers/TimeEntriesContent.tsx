@@ -8,7 +8,8 @@ import { Timer } from 'features/timer/containers/Timer'
 import { timerMachine, TimerMode } from 'features/timer/machines/timerMachine'
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import * as O from 'fp-ts/lib/Option'
-import { FC, useEffect } from 'react'
+import { useScroll } from 'hooks/useScroll'
+import { FC, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import 'styled-components/macro'
 
 export type TimeEntriesContentProps = {
@@ -20,6 +21,18 @@ export type TimeEntriesContentProps = {
 
 export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
   const [state, send] = useMachine(timerMachine)
+  const { scrollY } = useScroll()
+  const [fixedMode, setFixedMode] = useState(scrollY >= 50)
+  const timerRef = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    if (!timerRef.current) {
+      return
+    }
+    const { y } = timerRef.current.getBoundingClientRect()
+    setFixedMode(y <= 0)
+  }, [scrollY, timerRef])
+
   useEffect(() => {
     O.isSome(props.activeTimeEntry) &&
       send('CONTINUE', {
@@ -41,22 +54,26 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
     <div
       css={`
         background: var(--neutral1);
+        width: 100%;
       `}
     >
-      <Timer
-        activeTimeEntry={props.activeTimeEntry}
-        timeEntryDuration={activeDuration}
-        workspaceId={props.workspaceId}
-        mode={timerMode}
-        onStart={() => send('START')}
-        onStop={() => send('STOP')}
-        onTimerModeChanged={() => send('MODE.TOGGLE')}
-        onAddTimeEntryClicked={() => console.log('Add time entry')}
-      />
+      <div ref={timerRef}>
+        <Timer
+          activeTimeEntry={props.activeTimeEntry}
+          timeEntryDuration={activeDuration}
+          workspaceId={props.workspaceId}
+          mode={timerMode}
+          fixedMode={fixedMode}
+          onStart={() => send('START')}
+          onStop={() => send('STOP')}
+          onTimerModeChanged={() => send('MODE.TOGGLE')}
+          onAddTimeEntryClicked={() => console.log('Add time entry')}
+        />
+      </div>
       <div
         css={`
           min-height: 100%;
-          padding: 7.5rem 1rem 1rem;
+          padding: ${fixedMode ? '7.5rem 1rem 1rem' : '1rem'};
         `}
       >
         <WeekDuration weekDuration={weekDuration} />

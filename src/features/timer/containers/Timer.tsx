@@ -18,6 +18,7 @@ export type TimerProps = {
   timeEntryDuration: O.Option<number>
   workspaceId: string
   mode: TimerMode
+  fixedMode: boolean
   onStart: () => void
   onStop: () => void
   onTimerModeChanged: () => void
@@ -93,12 +94,11 @@ export const Timer: FC<TimerProps> = props => {
   return (
     <div
       css={`
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
         display: flex;
+        position: ${props.fixedMode ? 'fixed' : 'relative'};
+        top: 0;
         flex-direction: column;
+        width: fill-available;
         padding: 1rem 1rem;
         box-shadow: var(--shadowMd);
         background: var(--neutral0);
