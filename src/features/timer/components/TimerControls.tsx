@@ -135,6 +135,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             <div
               css={`
                 font-weight: 500;
+                font-size: var(--fontSizeLg);
                 line-height: var(--lineHeightLg);
                 min-width: 4rem;
                 text-align: right;

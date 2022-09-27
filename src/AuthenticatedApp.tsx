@@ -18,17 +18,9 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
       css={`
         display: flex;
         flex-direction: column;
+        height: 100%;
       `}
     >
-      <nav
-        css={`
-          background: var(--primary8);
-          color: var(--neutral0);
-          padding: 1rem;
-        `}
-      >
-        Nav
-      </nav>
       <section
         css={`
           display: flex;
@@ -41,9 +33,20 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
 
         <div
           css={`
+            display: flex;
+            flex-direction: column;
             flex: 1;
           `}
         >
+          <nav
+            css={`
+              background: var(--primary6);
+              color: var(--neutral0);
+              padding: 1rem;
+            `}
+          >
+            Nav
+          </nav>
           <Routes>
             <Route path="/" element={<TimerPage userInfo={props.userInfo} />} />
             <Route path="/login" element={<Navigate replace to="/" />} />

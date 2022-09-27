@@ -8,12 +8,15 @@ export type SidebarProps = {
 }
 
 const Menu = styled.div<{ $compact: boolean }>`
-  background: var(--primary6);
-  height: 100%;
+  background: var(--primary8);
+  height: 100vh;
   width: 10rem;
   color: var(--neutral0);
   padding: 1rem;
   box-shadow: var(--shadowMd);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
 export const Sidebar: FC<SidebarProps> = props => {
@@ -21,7 +24,8 @@ export const Sidebar: FC<SidebarProps> = props => {
   return (
     <div css={``}>
       <Menu $compact={props.expanded} onClick={props.onModeChanged}>
-        Menu
+        <div>Menu</div>
+        <div>Collapse</div>
       </Menu>
     </div>
   )
