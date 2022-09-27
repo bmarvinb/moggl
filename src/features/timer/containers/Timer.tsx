@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { InlineInput } from 'components/Input'
 import { TimerControls } from 'features/timer/components/TimerControls'
+import { TimerMode } from 'features/timer/machines/timerMachine'
 import { CreateTimeEntryPayload } from 'features/timer/services/created-time-entry'
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import { createTimeEntry } from 'features/timer/services/time-entries-api'
@@ -16,8 +17,11 @@ export type TimerProps = {
   activeTimeEntry: O.Option<ActiveTimeEntry>
   timeEntryDuration: O.Option<number>
   workspaceId: string
-  onStart: () => {}
-  onStop: () => {}
+  mode: TimerMode
+  onStart: () => void
+  onStop: () => void
+  onTimerModeChanged: () => void
+  onAddTimeEntryClicked: () => void
 }
 
 const schema = z.object({
@@ -89,16 +93,13 @@ export const Timer: FC<TimerProps> = props => {
   return (
     <div
       css={`
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
         display: flex;
+        width: 100%;
         flex-direction: column;
         padding: 1rem 1rem;
         box-shadow: var(--shadowMd);
         background: var(--neutral0);
-        z-index: 1;
+        position: relative;
       `}
     >
       <div>
@@ -106,15 +107,22 @@ export const Timer: FC<TimerProps> = props => {
           css={`
             width: 100%;
           `}
-          placeholder="What are you working on?"
+          placeholder={
+            props.mode === TimerMode.Timer
+              ? 'What are you working on?'
+              : 'What have you done?'
+          }
           {...register('description')}
         />
       </div>
       <div>
         <TimerControls
           duration={props.timeEntryDuration}
+          mode={props.mode}
           onStartClicked={onStartClicked}
           onStopClicked={onStopClicked}
+          onTimerToggled={props.onTimerModeChanged}
+          onAddTimeEntryClicked={props.onAddTimeEntryClicked}
         />
       </div>
     </div>
