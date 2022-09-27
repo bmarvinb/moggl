@@ -4,6 +4,7 @@ import { Sidebar } from 'components/Sidebar'
 import { sidebarMachine } from 'machines/sidebarMachine'
 import { TimerPage } from 'pages/TimerPage'
 import { FC } from 'react'
+import { BiMenuAltLeft } from 'react-icons/bi'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import 'styled-components/macro'
 
@@ -21,15 +22,15 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
         height: 100%;
       `}
     >
-      <section
+      <div
         css={`
           display: flex;
         `}
       >
-        <Sidebar
+        {/* <Sidebar
           expanded={state.matches('expanded')}
           onModeChanged={() => send('TOGGLE.SIDEBAR')}
-        ></Sidebar>
+        ></Sidebar> */}
 
         <div
           css={`
@@ -40,19 +41,39 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
         >
           <nav
             css={`
-              background: var(--primary6);
+              background: var(--primary4);
               color: var(--neutral0);
-              padding: 1rem;
+              padding: 0.5rem 1rem;
+              display: flex;
+              justify-content: space-between;
             `}
           >
-            Nav
+            <BiMenuAltLeft
+              css={`
+                font-size: var(--fontSizeXl);
+              `}
+            />
+
+            <div
+              css={`
+                width: 1.5rem;
+                height: 1.5rem;
+                border-radius: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--secondary4);
+              `}
+            >
+              D
+            </div>
           </nav>
           <Routes>
             <Route path="/" element={<TimerPage userInfo={props.userInfo} />} />
             <Route path="/login" element={<Navigate replace to="/" />} />
           </Routes>
         </div>
-      </section>
+      </div>
     </main>
   )
 }

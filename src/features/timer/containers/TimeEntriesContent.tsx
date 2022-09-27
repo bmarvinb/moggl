@@ -75,7 +75,7 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
           display: flex;
           flex-direction: column;
           flex: 1;
-          max-height: calc(100vh - ${contentTop + 3}px);
+          max-height: calc(100vh - ${contentTop + 1}px);
         `}
       >
         <div

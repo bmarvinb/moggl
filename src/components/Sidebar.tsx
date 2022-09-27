@@ -8,7 +8,7 @@ export type SidebarProps = {
 }
 
 const Menu = styled.div<{ $compact: boolean }>`
-  background: var(--primary8);
+  background: var(--primary4);
   height: 100vh;
   width: 10rem;
   color: var(--neutral0);
