@@ -13,6 +13,11 @@ export const IconButton = styled.button<{ $active?: boolean }>`
   padding: 0.25rem;
   color: ${props => (props.$active ? 'var(--primary4)' : 'var(--neutral8)')};
 
+  &:focus-visible {
+    outline-style: solid;
+    outline-width: 2px;
+  }
+
   &:hover {
     color: var(--primary5);
   }

@@ -1,5 +1,6 @@
 import { useMachine } from '@xstate/react'
 import { UserInfo } from 'auth/context/auth-context'
+import { IconButton } from 'components/IconButton'
 import { Sidebar } from 'components/Sidebar'
 import { sidebarMachine } from 'machines/sidebarMachine'
 import { TimerPage } from 'pages/TimerPage'
@@ -27,10 +28,10 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
           display: flex;
         `}
       >
-        {/* <Sidebar
+        <Sidebar
           expanded={state.matches('expanded')}
           onModeChanged={() => send('TOGGLE.SIDEBAR')}
-        ></Sidebar> */}
+        ></Sidebar>
 
         <div
           css={`
@@ -44,29 +45,30 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
               background: var(--primary4);
               color: var(--neutral0);
               padding: 0.5rem 1rem;
+              height: 2.5rem;
               display: flex;
               justify-content: space-between;
+              z-index: 1;
             `}
           >
-            <BiMenuAltLeft
+            <IconButton
+              onClick={() => send('TOGGLE.SIDEBAR')}
               css={`
-                font-size: var(--fontSizeXl);
-              `}
-            />
-
-            <div
-              css={`
-                width: 1.5rem;
-                height: 1.5rem;
-                border-radius: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: var(--secondary4);
+                color: var(--neutral0);
+                &:hover {
+                  color: var(--neutral2);
+                }
+                &:active {
+                  color: var(--neutral3);
+                }
               `}
             >
-              D
-            </div>
+              <BiMenuAltLeft
+                css={`
+                  font-size: var(--fontSizeXl);
+                `}
+              />
+            </IconButton>
           </nav>
           <Routes>
             <Route path="/" element={<TimerPage userInfo={props.userInfo} />} />

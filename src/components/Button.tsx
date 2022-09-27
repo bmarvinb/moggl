@@ -13,6 +13,11 @@ export const Button = styled.button`
   cursor: pointer;
   border: none;
 
+  &:focus-visible {
+    outline-style: solid;
+    outline-width: 2px;
+  }
+
   &:hover {
     background-color: var(--primary5);
   }
