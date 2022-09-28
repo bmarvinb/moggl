@@ -22,7 +22,7 @@ export type TimerControlsProps = {
   onStartClicked: () => void
   onAddTimeEntryClicked: () => void
   onStopClicked: () => void
-  onTimerToggled: () => void
+  onTimerModeChanged: () => void
 }
 
 const ToggleMode = styled('div', {
@@ -177,6 +177,9 @@ export const TimerControls: FC<TimerControlsProps> = props => {
                 size={'xs'}
                 selected={props.mode === TimerMode.Timer}
                 title="Timer mode"
+                onClick={() =>
+                  props.mode !== TimerMode.Timer && props.onTimerModeChanged()
+                }
               >
                 <BiPlay />
               </ToggleModeButton>
@@ -185,6 +188,9 @@ export const TimerControls: FC<TimerControlsProps> = props => {
                 size={'xs'}
                 selected={props.mode === TimerMode.Manual}
                 title="Manual mode"
+                onClick={() =>
+                  props.mode !== TimerMode.Manual && props.onTimerModeChanged()
+                }
               >
                 <BiPlus />
               </ToggleModeButton>

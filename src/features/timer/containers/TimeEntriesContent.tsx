@@ -32,10 +32,12 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
   }, [contentRef])
 
   useEffect(() => {
-    O.isSome(props.activeTimeEntry) &&
-      send('CONTINUE', {
-        payload: props.activeTimeEntry.value,
-      })
+    if (O.isNone(props.activeTimeEntry)) {
+      return
+    }
+    send('CONTINUE', {
+      payload: props.activeTimeEntry.value,
+    })
   }, [props.activeTimeEntry, send])
 
   const activeDuration = state.matches({ timer: 'running' })

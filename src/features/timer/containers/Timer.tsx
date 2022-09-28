@@ -122,7 +122,7 @@ export const Timer: FC<TimerProps> = props => {
           mode={props.mode}
           onStartClicked={onStartClicked}
           onStopClicked={onStopClicked}
-          onTimerToggled={props.onTimerModeChanged}
+          onTimerModeChanged={props.onTimerModeChanged}
           onAddTimeEntryClicked={props.onAddTimeEntryClicked}
         />
       </div>
