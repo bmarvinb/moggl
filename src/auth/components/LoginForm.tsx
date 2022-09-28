@@ -1,20 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { Button, FieldError, FormErrorMessage, Input, Label } from 'components'
+import { Box } from 'components/Box'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
-import 'styled-components/macro'
-import styled from 'styled-components/macro'
-import { screen } from 'theme'
+import { styled } from 'theme/config'
 import { z } from 'zod'
 
-const LoginButton = styled(Button)`
-  width: 100%;
-
-  @media ${screen.xl} {
-    width: 50%;
-  }
-`
+const LoginButton = styled(Button, {
+  width: '100%',
+  '@xl': {
+    width: '50%',
+  },
+})
 
 const schema = z.object({
   email: z.string().email('Please provide valid email'),
@@ -53,15 +51,15 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div
-        css={`
-          margin-bottom: 3rem;
-        `}
+      <Box
+        css={{
+          marginBottom: '3rem',
+        }}
       >
-        <div
-          css={`
-            margin-bottom: 1.5rem;
-          `}
+        <Box
+          css={{
+            marginBottom: '1.5rem',
+          }}
         >
           <Label htmlFor="email">Email:</Label>
           <Input
@@ -75,12 +73,12 @@ export function LoginForm() {
             {...register('email')}
           />
           <FieldError>{errors.email?.message}</FieldError>
-        </div>
+        </Box>
 
-        <div
-          css={`
-            margin-bottom: 1.5rem;
-          `}
+        <Box
+          css={{
+            marginBottom: '1.5rem',
+          }}
         >
           <Label htmlFor="password">Password:</Label>
           <Input
@@ -94,14 +92,14 @@ export function LoginForm() {
             {...register('password')}
           />
           <FieldError>{errors.password?.message}</FieldError>
-        </div>
+        </Box>
 
         {auth.isError && (
           <FormErrorMessage>
             The email/password combination used was not found on the system.
           </FormErrorMessage>
         )}
-      </div>
+      </Box>
 
       <LoginButton
         aria-label="Login button"

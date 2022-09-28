@@ -1,17 +1,17 @@
 import { AuthLayout, LoginForm } from 'auth'
-import 'styled-components/macro'
+import { Box } from 'components/Box'
 
 export function LoginPage() {
   return (
     <AuthLayout>
-      <div
-        css={`
-          width: 100%;
-        `}
+      <Box
+        css={{
+          width: '100%',
+        }}
       >
         <h2>Log in to your account</h2>
         <LoginForm />
-      </div>
+      </Box>
     </AuthLayout>
   )
 }

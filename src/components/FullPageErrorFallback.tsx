@@ -1,14 +1,14 @@
 import { FC } from 'react'
-import styled from 'styled-components'
+import { styled } from 'theme/config'
 
-const Container = styled.div`
-  color: var(--red4);
-  height: '100vh';
-  display: 'flex';
-  flex-direction: 'column';
-  justify-content: 'center';
-  align-items: 'center';
-`
+const Container = styled('div', {
+  color: '$red4',
+  height: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+})
 
 export const FullPageErrorFallback: FC<{ error: unknown }> = ({ error }) => (
   <Container role="alert">

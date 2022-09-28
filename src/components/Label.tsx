@@ -1,9 +1,9 @@
-import styled from 'styled-components'
+import { styled } from 'theme/config'
 
-export const Label = styled.label`
-  display: block;
-  font-size: var(--fontSm);
-  line-height: var(--lineHeightSm);
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-`
+export const Label = styled('label', {
+  display: 'block',
+  fontSize: '$sm',
+  lineHeight: '$sm',
+  marginBottom: '$2',
+  fontWeight: 500,
+})

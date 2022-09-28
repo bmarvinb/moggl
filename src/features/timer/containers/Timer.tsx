@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { InlineInput } from 'components/Input'
+import { Box } from 'components/Box'
+import { Input } from 'components/Input'
 import { TimerControls } from 'features/timer/components/TimerControls'
 import { TimerMode } from 'features/timer/machines/timerMachine'
 import { CreateTimeEntryPayload } from 'features/timer/services/created-time-entry'
@@ -10,7 +11,6 @@ import { pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
-import 'styled-components/macro'
 import { z } from 'zod'
 
 export type TimerProps = {
@@ -91,22 +91,23 @@ export const Timer: FC<TimerProps> = props => {
   })
 
   return (
-    <div
-      css={`
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-        padding: 1rem 1rem;
-        box-shadow: var(--shadowMd);
-        background: var(--neutral0);
-        position: relative;
-      `}
+    <Box
+      css={{
+        display: 'flex',
+        width: '100%',
+        flexDirection: 'column',
+        padding: '0.75rem 1rem',
+        boxShadow: '$md',
+        background: '$neutral0',
+        position: 'relative',
+      }}
     >
       <div>
-        <InlineInput
-          css={`
-            width: 100%;
-          `}
+        <Input
+          use={'inline'}
+          css={{
+            width: '100%',
+          }}
           placeholder={
             props.mode === TimerMode.Timer
               ? 'What are you working on?'
@@ -125,6 +126,6 @@ export const Timer: FC<TimerProps> = props => {
           onAddTimeEntryClicked={props.onAddTimeEntryClicked}
         />
       </div>
-    </div>
+    </Box>
   )
 }

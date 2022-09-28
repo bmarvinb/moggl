@@ -1,14 +1,14 @@
-import styled from 'styled-components'
+import { styled } from 'theme/config'
 import { Spinner } from './Spinner'
 
-const SpinnerContainer = styled.div`
-  font-size: 4em;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
+const SpinnerContainer = styled('div', {
+  fontSize: '$lg',
+  height: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+})
 
 export const FullPageSpinner = () => (
   <SpinnerContainer>

@@ -1,3 +1,4 @@
+import { Box } from 'components/Box'
 import { isToday } from 'date-fns'
 import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable'
 import {
@@ -70,12 +71,10 @@ export function createTimeEntryViewModel(
 
 export const ReportedDays: FC<ReportedDaysProps> = props => {
   return (
-    <div
-      css={`
-        padding: 0 1rem;
-        color: var(--neutral9);
-        padding-bottom: 2rem;
-      `}
+    <Box
+      css={{
+        color: '$neutral9',
+      }}
     >
       {props.reportedDays.map(
         ({ id, date, reportedDuration, data: timeEntries }) => (
@@ -89,6 +88,6 @@ export const ReportedDays: FC<ReportedDaysProps> = props => {
           />
         ),
       )}
-    </div>
+    </Box>
   )
 }

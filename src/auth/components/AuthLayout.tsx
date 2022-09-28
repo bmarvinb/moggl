@@ -1,56 +1,52 @@
+import { Box } from 'components/Box'
 import { FC } from 'react'
-import 'styled-components/macro'
-import styled from 'styled-components/macro'
-import { screen } from 'theme'
+import { styled } from 'theme/config'
 
-const Children = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6rem 3rem;
-  background: var(--neutral0);
-  height: 100%;
+const Children = styled('div', {
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '6rem 3rem',
+  background: '$neutral0',
+  height: '100%',
 
-  @media ${screen.sm} {
-    width: 35rem;
-    margin: auto;
-  }
+  '@xs': {
+    width: '35rem',
+    margin: 'auto',
+  },
+  '@xl': {
+    margin: 'initial',
+  },
+})
 
-  @media ${screen.xl} {
-    margin: initial;
-  }
-`
+const Background = styled('img', {
+  position: 'absolute',
+  height: '100%',
+  width: '100%',
+})
 
 export const AuthLayout: FC<{
   children: JSX.Element
 }> = ({ children }) => {
   return (
-    <div
-      css={`
-        display: flex;
-        height: 100%;
-      `}
+    <Box
+      css={{
+        display: 'flex',
+        height: '100%',
+      }}
     >
       <Children>{children}</Children>
-      <div
-        css={`
-          position: absolute;
-          z-index: -1;
-          height: 100%;
-          width: 100%;
-        `}
+      <Box
+        css={{
+          position: 'absolute',
+          zIndex: -1,
+          height: '100%',
+          width: '100%',
+        }}
       >
-        <img
-          css={`
-            position: absolute;
-            height: 100%;
-            width: 100%;
-          `}
-          src="images/login-background.png"
-          alt="Background"
-        />
-      </div>
-    </div>
+        <Background src="images/login-background.png" alt="Background" />
+      </Box>
+    </Box>
   )
 }
