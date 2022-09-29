@@ -226,8 +226,10 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
 
             <Box
               css={{
+                position: 'relative',
                 display: 'flex',
                 gap: '$1',
+                right: '-0.25rem',
               }}
             >
               <Button

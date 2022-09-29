@@ -44,7 +44,7 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
             css={{
               background: '$primary4',
               color: '$neutral0',
-              padding: '0rem 1rem',
+              padding: '0rem $1',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',

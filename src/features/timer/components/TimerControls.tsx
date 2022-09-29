@@ -78,6 +78,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             gridTemplateColumns: '1fr 1fr 1fr',
             columnGap: '$1',
             position: 'relative',
+            left: '-0.25rem',
           }}
         >
           <Button

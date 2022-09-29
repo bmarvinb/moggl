@@ -3,7 +3,7 @@ import { Box } from 'components/Box'
 import { isToday } from 'date-fns'
 import {
   formatDate,
-  formatDuration
+  formatDuration,
 } from 'features/timer/utils/time-entries-utils'
 import { FC, ReactNode } from 'react'
 import { BiListUl } from 'react-icons/bi'
@@ -87,7 +87,12 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
             </Box>
           </Label>
         </Box>
-        <Label>
+        <Label
+          css={{
+            position: 'relative',
+            right: '-0.25rem',
+          }}
+        >
           <Button
             use="icon"
             color="primary"

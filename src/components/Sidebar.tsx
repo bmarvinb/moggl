@@ -37,14 +37,15 @@ export const Sidebar: FC<SidebarProps> = props => {
       }}
     >
       <Menu
+        onClick={e => e.stopPropagation()}
         css={{
           display: props.expanded ? 'flex' : 'none',
         }}
       >
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis nemo
-        hic tempore atque cupiditate repudiandae magnam rerum ipsam amet!
-        Doloribus dolore sequi aperiam minima ea, nihil tempore expedita dicta
-        ducimus!
+        <select>
+          <option>Workspace 1</option>
+          <option>Workspace 2</option>
+        </select>
       </Menu>
     </Box>
   )
