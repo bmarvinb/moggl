@@ -2,11 +2,10 @@ import { styled } from 'theme/config'
 
 export const Button = styled('button', {
   position: 'relative',
-  fontWeight: 'bold',
   fontSize: '$sm',
   lineHeight: '$sm',
   borderRadius: '$md',
-  color: '$neutral0',
+  color: '$neutral7',
   padding: '$2 $5',
   transition: 'all 150ms ease',
   cursor: 'pointer',
@@ -19,6 +18,12 @@ export const Button = styled('button', {
   '&:disabled': {
     opacity: 0.5,
     cursor: 'not-allowed',
+  },
+  '&:hover': {
+    color: '$neutral8',
+  },
+  '&:active': {
+    color: '$neutral9',
   },
   variants: {
     use: {
@@ -37,6 +42,7 @@ export const Button = styled('button', {
         borderRadius: '100%',
         alignItems: 'center',
         justifyContent: 'center',
+        color: '$neutral0',
         '&:hover': {
           color: '$neutral1',
         },
@@ -51,12 +57,15 @@ export const Button = styled('button', {
         padding: '0.5rem',
         width: 'fit-content',
         border: '1px solid $neutral2',
+        alignItems: 'center',
+        justifyContent: 'center',
       },
     },
     color: {
       primary: {
         backgroundColor: '$primary4',
         boxShadow: '$sm',
+        color: '$neutral0',
         '&:hover': {
           backgroundColor: '$primary5',
           color: '$neutral1',
@@ -69,6 +78,7 @@ export const Button = styled('button', {
       danger: {
         background: '$red4',
         boxShadow: '$sm',
+        color: '$neutral0',
         '&:hover': {
           backgroundColor: '$red5',
           color: '$neutral1',
@@ -88,17 +98,14 @@ export const Button = styled('button', {
       xs: {
         lineHeight: '$xs',
         fontSize: '$xs',
-        padding: '$0',
       },
       lg: {
         lineHeight: '$lg',
         fontSize: '$lg',
-        padding: '$1',
       },
       xl: {
         lineHeight: '$xl',
         fontSize: '$xl',
-        padding: '$2',
       },
     },
   },
@@ -118,6 +125,27 @@ export const Button = styled('button', {
           background: 'transparent',
           color: '$primary5',
         },
+      },
+    },
+    {
+      use: 'icon',
+      size: 'xs',
+      css: {
+        padding: '$0',
+      },
+    },
+    {
+      use: 'icon',
+      size: 'lg',
+      css: {
+        padding: '$1',
+      },
+    },
+    {
+      use: 'icon',
+      size: 'xl',
+      css: {
+        padding: '$2',
       },
     },
     {

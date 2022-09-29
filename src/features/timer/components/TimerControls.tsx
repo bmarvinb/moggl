@@ -26,14 +26,13 @@ export type TimerControlsProps = {
 }
 
 const ToggleMode = styled('div', {
-  width: '1.5rem',
+  display: 'flex',
+  flexDirection: 'column',
   background: '$neutral1',
   borderRadius: '$md',
   justifyContent: 'center',
-  height: '100%',
-  display: 'grid',
-  gridRowGap: '$0',
-  padding: '$0',
+  padding: 0,
+  boxShadow: '$xs',
 })
 
 const ToggleModeButton = styled(Button, {
@@ -41,12 +40,15 @@ const ToggleModeButton = styled(Button, {
     selected: {
       true: {
         cursor: 'default',
-        background: '$neutral8',
+        color: '$neutral8',
+        '&:hover': {
+          color: '$neutral8',
+        },
       },
       false: {
-        background: '$neutral3',
+        color: '$neutral4',
         '&:hover': {
-          background: '$neutral6',
+          color: '$neutral5',
         },
       },
     },
@@ -74,15 +76,14 @@ export const TimerControls: FC<TimerControlsProps> = props => {
           css={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr 1fr',
-            columnGap: '0.75rem',
+            columnGap: '$1',
             position: 'relative',
-            left: '-0.3rem',
           }}
         >
           <Button
             use="icon"
             color="primary"
-            size={'xl'}
+            size={'lg'}
             aria-label="Select project"
           >
             <BiBriefcase title="Select project" />
@@ -90,7 +91,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
           <Button
             use="icon"
             color="primary"
-            size={'xl'}
+            size={'lg'}
             aria-label="Select tags"
           >
             <BiPurchaseTag title="Select tags" />
@@ -98,7 +99,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
           <Button
             use="icon"
             color="primary"
-            size={'xl'}
+            size={'lg'}
             aria-label="Change billable status"
           >
             <BiDollar title="Change billable status" />
@@ -109,7 +110,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
           css={{
             display: 'grid',
             gridTemplateColumns: '1fr auto auto',
-            columnGap: '0.75rem',
+            columnGap: '$3',
             alignItems: 'center',
           }}
         >
@@ -138,6 +139,12 @@ export const TimerControls: FC<TimerControlsProps> = props => {
                   aria-label="Start timer"
                   size={'xl'}
                   title="Start timer"
+                  css={{
+                    svg: {
+                      position: 'relative',
+                      right: '-1px',
+                    },
+                  }}
                   onClick={() => props.onStartClicked()}
                 >
                   <BiPlay />
@@ -177,6 +184,12 @@ export const TimerControls: FC<TimerControlsProps> = props => {
                 size={'xs'}
                 selected={props.mode === TimerMode.Timer}
                 title="Timer mode"
+                css={{
+                  svg: {
+                    position: 'relative',
+                    right: '-1px',
+                  },
+                }}
                 onClick={() =>
                   props.mode !== TimerMode.Timer && props.onTimerModeChanged()
                 }
