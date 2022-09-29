@@ -28,11 +28,11 @@ export type TimerControlsProps = {
 const ToggleMode = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  background: '$neutral1',
   borderRadius: '$md',
   justifyContent: 'center',
   padding: 0,
   boxShadow: '$xs',
+  border: '1px solid $neutral2',
 })
 
 const ToggleModeButton = styled(Button, {
