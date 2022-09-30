@@ -103,6 +103,7 @@ export function LoginForm() {
 
       <LoginButton
         aria-label="Login button"
+        color="primary"
         type="submit"
         disabled={auth.isLoading}
         data-testid="login-form-button"

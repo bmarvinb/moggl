@@ -11,7 +11,7 @@ const Menu = styled('div', {
   position: 'fixed',
   zIndex: 1,
   top: '3rem',
-  background: '$neutral0',
+  background: '$neutral1',
   height: '100vh',
   width: '85%',
   color: '$neutral9',

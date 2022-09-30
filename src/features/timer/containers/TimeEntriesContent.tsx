@@ -56,7 +56,7 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
-        background: '$neutral1',
+        background: '$neutral2',
         width: '100%',
       }}
     >

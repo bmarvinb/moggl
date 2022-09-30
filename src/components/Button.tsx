@@ -2,165 +2,178 @@ import { styled } from 'theme/config'
 
 export const Button = styled('button', {
   position: 'relative',
-  fontSize: '$sm',
-  lineHeight: '$sm',
   borderRadius: '$md',
-  color: '$neutral7',
-  padding: '$2 $5',
-  transition: 'all 150ms ease',
+  color: '$neutral11',
   cursor: 'pointer',
-  border: 'none',
-  background: 'transparent',
-  '&:focus-visible': {
-    outlineStyle: 'solid',
-    outlineWidth: '2px',
-  },
+  boxShadow: 'none',
+  border: '1px solid transparent',
+  display: 'inline-flex',
+  justifyContent: 'center',
   '&:disabled': {
     opacity: 0.5,
     cursor: 'not-allowed',
   },
-  '&:hover': {
-    color: '$neutral8',
+  '&:focus-visible': {
+    outlineStyle: 'solid',
+    outlineOffset: '$space$1',
   },
-  '&:active': {
-    color: '$neutral9',
+  '&:focus': {
+    outlineStyle: 'solid',
+    outlineOffset: '$space$1',
+    outlineWidth: '$space$1',
   },
   variants: {
-    use: {
-      basic: {
-        boxShadow: 'none',
-      },
-      raised: {
-        boxShadow: '$sm',
-      },
-      icon: {
-        display: 'inline-flex',
-        width: 'max-content',
-        height: 'max-content',
-        padding: '$1',
-        boxShadow: 'none',
-        borderRadius: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '$neutral0',
-        '&:hover': {
-          color: '$neutral1',
-        },
-        '&:active': {
-          color: '$neutral2',
-        },
-      },
-      FAB: {
-        boxShadow: '$sm',
-        borderRadius: '100%',
-        display: 'inline-flex',
-        padding: '0.5rem',
-        width: 'fit-content',
-        border: '1px solid $neutral2',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
+    variant: {
+      icon: {},
     },
     color: {
-      primary: {
-        backgroundColor: '$primary4',
-        boxShadow: '$sm',
-        color: '$neutral0',
+      light: {
+        borderColor: '$neutral9',
+        background: 'transparent',
+        color: '$neutral11',
         '&:hover': {
-          backgroundColor: '$primary5',
-          color: '$neutral1',
+          background: '$lightBgHover',
         },
-        '&:active': {
-          backgroundColor: '$primary6',
-          color: '$neutral1',
+        '&:focus': {
+          outlineColor: '$primary8',
+        },
+        '&:focus-visible': {
+          outlineColor: '$primary8',
+        },
+      },
+      primary: {
+        backgroundColor: '$primary9',
+        color: '$lightTextColor',
+        '&:hover': {
+          backgroundColor: '$primary10',
+        },
+        '&:focus': {
+          outlineColor: '$primary8',
+        },
+        '&:focus-visible': {
+          outlineColor: '$primary8',
         },
       },
       danger: {
-        background: '$red4',
-        boxShadow: '$sm',
-        color: '$neutral0',
+        backgroundColor: '$red9',
+        color: '$lightTextColor',
         '&:hover': {
-          backgroundColor: '$red5',
-          color: '$neutral1',
+          backgroundColor: '$red10',
         },
-        '&:active': {
-          backgroundColor: '$red6',
-          color: '$neutral1',
+        '&:focus': {
+          outlineColor: '$red8',
+        },
+        '&:focus-visible': {
+          outlineColor: '$red8',
         },
       },
     },
     shape: {
-      rounded: {
-        borderRadius: '100%',
-      },
+      rounded: {},
+    },
+    fill: {
+      solid: {},
+      outline: {},
     },
     size: {
-      xs: {
-        lineHeight: '$xs',
-        fontSize: '$xs',
+      sm: {
+        fontSize: '$sm',
+        lineHeight: '$sm',
+        py: '$2',
+        px: '$4',
+      },
+      md: {
+        fontSize: '$base',
+        lineHeight: '$base',
+        py: '$3',
+        px: '$5',
       },
       lg: {
-        lineHeight: '$lg',
         fontSize: '$lg',
+        lineHeight: '$lg',
+        py: '$4',
+        px: '$6',
       },
       xl: {
-        lineHeight: '$xl',
         fontSize: '$xl',
+        lineHeight: '$xl',
+        py: '$5',
+        px: '$7',
       },
     },
   },
   compoundVariants: [
     {
-      color: 'primary',
-      use: 'icon',
+      color: 'light',
+      fill: 'outline',
       css: {
         background: 'transparent',
-        boxShadow: 'none',
-        color: '$neutral6',
+        borderColor: '$neutral9',
+        color: '$neutral9',
         '&:hover': {
-          background: 'transparent',
-          color: '$primary4',
-        },
-        '&:active': {
-          background: 'transparent',
-          color: '$primary5',
+          color: '$lightTextColor',
+          background: '$neutral9',
         },
       },
     },
     {
-      use: 'icon',
-      size: 'xs',
+      color: 'primary',
+      fill: 'outline',
       css: {
-        padding: '$0',
+        background: 'transparent',
+        borderColor: '$primary9',
+        color: '$primary9',
+        '&:hover': {
+          color: '$lightTextColor',
+          background: '$primary9',
+        },
       },
     },
     {
-      use: 'icon',
-      size: 'lg',
+      color: 'danger',
+      fill: 'outline',
       css: {
-        padding: '$1',
+        background: 'transparent',
+        borderColor: '$red9',
+        color: '$red9',
+        '&:hover': {
+          color: '$lightTextColor',
+          background: '$red9',
+        },
       },
     },
     {
-      use: 'icon',
-      size: 'xl',
+      variant: 'icon',
+      size: 'sm',
       css: {
         padding: '$2',
       },
     },
     {
-      color: 'primary',
-      use: 'FAB',
+      variant: 'icon',
+      size: 'md',
       css: {
-        borderColor: '$primary2',
+        padding: '$3',
       },
     },
     {
-      color: 'danger',
-      use: 'FAB',
+      variant: 'icon',
+      size: 'lg',
       css: {
-        borderColor: '$red2',
+        padding: '$4',
+      },
+    },
+    {
+      variant: 'icon',
+      size: 'xl',
+      css: {
+        padding: '$5',
       },
     },
   ],
+  defaultVariants: {
+    size: 'md',
+    color: 'light',
+    fill: 'solid',
+  },
 })

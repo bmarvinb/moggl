@@ -8,7 +8,7 @@ const Children = styled('div', {
   alignItems: 'center',
   justifyContent: 'center',
   padding: '6rem 3rem',
-  background: '$neutral0',
+  background: '$neutral1',
   height: '100%',
 
   '@xs': {

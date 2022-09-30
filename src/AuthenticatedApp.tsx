@@ -6,6 +6,7 @@ import { TimerPage } from 'pages/TimerPage'
 import { FC } from 'react'
 import { BiMenuAltLeft } from 'react-icons/bi'
 import { Navigate, Route, Routes } from 'react-router-dom'
+// import { darkTheme } from 'theme/config'
 
 export type AuthenticatedAppProps = {
   userInfo: UserInfo
@@ -15,6 +16,7 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
   const [state, send] = useMachine(sidebarMachine)
   return (
     <Box
+      // className={darkTheme}
       as="main"
       css={{
         display: 'flex',
@@ -42,8 +44,8 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
           <Box
             as="nav"
             css={{
-              background: '$primary4',
-              color: '$neutral0',
+              background: '$primary9',
+              color: '$neutral1',
               padding: '0rem $1',
               display: 'flex',
               justifyContent: 'space-between',
@@ -52,7 +54,11 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
               minHeight: '3rem',
             }}
           >
-            <Button use="icon" size="xl" onClick={() => send('TOGGLE.SIDEBAR')}>
+            <Button
+              variant="icon"
+              size="xl"
+              onClick={() => send('TOGGLE.SIDEBAR')}
+            >
               <BiMenuAltLeft />
             </Button>
           </Box>

@@ -82,7 +82,8 @@ export const TimerControls: FC<TimerControlsProps> = props => {
           }}
         >
           <Button
-            use="icon"
+            variant="icon"
+            fill="outline"
             color="primary"
             size={'lg'}
             aria-label="Select project"
@@ -90,7 +91,8 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             <BiBriefcase title="Select project" />
           </Button>
           <Button
-            use="icon"
+            variant="icon"
+            fill="outline"
             color="primary"
             size={'lg'}
             aria-label="Select tags"
@@ -98,7 +100,8 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             <BiPurchaseTag title="Select tags" />
           </Button>
           <Button
-            use="icon"
+            variant="icon"
+            fill="outline"
             color="primary"
             size={'lg'}
             aria-label="Change billable status"
@@ -135,8 +138,8 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             <div>
               {O.isNone(props.duration) ? (
                 <Button
-                  use="FAB"
-                  color={'primary'}
+                  color="primary"
+                  fill="outline"
                   aria-label="Start timer"
                   size={'xl'}
                   title="Start timer"
@@ -152,7 +155,6 @@ export const TimerControls: FC<TimerControlsProps> = props => {
                 </Button>
               ) : (
                 <Button
-                  use="FAB"
                   color={'danger'}
                   size={'xl'}
                   aria-label="Stop timer"
@@ -166,8 +168,8 @@ export const TimerControls: FC<TimerControlsProps> = props => {
           ) : (
             <div>
               <Button
-                use="FAB"
-                color={'primary'}
+                color="primary"
+                fill="outline"
                 size={'xl'}
                 aria-label="Add time entry"
                 title="Add time entry"
@@ -181,8 +183,8 @@ export const TimerControls: FC<TimerControlsProps> = props => {
           {O.isNone(props.duration) ? (
             <ToggleMode>
               <ToggleModeButton
-                use={'icon'}
-                size={'xs'}
+                variant={'icon'}
+                size={'sm'}
                 selected={props.mode === TimerMode.Timer}
                 title="Timer mode"
                 css={{
@@ -198,8 +200,8 @@ export const TimerControls: FC<TimerControlsProps> = props => {
                 <BiPlay />
               </ToggleModeButton>
               <ToggleModeButton
-                use={'icon'}
-                size={'xs'}
+                variant={'icon'}
+                size={'sm'}
                 selected={props.mode === TimerMode.Manual}
                 title="Manual mode"
                 onClick={() =>
@@ -215,7 +217,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
                 width: '1.5rem',
               }}
             >
-              <Button use={'icon'} color="primary" size={'lg'}>
+              <Button variant={'icon'} color="primary" size={'lg'}>
                 <BiDotsHorizontal></BiDotsHorizontal>
               </Button>
             </Box>

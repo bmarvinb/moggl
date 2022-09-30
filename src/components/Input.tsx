@@ -2,26 +2,23 @@ import { styled } from 'theme/config'
 
 export const Input = styled('input', {
   width: '100%',
-  padding: '0.5rem',
-  fontSize: '$md',
-  lineHeight: '$md',
-  borderRadius: '$xl',
-  background: '$neutral0',
-  border: '1px solid $neutral0',
-  boxShadow: '$xs',
+  padding: '$5',
+  borderRadius: '$md',
+  background: '$neutral1',
+  border: '1px solid $neutral6',
 
   '&:hover': {
-    borderColor: '$primary3',
+    borderColor: '$primary9',
   },
 
   '&:focus': {
-    borderColor: '$primary3',
-    outline: '2px solid $primary2',
+    outline: '3px solid $primary8',
+    borderColor: '$primary9',
   },
 
   '&[aria-invalid="true"]': {
-    borderColor: '$red4',
-    outline: '2px solid $red3',
+    borderColor: '$red9',
+    outline: '3px solid $red8',
   },
   variants: {
     use: {
@@ -31,7 +28,7 @@ export const Input = styled('input', {
         border: 'none',
         boxShadow: 'none',
         '&::placeholder': {
-          color: '$neutral7',
+          color: '$neutral10',
         },
         '&:focus': {
           outline: 'none',

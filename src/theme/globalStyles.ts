@@ -47,7 +47,7 @@ export const globalStyles = globalCss({
     },
     {
       fontFamily: 'ProximaNova',
-      fontWeight: 900,
+      fontWeight: 800,
       src: `local("ProximaNova"), url(${ProximaNovaExtrabold}) format("woff")`,
     },
   ],

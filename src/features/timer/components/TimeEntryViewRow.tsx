@@ -163,7 +163,8 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                 }}
               >
                 <Button
-                  use="icon"
+                  variant="icon"
+                  fill="outline"
                   size="lg"
                   color="primary"
                   aria-label="Select tags"
@@ -171,7 +172,8 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                   <BiPurchaseTag title="Select tags" />
                 </Button>
                 <Button
-                  use="icon"
+                  variant="icon"
+                  fill="outline"
                   size="lg"
                   color="primary"
                   aria-label="Change billable status"
@@ -233,7 +235,8 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               }}
             >
               <Button
-                use="icon"
+                variant="icon"
+                fill="outline"
                 size="lg"
                 color="primary"
                 onClick={() => props.onPlayClicked(props.timeEntry)}
@@ -242,7 +245,8 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                 <BiPlay title="Play" />
               </Button>
               <Button
-                use="icon"
+                variant="icon"
+                fill="outline"
                 size="lg"
                 color="primary"
                 aria-label="Open actions"

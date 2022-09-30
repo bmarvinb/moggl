@@ -22,7 +22,7 @@ export type TimeEntriesTableViewProps = {
 
 const TimeEntriesTable = styled('div', {
   marginBottom: '1rem',
-  background: '$neutral0',
+  background: '$neutral1',
   borderRadius: '$md',
   boxShadow: '$sm',
   '&:last-child': {
@@ -94,7 +94,8 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
           }}
         >
           <Button
-            use="icon"
+            variant="icon"
+            fill="outline"
             color="primary"
             size={'lg'}
             aria-label="Toggle edit mode"
