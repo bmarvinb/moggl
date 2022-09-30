@@ -35,7 +35,7 @@ const Label = styled('div', {
   lineHeight: '$lg',
   display: 'flex',
   alignItems: 'center',
-  fontWeight: 500,
+  fontWeight: '$semibold',
 })
 
 export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
@@ -45,7 +45,7 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
         css={{
           display: 'flex',
           justifyContent: 'space-between',
-          padding: '0.75rem 1rem',
+          padding: '$6 $8',
         }}
       >
         <Box
@@ -57,7 +57,7 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
           {props.bulkEditMode && (
             <Box
               css={{
-                marginRight: '0.5rem',
+                marginRight: '$4',
               }}
             >
               <Checkbox
@@ -69,7 +69,8 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
           <Label>
             <Box
               css={{
-                marginRight: '0.25rem',
+                marginRight: '$2',
+                color: '$neutral10',
               }}
             >
               {formatDate(props.date)}
@@ -77,7 +78,7 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
             <Box
               css={{
                 fontWeight: 400,
-                color: '$neutral8',
+                color: '$neutral9',
                 minWidth: '4rem',
               }}
             >
@@ -96,7 +97,7 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
           <Button
             variant="icon"
             fill="outline"
-            color="primary"
+            color="transparent"
             size={'lg'}
             aria-label="Toggle edit mode"
             onClick={props.onToggleClicked}

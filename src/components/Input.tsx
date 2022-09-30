@@ -6,14 +6,17 @@ export const Input = styled('input', {
   borderRadius: '$md',
   background: '$neutral1',
   border: '1px solid $neutral6',
+  fontSize: '$base',
+  lineHeight: '$base',
+  color: '$neutral10',
 
   '&:hover': {
-    borderColor: '$primary9',
+    borderColor: '$primary5',
   },
 
   '&:focus': {
     outline: '3px solid $primary8',
-    borderColor: '$primary9',
+    borderColor: '$primary5',
   },
 
   '&[aria-invalid="true"]': {

@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { Box } from 'components/Box'
 import { globalStyles } from 'theme/globalStyles'
-import { Button } from './Button'
+import { Button } from '../components/Button'
 import { darkTheme } from 'theme/config'
 import { BiCart } from 'react-icons/bi'
 
@@ -26,10 +26,40 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
             marginBottom: '$8',
           }}
         >
-          <Button size={'sm'}>Button</Button>
-          <Button size={'md'}>Button</Button>
-          <Button size={'lg'}>Button</Button>
-          <Button size={'xl'}>Button</Button>
+          <Button color={'light'} size={'sm'}>
+            Button
+          </Button>
+          <Button color={'light'} size={'md'}>
+            Button
+          </Button>
+          <Button color={'light'} size={'lg'}>
+            Button
+          </Button>
+          <Button color={'light'} size={'xl'}>
+            Button
+          </Button>
+        </Box>
+
+        <Box
+          css={{
+            button: {
+              marginRight: '$8',
+            },
+            marginBottom: '$8',
+          }}
+        >
+          <Button color={'transparent'} size={'sm'}>
+            Button
+          </Button>
+          <Button color={'transparent'} size={'md'}>
+            Button
+          </Button>
+          <Button color={'transparent'} size={'lg'}>
+            Button
+          </Button>
+          <Button color={'transparent'} size={'xl'}>
+            Button
+          </Button>
         </Box>
       </Box>
 
@@ -145,16 +175,38 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
             marginBottom: '$8',
           }}
         >
-          <Button variant="icon" size={'sm'}>
+          <Button color="light" variant="icon" size={'sm'}>
             <BiCart />
           </Button>
-          <Button variant="icon" size={'md'}>
+          <Button color="light" variant="icon" size={'md'}>
             <BiCart />
           </Button>
-          <Button variant="icon" size={'lg'}>
+          <Button color="light" variant="icon" size={'lg'}>
             <BiCart />
           </Button>
-          <Button variant="icon" size={'xl'}>
+          <Button color="light" variant="icon" size={'xl'}>
+            <BiCart />
+          </Button>
+        </Box>
+
+        <Box
+          css={{
+            button: {
+              marginRight: '$8',
+            },
+            marginBottom: '$8',
+          }}
+        >
+          <Button color="transparent" variant="icon" size={'sm'}>
+            <BiCart />
+          </Button>
+          <Button color="transparent" variant="icon" size={'md'}>
+            <BiCart />
+          </Button>
+          <Button color="transparent" variant="icon" size={'lg'}>
+            <BiCart />
+          </Button>
+          <Button color="transparent" variant="icon" size={'xl'}>
             <BiCart />
           </Button>
         </Box>

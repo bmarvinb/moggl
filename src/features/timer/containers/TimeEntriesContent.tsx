@@ -56,7 +56,6 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
-        background: '$neutral2',
         width: '100%',
       }}
     >
@@ -84,6 +83,10 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
           css={{
             padding: '1rem',
             overflow: 'scroll',
+            background: '$neutral2',
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
           }}
         >
           <WeekDuration weekDuration={weekDuration} />

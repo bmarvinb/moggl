@@ -56,8 +56,11 @@ export type TimeEntryViewRowProps = {
 const TimeEntryItem = styled('div', {
   display: 'flex',
   padding: '0.75rem 1rem',
+  gap: '$6',
   borderBottom: '1px solid $neutral1',
-  gap: '$3',
+  '&:last-child': {
+    borderBottom: 0,
+  },
 })
 
 const Description = styled('div', {
@@ -115,8 +118,10 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
             }}
           >
             <Button
+              color="transparent"
               css={{
-                padding: '$1',
+                minWidth: '2rem',
+                minHeight: '2rem',
               }}
               onClick={() =>
                 props.onToggleChildrenVisibility &&
@@ -166,7 +171,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                   variant="icon"
                   fill="outline"
                   size="lg"
-                  color="primary"
+                  color="transparent"
                   aria-label="Select tags"
                 >
                   <BiPurchaseTag title="Select tags" />
@@ -175,7 +180,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                   variant="icon"
                   fill="outline"
                   size="lg"
-                  color="primary"
+                  color="transparent"
                   aria-label="Change billable status"
                 >
                   <BiDollar title="Change billable status" />
@@ -238,7 +243,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                 variant="icon"
                 fill="outline"
                 size="lg"
-                color="primary"
+                color="transparent"
                 onClick={() => props.onPlayClicked(props.timeEntry)}
                 aria-label="Start timer"
               >
@@ -248,7 +253,7 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                 variant="icon"
                 fill="outline"
                 size="lg"
-                color="primary"
+                color="transparent"
                 aria-label="Open actions"
               >
                 <BiDotsVerticalRounded title="Actions" />

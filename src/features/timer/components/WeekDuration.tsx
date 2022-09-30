@@ -8,19 +8,19 @@ export type WeekDurationProps = {
 }
 
 const Title = styled('div', {
-  fontWeight: 700,
+  fontWeight: 'bold',
   fontSize: '$xl',
   lineHeight: '$xl',
+  color: '$neutral10',
 })
 
 const TotalTime = styled('div', {
   display: 'inline-flex',
-  fontWeight: '400',
   fontSize: '$lg',
+  fontWeight: '$normal',
   lineHeight: '$lg',
-  color: '$neutral8',
-  marginLeft: '0.5rem',
-  minWidth: '5rem',
+  color: '$neutral9',
+  marginLeft: '$4',
 })
 
 export const WeekDuration: FC<WeekDurationProps> = props => {

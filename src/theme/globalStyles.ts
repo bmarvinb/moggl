@@ -16,6 +16,7 @@ export const globalStyles = globalCss({
     width: '100%',
     height: '100%',
     overscrollBehavior: 'none',
+    background: 'red',
   },
   '#root': {
     height: '100%',

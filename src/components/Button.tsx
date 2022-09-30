@@ -9,6 +9,8 @@ export const Button = styled('button', {
   border: '1px solid transparent',
   display: 'inline-flex',
   justifyContent: 'center',
+  alignItems: 'center',
+  outlineColor: '$primary4',
   '&:disabled': {
     opacity: 0.5,
     cursor: 'not-allowed',
@@ -16,6 +18,7 @@ export const Button = styled('button', {
   '&:focus-visible': {
     outlineStyle: 'solid',
     outlineOffset: '$space$1',
+    outlineWidth: '$space$1',
   },
   '&:focus': {
     outlineStyle: 'solid',
@@ -28,48 +31,48 @@ export const Button = styled('button', {
     },
     color: {
       light: {
-        borderColor: '$neutral9',
+        borderColor: '$neutral6',
         background: 'transparent',
-        color: '$neutral11',
+        color: '$neutral9',
         '&:hover': {
+          color: '$blue5',
           background: '$lightBgHover',
-        },
-        '&:focus': {
-          outlineColor: '$primary8',
-        },
-        '&:focus-visible': {
-          outlineColor: '$primary8',
         },
       },
       primary: {
-        backgroundColor: '$primary9',
+        backgroundColor: '$primary5',
         color: '$lightTextColor',
         '&:hover': {
-          backgroundColor: '$primary10',
-        },
-        '&:focus': {
-          outlineColor: '$primary8',
-        },
-        '&:focus-visible': {
-          outlineColor: '$primary8',
+          backgroundColor: '$primary6',
         },
       },
       danger: {
-        backgroundColor: '$red9',
+        backgroundColor: '$red5',
         color: '$lightTextColor',
+        outlineColor: '$red4',
         '&:hover': {
-          backgroundColor: '$red10',
+          backgroundColor: '$red6',
         },
-        '&:focus': {
-          outlineColor: '$red8',
+      },
+      transparent: {
+        border: 'none',
+        color: '$neutral8',
+        background: 'transparent',
+        '&:hover': {
+          color: '$primary5',
         },
         '&:focus-visible': {
-          outlineColor: '$red8',
+          outlineOffset: 0,
+        },
+        '&:focus': {
+          outlineOffset: 0,
         },
       },
     },
     shape: {
-      rounded: {},
+      rounded: {
+        borderRadius: '$full',
+      },
     },
     fill: {
       solid: {},
@@ -108,11 +111,11 @@ export const Button = styled('button', {
       fill: 'outline',
       css: {
         background: 'transparent',
-        borderColor: '$neutral9',
-        color: '$neutral9',
+        borderColor: '$neutral5',
+        color: '$neutral5',
         '&:hover': {
           color: '$lightTextColor',
-          background: '$neutral9',
+          background: '$lightBgHover',
         },
       },
     },
@@ -121,11 +124,11 @@ export const Button = styled('button', {
       fill: 'outline',
       css: {
         background: 'transparent',
-        borderColor: '$primary9',
-        color: '$primary9',
+        borderColor: '$primary5',
+        color: '$primary5',
         '&:hover': {
           color: '$lightTextColor',
-          background: '$primary9',
+          background: '$primary5',
         },
       },
     },
@@ -134,11 +137,11 @@ export const Button = styled('button', {
       fill: 'outline',
       css: {
         background: 'transparent',
-        borderColor: '$red9',
-        color: '$red9',
+        borderColor: '$red5',
+        color: '$red5',
         '&:hover': {
           color: '$lightTextColor',
-          background: '$red9',
+          background: '$red5',
         },
       },
     },
@@ -173,7 +176,7 @@ export const Button = styled('button', {
   ],
   defaultVariants: {
     size: 'md',
-    color: 'light',
+    color: 'primary',
     fill: 'solid',
   },
 })
