@@ -98,7 +98,7 @@ export const Timer: FC<TimerProps> = props => {
         flexDirection: 'column',
         padding: '0.75rem 1rem',
         boxShadow: '$md',
-        background: '$neutral1',
+        background: '$timerBg',
         position: 'relative',
       }}
     >

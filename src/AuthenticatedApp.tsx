@@ -3,8 +3,8 @@ import { UserInfo } from 'auth/context/auth-context'
 import { Button, Box, Sidebar } from 'components'
 import { sidebarMachine } from 'machines/sidebarMachine'
 import { TimerPage } from 'pages/TimerPage'
-import { FC } from 'react'
-import { BiMenuAltLeft } from 'react-icons/bi'
+import { FC, useReducer } from 'react'
+import { BiMenuAltLeft, BiMoon, BiSun } from 'react-icons/bi'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { darkTheme } from 'theme/config'
 
@@ -14,9 +14,10 @@ export type AuthenticatedAppProps = {
 
 export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
   const [state, send] = useMachine(sidebarMachine)
+  const [darkMode, toggleDarkMode] = useReducer(darkMode => !darkMode, false)
   return (
     <Box
-      className={darkTheme}
+      className={darkMode ? darkTheme : ''}
       as="main"
       css={{
         display: 'flex',
@@ -46,7 +47,7 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
           <Box
             as="nav"
             css={{
-              background: '$primary5',
+              background: '$navBg',
               color: '$neutral1',
               padding: '$2 $4',
               display: 'flex',
@@ -62,6 +63,10 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
               onClick={() => send('TOGGLE.SIDEBAR')}
             >
               <BiMenuAltLeft />
+            </Button>
+
+            <Button variant="icon" size="lg" onClick={toggleDarkMode}>
+              {darkMode ? <BiMoon /> : <BiSun />}
             </Button>
           </Box>
           <Routes>
