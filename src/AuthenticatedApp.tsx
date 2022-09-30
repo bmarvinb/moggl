@@ -1,6 +1,7 @@
 import { useMachine } from '@xstate/react'
 import { UserInfo } from 'auth/context/auth-context'
 import { Button, Box, Sidebar } from 'components'
+import { Nav } from 'components/nav'
 import { sidebarMachine } from 'machines/sidebarMachine'
 import { TimerPage } from 'pages/TimerPage'
 import { FC, useReducer } from 'react'
@@ -44,31 +45,7 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
             flex: 1,
           }}
         >
-          <Box
-            as="nav"
-            css={{
-              background: '$navBg',
-              color: '$neutral1',
-              padding: '$2 $4',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              zIndex: 1,
-              minHeight: '3rem',
-            }}
-          >
-            <Button
-              variant="icon"
-              size="lg"
-              onClick={() => send('TOGGLE.SIDEBAR')}
-            >
-              <BiMenuAltLeft />
-            </Button>
-
-            <Button variant="icon" size="lg" onClick={toggleDarkMode}>
-              {darkMode ? <BiMoon /> : <BiSun />}
-            </Button>
-          </Box>
+          <Nav darkMode={darkMode} onToggleDarkMode={toggleDarkMode} />
           <Routes>
             <Route path="/" element={<TimerPage userInfo={props.userInfo} />} />
             <Route path="/login" element={<Navigate replace to="/" />} />
