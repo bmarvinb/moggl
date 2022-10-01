@@ -92,8 +92,8 @@ export const secondaryDark = {
 }
 
 export const neutralDark = {
-  neutral1: 'hsl(209, 61%, 10%)',
-  neutral2: 'hsl(211, 39%, 13%)',
+  neutral1: 'hsl(209, 61%, 16%)',
+  neutral2: 'hsl(211, 39%, 23%)',
   neutral3: 'hsl(209, 34%, 20%)',
   neutral4: 'hsl(209, 28%, 29%)',
   neutral5: 'hsl(210, 22%, 39%)',

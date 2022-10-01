@@ -1,11 +1,10 @@
 import { useMachine } from '@xstate/react'
 import { UserInfo } from 'auth/context/auth-context'
-import { Button, Box, Sidebar } from 'components'
-import { Nav } from 'components/nav'
+import { Box, Sidebar } from 'components'
+import { Nav } from 'components/Nav'
 import { sidebarMachine } from 'machines/sidebarMachine'
 import { TimerPage } from 'pages/TimerPage'
 import { FC, useReducer } from 'react'
-import { BiMenuAltLeft, BiMoon, BiSun } from 'react-icons/bi'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { darkTheme } from 'theme/config'
 
@@ -45,7 +44,11 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
             flex: 1,
           }}
         >
-          <Nav darkMode={darkMode} onToggleDarkMode={toggleDarkMode} />
+          <Nav
+            darkMode={darkMode}
+            onToggleSidebar={() => send('TOGGLE.SIDEBAR')}
+            onToggleDarkMode={toggleDarkMode}
+          />
           <Routes>
             <Route path="/" element={<TimerPage userInfo={props.userInfo} />} />
             <Route path="/login" element={<Navigate replace to="/" />} />

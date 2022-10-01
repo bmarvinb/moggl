@@ -31,8 +31,6 @@ const ToggleMode = styled('div', {
   borderRadius: '$md',
   justifyContent: 'center',
   padding: 0,
-  boxShadow: '$xs',
-  border: '1px solid $neutral2',
 })
 
 export const TimerControls: FC<TimerControlsProps> = props => {

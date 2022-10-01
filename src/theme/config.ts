@@ -35,7 +35,7 @@ export const {
       ...whiteA,
       lightTextColor: neutral.neutral1,
       lightBgHover: blackA.blackA3,
-      navBg: primary.primary4,
+      navBg: primary.primary5,
       timerBg: neutral.neutral1,
     },
     space: {
@@ -169,7 +169,7 @@ export const darkTheme = createTheme({
     ...redDark,
     ...cyanDark,
     lightBgHover: whiteA.whiteA3,
-    navBg: primaryDark.primary2,
-    timerBg: primaryDark.primary3,
+    navBg: primaryDark.primary5,
+    timerBg: neutralDark.neutral1,
   },
 })
