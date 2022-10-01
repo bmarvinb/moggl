@@ -7,7 +7,7 @@ export type NavProps = {
   onMenuClicked: () => void
 }
 
-export const Nav: FC<NavProps> = props => {
+export const Navigation: FC<NavProps> = props => {
   return (
     <Box
       as="nav"

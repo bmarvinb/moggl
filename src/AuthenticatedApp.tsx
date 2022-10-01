@@ -1,6 +1,6 @@
 import { useMachine } from '@xstate/react'
 import { UserInfo } from 'auth/context/auth-context'
-import { Box, Drawer, DrawerContent, Nav } from 'components'
+import { Box, Drawer, DrawerContent, Navigation } from 'components'
 import { drawerMachine } from 'machines/drawerMachine'
 import { TimerPage } from 'pages/TimerPage'
 import { FC } from 'react'
@@ -47,7 +47,7 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
             flex: 1,
           }}
         >
-          <Nav onMenuClicked={() => send('TOGGLE.DRAWER')} />
+          <Navigation onMenuClicked={() => send('TOGGLE.DRAWER')} />
           <Routes>
             <Route path="/" element={<TimerPage userInfo={props.userInfo} />} />
             <Route path="/login" element={<Navigate replace to="/" />} />
