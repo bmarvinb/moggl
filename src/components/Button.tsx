@@ -3,7 +3,6 @@ import { styled } from 'theme/config'
 export const Button = styled('button', {
   position: 'relative',
   borderRadius: '$md',
-  color: '$neutral11',
   cursor: 'pointer',
   boxShadow: 'none',
   border: '1px solid transparent',

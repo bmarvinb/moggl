@@ -1,12 +1,10 @@
 import { Box } from 'components/Box'
 import { Button } from 'components/Button'
 import { FC } from 'react'
-import { BiMenuAltLeft, BiMoon, BiSun } from 'react-icons/bi'
+import { BiMenuAltLeft } from 'react-icons/bi'
 
 export type NavProps = {
-  darkMode: boolean
-  onToggleSidebar: () => void
-  onToggleDarkMode: () => void
+  onMenuClicked: () => void
 }
 
 export const Nav: FC<NavProps> = props => {
@@ -20,7 +18,6 @@ export const Nav: FC<NavProps> = props => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        zIndex: 1,
         minHeight: '3rem',
       }}
     >
@@ -34,26 +31,10 @@ export const Nav: FC<NavProps> = props => {
             color: '$lightTextColor',
           },
         }}
-        title="Toggle sidebar"
-        onClick={() => props.onToggleSidebar()}
+        title="Open menu"
+        onClick={() => props.onMenuClicked()}
       >
         <BiMenuAltLeft />
-      </Button>
-
-      <Button
-        variant="icon"
-        color="transparent"
-        size="lg"
-        css={{
-          color: '$lightTextColor',
-          '&:hover': {
-            color: '$lightTextColor',
-          },
-        }}
-        title="Toggle dark mode"
-        onClick={props.onToggleDarkMode}
-      >
-        {props.darkMode ? <BiMoon /> : <BiSun />}
       </Button>
     </Box>
   )

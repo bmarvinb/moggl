@@ -1,23 +1,20 @@
 import { useMachine } from '@xstate/react'
 import { UserInfo } from 'auth/context/auth-context'
-import { Box, Sidebar } from 'components'
+import { Box, Drawer, DrawerContent } from 'components'
 import { Nav } from 'components/Nav'
-import { sidebarMachine } from 'machines/sidebarMachine'
+import { drawerMachine } from 'machines/drawerMachine'
 import { TimerPage } from 'pages/TimerPage'
-import { FC, useReducer } from 'react'
+import { FC } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { darkTheme } from 'theme/config'
 
 export type AuthenticatedAppProps = {
   userInfo: UserInfo
 }
 
 export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
-  const [state, send] = useMachine(sidebarMachine)
-  const [darkMode, toggleDarkMode] = useReducer(darkMode => !darkMode, false)
+  const [state, send] = useMachine(drawerMachine)
   return (
     <Box
-      className={darkMode ? darkTheme : ''}
       as="main"
       css={{
         display: 'flex',
@@ -32,10 +29,17 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
           height: '100%',
         }}
       >
-        <Sidebar
-          expanded={state.matches('expanded')}
-          onModeChanged={() => send('TOGGLE.SIDEBAR')}
-        ></Sidebar>
+        <Drawer
+          onOpenChange={() => send('TOGGLE.DRAWER')}
+          open={state.matches('expanded')}
+        >
+          <DrawerContent>
+            <select>
+              <option>Workspace 1</option>
+              <option>Workspace 2</option>
+            </select>
+          </DrawerContent>
+        </Drawer>
 
         <Box
           css={{
@@ -44,11 +48,7 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
             flex: 1,
           }}
         >
-          <Nav
-            darkMode={darkMode}
-            onToggleSidebar={() => send('TOGGLE.SIDEBAR')}
-            onToggleDarkMode={toggleDarkMode}
-          />
+          <Nav onMenuClicked={() => send('TOGGLE.DRAWER')} />
           <Routes>
             <Route path="/" element={<TimerPage userInfo={props.userInfo} />} />
             <Route path="/login" element={<Navigate replace to="/" />} />
