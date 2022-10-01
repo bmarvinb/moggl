@@ -1,7 +1,6 @@
 import { useMachine } from '@xstate/react'
 import { UserInfo } from 'auth/context/auth-context'
-import { Box, Drawer, DrawerContent } from 'components'
-import { Nav } from 'components/Nav'
+import { Box, Drawer, DrawerContent, Nav } from 'components'
 import { drawerMachine } from 'machines/drawerMachine'
 import { TimerPage } from 'pages/TimerPage'
 import { FC } from 'react'
