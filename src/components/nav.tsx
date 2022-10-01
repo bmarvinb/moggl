@@ -2,10 +2,10 @@ import { Box } from 'components/Box'
 import { Button } from 'components/Button'
 import { FC } from 'react'
 import { BiMenuAltLeft, BiMoon, BiSun } from 'react-icons/bi'
-import { send } from 'xstate'
 
 export type NavProps = {
   darkMode: boolean
+  onToggleSidebar: () => void
   onToggleDarkMode: () => void
 }
 
@@ -34,7 +34,7 @@ export const Nav: FC<NavProps> = props => {
             color: '$lightTextColor',
           },
         }}
-        onClick={() => send('TOGGLE.SIDEBAR')}
+        onClick={() => props.onToggleSidebar()}
       >
         <BiMenuAltLeft />
       </Button>
