@@ -9,29 +9,42 @@ export const Input = styled('input', {
   fontSize: '$base',
   lineHeight: '$base',
   color: '$neutral10',
-
   '&:hover': {
     borderColor: '$primary5',
   },
-
-  '&:focus': {
-    outline: '3px solid $primary8',
-    borderColor: '$primary5',
+  '&:focus-visible': {
+    outlineStyle: 'solid',
+    outlineOffset: '$space$1',
+    outlineWidth: '$space$1',
+    outlineColor: '$primary4',
   },
-
+  '&:focus': {
+    outlineStyle: 'solid',
+    outlineOffset: '$space$1',
+    outlineWidth: '$space$1',
+    outlineColor: '$primary4',
+  },
   '&[aria-invalid="true"]': {
-    borderColor: '$red9',
-    outline: '3px solid $red8',
+    borderColor: '$red5',
+    outlineColor: '$red4',
+  },
+  '&::placeholder': {
+    color: '$neutral6',
+  },
+  '&:disabled': {
+    opacity: 0.5,
+    cursor: 'not-allowed',
+    borderColor: '$neutral6',
   },
   variants: {
-    use: {
+    variant: {
       inline: {
-        padding: '0.5rem 0rem',
+        padding: '$4 0',
         background: 'transparent',
         border: 'none',
         boxShadow: 'none',
-        '&::placeholder': {
-          color: '$neutral10',
+        '&:focus-visible': {
+          outline: 'none',
         },
         '&:focus': {
           outline: 'none',

@@ -16,7 +16,7 @@ import {
 } from 'theme/colors'
 import { styled, theme } from 'theme/config'
 import { globalStyles } from 'theme/globalStyles'
-import { Button } from '../components/Button'
+import { Button } from '../../components/Button'
 
 const Color = styled('div', {
   width: '2rem',

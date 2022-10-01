@@ -1,9 +1,10 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { Box } from 'components/Box'
 import { globalStyles } from 'theme/globalStyles'
-import { Button } from '../components/Button'
+import { Button } from '../../components/Button'
 import { darkTheme } from 'theme/config'
 import { BiCart } from 'react-icons/bi'
+import { Row } from 'stories/utils/Row'
 
 export default {
   title: 'Elements/Button',
@@ -18,14 +19,7 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
   return (
     <Box className={args.darkMode ? darkTheme : ''}>
       <Box>
-        <Box
-          css={{
-            button: {
-              marginRight: '$8',
-            },
-            marginBottom: '$8',
-          }}
-        >
+        <Row>
           <Button color={'light'} size={'sm'}>
             Button
           </Button>
@@ -38,16 +32,9 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
           <Button color={'light'} size={'xl'}>
             Button
           </Button>
-        </Box>
+        </Row>
 
-        <Box
-          css={{
-            button: {
-              marginRight: '$8',
-            },
-            marginBottom: '$8',
-          }}
-        >
+        <Row>
           <Button color={'transparent'} size={'sm'}>
             Button
           </Button>
@@ -60,18 +47,11 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
           <Button color={'transparent'} size={'xl'}>
             Button
           </Button>
-        </Box>
+        </Row>
       </Box>
 
       <Box>
-        <Box
-          css={{
-            button: {
-              marginRight: '$8',
-            },
-            marginBottom: '$8',
-          }}
-        >
+        <Row>
           <Button size={'sm'} color="primary">
             Button
           </Button>
@@ -84,18 +64,11 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
           <Button size={'xl'} color="primary">
             Button
           </Button>
-        </Box>
+        </Row>
       </Box>
 
       <Box>
-        <Box
-          css={{
-            button: {
-              marginRight: '$8',
-            },
-            marginBottom: '$8',
-          }}
-        >
+        <Row>
           <Button size={'sm'} color="danger">
             Button
           </Button>
@@ -108,18 +81,11 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
           <Button size={'xl'} color="danger">
             Button
           </Button>
-        </Box>
+        </Row>
       </Box>
 
       <Box>
-        <Box
-          css={{
-            button: {
-              marginRight: '$8',
-            },
-            marginBottom: '$8',
-          }}
-        >
+        <Row>
           <Button size={'sm'} fill="outline" color="primary">
             Button
           </Button>
@@ -132,18 +98,11 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
           <Button size={'xl'} fill="outline" color="primary">
             Button
           </Button>
-        </Box>
+        </Row>
       </Box>
 
       <Box>
-        <Box
-          css={{
-            button: {
-              marginRight: '$8',
-            },
-            marginBottom: '$8',
-          }}
-        >
+        <Row>
           <Button size={'sm'} fill="outline" color="danger">
             Button
           </Button>
@@ -156,7 +115,7 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
           <Button size={'xl'} fill="outline" color="danger">
             Button
           </Button>
-        </Box>
+        </Row>
       </Box>
     </Box>
   )
@@ -167,14 +126,7 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
   return (
     <Box className={args.darkMode ? darkTheme : ''}>
       <Box>
-        <Box
-          css={{
-            button: {
-              marginRight: '$8',
-            },
-            marginBottom: '$8',
-          }}
-        >
+        <Row>
           <Button color="light" variant="icon" size={'sm'}>
             <BiCart />
           </Button>
@@ -187,16 +139,9 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
           <Button color="light" variant="icon" size={'xl'}>
             <BiCart />
           </Button>
-        </Box>
+        </Row>
 
-        <Box
-          css={{
-            button: {
-              marginRight: '$8',
-            },
-            marginBottom: '$8',
-          }}
-        >
+        <Row>
           <Button color="transparent" variant="icon" size={'sm'}>
             <BiCart />
           </Button>
@@ -209,7 +154,7 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
           <Button color="transparent" variant="icon" size={'xl'}>
             <BiCart />
           </Button>
-        </Box>
+        </Row>
       </Box>
 
       <Box>
@@ -237,14 +182,7 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
       </Box>
 
       <Box>
-        <Box
-          css={{
-            button: {
-              marginRight: '$8',
-            },
-            marginBottom: '$8',
-          }}
-        >
+        <Row>
           <Button size={'sm'} variant="icon" color="danger">
             <BiCart />
           </Button>
@@ -257,18 +195,11 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
           <Button size={'xl'} variant="icon" color="danger">
             <BiCart />
           </Button>
-        </Box>
+        </Row>
       </Box>
 
       <Box>
-        <Box
-          css={{
-            button: {
-              marginRight: '$8',
-            },
-            marginBottom: '$8',
-          }}
-        >
+        <Row>
           <Button fill="outline" size={'sm'} variant="icon" color="primary">
             <BiCart />
           </Button>
@@ -281,18 +212,11 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
           <Button fill="outline" size={'xl'} variant="icon" color="primary">
             <BiCart />
           </Button>
-        </Box>
+        </Row>
       </Box>
 
       <Box>
-        <Box
-          css={{
-            button: {
-              marginRight: '$8',
-            },
-            marginBottom: '$8',
-          }}
-        >
+        <Row>
           <Button fill="outline" size={'sm'} variant="icon" color="danger">
             <BiCart />
           </Button>
@@ -305,14 +229,12 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
           <Button fill="outline" size={'xl'} variant="icon" color="danger">
             <BiCart />
           </Button>
-        </Box>
+        </Row>
       </Box>
     </Box>
   )
 }
 
 export const Basic = BasicTemplate.bind({})
-Basic.args = {}
 
 export const Icon = IconTemplate.bind({})
-Basic.args = {}

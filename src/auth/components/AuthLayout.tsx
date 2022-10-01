@@ -20,12 +20,6 @@ const Children = styled('div', {
   },
 })
 
-const Background = styled('img', {
-  position: 'absolute',
-  height: '100%',
-  width: '100%',
-})
-
 export const AuthLayout: FC<{
   children: JSX.Element
 }> = ({ children }) => {
@@ -34,6 +28,7 @@ export const AuthLayout: FC<{
       css={{
         display: 'flex',
         height: '100%',
+        background: 'linear-gradient($primary5, $primary8)',
       }}
     >
       <Children>{children}</Children>
@@ -44,9 +39,7 @@ export const AuthLayout: FC<{
           height: '100%',
           width: '100%',
         }}
-      >
-        <Background src="images/login-background.png" alt="Background" />
-      </Box>
+      ></Box>
     </Box>
   )
 }

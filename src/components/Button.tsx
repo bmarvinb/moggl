@@ -11,10 +11,6 @@ export const Button = styled('button', {
   justifyContent: 'center',
   alignItems: 'center',
   outlineColor: '$primary4',
-  '&:disabled': {
-    opacity: 0.5,
-    cursor: 'not-allowed',
-  },
   '&:focus-visible': {
     outlineStyle: 'solid',
     outlineOffset: '$space$1',
@@ -24,6 +20,10 @@ export const Button = styled('button', {
     outlineStyle: 'solid',
     outlineOffset: '$space$1',
     outlineWidth: '$space$1',
+  },
+  '&:disabled': {
+    opacity: 0.5,
+    cursor: 'not-allowed',
   },
   variants: {
     variant: {

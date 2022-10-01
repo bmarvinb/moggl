@@ -104,7 +104,7 @@ export const Timer: FC<TimerProps> = props => {
     >
       <div>
         <Input
-          use={'inline'}
+          variant={'inline'}
           css={{
             width: '100%',
           }}

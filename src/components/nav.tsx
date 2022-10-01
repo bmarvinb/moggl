@@ -34,6 +34,7 @@ export const Nav: FC<NavProps> = props => {
             color: '$lightTextColor',
           },
         }}
+        title="Toggle sidebar"
         onClick={() => props.onToggleSidebar()}
       >
         <BiMenuAltLeft />
@@ -49,6 +50,7 @@ export const Nav: FC<NavProps> = props => {
             color: '$lightTextColor',
           },
         }}
+        title="Toggle dark mode"
         onClick={props.onToggleDarkMode}
       >
         {props.darkMode ? <BiMoon /> : <BiSun />}
