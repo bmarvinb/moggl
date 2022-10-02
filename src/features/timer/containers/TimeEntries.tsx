@@ -18,7 +18,6 @@ import { pipe } from 'fp-ts/lib/function'
 import * as M from 'fp-ts/lib/Monoid'
 import * as N from 'fp-ts/lib/number'
 import * as S from 'fp-ts/lib/string'
-import { nanoid } from 'nanoid'
 import { FC } from 'react'
 
 export type TimeEntriesProps = {}
@@ -43,7 +42,7 @@ function groupByDate(timeEntries: InactiveTimeEntry[]) {
           isSameDay(new Date(timeInterval.start), new Date(date)),
         )
         return {
-          id: nanoid(),
+          id: date,
           date: new Date(date),
           reportedDuration: pipe(dayTimeEntries, getTotalDuration),
           data: pipe(dayTimeEntries, A.map(createTimeEntryViewModel)),

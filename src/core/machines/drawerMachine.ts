@@ -20,6 +20,7 @@ export const drawerMachine =
   /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoD2ADmAHYDEAKgPIDi1AMgKI4AiASgIIDqDrioBeWAEsALkLzE+IAB6IAtABYAnAEYcADgDsANnUKADJqUKArACZ16kwBoQAT3mmcm-SoVmzChdoNalAX39bVExsHABjABtBMAoaeiY2Lh4pAWExCSlZBDkzTXUcJSVtEwBmJVKTF3VS7VLbBxynFzcPLx99P0Dg9CwUUgBVAAVmdnIGAH0AWUpmBlTBUXFJJBl5KoKTbR9SzxK9CwbHdxxKio8rZXVtQKCQYjwIOCkQvvwiFf5FjM+1nNLKs46poFKVNOUTCZjEcECoTBp8ip8gpNJpIW4TOpuiBXmEojEFullll5ADtKdNHsrtpim4YXIVPpyUYVBUjPoygYytjcShCUtMqtsnJtPozDgtjs9pj3Op6VVNKdSkyzEi6gp1EpNLd-EA */
   createMachine<DrawerContext, DrawerEvent>(
     {
+      predictableActionArguments: true,
       context: {
         mode:
           window.innerWidth <= media.md
