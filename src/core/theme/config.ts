@@ -12,7 +12,7 @@ import {
   secondary,
   secondaryDark,
   whiteA,
-} from 'core/theme/colors'
+} from './colors'
 
 export const media = {
   xs: 475,
