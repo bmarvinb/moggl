@@ -14,6 +14,14 @@ import {
   whiteA,
 } from 'theme/colors'
 
+export const media = {
+  xs: 475,
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+}
+
 export const {
   styled,
   css,
@@ -103,12 +111,11 @@ export const {
     transitions: {},
   },
   media: {
-    xs: '(min-width: 475px)',
-    sm: '(min-width: 640px)',
-    md: '(min-width: 768px)',
-    lg: '(min-width: 1024px)',
-    xl: '(min-width: 1280px)',
-    '2xl': '(min-width: 1536px)',
+    xs: `(min-width: ${media.xs}px)`,
+    sm: `(min-width: ${media.sm}px)`,
+    md: `(min-width: ${media.md}px)`,
+    lg: `(min-width: ${media.lg}px)`,
+    xl: `(min-width: ${media.xl}px)`,
   },
   utils: {
     p: (value: PropertyValue<'padding'>) => ({

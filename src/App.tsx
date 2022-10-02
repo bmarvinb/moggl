@@ -1,4 +1,4 @@
-import { useUserInfo } from 'auth/context/auth-context'
+import { useUserInfo } from 'features/auth/context/auth-context'
 import { FullPageSpinner } from 'components'
 import * as O from 'fp-ts/lib/Option'
 import React from 'react'

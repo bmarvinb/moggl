@@ -1,7 +1,7 @@
 import { useMachine } from '@xstate/react'
-import { UserInfo } from 'auth/context/auth-context'
-import { Box, Drawer, DrawerContent, Navigation } from 'components'
-import { drawerMachine } from 'machines/drawerMachine'
+import { UserInfo } from 'features/auth/context/auth-context'
+import { Box, Drawer, Navigation } from 'components'
+import { drawerMachine, DrawerMode } from 'core/machines/drawerMachine'
 import { TimerPage } from 'pages/TimerPage'
 import { FC } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
@@ -12,6 +12,8 @@ export type AuthenticatedAppProps = {
 
 export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
   const [state, send] = useMachine(drawerMachine)
+  const temporaryMode = state.context.mode === DrawerMode.Temporary
+  const open = state.matches('open')
   return (
     <Box
       as="main"
@@ -28,17 +30,19 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
           height: '100%',
         }}
       >
-        <Drawer
-          onOpenChange={() => send('TOGGLE.DRAWER')}
-          open={state.matches('opened')}
-        >
-          <DrawerContent>
-            <select>
-              <option>Workspace 1</option>
-              <option>Workspace 2</option>
-            </select>
-          </DrawerContent>
-        </Drawer>
+        {temporaryMode ? (
+          <Drawer
+            variant="temporary"
+            onOpenChange={() => send('TOGGLE.DRAWER')}
+            open={open}
+          ></Drawer>
+        ) : (
+          <Drawer
+            variant="permanent"
+            onOpenChange={() => send('TOGGLE.DRAWER')}
+            open={open}
+          ></Drawer>
+        )}
 
         <Box
           css={{
@@ -47,7 +51,9 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
             flex: 1,
           }}
         >
-          <Navigation onMenuClicked={() => send('TOGGLE.DRAWER')} />
+          {temporaryMode && (
+            <Navigation onMenuClicked={() => send('TOGGLE.DRAWER')} />
+          )}
           <Routes>
             <Route path="/" element={<TimerPage userInfo={props.userInfo} />} />
             <Route path="/login" element={<Navigate replace to="/" />} />

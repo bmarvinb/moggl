@@ -46,16 +46,12 @@ export const Timer: FC<TimerProps> = props => {
     },
     {
       onMutate: () => {
-        console.log('mutate')
         props.onStart()
       },
       onError: () => {
-        console.log('error')
         props.onStop()
       },
-      onSettled: () => {
-        console.log('settled')
-      },
+      onSettled: () => {},
     },
   )
 
@@ -100,9 +96,20 @@ export const Timer: FC<TimerProps> = props => {
         boxShadow: '$md',
         background: '$timerBg',
         position: 'relative',
+        zIndex: 1,
+
+        '@md': {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        },
       }}
     >
-      <div>
+      <Box
+        css={{
+          flex: 1,
+        }}
+      >
         <Input
           variant={'inline'}
           css={{
@@ -115,8 +122,8 @@ export const Timer: FC<TimerProps> = props => {
           }
           {...register('description')}
         />
-      </div>
-      <div>
+      </Box>
+      <Box>
         <TimerControls
           duration={props.timeEntryDuration}
           mode={props.mode}
@@ -125,7 +132,7 @@ export const Timer: FC<TimerProps> = props => {
           onTimerModeChanged={props.onTimerModeChanged}
           onAddTimeEntryClicked={props.onAddTimeEntryClicked}
         />
-      </div>
+      </Box>
     </Box>
   )
 }
