@@ -97,9 +97,19 @@ export const Timer: FC<TimerProps> = props => {
         background: '$timerBg',
         position: 'relative',
         zIndex: 1,
+
+        '@md': {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        },
       }}
     >
-      <div>
+      <Box
+        css={{
+          flex: 1,
+        }}
+      >
         <Input
           variant={'inline'}
           css={{
@@ -112,8 +122,8 @@ export const Timer: FC<TimerProps> = props => {
           }
           {...register('description')}
         />
-      </div>
-      <div>
+      </Box>
+      <Box>
         <TimerControls
           duration={props.timeEntryDuration}
           mode={props.mode}
@@ -122,7 +132,7 @@ export const Timer: FC<TimerProps> = props => {
           onTimerModeChanged={props.onTimerModeChanged}
           onAddTimeEntryClicked={props.onAddTimeEntryClicked}
         />
-      </div>
+      </Box>
     </Box>
   )
 }

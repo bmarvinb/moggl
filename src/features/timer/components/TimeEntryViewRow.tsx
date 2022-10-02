@@ -57,10 +57,8 @@ const TimeEntryItem = styled('div', {
   display: 'flex',
   padding: '0.75rem 1rem',
   gap: '$6',
-  borderBottom: '1px solid $neutral1',
-  '&:last-child': {
-    borderBottom: 0,
-  },
+  borderTop: '1px solid $neutral2',
+  alignItems: 'center',
 })
 
 const Description = styled('div', {
@@ -98,41 +96,27 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
         data-testid="TIME_ENTRY_VIEW_ROW"
       >
         {props.edit && (
-          <Box
-            css={{
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <Checkbox
-              checked={props.selected}
-              onChange={() => props.onSelectionChange(props.timeEntry.data.id)}
-            />
-          </Box>
+          <Checkbox
+            checked={props.selected}
+            onChange={() => props.onSelectionChange(props.timeEntry.data.id)}
+          />
         )}
         {isParentTimeEntry(props.timeEntry) && (
-          <Box
+          <Button
+            color="transparent"
             css={{
-              display: 'flex',
-              alignItems: 'center',
+              minWidth: '2rem',
+              minHeight: '2rem',
             }}
+            onClick={() =>
+              props.onToggleChildrenVisibility &&
+              props.onToggleChildrenVisibility()
+            }
+            aria-label="Toggle children visibility"
+            data-testid="TOGGLE_CHILDREN_VISIBILITY_BUTTON"
           >
-            <Button
-              color="transparent"
-              css={{
-                minWidth: '2rem',
-                minHeight: '2rem',
-              }}
-              onClick={() =>
-                props.onToggleChildrenVisibility &&
-                props.onToggleChildrenVisibility()
-              }
-              aria-label="Toggle children visibility"
-              data-testid="TOGGLE_CHILDREN_VISIBILITY_BUTTON"
-            >
-              {props.timeEntry.children.length}
-            </Button>
-          </Box>
+            {props.timeEntry.children.length}
+          </Button>
         )}
         <Box
           css={{
@@ -148,7 +132,6 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                paddingLeft: isChildTimeEntry(props.timeEntry) ? '$7' : '0',
                 marginBottom: '$2',
               }}
             >

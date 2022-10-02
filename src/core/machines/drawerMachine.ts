@@ -22,7 +22,7 @@ export const drawerMachine =
     {
       context: {
         mode:
-          window.innerWidth <= media.sm
+          window.innerWidth <= media.md
             ? DrawerMode.Temporary
             : DrawerMode.Permanent,
       },
@@ -52,14 +52,14 @@ export const drawerMachine =
           {
             actions: ['setTemporaryMode'],
             cond: context =>
-              window.innerWidth <= media.sm &&
+              window.innerWidth <= media.md &&
               context.mode !== DrawerMode.Temporary,
             target: '.close',
           },
           {
             actions: ['setPermanentMode'],
             cond: context =>
-              window.innerWidth > media.sm &&
+              window.innerWidth > media.md &&
               context.mode !== DrawerMode.Permanent,
             target: '.close',
           },
