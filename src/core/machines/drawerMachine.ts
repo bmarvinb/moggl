@@ -17,7 +17,7 @@ type DrawerEvent =
   | { type: 'UPDATE_MODE' }
 
 export const drawerMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoD2ADmAHYDEAKgPIDi1AMgKI4AiASgIIDqDrioBeWAEsALkLzE+IAB6IAtABYAnAEYcADgDsANnUKADJqUKArACZ16kwBoQAT3mmcm-SoVmzChdoNalAX39bVExsHABjABtBMAoaeiY2Lh4pAWExCSlZBDkzTXUcJSVtEwBmJVKTF3VS7VLbBxynFzcPLx99P0Dg9CwUUgBVAAVmdnIGAH0AWUpmBlTBUXFJJBl5EyrCzVKFTQVSlW0jjwb5WpMcT231XU6vV0CgkGI8CDgpEL78IhX+RYzfmscqVKs46ntStslBtjKcECoLlp1Cp8rtNBs3CZ1N0QJ8wlEYgt0sssmdajhIZ4fEobsU3HC5Cp9NpnKoKkZ9GUDGUcXiUESlplVtk5Fi1Eptrt9odjmYGSZ9PpLiokV4TGqVMVHv4gA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoD2ADmAHYDEAKgPIDi1AMgKI4AiASgIIDqDrioBeWAEsALkLzE+IAB6IAtABYAnAEYcADgDsANnUKADJqUKArACZ16kwBoQAT3mmcm-SoVmzChdoNalAX39bVExsHABjABtBMAoaeiY2Lh4pAWExCSlZBDkzTXUcJSVtEwBmJVKTF3VS7VLbBxynFzcPLx99P0Dg9CwUUgBVAAVmdnIGAH0AWUpmBlTBUXFJJBl5KoKTbR9SzxK9CwbHdxxKio8rZXVtQKCQYjwIOCkQvvwiFf5FjM+1nNLKs46poFKVNOUTCZjEcECoTBp8ip8gpNJpIW4TOpuiBXmEojEFullll5ADtKdNHsrtpim4YXIVPpyUYVBUjPoygYytjcShCUtMqtsnJtPozDgtjs9pj3Op6VVNKdSkyKiozEilGYTLd-EA */
   createMachine<DrawerContext, DrawerEvent>(
     {
       context: {
@@ -50,14 +50,16 @@ export const drawerMachine =
       on: {
         UPDATE_MODE: [
           {
-            actions: ['setTemporaryMode'],
+            actions: 'setTemporaryMode',
+            description: 'Mobile layout',
             cond: context =>
               window.innerWidth <= media.md &&
               context.mode !== DrawerMode.Temporary,
             target: '.close',
           },
           {
-            actions: ['setPermanentMode'],
+            actions: 'setPermanentMode',
+            description: 'Destop layout',
             cond: context =>
               window.innerWidth > media.md &&
               context.mode !== DrawerMode.Permanent,
