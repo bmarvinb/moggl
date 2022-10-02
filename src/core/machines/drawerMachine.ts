@@ -59,7 +59,7 @@ export const drawerMachine =
           },
           {
             actions: 'setPermanentMode',
-            description: 'Destop layout',
+            description: 'Desktop layout',
             cond: context =>
               window.innerWidth > media.md &&
               context.mode !== DrawerMode.Permanent,
