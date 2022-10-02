@@ -35,13 +35,13 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
         {temporaryMode ? (
           <Drawer
             variant="temporary"
-            onOpenChange={() => send('TOGGLE.DRAWER')}
+            onOpenChange={() => send('TOGGLE')}
             open={open}
           ></Drawer>
         ) : (
           <Drawer
             variant="permanent"
-            onOpenChange={() => send('TOGGLE.DRAWER')}
+            onOpenChange={() => send('TOGGLE')}
             open={open}
           ></Drawer>
         )}
@@ -53,9 +53,7 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
             flex: 1,
           }}
         >
-          {temporaryMode && (
-            <Navbar onMenuClicked={() => send('TOGGLE.DRAWER')} />
-          )}
+          {temporaryMode && <Navbar onMenuClicked={() => send('TOGGLE')} />}
           <Routes>
             <Route path="/" element={<TimerPage userInfo={props.userInfo} />} />
             <Route path="/login" element={<Navigate replace to="/" />} />

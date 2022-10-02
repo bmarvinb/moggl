@@ -12,7 +12,7 @@ type DrawerContext = {
 
 type DrawerEvent =
   | {
-      type: 'TOGGLE.DRAWER'
+      type: 'TOGGLE'
     }
   | { type: 'UPDATE_MODE' }
 
@@ -35,14 +35,14 @@ export const drawerMachine =
       states: {
         open: {
           on: {
-            'TOGGLE.DRAWER': {
+            TOGGLE: {
               target: 'close',
             },
           },
         },
         close: {
           on: {
-            'TOGGLE.DRAWER': {
+            TOGGLE: {
               target: 'open',
             },
           },
