@@ -20,4 +20,4 @@ const Template: ComponentStory<typeof FullPageSpinner> = (args: any) => {
   )
 }
 
-export const Input = Template.bind({})
+export const Spinner = Template.bind({})
