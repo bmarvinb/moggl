@@ -14,11 +14,7 @@ export const Navigation: FC<NavProps> = props => {
       css={{
         background: '$navBg',
         color: '$neutral1',
-        padding: '$2 $4',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        minHeight: '3rem',
+        minHeight: '2.75rem',
       }}
     >
       <Button
@@ -26,6 +22,9 @@ export const Navigation: FC<NavProps> = props => {
         color="transparent"
         size="lg"
         css={{
+          position: 'absolute',
+          top: '0.25rem',
+          left: '0.75rem',
           color: '$lightTextColor',
           '&:hover': {
             color: '$lightTextColor',

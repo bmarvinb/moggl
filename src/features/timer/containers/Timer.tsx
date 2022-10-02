@@ -46,16 +46,12 @@ export const Timer: FC<TimerProps> = props => {
     },
     {
       onMutate: () => {
-        console.log('mutate')
         props.onStart()
       },
       onError: () => {
-        console.log('error')
         props.onStop()
       },
-      onSettled: () => {
-        console.log('settled')
-      },
+      onSettled: () => {},
     },
   )
 
@@ -100,6 +96,7 @@ export const Timer: FC<TimerProps> = props => {
         boxShadow: '$md',
         background: '$timerBg',
         position: 'relative',
+        zIndex: 1,
       }}
     >
       <div>

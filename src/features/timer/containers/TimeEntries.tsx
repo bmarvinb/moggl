@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { User } from 'auth/services/user'
-import { Workspace } from 'auth/services/workspace'
+import { User } from 'features/auth/services/user'
+import { Workspace } from 'features/auth/services/workspace'
 import { Spinner } from 'components'
 import { format, isSameWeek } from 'date-fns'
 import { isSameDay } from 'date-fns/fp'

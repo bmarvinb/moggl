@@ -1,4 +1,4 @@
-import { UserInfo } from 'auth/index'
+import { UserInfo } from 'features/auth/index'
 import { TimeEntries } from 'features/timer'
 import { FC } from 'react'
 
