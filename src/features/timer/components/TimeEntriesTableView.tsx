@@ -1,4 +1,5 @@
-import { Checkbox, IconButton } from 'components'
+import { Button, Checkbox } from 'components'
+import { Box } from 'components/Box'
 import { isToday } from 'date-fns'
 import {
   formatDate,
@@ -6,7 +7,7 @@ import {
 } from 'features/timer/utils/time-entries-utils'
 import { FC, ReactNode } from 'react'
 import { BiListUl } from 'react-icons/bi'
-import styled from 'styled-components/macro'
+import { styled } from 'theme/config'
 
 export type TimeEntriesTableViewProps = {
   children: ReactNode
@@ -19,89 +20,91 @@ export type TimeEntriesTableViewProps = {
   onToggleClicked: () => void
 }
 
-const TimeEntriesTable = styled.div`
-  margin-bottom: 1rem;
-  background: var(--neutral0);
-  border-radius: var(--roundedMd);
-  box-shadow: var(--shadowSm);
+const TimeEntriesTable = styled('div', {
+  marginBottom: '1rem',
+  background: '$neutral1',
+  borderRadius: '$md',
+  boxShadow: '$sm',
+  '&:last-child': {
+    marginBottom: 0,
+  },
+})
 
-  &:last-child {
-    margin-bottom: 0;
-  }
-`
-
-const Label = styled.div`
-  font-size: var(--fontLg);
-  line-height: var(--lineHeightLg);
-  display: flex;
-  align-items: center;
-  font-weight: 500;
-`
+const Label = styled('div', {
+  fontSize: '$lg',
+  lineHeight: '$lg',
+  display: 'flex',
+  alignItems: 'center',
+  fontWeight: '$semibold',
+})
 
 export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
   return (
     <TimeEntriesTable>
-      <div
-        css={`
-          display: flex;
-          justify-content: space-between;
-          padding: 0.75rem 1rem;
-        `}
+      <Box
+        css={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          padding: '$6 $8',
+        }}
       >
-        <div
-          css={`
-            display: flex;
-            align-items: center;
-          `}
+        <Box
+          css={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
         >
           {props.bulkEditMode && (
-            <div
-              css={`
-                margin-right: 1rem;
-              `}
+            <Box
+              css={{
+                marginRight: '$4',
+              }}
             >
               <Checkbox
                 onChange={props.onBulkModeChanged}
                 checked={props.allSelected}
               />
-            </div>
+            </Box>
           )}
           <Label>
-            <div
-              css={`
-                margin-right: 0.25rem;
-              `}
+            <Box
+              css={{
+                marginRight: '$2',
+                color: '$neutral10',
+              }}
             >
               {formatDate(props.date)}
-            </div>
-            <div
-              css={`
-                font-weight: 400;
-                color: var(--neutral8);
-                min-width: 4rem;
-              `}
+            </Box>
+            <Box
+              css={{
+                fontWeight: 400,
+                color: '$neutral9',
+                minWidth: '4rem',
+              }}
             >
               {isToday(props.date)
                 ? formatDuration(props.totalTime)
                 : formatDuration(props.reportedTime)}
-            </div>
+            </Box>
           </Label>
-        </div>
-        <Label>
-          <IconButton
-            $active={props.bulkEditMode}
+        </Box>
+        <Label
+          css={{
+            position: 'relative',
+            right: '-0.25rem',
+          }}
+        >
+          <Button
+            variant="icon"
+            color="transparent"
+            size={'lg'}
             aria-label="Toggle edit mode"
             onClick={props.onToggleClicked}
-            css={`
-              font-size: var(--fontSizeLg);
-              position: relative;
-              right: -0.4rem;
-            `}
           >
             <BiListUl title="Toggle" />
-          </IconButton>
+          </Button>
         </Label>
-      </div>
+      </Box>
       {props.children}
     </TimeEntriesTable>
   )

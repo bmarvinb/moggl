@@ -1,41 +1,55 @@
-import styled from 'styled-components'
+import { styled } from 'theme/config'
 
-export const Input = styled.input`
-  width: 100%;
-  padding: 0.5rem;
-  font-size: var(--fontSm);
-  line-height: var(--lineHeightSm);
-  border-radius: var(--roundedXl);
-  background: var(--neutral0);
-  border: 1px solid var(--neutral3);
-  box-shadow: var(--shadowXs);
-
-  &:hover {
-    border-color: var(--primary3);
-  }
-
-  &:focus {
-    border-color: var(--primary3);
-    outline: 2px solid var(--primary2);
-  }
-
-  &[aria-invalid='true'] {
-    border-color: var(--red4);
-    outline: 2px solid var(--red3);
-  }
-`
-
-export const InlineInput = styled.input`
-  padding: 0.5rem 0rem;
-  font-size: var(--fontSm);
-  line-height: var(--lineHeightSm);
-  background: transparent;
-  border: 0;
-  &::placeholder {
-    color: var(--neutral7);
-  }
-
-  &:focus {
-    outline: none;
-  }
-`
+export const Input = styled('input', {
+  width: '100%',
+  padding: '$5',
+  borderRadius: '$md',
+  background: '$neutral1',
+  border: '1px solid $neutral6',
+  fontSize: '$base',
+  lineHeight: '$base',
+  color: '$neutral10',
+  '&:hover': {
+    borderColor: '$primary5',
+  },
+  '&:focus-visible': {
+    outlineStyle: 'solid',
+    outlineOffset: '$space$1',
+    outlineWidth: '$space$1',
+    outlineColor: '$primary4',
+  },
+  '&:focus': {
+    outlineStyle: 'solid',
+    outlineOffset: '$space$1',
+    outlineWidth: '$space$1',
+    outlineColor: '$primary4',
+  },
+  '&[aria-invalid="true"]': {
+    borderColor: '$red5',
+    outlineColor: '$red4',
+  },
+  '&::placeholder': {
+    color: '$neutral6',
+  },
+  '&:disabled': {
+    opacity: 0.5,
+    cursor: 'not-allowed',
+    borderColor: '$neutral6',
+  },
+  variants: {
+    variant: {
+      inline: {
+        padding: '$4 0',
+        background: 'transparent',
+        border: 'none',
+        boxShadow: 'none',
+        '&:focus-visible': {
+          outline: 'none',
+        },
+        '&:focus': {
+          outline: 'none',
+        },
+      },
+    },
+  },
+})

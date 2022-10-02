@@ -7,7 +7,7 @@ import { sequenceS } from 'fp-ts/lib/Apply'
 import * as A from 'fp-ts/lib/Array'
 import { pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'
-import React, { ReactNode, useState } from 'react'
+import React, { useState } from 'react'
 
 function bootstrap() {
   return Promise.all([user(), userWorkspaces()])
@@ -21,7 +21,7 @@ export type UserInfo = {
 const AuthContext = React.createContext<O.Option<UserInfo>>(O.none)
 AuthContext.displayName = 'AuthContext'
 
-export function AuthProvider(props: { children: ReactNode }) {
+export function AuthProvider(props: { children: React.ReactNode }) {
   const [user, setUser] = useState<O.Option<User>>(O.none)
   const [workspaces, setWorkspaces] = useState<Workspace[]>([])
 

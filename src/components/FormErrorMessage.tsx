@@ -1,5 +1,5 @@
-import styled from 'styled-components'
+import { styled } from 'theme/config'
 
-export const FormErrorMessage = styled.div`
-  color: var(--red4);
-`
+export const FormErrorMessage = styled('div', {
+  color: '$red4',
+})

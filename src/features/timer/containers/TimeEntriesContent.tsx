@@ -1,4 +1,5 @@
 import { useMachine } from '@xstate/react'
+import { Box } from 'components/Box'
 import {
   ReportedDay,
   ReportedDays,
@@ -9,7 +10,6 @@ import { timerMachine, TimerMode } from 'features/timer/machines/timerMachine'
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
 import * as O from 'fp-ts/lib/Option'
 import { FC, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import 'styled-components/macro'
 
 export type TimeEntriesContentProps = {
   activeTimeEntry: O.Option<ActiveTimeEntry>
@@ -32,10 +32,12 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
   }, [contentRef])
 
   useEffect(() => {
-    O.isSome(props.activeTimeEntry) &&
-      send('CONTINUE', {
-        payload: props.activeTimeEntry.value,
-      })
+    if (O.isNone(props.activeTimeEntry)) {
+      return
+    }
+    send('CONTINUE', {
+      payload: props.activeTimeEntry.value,
+    })
   }, [props.activeTimeEntry, send])
 
   const activeDuration = state.matches({ timer: 'running' })
@@ -49,14 +51,13 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
     : TimerMode.Manual
 
   return (
-    <div
-      css={`
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        background: var(--neutral1);
-        width: 100%;
-      `}
+    <Box
+      css={{
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        width: '100%',
+      }}
     >
       <Timer
         activeTimeEntry={props.activeTimeEntry}
@@ -69,20 +70,24 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
         onAddTimeEntryClicked={() => console.log('Add time entry')}
       />
 
-      <div
+      <Box
         ref={contentRef}
-        css={`
-          display: flex;
-          flex-direction: column;
-          flex: 1;
-          max-height: calc(100vh - ${contentTop + 1}px);
-        `}
+        css={{
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+          maxHeight: `calc(100vh - ${contentTop + 1}px)`,
+        }}
       >
-        <div
-          css={`
-            padding: 1rem;
-            overflow: scroll;
-          `}
+        <Box
+          css={{
+            padding: '1rem',
+            overflow: 'scroll',
+            background: '$neutral2',
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+          }}
         >
           <WeekDuration weekDuration={weekDuration} />
           <ReportedDays
@@ -90,8 +95,8 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
             activeTimeEntryDuration={activeDuration}
             reportedDays={props.reportedDays}
           />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   )
 }

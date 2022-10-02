@@ -1,7 +1,7 @@
-import styled from 'styled-components'
+import { styled } from 'theme/config'
 
-export const FieldError = styled.p`
-  color: var(--red4);
-  display: block;
-  margin: 0.5rem 0;
-`
+export const FieldError = styled('p', {
+  color: '$red11',
+  display: 'block',
+  margin: '$2 0',
+})

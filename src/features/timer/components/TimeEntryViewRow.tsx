@@ -1,4 +1,5 @@
-import { Button, Checkbox, IconButton } from 'components'
+import { Button, Checkbox } from 'components'
+import { Box } from 'components/Box'
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import {
   formatDuration,
@@ -14,7 +15,7 @@ import {
   BiPlay,
   BiPurchaseTag,
 } from 'react-icons/bi'
-import styled from 'styled-components/macro'
+import { styled } from 'theme/config'
 
 export const enum TimeEntryRowType {
   Regular = 'Regular',
@@ -52,64 +53,42 @@ export type TimeEntryViewRowProps = {
   onToggleChildrenVisibility?: () => void
 }
 
-const TimeEntryItem = styled.div`
-  display: flex;
-  padding: 0.75rem 1rem;
-  justify-content: space-between;
+const TimeEntryItem = styled('div', {
+  display: 'flex',
+  padding: '0.75rem 1rem',
+  gap: '$6',
+  borderBottom: '1px solid $neutral1',
+  '&:last-child': {
+    borderBottom: 0,
+  },
+})
 
-  border-bottom: 1px solid var(--neutral1);
-  &:not(:last-child) {
-  }
-`
+const Description = styled('div', {
+  lineHeight: '$lg',
+  color: '$neutral9',
+  variants: {
+    empty: {
+      true: {
+        color: '$neutral7',
+      },
+    },
+  },
+})
 
-const Description = styled.div<{ $empty: boolean }>`
-  line-height: var(--lineHeightLg);
-  margin-bottom: 0.5rem;
-  color: ${props => (props.$empty ? 'var(--neutral6)' : 'var(--neutral9)')};
-`
-
-const AdditionalInfo = styled.div<{ $color: string }>`
-  position: relative;
-  color: ${props => props.$color};
-  padding-left: 0.75rem;
-  font-size: var(--fontSizeSm);
-
-  &:before {
-    position: absolute;
-    content: '';
-    width: 0.3rem;
-    height: 0.3rem;
-    background: ${props => props.$color};
-    border-radius: 100%;
-    top: calc(50% - 0.15rem);
-    left: -0rem;
-  }
-`
-
-const RoundedButton = styled(Button)`
-  border-radius: 100%;
-  background: transparent;
-  padding: 0.25rem;
-  min-width: 2rem;
-  height: 2rem;
-  color: var(--neutral6);
-  border: 1px solid var(--neutral6);
-  margin: auto;
-  margin-right: 1rem;
-  box-shadow: none;
-
-  &:hover {
-    background: transparent;
-    border-color: var(--primary3);
-    color: var(--primary4);
-  }
-
-  &:active {
-    background: transparent;
-    border-color: var(--primary4);
-    color: var(--primary5);
-  }
-`
+const AdditionalInfo = styled('div', {
+  position: 'relative',
+  paddingLeft: '0.75rem',
+  fontSize: '$sm',
+  '&:before': {
+    position: 'absolute',
+    content: '',
+    width: '0.3rem',
+    height: '0.3rem',
+    borderRadius: '100%',
+    top: 'calc(50% - 0.15rem)',
+    left: '-0rem',
+  },
+})
 
 export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
   return (
@@ -118,31 +97,32 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
         key={props.timeEntry.data.id}
         data-testid="TIME_ENTRY_VIEW_ROW"
       >
-        <div
-          css={`
-            display: flex;
-            flex-direction: row;
-            padding-right: 0.5rem;
-          `}
-        >
-          {props.edit && (
-            <div
-              css={`
-                margin-right: 1rem;
-                display: flex;
-                align-items: center;
-              `}
-            >
-              <Checkbox
-                checked={props.selected}
-                onChange={() =>
-                  props.onSelectionChange(props.timeEntry.data.id)
-                }
-              />
-            </div>
-          )}
-          {isParentTimeEntry(props.timeEntry) && (
-            <RoundedButton
+        {props.edit && (
+          <Box
+            css={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <Checkbox
+              checked={props.selected}
+              onChange={() => props.onSelectionChange(props.timeEntry.data.id)}
+            />
+          </Box>
+        )}
+        {isParentTimeEntry(props.timeEntry) && (
+          <Box
+            css={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <Button
+              color="transparent"
+              css={{
+                minWidth: '2rem',
+                minHeight: '2rem',
+              }}
               onClick={() =>
                 props.onToggleChildrenVisibility &&
                 props.onToggleChildrenVisibility()
@@ -151,23 +131,95 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               data-testid="TOGGLE_CHILDREN_VISIBILITY_BUTTON"
             >
               {props.timeEntry.children.length}
-            </RoundedButton>
-          )}
-          <div
-            css={`
-              display: flex;
-              flex-direction: column;
-              padding-left: ${isChildTimeEntry(props.timeEntry) ? '3rem' : '0'};
-            `}
-          >
-            <Description
-              $empty={props.timeEntry.data.description.length === 0}
-              data-testid="TIME_ENTRY_DESCRIPTION"
+            </Button>
+          </Box>
+        )}
+        <Box
+          css={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+          }}
+        >
+          <Box>
+            <Box
+              css={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingLeft: isChildTimeEntry(props.timeEntry) ? '$7' : '0',
+                marginBottom: '$2',
+              }}
             >
-              {props.timeEntry.data.description || 'Add description'}
-            </Description>
+              <Description
+                empty={props.timeEntry.data.description.length === 0}
+                data-testid="TIME_ENTRY_DESCRIPTION"
+              >
+                {props.timeEntry.data.description || 'Add description'}
+              </Description>
+
+              <Box
+                css={{
+                  display: 'grid',
+                  gridTemplateColumns: 'auto auto auto',
+                  gridColumnGap: '$1',
+                  alignItems: 'center',
+                }}
+              >
+                <Button
+                  variant="icon"
+                  size="lg"
+                  color="transparent"
+                  aria-label="Select tags"
+                >
+                  <BiPurchaseTag title="Select tags" />
+                </Button>
+                <Button
+                  variant="icon"
+                  size="lg"
+                  color="transparent"
+                  aria-label="Change billable status"
+                >
+                  <BiDollar title="Change billable status" />
+                </Button>
+                <Box
+                  css={{
+                    display: 'none',
+                  }}
+                >
+                  {formatTimeEntryDate(props.timeEntry.data)}
+                </Box>
+                <Box
+                  css={{
+                    fontWeight: 500,
+                    fontSize: '$lg',
+                    lineHeight: '$lg',
+                  }}
+                  data-testid="TIME_ENTRY_DURATION"
+                >
+                  {formatDuration(props.timeEntry.data.duration)}
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+
+          <Box
+            css={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingLeft: isChildTimeEntry(props.timeEntry) ? '$7' : '0',
+            }}
+          >
             <AdditionalInfo
-              $color={props.timeEntry.data.project.color}
+              css={{
+                color: props.timeEntry.data.project.color,
+                '&:before': {
+                  background: props.timeEntry.data.project.color,
+                },
+              }}
               data-testid="TIME_ENTRY_ADDITIONAL_INFO"
             >
               {getTimeEntryInfo(
@@ -176,79 +228,35 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                 props.timeEntry.data.task,
               )}
             </AdditionalInfo>
-          </div>
-        </div>
-        <div>
-          <div
-            css={`
-              display: grid;
-              grid-template-columns: 2rem 2rem 1fr;
-              grid-column-gap: 0.25rem;
-            `}
-          >
-            <IconButton
-              aria-label="Select tags"
-              css={`
-                font-size: var(--fontSizeLg);
-              `}
-            >
-              <BiPurchaseTag title="Select tags" />
-            </IconButton>
-            <IconButton
-              aria-label="Change billable status"
-              css={`
-                font-size: var(--fontSizeLg);
-              `}
-            >
-              <BiDollar title="Change billable status" />
-            </IconButton>
-            <div
-              css={`
-                display: none;
-              `}
-            >
-              {formatTimeEntryDate(props.timeEntry.data)}
-            </div>
-            <div
-              css={`
-                font-weight: 500;
-                font-size: var(--fontSizeLg);
-                line-height: var(--lineHeightLg);
-              `}
-              data-testid="TIME_ENTRY_DURATION"
-            >
-              {formatDuration(props.timeEntry.data.duration)}
-            </div>
-          </div>
 
-          <div
-            css={`
-              display: flex;
-              justify-content: right;
-              position: relative;
-              right: -0.7rem;
-            `}
-          >
-            <IconButton
-              onClick={() => props.onPlayClicked(props.timeEntry)}
-              aria-label="Start timer"
-              css={`
-                margin-right: 0.5rem;
-                font-size: var(--fontSizeXl);
-              `}
+            <Box
+              css={{
+                position: 'relative',
+                display: 'flex',
+                gap: '$1',
+                right: '-0.25rem',
+              }}
             >
-              <BiPlay title="Play" />
-            </IconButton>
-            <IconButton
-              aria-label="Open actions"
-              css={`
-                font-size: var(--fontSizeXl);
-              `}
-            >
-              <BiDotsVerticalRounded title="Actions" />
-            </IconButton>
-          </div>
-        </div>
+              <Button
+                variant="icon"
+                size="lg"
+                color="transparent"
+                onClick={() => props.onPlayClicked(props.timeEntry)}
+                aria-label="Start timer"
+              >
+                <BiPlay title="Play" />
+              </Button>
+              <Button
+                variant="icon"
+                size="lg"
+                color="transparent"
+                aria-label="Open actions"
+              >
+                <BiDotsVerticalRounded title="Actions" />
+              </Button>
+            </Box>
+          </Box>
+        </Box>
       </TimeEntryItem>
     </>
   )

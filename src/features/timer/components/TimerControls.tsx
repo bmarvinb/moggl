@@ -1,5 +1,5 @@
-import { Button, DangerButton } from 'components/Button'
-import { IconButton } from 'components/IconButton'
+import { Box } from 'components/Box'
+import { Button } from 'components/Button'
 import { TimerMode } from 'features/timer/machines/timerMachine'
 import { formatDuration } from 'features/timer/utils/time-entries-utils'
 import { pipe } from 'fp-ts/lib/function'
@@ -14,8 +14,7 @@ import {
   BiPurchaseTag,
   BiStop,
 } from 'react-icons/bi'
-import 'styled-components/macro'
-import styled from 'styled-components/macro'
+import { styled } from 'theme/config'
 
 export type TimerControlsProps = {
   duration: O.Option<number>
@@ -23,53 +22,16 @@ export type TimerControlsProps = {
   onStartClicked: () => void
   onAddTimeEntryClicked: () => void
   onStopClicked: () => void
-  onTimerToggled: () => void
+  onTimerModeChanged: () => void
 }
 
-const StartButton = styled(Button)`
-  display: inline-flex;
-  padding: 0.5rem;
-  border-radius: 100%;
-  border: 2px solid var(--primary1);
-  width: fit-content;
-`
-
-const StopButton = styled(DangerButton)`
-  display: inline-flex;
-  padding: 0.5rem;
-  border-radius: 100%;
-  border: 2px solid var(--red1);
-  width: fit-content;
-`
-
-const ToggleMode = styled.div`
-  width: 1.5rem;
-  background: var(--neutral1);
-  border-radius: var(--roundedMd);
-  justify-content: center;
-  height: 100%;
-  display: grid;
-  grid-row-gap: 0.25rem;
-  padding: 0.25rem;
-`
-
-const ToggleModeButton = styled(IconButton)<{ selected$: boolean }>`
-  background: ${props =>
-    props.selected$ ? 'var(--neutral8)' : 'var(--neutral3)'};
-  width: 0.875rem;
-  height: 0.875rem;
-  padding: 0;
-  border-radius: 100%;
-  color: var(--neutral0);
-  &:hover {
-    color: var(--neutral0);
-    cursor: ${props => (props.selected$ ? 'default' : 'pointer')};
-    background: ${props =>
-      props.selected$ ? 'var(--neutral8)' : 'var(--neutral4)'};
-  }
-`
-
-const OptionsButton = styled(IconButton)``
+const ToggleMode = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  borderRadius: '$md',
+  justifyContent: 'center',
+  padding: 0,
+})
 
 export const TimerControls: FC<TimerControlsProps> = props => {
   const inlineTime = pipe(
@@ -79,70 +41,70 @@ export const TimerControls: FC<TimerControlsProps> = props => {
   )
   return (
     <div>
-      <div
-        css={`
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-        `}
+      <Box
+        css={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
+          minHeight: '2.5rem',
+        }}
       >
-        <div
-          css={`
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            column-gap: 0.75rem;
-            position: relative;
-            left: -0.3rem;
-          `}
+        <Box
+          css={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr',
+            columnGap: '$4',
+            position: 'relative',
+          }}
         >
-          <IconButton
+          <Button
+            variant="icon"
+            color="transparent"
+            size={'lg'}
             aria-label="Select project"
-            css={`
-              font-size: var(--fontSizeXl);
-              position: relative;
-            `}
           >
             <BiBriefcase title="Select project" />
-          </IconButton>
-          <IconButton
+          </Button>
+          <Button
+            variant="icon"
+            color="transparent"
+            size={'lg'}
             aria-label="Select tags"
-            css={`
-              font-size: var(--fontSizeXl);
-            `}
           >
             <BiPurchaseTag title="Select tags" />
-          </IconButton>
-          <IconButton
+          </Button>
+          <Button
+            variant="icon"
+            color="transparent"
+            size={'lg'}
             aria-label="Change billable status"
-            css={`
-              font-size: var(--fontSizeXl);
-            `}
           >
             <BiDollar title="Change billable status" />
-          </IconButton>
-        </div>
+          </Button>
+        </Box>
 
-        <div
-          css={`
-            display: grid;
-            grid-template-columns: 1fr auto auto;
-            column-gap: 0.75rem;
-            align-items: center;
-          `}
+        <Box
+          css={{
+            display: 'grid',
+            gridTemplateColumns: '1fr auto auto',
+            columnGap: '$6',
+            alignItems: 'center',
+          }}
         >
           {props.mode === TimerMode.Timer ? (
-            <div
-              css={`
-                font-weight: 500;
-                font-size: var(--fontSizeLg);
-                line-height: var(--lineHeightLg);
-                min-width: 4rem;
-                text-align: right;
-              `}
+            <Box
+              css={{
+                fontWeight: 500,
+                fontSize: '$lg',
+                lineHeight: '$lg',
+                minWidth: '5rem',
+                textAlign: 'right',
+                color: '$neutral10',
+              }}
             >
               {inlineTime}
-            </div>
+            </Box>
           ) : (
             <div></div>
           )}
@@ -150,101 +112,91 @@ export const TimerControls: FC<TimerControlsProps> = props => {
           {props.mode === TimerMode.Timer ? (
             <div>
               {O.isNone(props.duration) ? (
-                <StartButton
+                <Button
+                  color="primary"
+                  variant="icon"
+                  shape="rounded"
                   aria-label="Start timer"
+                  size={'xl'}
                   title="Start timer"
+                  css={{
+                    svg: {
+                      position: 'relative',
+                      right: '-1px',
+                    },
+                  }}
                   onClick={() => props.onStartClicked()}
                 >
-                  <BiPlay
-                    css={`
-                      font-size: var(--fontSizeXl);
-                      line-height: var(--lineHeightXl);
-                      position: relative;
-                      right: -0.05rem;
-                    `}
-                  />
-                </StartButton>
+                  <BiPlay />
+                </Button>
               ) : (
-                <StopButton
+                <Button
+                  color={'danger'}
+                  variant="icon"
+                  shape="rounded"
+                  size={'xl'}
                   aria-label="Stop timer"
                   title="Stop timer"
                   onClick={() => props.onStopClicked()}
                 >
-                  <BiStop
-                    css={`
-                      font-size: var(--fontSizeXl);
-                      line-height: var(--lineHeightXl);
-                    `}
-                  />
-                </StopButton>
+                  <BiStop />
+                </Button>
               )}
             </div>
           ) : (
             <div>
-              <StartButton
+              <Button
+                color="transparent"
+                size={'xl'}
                 aria-label="Add time entry"
                 title="Add time entry"
                 onClick={() => props.onAddTimeEntryClicked()}
               >
-                <BiPlus
-                  css={`
-                    font-size: var(--fontSizeXl);
-                    line-height: var(--lineHeightXl);
-                    position: relative;
-                    right: -0.05rem;
-                  `}
-                />
-              </StartButton>
+                <BiPlus />
+              </Button>
             </div>
           )}
 
           {O.isNone(props.duration) ? (
             <ToggleMode>
-              <ToggleModeButton
-                selected$={props.mode === TimerMode.Timer}
+              <Button
+                variant={'icon'}
+                color="transparent"
+                size={'sm'}
                 title="Timer mode"
-                onClick={props.onTimerToggled}
+                css={{
+                  svg: {
+                    position: 'relative',
+                    right: '-1px',
+                  },
+                }}
+                onClick={() =>
+                  props.mode !== TimerMode.Timer && props.onTimerModeChanged()
+                }
               >
-                <BiPlay
-                  css={`
-                    font-size: var(--fontSizeXs);
-                    line-height: var(--lineHeightXs);
-                    position: relative;
-                    right: -0.05rem;
-                  `}
-                />
-              </ToggleModeButton>
-              <ToggleModeButton
-                selected$={props.mode === TimerMode.Manual}
+                <BiPlay />
+              </Button>
+              <Button
+                variant={'icon'}
+                color="transparent"
+                size={'sm'}
                 title="Manual mode"
-                onClick={props.onTimerToggled}
+                onClick={() =>
+                  props.mode !== TimerMode.Manual && props.onTimerModeChanged()
+                }
               >
-                <BiPlus
-                  css={`
-                    font-size: var(--fontSizeXs);
-                    line-height: var(--lineHeightXs);
-                  `}
-                />
-              </ToggleModeButton>
+                <BiPlus />
+              </Button>
             </ToggleMode>
           ) : (
-            <div
-              css={`
-                width: 1.5rem;
-              `}
-            >
-              <OptionsButton>
-                <BiDotsHorizontal
-                  css={`
-                    font-size: var(--fontSizeLg);
-                    line-height: var(--lineHeightLg);
-                  `}
-                ></BiDotsHorizontal>
-              </OptionsButton>
-            </div>
+            <Box>
+              <Button variant={'icon'} color="transparent" size={'lg'}>
+                <BiDotsHorizontal></BiDotsHorizontal>
+              </Button>
+            </Box>
           )}
-        </div>
-      </div>
+        </Box>
+      </Box>
     </div>
   )
 }
