@@ -1,10 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { Button, FieldError, FormErrorMessage, Input, Label } from 'components'
-import { Box } from 'components/Box'
+import { Box } from 'common/components/Box'
+import { Button } from 'common/components/Button'
+import { FieldError } from 'common/components/FieldError'
+import { FormErrorMessage } from 'common/components/FormErrorMessage'
+import { Input } from 'common/components/Input'
+import { Label } from 'common/components/Label'
+import { styled } from 'core/theme/config'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
-import { styled } from 'theme/config'
 import { z } from 'zod'
 
 const LoginButton = styled(Button, {

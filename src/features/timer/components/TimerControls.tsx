@@ -1,5 +1,5 @@
-import { Box } from 'components/Box'
-import { Button } from 'components/Button'
+import { Box } from 'common/components/Box'
+import { Button } from 'common/components/Button'
 import { TimerMode } from 'features/timer/machines/timerMachine'
 import { formatDuration } from 'features/timer/utils/time-entries-utils'
 import { pipe } from 'fp-ts/lib/function'
@@ -14,7 +14,7 @@ import {
   BiPurchaseTag,
   BiStop,
 } from 'react-icons/bi'
-import { styled } from 'theme/config'
+import { styled } from 'core/theme/config'
 
 export type TimerControlsProps = {
   duration: O.Option<number>

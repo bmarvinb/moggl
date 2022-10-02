@@ -1,16 +1,13 @@
-import { useQuery } from '@tanstack/react-query'
 import { format, isSameWeek } from 'date-fns'
 import { isSameDay } from 'date-fns/fp'
-import { User } from 'features/auth/services/user'
-import { Workspace } from 'features/auth/services/workspace'
 import {
   createTimeEntryViewModel,
   ReportedDay,
 } from 'features/timer/components/ReportedDays'
 import { TimeEntriesLoading } from 'features/timer/components/TimeEntriesLoading'
 import { TimeEntriesContent } from 'features/timer/containers/TimeEntriesContent'
+import { useTimeEntries } from 'features/timer/hooks/useTimeEntries'
 import { InactiveTimeEntry } from 'features/timer/services/time-entries'
-import { getTimeEntries } from 'features/timer/services/time-entries-api'
 import {
   isActiveTimeEntry,
   isInactiveTimeEntry,
@@ -24,10 +21,7 @@ import * as S from 'fp-ts/lib/string'
 import { nanoid } from 'nanoid'
 import { FC } from 'react'
 
-export type TimeEntriesProps = {
-  user: User
-  workspace: Workspace
-}
+export type TimeEntriesProps = {}
 
 function getTotalDuration(timeEntries: InactiveTimeEntry[]): number {
   return pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum))
@@ -58,22 +52,8 @@ function groupByDate(timeEntries: InactiveTimeEntry[]) {
     )
 }
 
-function getReportedDays(timeEntries: InactiveTimeEntry[]): ReportedDay[] {
-  return pipe(
-    timeEntries,
-    getStartDates,
-    A.uniq(S.Eq),
-    groupByDate(timeEntries),
-  )
-}
-
 export const TimeEntries: FC<TimeEntriesProps> = props => {
-  const { status, data: timeEntries } = useQuery(['timeEntries'], () =>
-    getTimeEntries(props.workspace.id, props.user.id, {
-      'page-size': 25,
-      page: 1,
-    }),
-  )
+  const { status, data: timeEntries } = useTimeEntries()
 
   switch (status) {
     case 'loading':
@@ -85,27 +65,27 @@ export const TimeEntries: FC<TimeEntriesProps> = props => {
         timeEntries,
         A.filter(isInactiveTimeEntry),
       )
-      const activeTimeEntry = pipe(
-        timeEntries,
-        A.filter(isActiveTimeEntry),
-        A.lookup(0),
-      )
-      const weekTimeEntries = pipe(
+      const activeTimeEntry = pipe(timeEntries, A.findFirst(isActiveTimeEntry))
+      const weekDuration = pipe(
         inactiveTimeEntries,
         A.filter(({ timeInterval }) =>
           isSameWeek(new Date(timeInterval.start), new Date(), {
             weekStartsOn: 1,
           }),
         ),
+        getTotalDuration,
       )
-      const weekDuration = getTotalDuration(weekTimeEntries)
-      const reportedDays = getReportedDays(inactiveTimeEntries)
+      const reportedDays = pipe(
+        inactiveTimeEntries,
+        getStartDates,
+        A.uniq(S.Eq),
+        groupByDate(inactiveTimeEntries),
+      )
       return (
         <TimeEntriesContent
           activeTimeEntry={activeTimeEntry}
           weekDuration={weekDuration}
           reportedDays={reportedDays}
-          workspaceId={props.workspace.id}
         />
       )
   }

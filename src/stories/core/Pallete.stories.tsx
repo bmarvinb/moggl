@@ -1,5 +1,6 @@
 import { ComponentMeta } from '@storybook/react'
-import { Box } from 'components/Box'
+import { Box } from 'common/components/Box'
+import { Button } from 'common/components/Button'
 import {
   blackA,
   cyan,
@@ -13,21 +14,15 @@ import {
   secondary,
   secondaryDark,
   whiteA,
-} from 'theme/colors'
-import { styled, theme } from 'theme/config'
-import { globalStyles } from 'theme/globalStyles'
-import { Button } from '../../components/Button'
+} from 'core/theme/colors'
+import { styled, theme } from 'core/theme/config'
+import { globalStyles } from 'core/theme/globalStyles'
+import { Row } from 'stories/utils/Row'
 
 const Color = styled('div', {
   width: '2rem',
   height: '2rem',
   borderRadius: '9999px',
-})
-
-const Row = styled('div', {
-  display: 'flex',
-  marginBottom: '$4',
-  gap: '$4',
 })
 
 export default {

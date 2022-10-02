@@ -1,7 +1,6 @@
 import * as A from 'fp-ts/lib/Array'
-import { pipe } from 'fp-ts/lib/function'
+import { absurd, pipe } from 'fp-ts/lib/function'
 import { Dispatch, useReducer } from 'react'
-import { assertNever } from 'utils/function'
 
 export type SelectionChanges = {
   added: string[]
@@ -13,68 +12,67 @@ export type SelectionEvent =
       type: 'RESET'
     }
   | {
-      type: 'SELECT.ALL'
+      type: 'ALL'
     }
   | {
-      type: 'SELECT.PARENT'
+      type: 'PARENT'
       payload: SelectionChanges
     }
   | {
-      type: 'SELECT.CHILD'
+      type: 'CHILD'
       payload: string
     }
 
 export type SelectionState = {
-  selectedIds: string[]
-  entriesIds: string[]
+  selected: string[]
+  entries: string[]
 }
 
 const initialState: SelectionState = {
-  selectedIds: [],
-  entriesIds: [],
+  selected: [],
+  entries: [],
 }
 
-function reducer(state: SelectionState, action: SelectionEvent) {
+function reducer(
+  state: SelectionState,
+  action: SelectionEvent,
+): SelectionState {
   switch (action.type) {
     case 'RESET':
-      return { ...state, selectedIds: [] }
-    case 'SELECT.ALL':
+      return { ...state, selected: [] }
+    case 'ALL':
       return {
         ...state,
-        selectedIds:
-          state.entriesIds.length === state.selectedIds.length
-            ? []
-            : state.entriesIds,
+        selected:
+          state.entries.length === state.selected.length ? [] : state.entries,
       }
-    case 'SELECT.PARENT':
+    case 'PARENT':
       return {
         ...state,
-        selectedIds: pipe(
-          state.selectedIds,
+        selected: pipe(
+          state.selected,
           A.filter(id => !action.payload.removed.includes(id)),
           A.concat(action.payload.added),
         ),
       }
-    case 'SELECT.CHILD':
+    case 'CHILD':
       return {
         ...state,
-        selectedIds: state.selectedIds.includes(action.payload)
-          ? state.selectedIds.filter(
-              selectedId => selectedId !== action.payload,
-            )
-          : state.selectedIds.concat([action.payload]),
+        selected: state.selected.includes(action.payload)
+          ? state.selected.filter(selectedId => selectedId !== action.payload)
+          : state.selected.concat([action.payload]),
       }
     default:
-      return assertNever(action)
+      return absurd(action)
   }
 }
 
 export function useSelection(
-  entriesIds: string[] = [],
+  entries: string[] = [],
 ): [SelectionState, Dispatch<SelectionEvent>] {
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
-    entriesIds,
+    entries,
   })
   return [state, dispatch]
 }

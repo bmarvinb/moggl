@@ -1,7 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { Box, Input as InputComponent } from 'components'
-import { globalStyles } from 'theme/globalStyles'
-import { darkTheme } from 'theme/config'
+import { Box } from 'common/components/Box'
+import { Input as InputComponent } from 'common/components/Input'
+import { darkTheme } from 'core/theme/config'
+import { globalStyles } from 'core/theme/globalStyles'
 import { Row } from 'stories/utils/Row'
 
 export default {

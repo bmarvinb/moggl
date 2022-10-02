@@ -22,7 +22,7 @@ import {
   TimeEntry,
 } from 'features/timer/services/time-entries'
 import * as O from 'fp-ts/lib/Option'
-import { numberPad } from 'utils/number'
+import { numberPad } from 'common/utils/number'
 
 export function isInactiveTimeEntry(x: TimeEntry): x is InactiveTimeEntry {
   return Boolean(x.projectId) && Boolean(x.timeInterval.end)

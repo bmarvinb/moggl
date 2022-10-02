@@ -1,4 +1,4 @@
-import { Box } from 'components/Box'
+import { Box } from 'common/components/Box'
 import { isToday } from 'date-fns'
 import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable'
 import {

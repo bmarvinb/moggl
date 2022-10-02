@@ -1,12 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import { Box } from 'components/Box'
-import { Input } from 'components/Input'
+import { Box } from 'common/components/Box'
+import { Input } from 'common/components/Input'
 import { TimerControls } from 'features/timer/components/TimerControls'
+import { useCreateTimeEntry } from 'features/timer/hooks/useCreateTimeEntry'
 import { TimerMode } from 'features/timer/machines/timerMachine'
-import { CreateTimeEntryPayload } from 'features/timer/services/created-time-entry'
 import { ActiveTimeEntry } from 'features/timer/services/time-entries'
-import { createTimeEntry } from 'features/timer/services/time-entries-api'
 import { pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/lib/Option'
 import { FC } from 'react'
@@ -16,7 +14,6 @@ import { z } from 'zod'
 export type TimerProps = {
   activeTimeEntry: O.Option<ActiveTimeEntry>
   timeEntryDuration: O.Option<number>
-  workspaceId: string
   mode: TimerMode
   onStart: () => void
   onStop: () => void
@@ -40,20 +37,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 export const Timer: FC<TimerProps> = props => {
-  const create = useMutation(
-    (payload: CreateTimeEntryPayload) => {
-      return createTimeEntry(props.workspaceId, payload)
-    },
-    {
-      onMutate: () => {
-        props.onStart()
-      },
-      onError: () => {
-        props.onStop()
-      },
-      onSettled: () => {},
-    },
-  )
+  const create = useCreateTimeEntry(props.onStart, props.onStop)
 
   const onStartClicked = () => {
     create.mutate({

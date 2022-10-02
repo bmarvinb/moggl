@@ -1,7 +1,7 @@
-import { Box } from 'components/Box'
+import { Box } from 'common/components/Box'
 import { formatDuration } from 'features/timer/utils/time-entries-utils'
 import { FC } from 'react'
-import { styled } from 'theme/config'
+import { styled } from 'core/theme/config'
 
 export type WeekDurationProps = {
   weekDuration: number

@@ -1,5 +1,4 @@
-import { Button, Checkbox } from 'components'
-import { Box } from 'components/Box'
+import { Box } from 'common/components/Box'
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
 import {
   formatDuration,
@@ -15,7 +14,9 @@ import {
   BiPlay,
   BiPurchaseTag,
 } from 'react-icons/bi'
-import { styled } from 'theme/config'
+import { styled } from 'core/theme/config'
+import { Button } from 'common/components/Button'
+import { Checkbox } from 'common/components/Checkbox'
 
 export const enum TimeEntryRowType {
   Regular = 'Regular',

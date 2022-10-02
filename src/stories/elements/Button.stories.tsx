@@ -1,10 +1,10 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { Box } from 'components/Box'
-import { globalStyles } from 'theme/globalStyles'
-import { Button } from '../../components/Button'
-import { darkTheme } from 'theme/config'
 import { BiCart } from 'react-icons/bi'
-import { Row } from 'stories/utils/Row'
+import { Box } from 'common/components/Box'
+import { Button } from 'common/components/Button'
+import { darkTheme } from 'core/theme/config'
+import { globalStyles } from 'core/theme/globalStyles'
+import { Row } from '../utils/Row'
 
 export default {
   title: 'Elements/Button',
@@ -128,14 +128,7 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
       </Box>
 
       <Box>
-        <Box
-          css={{
-            button: {
-              marginRight: '$8',
-            },
-            marginBottom: '$8',
-          }}
-        >
+        <Row>
           <Button size={'sm'} variant="icon" color="primary">
             <BiCart />
           </Button>
@@ -148,7 +141,7 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
           <Button size={'xl'} variant="icon" color="primary">
             <BiCart />
           </Button>
-        </Box>
+        </Row>
       </Box>
 
       <Box>

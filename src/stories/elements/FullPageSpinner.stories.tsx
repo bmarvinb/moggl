@@ -1,7 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { Box, FullPageSpinner } from 'components'
-import { darkTheme } from 'theme/config'
-import { globalStyles } from 'theme/globalStyles'
+import { Box } from 'common/components/Box'
+import { FullPageSpinner } from 'common/components/FullPageSpinner'
+import { darkTheme } from 'core/theme/config'
+import { globalStyles } from 'core/theme/globalStyles'
 
 export default {
   title: 'Elements/FullPageSpinner',
