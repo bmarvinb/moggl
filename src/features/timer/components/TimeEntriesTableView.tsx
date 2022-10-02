@@ -1,5 +1,7 @@
-import { Button, Checkbox } from 'components'
-import { Box } from 'components/Box'
+import { Box } from 'common/components/Box'
+import { Button } from 'common/components/Button'
+import { Checkbox } from 'common/components/Checkbox'
+import { styled } from 'core/theme/config'
 import { isToday } from 'date-fns'
 import {
   formatDate,
@@ -7,7 +9,6 @@ import {
 } from 'features/timer/utils/time-entries-utils'
 import { FC, ReactNode } from 'react'
 import { BiListUl } from 'react-icons/bi'
-import { styled } from 'theme/config'
 
 export type TimeEntriesTableViewProps = {
   children: ReactNode

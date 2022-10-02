@@ -1,7 +1,9 @@
 import { useMachine } from '@xstate/react'
-import { UserInfo } from 'features/auth/context/auth-context'
-import { Box, Drawer, Navigation } from 'components'
+import { Box } from 'common/components/Box'
+import { Drawer } from 'common/components/Drawer'
+import { Navbar } from 'common/components/Navbar'
 import { drawerMachine, DrawerMode } from 'core/machines/drawerMachine'
+import { UserInfo } from 'features/auth/context/auth-context'
 import { TimerPage } from 'pages/TimerPage'
 import { FC } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
@@ -52,7 +54,7 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
           }}
         >
           {temporaryMode && (
-            <Navigation onMenuClicked={() => send('TOGGLE.DRAWER')} />
+            <Navbar onMenuClicked={() => send('TOGGLE.DRAWER')} />
           )}
           <Routes>
             <Route path="/" element={<TimerPage userInfo={props.userInfo} />} />

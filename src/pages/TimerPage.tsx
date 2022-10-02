@@ -8,7 +8,5 @@ export type TimerPageProps = {
 
 export const TimerPage: FC<TimerPageProps> = props => (
   <TimeEntries
-    user={props.userInfo.user}
-    workspace={props.userInfo.workspace}
   />
 )

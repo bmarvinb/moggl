@@ -1,4 +1,4 @@
-import { styled } from 'theme/config'
+import { styled } from 'core/theme/config'
 
 export const Label = styled('label', {
   display: 'block',

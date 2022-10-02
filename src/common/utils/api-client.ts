@@ -1,4 +1,4 @@
-import { env, isProduction } from 'utils/env'
+import { env, isProduction } from 'common/utils/env'
 import { ZodType } from 'zod'
 
 export type ClientConfig = {

@@ -1,5 +1,5 @@
 import { useMachine } from '@xstate/react'
-import { Box } from 'components/Box'
+import { Box } from 'common/components/Box'
 import {
   ReportedDay,
   ReportedDays,
@@ -15,7 +15,6 @@ export type TimeEntriesContentProps = {
   activeTimeEntry: O.Option<ActiveTimeEntry>
   weekDuration: number
   reportedDays: ReportedDay[]
-  workspaceId: string
 }
 
 export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
@@ -62,7 +61,6 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
       <Timer
         activeTimeEntry={props.activeTimeEntry}
         timeEntryDuration={activeDuration}
-        workspaceId={props.workspaceId}
         mode={timerMode}
         onStart={() => send('START')}
         onStop={() => send('STOP')}

@@ -1,13 +1,13 @@
 import { useUserInfo } from 'features/auth/context/auth-context'
-import { FullPageSpinner } from 'components'
 import * as O from 'fp-ts/lib/Option'
 import React from 'react'
-import { darkTheme } from 'theme/config'
-import { globalStyles } from 'theme/globalStyles'
+import { darkTheme } from 'core/theme/config'
+import { globalStyles } from 'core/theme/globalStyles'
 import {
   ColorScheme,
   usePrefersColorScheme,
-} from 'theme/hooks/usePrefersColorScheme'
+} from 'core/hooks/usePrefersColorScheme'
+import { FullPageSpinner } from 'common/components/FullPageSpinner'
 
 const AuthenticatedApp = React.lazy(
   () => import(/* webpackPrefetch: true */ './AuthenticatedApp'),

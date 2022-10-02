@@ -1,4 +1,4 @@
-import { styled } from 'theme/config'
+import { styled } from 'core/theme/config'
 
 export const FieldError = styled('p', {
   color: '$red11',

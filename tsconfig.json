@@ -21,15 +21,12 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "paths": {
-        "auth/*": ["./auth/*"],
-        "components/*": ["./components/*"],
-        "context/*": ["./context/*"],
-        "features/*": ["./features/*"],
-        "hooks/*": ["./hooks/*"],
-        "pages/*": ["./pages/*"],
-        "test/*": ["./test/*"],
-        "theme/*": ["./theme/*"],
-        "utils/*": ["./utils/*"]
+        "app/*": ["app/*"],
+        "common/*": ["common/*"],
+        "core/*": ["core/*"],
+        "features/*": ["features/*"],
+        "pages/*": ["pages/*"],
+        "test/*": ["test/*"],
     }
   },
   "include": [

@@ -1,5 +1,5 @@
 import { BiLoaderAlt } from 'react-icons/bi'
-import { keyframes, styled } from 'theme/config'
+import { keyframes, styled } from 'core/theme/config'
 
 const spin = keyframes({
   '0%': { transform: 'rotate(0deg)' },

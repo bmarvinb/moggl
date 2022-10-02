@@ -1,13 +1,13 @@
-import { Box } from 'components/Box'
-import { Button } from 'components/Button'
+import { Box } from 'common/components/Box'
+import { Button } from 'common/components/Button'
 import { FC } from 'react'
 import { BiMenuAltLeft } from 'react-icons/bi'
 
-export type NavProps = {
+export type NavbarProps = {
   onMenuClicked: () => void
 }
 
-export const Navigation: FC<NavProps> = props => {
+export const Navbar: FC<NavbarProps> = props => {
   return (
     <Box
       as="nav"

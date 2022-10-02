@@ -8,7 +8,7 @@ import {
   TimeEntriesRequestOptions,
   timeEntriesSchema,
 } from 'features/timer/services/time-entries'
-import { client, createURLSearchParams } from 'utils/api-client'
+import { client, createURLSearchParams } from 'common/utils/api-client'
 
 export async function getTimeEntries(
   workspaceId: string,

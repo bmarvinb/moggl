@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { styled } from 'theme/config'
+import { styled } from 'core/theme/config'
 
 const Container = styled('div', {
   color: '$red4',

@@ -1,6 +1,6 @@
-import { Box } from 'components/Box'
+import { Box } from 'common/components/Box'
 import { FC } from 'react'
-import { styled } from 'theme/config'
+import { styled } from 'core/theme/config'
 
 const Children = styled('div', {
   width: '100%',

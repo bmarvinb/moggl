@@ -1,4 +1,4 @@
-import { styled } from 'theme/config'
+import { styled } from 'core/theme/config'
 import { Spinner } from './Spinner'
 
 const SpinnerContainer = styled('div', {

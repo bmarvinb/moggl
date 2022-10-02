@@ -1,4 +1,4 @@
-import { isProduction } from 'utils/env'
+import { isProduction } from 'common/utils/env'
 
 const defaultMessage = 'Invariant failed'
 

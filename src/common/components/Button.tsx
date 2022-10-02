@@ -1,4 +1,4 @@
-import { styled } from 'theme/config'
+import { styled } from 'core/theme/config'
 
 export const Button = styled('button', {
   $$outlineOffset: '2px',

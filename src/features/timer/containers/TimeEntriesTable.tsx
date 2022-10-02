@@ -54,10 +54,11 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     O.map(duration => props.reportedDuration + duration),
     O.getOrElse(() => props.reportedDuration),
   )
-  const [selectionState, dispatch] = useSelection(getTimeEntryIds(props.data))
+  const [{ entries, selected }, dispatch] = useSelection(
+    getTimeEntryIds(props.data),
+  )
 
-  const isTimeEntryRowChecked = (id: string) =>
-    selectionState.selectedIds.includes(id)
+  const isTimeEntryRowChecked = (id: string) => selected.includes(id)
 
   const restTimeEntries = (timeEntry: TimeEntryViewModel) =>
     pipe(
@@ -180,15 +181,15 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   }
 
   const onBulkModeChanged = () => {
-    dispatch({ type: 'SELECT.ALL' })
+    dispatch({ type: 'ALL' })
   }
 
   const onParentSelectionChange = (changes: SelectionChanges) => {
-    dispatch({ type: 'SELECT.PARENT', payload: changes })
+    dispatch({ type: 'PARENT', payload: changes })
   }
 
   const onChildSelectionChange = (id: string) => {
-    dispatch({ type: 'SELECT.CHILD', payload: id })
+    dispatch({ type: 'CHILD', payload: id })
   }
 
   const onPlayClicked = (timeEntry: TimeEntryRowViewModel) => {
@@ -198,9 +199,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   return (
     <TimeEntriesTableView
       bulkEditMode={bulkEditMode}
-      allSelected={
-        selectionState.entriesIds.length === selectionState.selectedIds.length
-      }
+      allSelected={entries.length === selected.length}
       totalTime={totalTime}
       reportedTime={props.reportedDuration}
       date={props.date}
@@ -213,7 +212,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
             key={timeEntry.data.id}
             timeEntry={timeEntry}
             edit={bulkEditMode}
-            selectedIds={selectionState.selectedIds}
+            selectedIds={selected}
             onPlayClicked={onPlayClicked}
             onParentSelectionChange={onParentSelectionChange}
             onChildSelectionChange={onChildSelectionChange}

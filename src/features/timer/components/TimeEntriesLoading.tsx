@@ -1,5 +1,5 @@
-import { Box } from 'components/Box'
-import { Spinner } from 'components/Spinner'
+import { Box } from 'common/components/Box'
+import { Spinner } from 'common/components/Spinner'
 
 export const TimeEntriesLoading = () => (
   <Box
