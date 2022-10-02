@@ -60,7 +60,6 @@ export const TimerControls: FC<TimerControlsProps> = props => {
         >
           <Button
             variant="icon"
-            fill="outline"
             color="transparent"
             size={'lg'}
             aria-label="Select project"
@@ -69,7 +68,6 @@ export const TimerControls: FC<TimerControlsProps> = props => {
           </Button>
           <Button
             variant="icon"
-            fill="outline"
             color="transparent"
             size={'lg'}
             aria-label="Select tags"
@@ -78,7 +76,6 @@ export const TimerControls: FC<TimerControlsProps> = props => {
           </Button>
           <Button
             variant="icon"
-            fill="outline"
             color="transparent"
             size={'lg'}
             aria-label="Change billable status"
@@ -150,7 +147,6 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             <div>
               <Button
                 color="transparent"
-                fill="outline"
                 size={'xl'}
                 aria-label="Add time entry"
                 title="Add time entry"

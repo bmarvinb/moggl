@@ -20,21 +20,6 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
     <Box className={args.darkMode ? darkTheme : ''}>
       <Box>
         <Row>
-          <Button color={'light'} size={'sm'}>
-            Button
-          </Button>
-          <Button color={'light'} size={'md'}>
-            Button
-          </Button>
-          <Button color={'light'} size={'lg'}>
-            Button
-          </Button>
-          <Button color={'light'} size={'xl'}>
-            Button
-          </Button>
-        </Row>
-
-        <Row>
           <Button color={'transparent'} size={'sm'}>
             Button
           </Button>
@@ -126,21 +111,6 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
   return (
     <Box className={args.darkMode ? darkTheme : ''}>
       <Box>
-        <Row>
-          <Button color="light" variant="icon" size={'sm'}>
-            <BiCart />
-          </Button>
-          <Button color="light" variant="icon" size={'md'}>
-            <BiCart />
-          </Button>
-          <Button color="light" variant="icon" size={'lg'}>
-            <BiCart />
-          </Button>
-          <Button color="light" variant="icon" size={'xl'}>
-            <BiCart />
-          </Button>
-        </Row>
-
         <Row>
           <Button color="transparent" variant="icon" size={'sm'}>
             <BiCart />

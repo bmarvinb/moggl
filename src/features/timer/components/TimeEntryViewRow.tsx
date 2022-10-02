@@ -169,7 +169,6 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               >
                 <Button
                   variant="icon"
-                  fill="outline"
                   size="lg"
                   color="transparent"
                   aria-label="Select tags"
@@ -178,7 +177,6 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
                 </Button>
                 <Button
                   variant="icon"
-                  fill="outline"
                   size="lg"
                   color="transparent"
                   aria-label="Change billable status"
@@ -241,7 +239,6 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
             >
               <Button
                 variant="icon"
-                fill="outline"
                 size="lg"
                 color="transparent"
                 onClick={() => props.onPlayClicked(props.timeEntry)}
@@ -251,7 +248,6 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               </Button>
               <Button
                 variant="icon"
-                fill="outline"
                 size="lg"
                 color="transparent"
                 aria-label="Open actions"

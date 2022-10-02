@@ -30,7 +30,7 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
       >
         <Drawer
           onOpenChange={() => send('TOGGLE.DRAWER')}
-          open={state.matches('expanded')}
+          open={state.matches('opened')}
         >
           <DrawerContent>
             <select>

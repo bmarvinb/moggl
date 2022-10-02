@@ -96,7 +96,6 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
         >
           <Button
             variant="icon"
-            fill="outline"
             color="transparent"
             size={'lg'}
             aria-label="Toggle edit mode"
