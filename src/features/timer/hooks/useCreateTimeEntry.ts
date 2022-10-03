@@ -7,9 +7,9 @@ import * as O from 'fp-ts/lib/Option'
 export function useCreateTimeEntry(onStart: () => void, onStop: () => void) {
   const userInfo = useUserInfo()
   if (O.isNone(userInfo)) {
-    throw new Error('Unauthrized user')
+    throw new Error('Unauthorized user')
   }
-  const result = useMutation(
+  return useMutation(
     (payload: CreateTimeEntryPayload) => {
       return createTimeEntry(userInfo.value.workspace.id, payload)
     },
@@ -18,5 +18,4 @@ export function useCreateTimeEntry(onStart: () => void, onStop: () => void) {
       onError: onStop,
     },
   )
-  return result
 }

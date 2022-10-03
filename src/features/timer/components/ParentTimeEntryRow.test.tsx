@@ -1,8 +1,8 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow'
+import { constVoid } from 'fp-ts/lib/function'
 import { timeEntryViewRows } from 'test/fixtures/time-entry-view-rows'
-import { noop } from 'test/utils/test-utils'
 
 const selectors = {
   parent: (id: string) => `${id}-parent`,
@@ -18,9 +18,9 @@ test('should render Tesla', async () => {
       timeEntry={timeEntryViewRows.tesla}
       edit={false}
       selectedIds={[]}
-      onPlayClicked={noop}
-      onParentSelectionChange={noop}
-      onChildSelectionChange={noop}
+      onPlayClicked={constVoid}
+      onParentSelectionChange={constVoid}
+      onChildSelectionChange={constVoid}
     />,
   )
   const toggleChildrenButton = screen.getByTestId(
@@ -41,9 +41,9 @@ test('should render Facebook', async () => {
       timeEntry={timeEntryViewRows.facebook}
       edit={false}
       selectedIds={[]}
-      onPlayClicked={noop}
-      onParentSelectionChange={noop}
-      onChildSelectionChange={noop}
+      onPlayClicked={constVoid}
+      onParentSelectionChange={constVoid}
+      onChildSelectionChange={constVoid}
     />,
   )
   const toggleChildrenButton = screen.getByTestId(
@@ -64,9 +64,9 @@ test('should toggle children visibility', async () => {
       timeEntry={timeEntryViewRows.tesla}
       edit={false}
       selectedIds={[]}
-      onPlayClicked={noop}
-      onParentSelectionChange={noop}
-      onChildSelectionChange={noop}
+      onPlayClicked={constVoid}
+      onParentSelectionChange={constVoid}
+      onChildSelectionChange={constVoid}
     />,
   )
   const children = screen.getByTestId(selectors.parentChildren('1'))

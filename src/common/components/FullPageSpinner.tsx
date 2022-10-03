@@ -11,8 +11,10 @@ const SpinnerContainer = styled('div', {
   background: '$neutral1',
 })
 
-export const FullPageSpinner = () => (
-  <SpinnerContainer>
-    <Spinner />
-  </SpinnerContainer>
-)
+export const FullPageSpinner = () => {
+  return (
+    <SpinnerContainer>
+      <Spinner />
+    </SpinnerContainer>
+  )
+}

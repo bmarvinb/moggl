@@ -7,7 +7,7 @@ export enum DrawerMode {
 }
 
 type DrawerContext = {
-  mode: DrawerMode
+  mode: DrawerMode | undefined
 }
 
 type DrawerEvent =
@@ -17,22 +17,32 @@ type DrawerEvent =
   | { type: 'UPDATE_MODE' }
 
 export const drawerMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoD2ADmAHYDEAKgPIDi1AMgKI4AiASgIIDqDrioBeWAEsALkLzE+IAB6IAtABYAnAEYcADgDsANnUKADJqUKArACZ16kwBoQAT3mmcm-SoVmzChdoNalAX39bVExsHABjABtBMAoaeiY2Lh4pAWExCSlZBDkzTXUcJSVtEwBmJVKTF3VS7VLbBxynFzcPLx99P0Dg9CwUUgBVAAVmdnIGAH0AWUpmBlTBUXFJJBl5KoKTbR9SzxK9CwbHdxxKio8rZXVtQKCQYjwIOCkQvvwiFf5FjM+1nNLKs46poFKVNOUTCZjEcECoTBp8ip8gpNJpIW4TOpuiBXmEojEFullll5ADtKdNHsrtpim4YXIVPpyUYVBUjPoygYytjcShCUtMqtsnJtPozDgtjs9pj3Op6VVNKdSkyzEi6gp1EpNLd-EA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoCuAdgNYED2GBAxIqAA6mwCWALo6QTSAB6IC0AHAFYAnDgAMYgGwBmAIzCATP1kKA7GOkAaEAE8+0-mJyzVs+dLHzV-awBYAvve2pM2HKVpgqAFQDyAcX8AGQBRTnomVnZOHgReGVUcWwV5SUtrVWFhW209OKUcfhtFBTkU2UFbWQcnEBcsXABjABsGMEo-QNDwhhY2DiRufWFEhRTBDRSLSVktXT4CosyxsrNK6sdndAbKAFUABQARAEFvEIB9AFlfQ7DBiL7owdjeWzFEyQUxIttVW2FpMkTLl9IZjKZzJYRjZ+I5amQIHBOPU3IQSOQBnRelFMUM4n9BDhJCIsqUvqlBCC4rYZESaQDhPwFJJPpZNnVtm4PF4epF+jE+IJZsZDCZ0vxJG85nlmTghUppKppJ8WcTJOyUU1WrAwLzHriXkLpDhrEV+NkxIJBCzZFTeGZbCbFTJJUVZObFRrOSg9TiBXEisaJDJ5EoVOppYLGUT3QprdUvmpZHD7EA */
   createMachine<DrawerContext, DrawerEvent>(
     {
+      context: { mode: undefined },
       predictableActionArguments: true,
-      context: {
-        mode:
-          window.innerWidth <= media.md
-            ? DrawerMode.Temporary
-            : DrawerMode.Permanent,
-      },
       invoke: {
         src: 'handleResize',
+        id: 'update-mode',
       },
       id: 'drawer',
-      initial: 'close',
+      initial: 'unknown',
       states: {
+        unknown: {
+          always: [
+            {
+              actions: 'setTemporaryMode',
+              cond: 'shouldSetTemporaryMode',
+              target: 'close',
+            },
+            {
+              actions: 'setPermanentMode',
+              cond: 'shouldSetPermanentMode',
+              target: 'close',
+            },
+          ],
+        },
         open: {
           on: {
             TOGGLE: {
@@ -52,18 +62,12 @@ export const drawerMachine =
         UPDATE_MODE: [
           {
             actions: 'setTemporaryMode',
-            description: 'Mobile layout',
-            cond: context =>
-              window.innerWidth <= media.md &&
-              context.mode !== DrawerMode.Temporary,
+            cond: 'shouldSetTemporaryMode',
             target: '.close',
           },
           {
             actions: 'setPermanentMode',
-            description: 'Desktop layout',
-            cond: context =>
-              window.innerWidth > media.md &&
-              context.mode !== DrawerMode.Permanent,
+            cond: 'shouldSetPermanentMode',
             target: '.close',
           },
         ],
@@ -86,6 +90,13 @@ export const drawerMachine =
             window.removeEventListener('resize', listener)
           }
         },
+      },
+      guards: {
+        shouldSetTemporaryMode: (context: DrawerContext) =>
+          window.innerWidth <= media.md &&
+          context.mode !== DrawerMode.Temporary,
+        shouldSetPermanentMode: (context: DrawerContext) =>
+          window.innerWidth > media.md && context.mode !== DrawerMode.Permanent,
       },
     },
   )

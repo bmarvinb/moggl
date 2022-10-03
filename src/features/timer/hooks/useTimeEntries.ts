@@ -6,13 +6,12 @@ import * as O from 'fp-ts/lib/Option'
 export function useTimeEntries() {
   const userInfo = useUserInfo()
   if (O.isNone(userInfo)) {
-    throw new Error('Unauthrized user')
+    throw new Error('Unauthorized user')
   }
-  const result = useQuery(['timeEntries'], () =>
+  return useQuery(['timeEntries'], () =>
     getTimeEntries(userInfo.value.workspace.id, userInfo.value.user.id, {
       'page-size': 25,
       page: 1,
     }),
   )
-  return result
 }

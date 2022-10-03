@@ -51,7 +51,7 @@ function groupByDate(timeEntries: InactiveTimeEntry[]) {
     )
 }
 
-export const TimeEntries: FC<TimeEntriesProps> = props => {
+export const TimeEntries: FC<TimeEntriesProps> = () => {
   const { status, data: timeEntries } = useTimeEntries()
 
   switch (status) {

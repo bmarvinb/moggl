@@ -18,8 +18,8 @@ export type TimeEntriesContentProps = {
 }
 
 export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
-  const [state, send] = useMachine(timerMachine)
-  const [contentTop, setContentTop] = useState<number>(0)
+  const [timerState, send] = useMachine(timerMachine)
+  const [contentTop, setContentTop] = useState(0)
   const contentRef = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
@@ -39,13 +39,13 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
     })
   }, [props.activeTimeEntry, send])
 
-  const activeDuration = state.matches({ timer: 'running' })
-    ? O.some(state.context.duration)
+  const activeDuration = timerState.matches({ timer: 'running' })
+    ? O.some(timerState.context.duration)
     : O.none
 
-  const weekDuration = state.context.duration + props.weekDuration
+  const weekDuration = timerState.context.duration + props.weekDuration
 
-  const timerMode = state.matches({ mode: 'timer' })
+  const timerMode = timerState.matches({ mode: 'timer' })
     ? TimerMode.Timer
     : TimerMode.Manual
 
