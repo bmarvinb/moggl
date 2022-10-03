@@ -1,14 +1,8 @@
 import { globalCss } from '@stitches/react'
-import ProximaNovaBold from './fonts/ProximaNova-Bold.woff'
-import ProximaNovaExtrabold from './fonts/ProximaNova-Extrabold.woff'
-import ProximaNovaLight from './fonts/ProximaNova-Light.woff'
-import ProximaNovaRegular from './fonts/ProximaNova-Regular.woff'
-import ProximaNovaSemibold from './fonts/ProximaNova-Semibold.woff'
 
 export const globalStyles = globalCss({
   '*': {
     boxSizing: 'border-box',
-    fontFamily: 'ProximaNova',
   },
   'html, body': {
     margin: 0,
@@ -16,6 +10,7 @@ export const globalStyles = globalCss({
     width: '100%',
     height: '100%',
     overscrollBehavior: 'none',
+    fontFamily: 'ProximaNova',
   },
   '#root': {
     height: '100%',
@@ -28,27 +23,27 @@ export const globalStyles = globalCss({
     {
       fontFamily: 'ProximaNova',
       fontWeight: 300,
-      src: `local("ProximaNova"), url(${ProximaNovaLight}) format("woff")`,
+      src: `local("ProximaNova"), url("fonts/ProximaNova-Light.woff")`,
     },
     {
       fontFamily: 'ProximaNova',
       fontWeight: 400,
-      src: `local("ProximaNova"), url(${ProximaNovaRegular}) format("woff")`,
+      src: `local("ProximaNova"), url("fonts/ProximaNova-Regular.woff")`,
     },
     {
       fontFamily: 'ProximaNova',
       fontWeight: 500,
-      src: `local("ProximaNova"), url(${ProximaNovaSemibold}) format("woff")`,
+      src: `local("ProximaNova"), url("fonts/ProximaNova-Semibold.woff")`,
     },
     {
       fontFamily: 'ProximaNova',
       fontWeight: 700,
-      src: `local("ProximaNova"), url(${ProximaNovaBold}) format("woff")`,
+      src: `local("ProximaNova"), url("fonts/ProximaNova-Bold.woff")`,
     },
     {
       fontFamily: 'ProximaNova',
       fontWeight: 800,
-      src: `local("ProximaNova"), url(${ProximaNovaExtrabold}) format("woff")`,
+      src: `local("ProximaNova"), url("fonts/ProximaNova-Extrabold.woff")`,
     },
   ],
 })
