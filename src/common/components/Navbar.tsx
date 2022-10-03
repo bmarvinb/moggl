@@ -1,11 +1,11 @@
-import { Box } from 'common/components/Box'
-import { Button } from 'common/components/Button'
-import { FC } from 'react'
-import { BiMenuAltLeft } from 'react-icons/bi'
+import { Box } from 'common/components/Box';
+import { Button } from 'common/components/Button';
+import { FC } from 'react';
+import { BiMenuAltLeft } from 'react-icons/bi';
 
 export type NavbarProps = {
-  onMenuClicked: () => void
-}
+  onMenuClicked: () => void;
+};
 
 export const Navbar: FC<NavbarProps> = props => {
   return (
@@ -36,5 +36,5 @@ export const Navbar: FC<NavbarProps> = props => {
         <BiMenuAltLeft />
       </Button>
     </Box>
-  )
-}
+  );
+};

@@ -1,21 +1,21 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const inactiveTimeEntryIntervalSchema = z.object({
   start: z.string(),
   end: z.string(),
   duration: z.string(),
-})
+});
 
 export const activeTimeEntryIntervalSchema = z.object({
   start: z.string(),
   end: z.null(),
   duration: z.null(),
-})
+});
 
 export const summaryReportSettingsSchema = z.object({
   group: z.string(),
   subgroup: z.string(),
-})
+});
 
 export const settingsSchema = z.object({
   weekStart: z.string(),
@@ -47,7 +47,7 @@ export const settingsSchema = z.object({
   scheduling: z.boolean(),
   onboarding: z.boolean(),
   showOnlyWorkingDays: z.boolean(),
-})
+});
 
 export const userSchema = z.object({
   id: z.string(),
@@ -60,12 +60,12 @@ export const userSchema = z.object({
   settings: settingsSchema,
   status: z.string(),
   customFields: z.array(z.unknown()),
-})
+});
 
 export const hourlyRateSchema = z.object({
   amount: z.number(),
   currency: z.string().nullable(),
-})
+});
 
 export const membershipSchema = z.object({
   userId: z.string(),
@@ -74,7 +74,7 @@ export const membershipSchema = z.object({
   targetId: z.string(),
   membershipType: z.enum(['PROJECT', 'WORKSPACE']),
   membershipStatus: z.enum(['ACTIVE', 'INACTIVE']),
-})
+});
 
 export const taskSchema = z.object({
   id: z.string(),
@@ -94,19 +94,19 @@ export const taskSchema = z.object({
       currency: z.enum(['USD']),
     })
     .nullable(),
-})
+});
 
 export const tagsSchema = z.object({
   archived: z.boolean(),
   id: z.string(),
   name: z.string(),
   workspaceId: z.string(),
-})
+});
 
 export const estimateSchema = z.object({
   estimate: z.string(),
   type: z.string(),
-})
+});
 
 export const timeEstimateSchema = z.object({
   estimate: z.string(),
@@ -114,7 +114,7 @@ export const timeEstimateSchema = z.object({
   resetOption: z.unknown().nullable(),
   active: z.boolean(),
   includeNonBillable: z.boolean(),
-})
+});
 
 export const projectSchema = z.object({
   id: z.string(),
@@ -135,7 +135,7 @@ export const projectSchema = z.object({
   budgetEstimate: z.unknown().nullable(),
   template: z.boolean(),
   public: z.boolean(),
-})
+});
 
 export const commonTimeEntrySchema = z.object({
   id: z.string(),
@@ -152,7 +152,7 @@ export const commonTimeEntrySchema = z.object({
   kioskId: z.string().nullable(),
   user: userSchema,
   userId: z.string(),
-})
+});
 
 export const activeTimeEntrySchema = z.intersection(
   commonTimeEntrySchema,
@@ -161,7 +161,7 @@ export const activeTimeEntrySchema = z.intersection(
     projectId: z.string().nullable(),
     timeInterval: activeTimeEntryIntervalSchema,
   }),
-)
+);
 
 export const inactiveTimeEntrySchema = z.intersection(
   commonTimeEntrySchema,
@@ -170,35 +170,35 @@ export const inactiveTimeEntrySchema = z.intersection(
     projectId: z.string(),
     timeInterval: inactiveTimeEntryIntervalSchema,
   }),
-)
+);
 
 export const timeEntrySchema = z.union([
   activeTimeEntrySchema,
   inactiveTimeEntrySchema,
-])
+]);
 
-export type TimeEntry = z.infer<typeof timeEntrySchema>
+export type TimeEntry = z.infer<typeof timeEntrySchema>;
 
-export type ActiveTimeEntry = z.infer<typeof activeTimeEntrySchema>
+export type ActiveTimeEntry = z.infer<typeof activeTimeEntrySchema>;
 
-export type InactiveTimeEntry = z.infer<typeof inactiveTimeEntrySchema>
+export type InactiveTimeEntry = z.infer<typeof inactiveTimeEntrySchema>;
 
-export type TimeEntryProject = z.infer<typeof projectSchema>
+export type TimeEntryProject = z.infer<typeof projectSchema>;
 
 export type TimeEntriesRequestOptions = {
-  description?: string
-  start?: string
-  end?: string
-  project?: string
-  task?: string
-  tags?: string
-  'project-required'?: boolean
-  'task-required'?: boolean
-  'in-progress'?: boolean
-  page?: number
-  'page-size'?: number
-}
+  description?: string;
+  start?: string;
+  end?: string;
+  project?: string;
+  task?: string;
+  tags?: string;
+  'project-required'?: boolean;
+  'task-required'?: boolean;
+  'in-progress'?: boolean;
+  page?: number;
+  'page-size'?: number;
+};
 
-export const timeEntriesSchema = z.array(timeEntrySchema)
+export const timeEntriesSchema = z.array(timeEntrySchema);
 
-export type TimeEntries = z.infer<typeof timeEntriesSchema>
+export type TimeEntries = z.infer<typeof timeEntriesSchema>;

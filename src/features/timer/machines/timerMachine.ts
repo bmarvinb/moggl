@@ -1,36 +1,36 @@
-import { ActiveTimeEntry } from 'features/timer/services/time-entries'
-import { activeTimeEntryDuration } from 'features/timer/utils/time-entries-utils'
-import { assign, createMachine } from 'xstate'
+import { ActiveTimeEntry } from 'features/timer/services/time-entries';
+import { activeTimeEntryDuration } from 'features/timer/utils/time-entries-utils';
+import { assign, createMachine } from 'xstate';
 
-export enum TimerMode {
+export const enum TimerMode {
   Timer = 'Timer',
   Manual = 'Manual',
 }
 
 export type TimerContext = {
-  duration: number
-}
+  duration: number;
+};
 
 type TimerEvent =
   | {
-      type: 'TICK'
+      type: 'TICK';
     }
   | {
-      type: 'START'
+      type: 'START';
     }
   | {
-      type: 'CONTINUE'
-      payload: ActiveTimeEntry
+      type: 'CONTINUE';
+      payload: ActiveTimeEntry;
     }
   | {
-      type: 'STOP'
+      type: 'STOP';
     }
   | {
-      type: 'MODE.TOGGLE'
-    }
+      type: 'MODE.TOGGLE';
+    };
 
 function getActiveTimeEntryDuration(activeTimeEntry: ActiveTimeEntry): number {
-  return activeTimeEntryDuration(new Date(activeTimeEntry.timeInterval.start))
+  return activeTimeEntryDuration(new Date(activeTimeEntry.timeInterval.start));
 }
 
 export const timerMachine =
@@ -66,9 +66,9 @@ export const timerMachine =
             invoke: {
               src: () => cb => {
                 const interval = setInterval(() => {
-                  cb('TICK')
-                }, 1000)
-                return () => clearInterval(interval)
+                  cb('TICK');
+                }, 1000);
+                return () => clearInterval(interval);
               },
             },
             on: {
@@ -107,4 +107,4 @@ export const timerMachine =
         },
       },
     },
-  })
+  });

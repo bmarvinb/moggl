@@ -1,5 +1,5 @@
-import { media } from 'core/theme/config'
-import { assign, createMachine } from 'xstate'
+import { media } from 'core/theme/config';
+import { assign, createMachine } from 'xstate';
 
 export enum DrawerMode {
   Temporary = 'Terporary',
@@ -7,14 +7,14 @@ export enum DrawerMode {
 }
 
 type DrawerContext = {
-  mode: DrawerMode | undefined
-}
+  mode: DrawerMode | undefined;
+};
 
 type DrawerEvent =
   | {
-      type: 'TOGGLE'
+      type: 'TOGGLE';
     }
-  | { type: 'UPDATE_MODE' }
+  | { type: 'UPDATE_MODE' };
 
 export const drawerMachine =
   /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoCuAdgNYED2GBAxIqAA6mwCWALo6QTSAB6IC0AHAFYAnDgAMYgGwBmAIzCATP1kKA7GOkAaEAE8+0-mJyzVs+dLHzV-awBYAvve2pM2HKVpgqAFQDyAcX8AGQBRTnomVnZOHgReGVUcWwV5SUtrVWFhW209OKUcfhtFBTkU2UFbWQcnEBcsXABjABsGMEo-QNDwhhY2DiRufWFEhRTBDRSLSVktXT4CosyxsrNK6sdndAbKAFUABQARAEFvEIB9AFlfQ7DBiL7owdjeWzFEyQUxIttVW2FpMkTLl9IZjKZzJYRjZ+I5amQIHBOPU3IQSOQBnRelFMUM4n9BDhJCIsqUvqlBCC4rYZESaQDhPwFJJPpZNnVtm4PF4epF+jE+IJZsZDCZ0vxJG85nlmTghUppKppJ8WcTJOyUU1WrAwLzHriXkLpDhrEV+NkxIJBCzZFTeGZbCbFTJJUVZObFRrOSg9TiBXEisaJDJ5EoVOppYLGUT3QprdUvmpZHD7EA */
@@ -76,19 +76,19 @@ export const drawerMachine =
     {
       actions: {
         setTemporaryMode: assign({
-          mode: _ => DrawerMode.Temporary,
+          mode: _context => DrawerMode.Temporary,
         }),
         setPermanentMode: assign({
-          mode: _ => DrawerMode.Permanent,
+          mode: _context => DrawerMode.Permanent,
         }),
       },
       services: {
         handleResize: () => send => {
-          const listener = () => send('UPDATE_MODE')
-          window.addEventListener('resize', listener)
+          const listener = () => send('UPDATE_MODE');
+          window.addEventListener('resize', listener);
           return () => {
-            window.removeEventListener('resize', listener)
-          }
+            window.removeEventListener('resize', listener);
+          };
         },
       },
       guards: {
@@ -99,4 +99,4 @@ export const drawerMachine =
           window.innerWidth > media.md && context.mode !== DrawerMode.Permanent,
       },
     },
-  )
+  );

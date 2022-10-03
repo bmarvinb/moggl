@@ -1,4 +1,4 @@
-import { styled } from 'core/theme/config'
+import { styled } from 'core/theme/config';
 
 export const Label = styled('label', {
   display: 'block',
@@ -6,4 +6,4 @@ export const Label = styled('label', {
   lineHeight: '$sm',
   marginBottom: '$2',
   fontWeight: 500,
-})
+});

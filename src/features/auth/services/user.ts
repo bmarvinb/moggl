@@ -1,9 +1,9 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 const summaryReportSettingsSchema = z.object({
   group: z.string(),
   subgroup: z.string(),
-})
+});
 
 const settingsSchema = z.object({
   weekStart: z.string(),
@@ -34,7 +34,7 @@ const settingsSchema = z.object({
   theme: z.string(),
   scheduling: z.boolean(),
   onboarding: z.boolean(),
-})
+});
 
 const membershipSchema = z.object({
   hourlyRate: z.object({
@@ -49,7 +49,7 @@ const membershipSchema = z.object({
   membershipType: z.string(),
   targetId: z.string(),
   userId: z.string(),
-})
+});
 
 const customFieldSchema = z.object({
   customFieldId: z.string(),
@@ -57,7 +57,7 @@ const customFieldSchema = z.object({
   value: z.string(),
   name: z.string(),
   type: z.string(),
-})
+});
 
 export const userSchema = z.object({
   id: z.string(),
@@ -70,6 +70,6 @@ export const userSchema = z.object({
   settings: settingsSchema,
   status: z.string(),
   customFields: z.array(customFieldSchema),
-})
+});
 
-export type User = z.infer<typeof userSchema>
+export type User = z.infer<typeof userSchema>;

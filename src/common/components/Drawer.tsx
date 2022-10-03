@@ -1,13 +1,13 @@
-import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { VariantProps } from '@stitches/react'
-import { Box } from 'common/components/Box'
-import { Button } from 'common/components/Button'
-import { absurd } from 'fp-ts/lib/function'
-import React, { FC } from 'react'
-import { BiMenuAltLeft } from 'react-icons/bi'
-import { styled } from 'core/theme/config'
-import { slideIn, slideOut } from 'common/animations/slide'
-import { fadeIn, fadeOut } from 'common/animations/fade'
+import * as DialogPrimitive from '@radix-ui/react-dialog';
+import { VariantProps } from '@stitches/react';
+import { Box } from 'common/components/Box';
+import { Button } from 'common/components/Button';
+import { absurd } from 'fp-ts/lib/function';
+import React, { FC } from 'react';
+import { BiMenuAltLeft } from 'react-icons/bi';
+import { styled } from 'core/theme/config';
+import { slideIn, slideOut } from 'common/animations/slide';
+import { fadeIn, fadeOut } from 'common/animations/fade';
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
   backgroundColor: '$blackA10',
@@ -23,7 +23,7 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
   '&[data-state="closed"]': {
     animation: `${fadeOut} 300ms cubic-bezier(0.22, 1, 0.36, 1)`,
   },
-})
+});
 
 const StyledContent = styled(DialogPrimitive.Content, {
   $$transformValue: 'translate3d(-100%,0,0)',
@@ -41,7 +41,7 @@ const StyledContent = styled(DialogPrimitive.Content, {
   '&[data-state="closed"]': {
     animation: `${slideOut} 150ms cubic-bezier(0.22, 1, 0.36, 1)`,
   },
-})
+});
 
 const StyledPermanentContent = styled('div', {
   $$transformValue: 'translate3d(-100%,0,0)',
@@ -62,27 +62,27 @@ const StyledPermanentContent = styled('div', {
       },
     },
   },
-})
+});
 
-type DrawerContentVariants = VariantProps<typeof StyledContent>
+type DrawerContentVariants = VariantProps<typeof StyledContent>;
 type DialogContentPrimitiveProps = React.ComponentProps<
   typeof DialogPrimitive.Content
->
-type DrawerContentProps = DialogContentPrimitiveProps & DrawerContentVariants
+>;
+type DrawerContentProps = DialogContentPrimitiveProps & DrawerContentVariants;
 
 const DrawerContent = (props: DrawerContentProps) => (
   <DialogPrimitive.Portal>
     <StyledOverlay />
     <StyledContent>{props.children}</StyledContent>
   </DialogPrimitive.Portal>
-)
+);
 
 export type DrawerProps = {
-  children?: React.ReactNode
-  open: boolean
-  variant: 'temporary' | 'permanent'
-  onOpenChange: () => void
-}
+  children?: React.ReactNode;
+  open: boolean;
+  variant: 'temporary' | 'permanent';
+  onOpenChange: () => void;
+};
 
 export const Drawer: FC<DrawerProps> = props => {
   switch (props.variant) {
@@ -94,7 +94,7 @@ export const Drawer: FC<DrawerProps> = props => {
         >
           <DrawerContent>{props.children}</DrawerContent>
         </DialogPrimitive.Root>
-      )
+      );
     case 'permanent':
       return (
         <StyledPermanentContent variant={props.open ? 'expanded' : 'collapsed'}>
@@ -119,8 +119,8 @@ export const Drawer: FC<DrawerProps> = props => {
             {props.children}
           </Box>
         </StyledPermanentContent>
-      )
+      );
     default:
-      return absurd(props.variant)
+      return absurd(props.variant);
   }
-}
+};

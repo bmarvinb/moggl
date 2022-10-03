@@ -1,4 +1,4 @@
-import { globalCss } from '@stitches/react'
+import { globalCss } from '@stitches/react';
 
 export const globalStyles = globalCss({
   '*': {
@@ -46,4 +46,4 @@ export const globalStyles = globalCss({
       src: `local("ProximaNova"), url("fonts/ProximaNova-Extrabold.woff")`,
     },
   ],
-})
+});

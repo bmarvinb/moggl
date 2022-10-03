@@ -1,25 +1,25 @@
-import { Box } from 'common/components/Box'
-import { Button } from 'common/components/Button'
-import { Checkbox } from 'common/components/Checkbox'
-import { styled } from 'core/theme/config'
-import { isToday } from 'date-fns'
+import { Box } from 'common/components/Box';
+import { Button } from 'common/components/Button';
+import { Checkbox } from 'common/components/Checkbox';
+import { styled } from 'core/theme/config';
+import { isToday } from 'date-fns';
 import {
   formatDate,
   formatDuration,
-} from 'features/timer/utils/time-entries-utils'
-import { FC, ReactNode } from 'react'
-import { BiListUl } from 'react-icons/bi'
+} from 'features/timer/utils/time-entries-utils';
+import { FC, ReactNode } from 'react';
+import { BiListUl } from 'react-icons/bi';
 
 export type TimeEntriesTableViewProps = {
-  children: ReactNode
-  bulkEditMode: boolean
-  allSelected: boolean
-  totalTime: number
-  reportedTime: number
-  date: Date
-  onBulkModeChanged: () => void
-  onToggleClicked: () => void
-}
+  children: ReactNode;
+  bulkEditMode: boolean;
+  allSelected: boolean;
+  totalTime: number;
+  reportedTime: number;
+  date: Date;
+  onBulkModeChanged: () => void;
+  onToggleClicked: () => void;
+};
 
 const TimeEntriesTable = styled('div', {
   marginBottom: '1rem',
@@ -29,7 +29,7 @@ const TimeEntriesTable = styled('div', {
   '&:last-child': {
     marginBottom: 0,
   },
-})
+});
 
 const Label = styled('div', {
   fontSize: '$lg',
@@ -37,7 +37,7 @@ const Label = styled('div', {
   display: 'flex',
   alignItems: 'center',
   fontWeight: '$semibold',
-})
+});
 
 export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
   return (
@@ -108,5 +108,5 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
       </Box>
       {props.children}
     </TimeEntriesTable>
-  )
-}
+  );
+};

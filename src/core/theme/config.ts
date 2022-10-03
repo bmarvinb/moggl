@@ -1,4 +1,4 @@
-import { createStitches, PropertyValue } from '@stitches/react'
+import { createStitches, PropertyValue } from '@stitches/react';
 import {
   blackA,
   cyan,
@@ -12,7 +12,7 @@ import {
   secondary,
   secondaryDark,
   whiteA,
-} from './colors'
+} from './colors';
 
 export const media = {
   xs: 475,
@@ -20,7 +20,7 @@ export const media = {
   md: 768,
   lg: 1024,
   xl: 1280,
-}
+};
 
 export const {
   styled,
@@ -166,7 +166,7 @@ export const {
       marginBottom: value,
     }),
   },
-})
+});
 
 export const darkTheme = createTheme({
   colors: {
@@ -179,4 +179,4 @@ export const darkTheme = createTheme({
     navBg: primaryDark.primary5,
     timerBg: neutralDark.neutral1,
   },
-})
+});

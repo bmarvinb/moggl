@@ -1,11 +1,11 @@
-import { env, isProduction } from 'common/utils/env'
-import { ZodType } from 'zod'
+import { env, isProduction } from 'common/utils/env';
+import { ZodType } from 'zod';
 
 export type ClientConfig = {
-  data?: unknown
-  token?: string
-  headers?: HeadersInit
-} & RequestInit
+  data?: unknown;
+  token?: string;
+  headers?: HeadersInit;
+} & RequestInit;
 
 export async function client<T>(
   endpoint: string,
@@ -23,31 +23,31 @@ export async function client<T>(
     ...customConfig,
   }).then(async res => {
     if (!res.ok) {
-      console.error(res)
-      return Promise.reject(res)
+      console.error(res);
+      return Promise.reject(res);
     }
     return res.json().then(data =>
       schema.safeParseAsync(data).then(result => {
         if (!result.success) {
           if (!isProduction()) {
-            console.error(result.error.message)
+            console.error(result.error.message);
           } else {
             // TODO: Production logger
           }
-          return Promise.reject(result.error.message)
+          return Promise.reject(result.error.message);
         }
-        return result.data
+        return result.data;
       }),
-    )
-  })
+    );
+  });
 }
 
 export function createURLSearchParams(
   options: Record<string, string | boolean | number>,
 ) {
-  const params = new URLSearchParams()
+  const params = new URLSearchParams();
   for (const [key, value] of Object.entries(options)) {
-    params.append(key, value.toString())
+    params.append(key, value.toString());
   }
-  return params
+  return params;
 }

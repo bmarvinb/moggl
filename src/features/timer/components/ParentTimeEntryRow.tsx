@@ -2,35 +2,35 @@ import {
   ParentTimeEntry,
   TimeEntryRowViewModel,
   TimeEntryViewRow,
-} from 'features/timer/components/TimeEntryViewRow'
-import { SelectionChanges } from 'features/timer/hooks/useSelection'
-import { FC, useReducer } from 'react'
+} from 'features/timer/components/TimeEntryViewRow';
+import { SelectionChanges } from 'features/timer/hooks/useSelection';
+import { FC, useReducer } from 'react';
 
 export type ParentTimeEntryRowProps = {
-  timeEntry: ParentTimeEntry
-  edit: boolean
-  selectedIds: string[]
-  onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void
-  onParentSelectionChange: (changes: SelectionChanges) => void
-  onChildSelectionChange: (id: string) => void
-}
+  timeEntry: ParentTimeEntry;
+  edit: boolean;
+  selectedIds: string[];
+  onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void;
+  onParentSelectionChange: (changes: SelectionChanges) => void;
+  onChildSelectionChange: (id: string) => void;
+};
 
 export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
-  const [expanded, toggleExpanded] = useReducer(state => !state, false)
+  const [expanded, toggleExpanded] = useReducer(state => !state, false);
 
-  const childrenIds = props.timeEntry.children.map(({ data }) => data.id)
+  const childrenIds = props.timeEntry.children.map(({ data }) => data.id);
 
   const allChildrenChecked = childrenIds.every(id =>
     props.selectedIds.includes(id),
-  )
+  );
 
-  const isChildChecked = (id: string) => props.selectedIds.includes(id)
+  const isChildChecked = (id: string) => props.selectedIds.includes(id);
 
   const onParentSelectionChange = () =>
     props.onParentSelectionChange({
       added: allChildrenChecked ? [] : childrenIds,
       removed: allChildrenChecked ? childrenIds : [],
-    })
+    });
 
   return (
     <>
@@ -60,5 +60,5 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
         ))}
       </div>
     </>
-  )
-}
+  );
+};

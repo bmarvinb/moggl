@@ -1,44 +1,44 @@
-import { Box } from 'common/components/Box'
-import { isToday } from 'date-fns'
-import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable'
+import { Box } from 'common/components/Box';
+import { isToday } from 'date-fns';
+import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable';
 import {
   ActiveTimeEntry,
   InactiveTimeEntry,
-} from 'features/timer/services/time-entries'
-import { timeEntryDuration } from 'features/timer/utils/time-entries-utils'
-import { pipe } from 'fp-ts/lib/function'
-import * as O from 'fp-ts/lib/Option'
-import { FC } from 'react'
+} from 'features/timer/services/time-entries';
+import { timeEntryDuration } from 'features/timer/utils/time-entries-utils';
+import { pipe } from 'fp-ts/lib/function';
+import * as O from 'fp-ts/lib/Option';
+import { FC } from 'react';
 
 export type TimeEntryRowProject = {
-  name: string
-  color: string
-  clientName: O.Option<string>
-}
+  name: string;
+  color: string;
+  clientName: O.Option<string>;
+};
 
 export type TimeEntryViewModel = {
-  id: string
-  description: string
-  billable: boolean
-  project: TimeEntryRowProject
-  task: O.Option<string>
-  start: Date
-  end: Date
-  duration: number
-}
+  id: string;
+  description: string;
+  billable: boolean;
+  project: TimeEntryRowProject;
+  task: O.Option<string>;
+  start: Date;
+  end: Date;
+  duration: number;
+};
 
 export type ReportedDay = {
-  id: string
-  date: Date
-  reportedDuration: number
-  data: TimeEntryViewModel[]
-}
+  id: string;
+  date: Date;
+  reportedDuration: number;
+  data: TimeEntryViewModel[];
+};
 
 export type ReportedDaysProps = {
-  reportedDays: ReportedDay[]
-  activeTimeEntry: O.Option<ActiveTimeEntry>
-  activeTimeEntryDuration: O.Option<number>
-}
+  reportedDays: ReportedDay[];
+  activeTimeEntry: O.Option<ActiveTimeEntry>;
+  activeTimeEntryDuration: O.Option<number>;
+};
 
 export function createTimeEntryViewModel(
   timeEntry: InactiveTimeEntry,
@@ -66,7 +66,7 @@ export function createTimeEntryViewModel(
     start: new Date(timeEntry.timeInterval.start),
     end: new Date(timeEntry.timeInterval.end),
     duration: pipe(timeEntry, timeEntryDuration),
-  }
+  };
 }
 
 export const ReportedDays: FC<ReportedDaysProps> = props => {
@@ -89,5 +89,5 @@ export const ReportedDays: FC<ReportedDaysProps> = props => {
         ),
       )}
     </Box>
-  )
-}
+  );
+};

@@ -1,22 +1,22 @@
-import { Box } from 'common/components/Box'
-import { TimeEntryViewModel } from 'features/timer/components/ReportedDays'
+import { Box } from 'common/components/Box';
+import { TimeEntryViewModel } from 'features/timer/components/ReportedDays';
 import {
   formatDuration,
   formatTimeEntryDate,
   getTimeEntryInfo,
   isChildTimeEntry,
   isParentTimeEntry,
-} from 'features/timer/utils/time-entries-utils'
-import { FC } from 'react'
+} from 'features/timer/utils/time-entries-utils';
+import { FC } from 'react';
 import {
   BiDollar,
   BiDotsVerticalRounded,
   BiPlay,
   BiPurchaseTag,
-} from 'react-icons/bi'
-import { styled } from 'core/theme/config'
-import { Button } from 'common/components/Button'
-import { Checkbox } from 'common/components/Checkbox'
+} from 'react-icons/bi';
+import { styled } from 'core/theme/config';
+import { Button } from 'common/components/Button';
+import { Checkbox } from 'common/components/Checkbox';
 
 export const enum TimeEntryRowType {
   Regular = 'Regular',
@@ -25,34 +25,34 @@ export const enum TimeEntryRowType {
 }
 
 export type ParentTimeEntry = {
-  data: TimeEntryViewModel
-  type: TimeEntryRowType.Parent
-  children: ChildTimeEntry[]
-}
+  data: TimeEntryViewModel;
+  type: TimeEntryRowType.Parent;
+  children: ChildTimeEntry[];
+};
 
 export type RegularTimeEntry = {
-  data: TimeEntryViewModel
-  type: TimeEntryRowType.Regular
-}
+  data: TimeEntryViewModel;
+  type: TimeEntryRowType.Regular;
+};
 
 export type ChildTimeEntry = {
-  data: TimeEntryViewModel
-  type: TimeEntryRowType.Child
-}
+  data: TimeEntryViewModel;
+  type: TimeEntryRowType.Child;
+};
 
 export type TimeEntryRowViewModel =
   | RegularTimeEntry
   | ParentTimeEntry
-  | ChildTimeEntry
+  | ChildTimeEntry;
 
 export type TimeEntryViewRowProps = {
-  timeEntry: TimeEntryRowViewModel
-  edit: boolean
-  selected: boolean
-  onSelectionChange: (timeEntryId: string) => void
-  onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void
-  onToggleChildrenVisibility?: () => void
-}
+  timeEntry: TimeEntryRowViewModel;
+  edit: boolean;
+  selected: boolean;
+  onSelectionChange: (timeEntryId: string) => void;
+  onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void;
+  onToggleChildrenVisibility?: () => void;
+};
 
 const TimeEntryItem = styled('div', {
   display: 'flex',
@@ -60,7 +60,7 @@ const TimeEntryItem = styled('div', {
   gap: '$6',
   borderTop: '1px solid $neutral2',
   alignItems: 'center',
-})
+});
 
 const Description = styled('div', {
   lineHeight: '$lg',
@@ -72,7 +72,7 @@ const Description = styled('div', {
       },
     },
   },
-})
+});
 
 const AdditionalInfo = styled('div', {
   position: 'relative',
@@ -87,7 +87,7 @@ const AdditionalInfo = styled('div', {
     top: 'calc(50% - 0.15rem)',
     left: '-0rem',
   },
-})
+});
 
 export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
   return (
@@ -243,5 +243,5 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
         </Box>
       </TimeEntryItem>
     </>
-  )
-}
+  );
+};

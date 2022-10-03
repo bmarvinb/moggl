@@ -1,11 +1,11 @@
-import { User, userSchema } from 'features/auth/services/user'
-import { Workspaces, workspacesSchema } from 'features/auth/services/workspace'
-import { client } from 'common/utils/api-client'
+import { User, userSchema } from 'features/auth/services/user';
+import { Workspaces, workspacesSchema } from 'features/auth/services/workspace';
+import { client } from 'common/utils/api-client';
 
 export function user() {
-  return client<User>('user', userSchema)
+  return client<User>('user', userSchema);
 }
 
 export function userWorkspaces() {
-  return client<Workspaces>('workspaces', workspacesSchema)
+  return client<Workspaces>('workspaces', workspacesSchema);
 }

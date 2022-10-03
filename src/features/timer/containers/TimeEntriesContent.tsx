@@ -1,53 +1,53 @@
-import { useMachine } from '@xstate/react'
-import { Box } from 'common/components/Box'
+import { useMachine } from '@xstate/react';
+import { Box } from 'common/components/Box';
 import {
   ReportedDay,
   ReportedDays,
-} from 'features/timer/components/ReportedDays'
-import { WeekDuration } from 'features/timer/components/WeekDuration'
-import { Timer } from 'features/timer/containers/Timer'
-import { timerMachine, TimerMode } from 'features/timer/machines/timerMachine'
-import { ActiveTimeEntry } from 'features/timer/services/time-entries'
-import * as O from 'fp-ts/lib/Option'
-import { FC, useEffect, useLayoutEffect, useRef, useState } from 'react'
+} from 'features/timer/components/ReportedDays';
+import { WeekDuration } from 'features/timer/components/WeekDuration';
+import { Timer } from 'features/timer/containers/Timer';
+import { timerMachine, TimerMode } from 'features/timer/machines/timerMachine';
+import { ActiveTimeEntry } from 'features/timer/services/time-entries';
+import * as O from 'fp-ts/lib/Option';
+import { FC, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export type TimeEntriesContentProps = {
-  activeTimeEntry: O.Option<ActiveTimeEntry>
-  weekDuration: number
-  reportedDays: ReportedDay[]
-}
+  activeTimeEntry: O.Option<ActiveTimeEntry>;
+  weekDuration: number;
+  reportedDays: ReportedDay[];
+};
 
 export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
-  const [timerState, send] = useMachine(timerMachine)
-  const [contentTop, setContentTop] = useState(0)
-  const contentRef = useRef<HTMLDivElement>(null)
+  const [timerState, send] = useMachine(timerMachine);
+  const [contentTop, setContentTop] = useState(0);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     if (!contentRef.current) {
-      return
+      return;
     }
-    const { y } = contentRef.current.getBoundingClientRect()
-    setContentTop(y)
-  }, [contentRef])
+    const { y } = contentRef.current.getBoundingClientRect();
+    setContentTop(y);
+  }, [contentRef]);
 
   useEffect(() => {
     if (O.isNone(props.activeTimeEntry)) {
-      return
+      return;
     }
     send('CONTINUE', {
       payload: props.activeTimeEntry.value,
-    })
-  }, [props.activeTimeEntry, send])
+    });
+  }, [props.activeTimeEntry, send]);
 
   const activeDuration = timerState.matches({ timer: 'running' })
     ? O.some(timerState.context.duration)
-    : O.none
+    : O.none;
 
-  const weekDuration = timerState.context.duration + props.weekDuration
+  const weekDuration = timerState.context.duration + props.weekDuration;
 
   const timerMode = timerState.matches({ mode: 'timer' })
     ? TimerMode.Timer
-    : TimerMode.Manual
+    : TimerMode.Manual;
 
   return (
     <Box
@@ -96,5 +96,5 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
         </Box>
       </Box>
     </Box>
-  )
-}
+  );
+};

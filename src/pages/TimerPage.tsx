@@ -1,12 +1,9 @@
-import { UserInfo } from 'features/auth/index'
-import { TimeEntries } from 'features/timer'
-import { FC } from 'react'
+import { UserInfo } from 'features/auth/index';
+import { TimeEntries } from 'features/timer';
+import { FC } from 'react';
 
 export type TimerPageProps = {
-  userInfo: UserInfo
-}
+  userInfo: UserInfo;
+};
 
-export const TimerPage: FC<TimerPageProps> = props => (
-  <TimeEntries
-  />
-)
+export const TimerPage: FC<TimerPageProps> = () => <TimeEntries />;
