@@ -1,25 +1,25 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Box } from 'common/components/Box'
-import { Input } from 'common/components/Input'
-import { TimerControls } from 'features/timer/components/TimerControls'
-import { useCreateTimeEntry } from 'features/timer/hooks/useCreateTimeEntry'
-import { TimerMode } from 'features/timer/machines/timerMachine'
-import { ActiveTimeEntry } from 'features/timer/services/time-entries'
-import { pipe } from 'fp-ts/lib/function'
-import * as O from 'fp-ts/lib/Option'
-import { FC } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Box } from 'common/components/Box';
+import { Input } from 'common/components/Input';
+import { TimerControls } from 'features/timer/components/TimerControls';
+import { useCreateTimeEntry } from 'features/timer/hooks/useCreateTimeEntry';
+import { TimerMode } from 'features/timer/machines/timerMachine';
+import { ActiveTimeEntry } from 'features/timer/services/time-entries';
+import { pipe } from 'fp-ts/lib/function';
+import * as O from 'fp-ts/lib/Option';
+import { FC } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 export type TimerProps = {
-  activeTimeEntry: O.Option<ActiveTimeEntry>
-  timeEntryDuration: O.Option<number>
-  mode: TimerMode
-  onStart: () => void
-  onStop: () => void
-  onTimerModeChanged: () => void
-  onAddTimeEntryClicked: () => void
-}
+  activeTimeEntry: O.Option<ActiveTimeEntry>;
+  timeEntryDuration: O.Option<number>;
+  mode: TimerMode;
+  onStart: () => void;
+  onStop: () => void;
+  onTimerModeChanged: () => void;
+  onAddTimeEntryClicked: () => void;
+};
 
 const schema = z.object({
   start: z.string(),
@@ -32,12 +32,12 @@ const schema = z.object({
   customFields: z.array(
     z.object({ customFieldId: z.string(), value: z.string() }),
   ),
-})
+});
 
-type FormValues = z.infer<typeof schema>
+type FormValues = z.infer<typeof schema>;
 
 export const Timer: FC<TimerProps> = props => {
-  const create = useCreateTimeEntry(props.onStart, props.onStop)
+  const create = useCreateTimeEntry(props.onStart, props.onStop);
 
   const onStartClicked = () => {
     create.mutate({
@@ -49,12 +49,12 @@ export const Timer: FC<TimerProps> = props => {
       end: undefined,
       tagIds: undefined,
       customFields: [],
-    })
-  }
+    });
+  };
 
   const onStopClicked = () => {
-    props.onStop()
-  }
+    props.onStop();
+  };
 
   const { register } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -68,7 +68,7 @@ export const Timer: FC<TimerProps> = props => {
       ),
       projectId: '',
     },
-  })
+  });
 
   return (
     <Box
@@ -118,5 +118,5 @@ export const Timer: FC<TimerProps> = props => {
         />
       </Box>
     </Box>
-  )
-}
+  );
+};

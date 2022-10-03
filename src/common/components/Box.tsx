@@ -1,3 +1,3 @@
-import { styled } from 'core/theme/config'
+import { styled } from 'core/theme/config';
 
-export const Box = styled('div')
+export const Box = styled('div');

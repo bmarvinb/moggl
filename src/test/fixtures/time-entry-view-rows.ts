@@ -1,9 +1,9 @@
 import {
   ParentTimeEntry,
   TimeEntryRowType,
-} from 'features/timer/components/TimeEntryViewRow'
-import { seconds } from 'test/utils/test-utils'
-import * as O from 'fp-ts/lib/Option'
+} from 'features/timer/components/TimeEntryViewRow';
+import { seconds } from 'test/utils/test-utils';
+import * as O from 'fp-ts/lib/Option';
 
 const tesla: ParentTimeEntry = {
   type: TimeEntryRowType.Parent,
@@ -57,7 +57,7 @@ const tesla: ParentTimeEntry = {
       },
     },
   ],
-}
+};
 
 const facebook: ParentTimeEntry = {
   type: TimeEntryRowType.Parent,
@@ -94,9 +94,9 @@ const facebook: ParentTimeEntry = {
       },
     },
   ],
-}
+};
 
 export const timeEntryViewRows = {
   tesla,
   facebook,
-}
+};

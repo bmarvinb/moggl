@@ -1,5 +1,5 @@
-import { styled } from 'core/theme/config'
-import { Spinner } from './Spinner'
+import { styled } from 'core/theme/config';
+import { Spinner } from './Spinner';
 
 const SpinnerContainer = styled('div', {
   fontSize: '4rem',
@@ -9,10 +9,12 @@ const SpinnerContainer = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   background: '$neutral1',
-})
+});
 
-export const FullPageSpinner = () => (
-  <SpinnerContainer>
-    <Spinner />
-  </SpinnerContainer>
-)
+export const FullPageSpinner = () => {
+  return (
+    <SpinnerContainer>
+      <Spinner />
+    </SpinnerContainer>
+  );
+};

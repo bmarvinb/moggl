@@ -1,10 +1,10 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { BiCart } from 'react-icons/bi'
-import { Box } from 'common/components/Box'
-import { Button } from 'common/components/Button'
-import { darkTheme } from 'core/theme/config'
-import { globalStyles } from 'core/theme/globalStyles'
-import { Row } from '../utils/Row'
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { BiCart } from 'react-icons/bi';
+import { Box } from 'common/components/Box';
+import { Button } from 'common/components/Button';
+import { darkTheme } from 'core/theme/config';
+import { globalStyles } from 'core/theme/globalStyles';
+import { Row } from '../utils/Row';
 
 export default {
   title: 'Elements/Button',
@@ -12,10 +12,10 @@ export default {
   argTypes: {
     darkMode: { control: 'boolean', defaultValue: false },
   },
-} as ComponentMeta<typeof Button>
+} as ComponentMeta<typeof Button>;
 
 const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
-  globalStyles()
+  globalStyles();
   return (
     <Box className={args.darkMode ? darkTheme : ''}>
       <Box>
@@ -103,11 +103,11 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
         </Row>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
 const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
-  globalStyles()
+  globalStyles();
   return (
     <Box className={args.darkMode ? darkTheme : ''}>
       <Box>
@@ -195,9 +195,9 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
         </Row>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export const Basic = BasicTemplate.bind({})
+export const Basic = BasicTemplate.bind({});
 
-export const Icon = IconTemplate.bind({})
+export const Icon = IconTemplate.bind({});

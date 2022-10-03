@@ -1,13 +1,13 @@
-import { isProduction } from 'common/utils/env'
+import { isProduction } from 'common/utils/env';
 
-const defaultMessage = 'Invariant failed'
+const defaultMessage = 'Invariant failed';
 
 export function invariant(
   condition: unknown,
   message = defaultMessage,
 ): asserts condition {
   if (condition) {
-    return
+    return;
   }
-  new Error(isProduction() ? defaultMessage : message)
+  new Error(isProduction() ? defaultMessage : message);
 }

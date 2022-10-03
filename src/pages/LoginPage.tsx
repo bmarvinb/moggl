@@ -1,5 +1,5 @@
-import { AuthLayout, LoginForm } from 'features/auth'
-import { Box } from 'common/components/Box'
+import { AuthLayout, LoginForm } from 'features/auth';
+import { Box } from 'common/components/Box';
 
 export function LoginPage() {
   return (
@@ -13,5 +13,5 @@ export function LoginPage() {
         <LoginForm />
       </Box>
     </AuthLayout>
-  )
+  );
 }

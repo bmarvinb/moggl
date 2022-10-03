@@ -1,9 +1,9 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 const rateSchema = z.object({
   amount: z.number(),
   currency: z.string(),
-})
+});
 
 const membershipSchema = z.object({
   userId: z.string(),
@@ -12,12 +12,12 @@ const membershipSchema = z.object({
   targetId: z.string(),
   membershipType: z.string(),
   membershipStatus: z.string(),
-})
+});
 
 const roundSchema = z.object({
   round: z.string(),
   minutes: z.string(),
-})
+});
 
 const automaticLockSchema = z.object({
   changeDay: z.string(),
@@ -26,7 +26,7 @@ const automaticLockSchema = z.object({
   olderThanPeriod: z.string(),
   olderThanValue: z.number(),
   type: z.string(),
-})
+});
 
 const workspaceSettingsSchema = z.object({
   timeRoundingInReports: z.boolean(),
@@ -54,7 +54,7 @@ const workspaceSettingsSchema = z.object({
   onlyAdminsCreateTask: z.boolean(),
   timeTrackingMode: z.string(),
   isProjectPublicByDefault: z.boolean(),
-})
+});
 
 const workspaceSchema = z.object({
   id: z.string(),
@@ -64,10 +64,10 @@ const workspaceSchema = z.object({
   workspaceSettings: workspaceSettingsSchema,
   imageUrl: z.string(),
   featureSubscriptionType: z.string(),
-})
+});
 
-export type Workspace = z.infer<typeof workspaceSchema>
+export type Workspace = z.infer<typeof workspaceSchema>;
 
-export const workspacesSchema = z.array(workspaceSchema)
+export const workspacesSchema = z.array(workspaceSchema);
 
-export type Workspaces = z.infer<typeof workspacesSchema>
+export type Workspaces = z.infer<typeof workspacesSchema>;

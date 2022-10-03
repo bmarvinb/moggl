@@ -1,4 +1,4 @@
-import { styled } from 'core/theme/config'
+import { styled } from 'core/theme/config';
 
 export const Input = styled('input', {
   width: '100%',
@@ -52,4 +52,4 @@ export const Input = styled('input', {
       },
     },
   },
-})
+});

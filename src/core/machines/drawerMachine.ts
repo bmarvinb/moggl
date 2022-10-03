@@ -1,5 +1,5 @@
-import { media } from 'core/theme/config'
-import { assign, createMachine } from 'xstate'
+import { media } from 'core/theme/config';
+import { assign, createMachine } from 'xstate';
 
 export enum DrawerMode {
   Temporary = 'Terporary',
@@ -7,32 +7,42 @@ export enum DrawerMode {
 }
 
 type DrawerContext = {
-  mode: DrawerMode
-}
+  mode: DrawerMode | undefined;
+};
 
 type DrawerEvent =
   | {
-      type: 'TOGGLE'
+      type: 'TOGGLE';
     }
-  | { type: 'UPDATE_MODE' }
+  | { type: 'UPDATE_MODE' };
 
 export const drawerMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoD2ADmAHYDEAKgPIDi1AMgKI4AiASgIIDqDrioBeWAEsALkLzE+IAB6IAtABYAnAEYcADgDsANnUKADJqUKArACZ16kwBoQAT3mmcm-SoVmzChdoNalAX39bVExsHABjABtBMAoaeiY2Lh4pAWExCSlZBDkzTXUcJSVtEwBmJVKTF3VS7VLbBxynFzcPLx99P0Dg9CwUUgBVAAVmdnIGAH0AWUpmBlTBUXFJJBl5KoKTbR9SzxK9CwbHdxxKio8rZXVtQKCQYjwIOCkQvvwiFf5FjM+1nNLKs46poFKVNOUTCZjEcECoTBp8ip8gpNJpIW4TOpuiBXmEojEFullll5ADtKdNHsrtpim4YXIVPpyUYVBUjPoygYytjcShCUtMqtsnJtPozDgtjs9pj3Op6VVNKdSkyzEi6gp1EpNLd-EA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoCuAdgNYED2GBAxIqAA6mwCWALo6QTSAB6IC0AHAFYAnDgAMYgGwBmAIzCATP1kKA7GOkAaEAE8+0-mJyzVs+dLHzV-awBYAvve2pM2HKVpgqAFQDyAcX8AGQBRTnomVnZOHgReGVUcWwV5SUtrVWFhW209OKUcfhtFBTkU2UFbWQcnEBcsXABjABsGMEo-QNDwhhY2DiRufWFEhRTBDRSLSVktXT4CosyxsrNK6sdndAbKAFUABQARAEFvEIB9AFlfQ7DBiL7owdjeWzFEyQUxIttVW2FpMkTLl9IZjKZzJYRjZ+I5amQIHBOPU3IQSOQBnRelFMUM4n9BDhJCIsqUvqlBCC4rYZESaQDhPwFJJPpZNnVtm4PF4epF+jE+IJZsZDCZ0vxJG85nlmTghUppKppJ8WcTJOyUU1WrAwLzHriXkLpDhrEV+NkxIJBCzZFTeGZbCbFTJJUVZObFRrOSg9TiBXEisaJDJ5EoVOppYLGUT3QprdUvmpZHD7EA */
   createMachine<DrawerContext, DrawerEvent>(
     {
+      context: { mode: undefined },
       predictableActionArguments: true,
-      context: {
-        mode:
-          window.innerWidth <= media.md
-            ? DrawerMode.Temporary
-            : DrawerMode.Permanent,
-      },
       invoke: {
         src: 'handleResize',
+        id: 'update-mode',
       },
       id: 'drawer',
-      initial: 'close',
+      initial: 'unknown',
       states: {
+        unknown: {
+          always: [
+            {
+              actions: 'setTemporaryMode',
+              cond: 'shouldSetTemporaryMode',
+              target: 'close',
+            },
+            {
+              actions: 'setPermanentMode',
+              cond: 'shouldSetPermanentMode',
+              target: 'close',
+            },
+          ],
+        },
         open: {
           on: {
             TOGGLE: {
@@ -52,18 +62,12 @@ export const drawerMachine =
         UPDATE_MODE: [
           {
             actions: 'setTemporaryMode',
-            description: 'Mobile layout',
-            cond: context =>
-              window.innerWidth <= media.md &&
-              context.mode !== DrawerMode.Temporary,
+            cond: 'shouldSetTemporaryMode',
             target: '.close',
           },
           {
             actions: 'setPermanentMode',
-            description: 'Desktop layout',
-            cond: context =>
-              window.innerWidth > media.md &&
-              context.mode !== DrawerMode.Permanent,
+            cond: 'shouldSetPermanentMode',
             target: '.close',
           },
         ],
@@ -72,20 +76,27 @@ export const drawerMachine =
     {
       actions: {
         setTemporaryMode: assign({
-          mode: _ => DrawerMode.Temporary,
+          mode: _context => DrawerMode.Temporary,
         }),
         setPermanentMode: assign({
-          mode: _ => DrawerMode.Permanent,
+          mode: _context => DrawerMode.Permanent,
         }),
       },
       services: {
         handleResize: () => send => {
-          const listener = () => send('UPDATE_MODE')
-          window.addEventListener('resize', listener)
+          const listener = () => send('UPDATE_MODE');
+          window.addEventListener('resize', listener);
           return () => {
-            window.removeEventListener('resize', listener)
-          }
+            window.removeEventListener('resize', listener);
+          };
         },
       },
+      guards: {
+        shouldSetTemporaryMode: (context: DrawerContext) =>
+          window.innerWidth <= media.md &&
+          context.mode !== DrawerMode.Temporary,
+        shouldSetPermanentMode: (context: DrawerContext) =>
+          window.innerWidth > media.md && context.mode !== DrawerMode.Permanent,
+      },
     },
-  )
+  );

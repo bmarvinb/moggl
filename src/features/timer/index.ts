@@ -1,1 +1,1 @@
-export * from './containers/TimeEntries'
+export * from './containers/TimeEntries';

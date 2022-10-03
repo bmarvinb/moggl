@@ -1,5 +1,5 @@
-import { activeTimeEntryIntervalSchema } from 'features/timer/services/time-entries'
-import { z } from 'zod'
+import { activeTimeEntryIntervalSchema } from 'features/timer/services/time-entries';
+import { z } from 'zod';
 
 export const createdTimeEntrySchema = z.object({
   billable: z.boolean(),
@@ -23,17 +23,17 @@ export const createdTimeEntrySchema = z.object({
       }),
     )
     .nullable(),
-})
+});
 
-export type CreatedTimeEntry = z.infer<typeof createdTimeEntrySchema>
+export type CreatedTimeEntry = z.infer<typeof createdTimeEntrySchema>;
 
 export type CreateTimeEntryPayload = {
-  start: string
-  billable: boolean
-  description: string
-  projectId: string | undefined
-  taskId: string | undefined
-  end: string | undefined
-  tagIds: string[] | undefined
-  customFields: { customFieldId: string; value: string }[]
-}
+  start: string;
+  billable: boolean;
+  description: string;
+  projectId: string | undefined;
+  taskId: string | undefined;
+  end: string | undefined;
+  tagIds: string[] | undefined;
+  customFields: { customFieldId: string; value: string }[];
+};

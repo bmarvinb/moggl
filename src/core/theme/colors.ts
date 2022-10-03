@@ -1,4 +1,4 @@
-import * as colors from '@radix-ui/colors'
+import * as colors from '@radix-ui/colors';
 
 export const primary = {
   primary1: 'hsl(205, 79%, 92%)',
@@ -11,7 +11,7 @@ export const primary = {
   primary8: 'hsl(205, 82%, 33%)',
   primary9: 'hsl(205, 87%, 29%)',
   primary10: 'hsl(205, 100%, 21%)',
-}
+};
 
 export const secondary = {
   secondary1: 'hsl(49, 100%, 96%)',
@@ -24,7 +24,7 @@ export const secondary = {
   secondary8: 'hsl(29, 80%, 44%)',
   secondary9: 'hsl(22, 82%, 39%)',
   secondary10: 'hsl(15, 86%, 30%)',
-}
+};
 
 export const neutral = {
   neutral1: 'hsl(220, 40%, 98%)',
@@ -37,7 +37,7 @@ export const neutral = {
   neutral8: 'hsl(209, 34%, 30%)',
   neutral9: 'hsl(211, 39%, 23%)',
   neutral10: 'hsl(209, 61%, 16%)',
-}
+};
 
 export const cyan = {
   cyan1: 'hsl(186, 100%, 94%)',
@@ -50,7 +50,7 @@ export const cyan = {
   cyan8: 'hsl(185, 81%, 29%)',
   cyan9: 'hsl(185, 84%, 25%)',
   cyan10: 'hsl(184, 91%, 17%)',
-}
+};
 
 export const red = {
   red1: 'hsl(360, 100%, 97%)',
@@ -63,7 +63,7 @@ export const red = {
   red8: 'hsl(360, 79%, 32%)',
   red9: 'hsl(360, 85%, 25%)',
   red10: 'hsl(360, 92%, 20%)',
-}
+};
 
 export const primaryDark = {
   primary1: 'hsl(205, 100%, 10%)',
@@ -76,7 +76,7 @@ export const primaryDark = {
   primary8: 'hsl(205, 74%, 60%)',
   primary9: 'hsl(205, 87%, 75%)',
   primary10: 'hsl(205, 69%, 85%)',
-}
+};
 
 export const secondaryDark = {
   secondary1: 'hsl(15, 86%, 20%)',
@@ -89,7 +89,7 @@ export const secondaryDark = {
   secondary8: 'hsl(48, 95%, 66%)',
   secondary9: 'hsl(48, 90%, 78%)',
   secondary10: 'hsl(49, 93%, 86%)',
-}
+};
 
 export const neutralDark = {
   neutral1: 'hsl(210, 35%, 16%)',
@@ -102,7 +102,7 @@ export const neutralDark = {
   neutral8: 'hsl(210, 27%, 75%)',
   neutral9: 'hsl(212, 30%, 85%)',
   neutral10: 'hsl(213, 25%, 93%)',
-}
+};
 
 export const cyanDark = {
   cyan1: 'hsl(184, 91%, 10%)',
@@ -115,7 +115,7 @@ export const cyanDark = {
   cyan8: 'hsl(184, 75%, 64%)',
   cyan9: 'hsl(185, 90%, 77%)',
   cyan10: 'hsl(186, 94%, 84%)',
-}
+};
 
 export const redDark = {
   red1: 'hsl(360, 92%, 10%)',
@@ -128,7 +128,7 @@ export const redDark = {
   red8: 'hsl(360, 75%, 68%)',
   red9: 'hsl(360, 80%, 79%)',
   red10: 'hsl(360, 90%, 87%)',
-}
+};
 
 export const whiteA = {
   whiteA1: colors.whiteA.whiteA1,
@@ -141,7 +141,7 @@ export const whiteA = {
   whiteA8: colors.whiteA.whiteA8,
   whiteA9: colors.whiteA.whiteA9,
   whiteA0: colors.whiteA.whiteA10,
-}
+};
 
 export const blackA = {
   blackA1: colors.blackA.blackA1,
@@ -154,4 +154,4 @@ export const blackA = {
   blackA8: colors.blackA.blackA8,
   blackA9: colors.blackA.blackA9,
   blackA10: colors.blackA.blackA10,
-}
+};

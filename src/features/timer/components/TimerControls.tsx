@@ -1,10 +1,10 @@
-import { Box } from 'common/components/Box'
-import { Button } from 'common/components/Button'
-import { TimerMode } from 'features/timer/machines/timerMachine'
-import { formatDuration } from 'features/timer/utils/time-entries-utils'
-import { pipe } from 'fp-ts/lib/function'
-import * as O from 'fp-ts/lib/Option'
-import { FC } from 'react'
+import { Box } from 'common/components/Box';
+import { Button } from 'common/components/Button';
+import { TimerMode } from 'features/timer/machines/timerMachine';
+import { formatDuration } from 'features/timer/utils/time-entries-utils';
+import { pipe } from 'fp-ts/lib/function';
+import * as O from 'fp-ts/lib/Option';
+import { FC } from 'react';
 import {
   BiBriefcase,
   BiDollar,
@@ -13,17 +13,17 @@ import {
   BiPlus,
   BiPurchaseTag,
   BiStop,
-} from 'react-icons/bi'
-import { styled } from 'core/theme/config'
+} from 'react-icons/bi';
+import { styled } from 'core/theme/config';
 
 export type TimerControlsProps = {
-  duration: O.Option<number>
-  mode: TimerMode
-  onStartClicked: () => void
-  onAddTimeEntryClicked: () => void
-  onStopClicked: () => void
-  onTimerModeChanged: () => void
-}
+  duration: O.Option<number>;
+  mode: TimerMode;
+  onStartClicked: () => void;
+  onAddTimeEntryClicked: () => void;
+  onStopClicked: () => void;
+  onTimerModeChanged: () => void;
+};
 
 const ToggleMode = styled('div', {
   display: 'flex',
@@ -31,14 +31,14 @@ const ToggleMode = styled('div', {
   borderRadius: '$md',
   justifyContent: 'center',
   padding: 0,
-})
+});
 
 export const TimerControls: FC<TimerControlsProps> = props => {
   const inlineTime = pipe(
     props.duration,
     O.map(formatDuration),
     O.getOrElse(() => formatDuration(0)),
-  )
+  );
   return (
     <div>
       <Box
@@ -198,5 +198,5 @@ export const TimerControls: FC<TimerControlsProps> = props => {
         </Box>
       </Box>
     </div>
-  )
-}
+  );
+};

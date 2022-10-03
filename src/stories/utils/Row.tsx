@@ -1,4 +1,4 @@
-import { styled } from 'core/theme/config'
+import { styled } from 'core/theme/config';
 
 export const Row = styled('div', {
   marginBottom: '$8',
@@ -12,4 +12,4 @@ export const Row = styled('div', {
       marginRight: 0,
     },
   },
-})
+});

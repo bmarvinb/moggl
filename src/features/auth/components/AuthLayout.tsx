@@ -1,6 +1,6 @@
-import { Box } from 'common/components/Box'
-import { FC } from 'react'
-import { styled } from 'core/theme/config'
+import { Box } from 'common/components/Box';
+import { FC } from 'react';
+import { styled } from 'core/theme/config';
 
 const Children = styled('div', {
   width: '100%',
@@ -18,10 +18,10 @@ const Children = styled('div', {
   '@xl': {
     margin: 'initial',
   },
-})
+});
 
 export const AuthLayout: FC<{
-  children: JSX.Element
+  children: JSX.Element;
 }> = ({ children }) => {
   return (
     <Box
@@ -41,5 +41,5 @@ export const AuthLayout: FC<{
         }}
       ></Box>
     </Box>
-  )
-}
+  );
+};

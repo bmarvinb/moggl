@@ -1,9 +1,9 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { Box } from 'common/components/Box'
-import { Input as InputComponent } from 'common/components/Input'
-import { darkTheme } from 'core/theme/config'
-import { globalStyles } from 'core/theme/globalStyles'
-import { Row } from 'stories/utils/Row'
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Box } from 'common/components/Box';
+import { Input as InputComponent } from 'common/components/Input';
+import { darkTheme } from 'core/theme/config';
+import { globalStyles } from 'core/theme/globalStyles';
+import { Row } from 'stories/utils/Row';
 
 export default {
   title: 'Elements/Input',
@@ -11,10 +11,10 @@ export default {
   argTypes: {
     darkMode: { control: 'boolean', defaultValue: false },
   },
-} as ComponentMeta<typeof InputComponent>
+} as ComponentMeta<typeof InputComponent>;
 
 const Template: ComponentStory<typeof InputComponent> = (args: any) => {
-  globalStyles()
+  globalStyles();
   return (
     <Box className={args.darkMode ? darkTheme : ''}>
       <Box>
@@ -35,7 +35,7 @@ const Template: ComponentStory<typeof InputComponent> = (args: any) => {
         </Row>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export const Input = Template.bind({})
+export const Input = Template.bind({});

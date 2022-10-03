@@ -1,8 +1,8 @@
-import { render, screen, within } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow'
-import { timeEntryViewRows } from 'test/fixtures/time-entry-view-rows'
-import { noop } from 'test/utils/test-utils'
+import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow';
+import { constVoid } from 'fp-ts/lib/function';
+import { timeEntryViewRows } from 'test/fixtures/time-entry-view-rows';
 
 const selectors = {
   parent: (id: string) => `${id}-parent`,
@@ -10,7 +10,7 @@ const selectors = {
   toggleChildrenButton: 'TOGGLE_CHILDREN_VISIBILITY_BUTTON',
   description: 'TIME_ENTRY_DESCRIPTION',
   duration: 'TIME_ENTRY_DURATION',
-}
+};
 
 test('should render Tesla', async () => {
   render(
@@ -18,22 +18,22 @@ test('should render Tesla', async () => {
       timeEntry={timeEntryViewRows.tesla}
       edit={false}
       selectedIds={[]}
-      onPlayClicked={noop}
-      onParentSelectionChange={noop}
-      onChildSelectionChange={noop}
+      onPlayClicked={constVoid}
+      onParentSelectionChange={constVoid}
+      onChildSelectionChange={constVoid}
     />,
-  )
+  );
   const toggleChildrenButton = screen.getByTestId(
     selectors.toggleChildrenButton,
-  )
-  const parent = within(screen.getByTestId(selectors.parent('1')))
-  const description = parent.getByTestId(selectors.description)
-  const duration = parent.getByTestId(selectors.duration)
+  );
+  const parent = within(screen.getByTestId(selectors.parent('1')));
+  const description = parent.getByTestId(selectors.description);
+  const duration = parent.getByTestId(selectors.duration);
 
-  expect(toggleChildrenButton.textContent).toBe('2')
-  expect(description.textContent).toBe('Add description')
-  expect(duration.textContent).toBe('0:02:45')
-})
+  expect(toggleChildrenButton.textContent).toBe('2');
+  expect(description.textContent).toBe('Add description');
+  expect(duration.textContent).toBe('0:02:45');
+});
 
 test('should render Facebook', async () => {
   render(
@@ -41,22 +41,22 @@ test('should render Facebook', async () => {
       timeEntry={timeEntryViewRows.facebook}
       edit={false}
       selectedIds={[]}
-      onPlayClicked={noop}
-      onParentSelectionChange={noop}
-      onChildSelectionChange={noop}
+      onPlayClicked={constVoid}
+      onParentSelectionChange={constVoid}
+      onChildSelectionChange={constVoid}
     />,
-  )
+  );
   const toggleChildrenButton = screen.getByTestId(
     selectors.toggleChildrenButton,
-  )
-  const parent = within(screen.getByTestId(selectors.parent('1')))
-  const description = parent.getByTestId(selectors.description)
-  const duration = parent.getByTestId(selectors.duration)
+  );
+  const parent = within(screen.getByTestId(selectors.parent('1')));
+  const description = parent.getByTestId(selectors.description);
+  const duration = parent.getByTestId(selectors.duration);
 
-  expect(toggleChildrenButton.textContent).toBe('1')
-  expect(description.textContent).toBe('News feed')
-  expect(duration.textContent).toBe('4:30:00')
-})
+  expect(toggleChildrenButton.textContent).toBe('1');
+  expect(description.textContent).toBe('News feed');
+  expect(duration.textContent).toBe('4:30:00');
+});
 
 test('should toggle children visibility', async () => {
   render(
@@ -64,19 +64,19 @@ test('should toggle children visibility', async () => {
       timeEntry={timeEntryViewRows.tesla}
       edit={false}
       selectedIds={[]}
-      onPlayClicked={noop}
-      onParentSelectionChange={noop}
-      onChildSelectionChange={noop}
+      onPlayClicked={constVoid}
+      onParentSelectionChange={constVoid}
+      onChildSelectionChange={constVoid}
     />,
-  )
-  const children = screen.getByTestId(selectors.parentChildren('1'))
+  );
+  const children = screen.getByTestId(selectors.parentChildren('1'));
   const toggleChildrenButton = screen.getByTestId(
     selectors.toggleChildrenButton,
-  )
+  );
 
-  expect(children.hidden).toBe(true)
-  userEvent.click(toggleChildrenButton)
-  expect(children.hidden).toBe(false)
-  userEvent.click(toggleChildrenButton)
-  expect(children.hidden).toBe(true)
-})
+  expect(children.hidden).toBe(true);
+  userEvent.click(toggleChildrenButton);
+  expect(children.hidden).toBe(false);
+  userEvent.click(toggleChildrenButton);
+  expect(children.hidden).toBe(true);
+});
