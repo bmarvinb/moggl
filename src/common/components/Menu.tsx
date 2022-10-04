@@ -68,7 +68,8 @@ export const Menu = ({ items, open }: MenuProps) => (
   >
     <Box
       css={{
-        overflowY: 'scroll',
+        padding: '$1 0',
+        overflowX: 'hidden',
       }}
       as="ul"
     >
