@@ -34,23 +34,23 @@ export const drawerMachine =
             {
               actions: 'setTemporaryMode',
               cond: 'shouldSetTemporaryMode',
-              target: 'close',
+              target: 'closed',
             },
             {
               actions: 'setPermanentMode',
               cond: 'shouldSetPermanentMode',
-              target: 'close',
+              target: 'closed',
             },
           ],
         },
         open: {
           on: {
             TOGGLE: {
-              target: 'close',
+              target: 'closed',
             },
           },
         },
-        close: {
+        closed: {
           on: {
             TOGGLE: {
               target: 'open',
@@ -63,12 +63,12 @@ export const drawerMachine =
           {
             actions: 'setTemporaryMode',
             cond: 'shouldSetTemporaryMode',
-            target: '.close',
+            target: '.closed',
           },
           {
             actions: 'setPermanentMode',
             cond: 'shouldSetPermanentMode',
-            target: '.close',
+            target: '.closed',
           },
         ],
       },
