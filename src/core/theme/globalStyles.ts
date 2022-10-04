@@ -15,6 +15,18 @@ export const globalStyles = globalCss({
   '#root': {
     height: '100%',
   },
+  'div, a, button': {
+    '&:focus-visible': {
+      outlineColor: '$primary4',
+      outlineStyle: 'solid',
+      outlineWidth: '2px',
+      outlineOffset: 0,
+    },
+  },
+  ul: {
+    padding: 0,
+    margin: 0,
+  },
   svg: {
     fontSize: 'inherit',
     lineHeight: 'inherit',

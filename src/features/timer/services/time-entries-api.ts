@@ -18,7 +18,7 @@ export async function getTimeEntries(
   const params = createURLSearchParams({ ...options, hydrated: true });
   return client<TimeEntries>(
     `workspaces/${workspaceId}/user/${userId}/time-entries?${params}`,
-    timeEntriesSchema,
+    { schema: timeEntriesSchema },
   );
 }
 
@@ -26,9 +26,8 @@ export async function createTimeEntry(
   workspaceId: string,
   data: CreateTimeEntryPayload,
 ) {
-  return client<CreatedTimeEntry>(
-    `/workspaces/${workspaceId}/time-entries`,
-    createdTimeEntrySchema,
-    { data },
-  );
+  return client<CreatedTimeEntry>(`/workspaces/${workspaceId}/time-entries`, {
+    data,
+    schema: createdTimeEntrySchema,
+  });
 }

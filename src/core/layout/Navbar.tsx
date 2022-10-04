@@ -14,7 +14,7 @@ export const Navbar: FC<NavbarProps> = props => {
       css={{
         background: '$navBg',
         color: '$neutral1',
-        minHeight: '2.75rem',
+        padding: '$4 $7',
       }}
     >
       <Button
@@ -22,9 +22,6 @@ export const Navbar: FC<NavbarProps> = props => {
         color="transparent"
         size="lg"
         css={{
-          position: 'absolute',
-          top: '0.25rem',
-          left: '0.75rem',
           color: '$lightTextColor',
           '&:hover': {
             color: '$lightTextColor',

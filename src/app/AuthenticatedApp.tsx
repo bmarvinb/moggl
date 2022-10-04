@@ -1,7 +1,8 @@
 import { useMachine } from '@xstate/react';
 import { Box } from 'common/components/Box';
-import { Drawer } from 'common/components/Drawer';
-import { Navbar } from 'common/components/Navbar';
+import { Menu } from 'common/components/Menu';
+import { Drawer } from 'core/layout/Drawer';
+import { Navbar } from 'core/layout/Navbar';
 import { drawerMachine, DrawerMode } from 'core/machines/drawerMachine';
 import { UserInfo } from 'features/auth/context/auth-context';
 import { TimerPage } from 'pages/TimerPage';
@@ -16,6 +17,7 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
   const [state, send] = useMachine(drawerMachine);
   const temporaryMode = state.context.mode === DrawerMode.Temporary;
   const open = state.matches('open');
+
   return (
     <Box
       as="main"
@@ -32,20 +34,18 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
           height: '100%',
         }}
       >
-        {temporaryMode ? (
-          <Drawer
-            variant="temporary"
-            onOpenChange={() => send('TOGGLE')}
+        <Drawer
+          variant={temporaryMode ? 'temporary' : 'permanent'}
+          onOpenChange={() => send('TOGGLE')}
+          open={open}
+        >
+          <Menu
             open={open}
-          ></Drawer>
-        ) : (
-          <Drawer
-            variant="permanent"
-            onOpenChange={() => send('TOGGLE')}
-            open={open}
-          ></Drawer>
-        )}
-
+            avatarImageSource={props.userInfo.user.profilePicture}
+            username={props.userInfo.user.name}
+            email={props.userInfo.user.email}
+          />
+        </Drawer>
         <Box
           css={{
             display: 'flex',
@@ -55,7 +55,10 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
         >
           {temporaryMode && <Navbar onMenuClicked={() => send('TOGGLE')} />}
           <Routes>
-            <Route path="/" element={<TimerPage userInfo={props.userInfo} />} />
+            <Route
+              path="/timer"
+              element={<TimerPage userInfo={props.userInfo} />}
+            />
             <Route path="/login" element={<Navigate replace to="/" />} />
           </Routes>
         </Box>

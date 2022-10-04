@@ -175,6 +175,7 @@ export const darkTheme = createTheme({
     ...neutralDark,
     ...redDark,
     ...cyanDark,
+    lightTextColor: neutral.neutral2,
     lightBgHover: whiteA.whiteA3,
     navBg: primaryDark.primary5,
     timerBg: neutralDark.neutral1,

@@ -27,13 +27,13 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 
 const StyledContent = styled(DialogPrimitive.Content, {
   $$transformValue: 'translate3d(-100%,0,0)',
-  backgroundColor: '$neutral1',
+  backgroundColor: '$primary5',
   width: '15rem',
   zIndex: 2,
-  padding: '$8',
   left: 0,
   position: 'fixed',
   top: 0,
+  display: 'flex',
   bottom: 0,
   '&[data-state="open"]': {
     animation: `${slideIn} 150ms cubic-bezier(0.22, 1, 0.36, 1)`,
@@ -45,13 +45,15 @@ const StyledContent = styled(DialogPrimitive.Content, {
 
 const StyledPermanentContent = styled('div', {
   $$transformValue: 'translate3d(-100%,0,0)',
+  display: 'flex',
+  flexDirection: 'column',
   backgroundColor: '$navBg',
   zIndex: 2,
   boxShadow: '$md',
-  padding: '$8',
   transition: 'width 300ms cubic-bezier(0.22, 1, 0.36, 1)',
   position: 'relative',
   height: '100%',
+  overflow: 'hidden',
   variants: {
     variant: {
       collapsed: {
@@ -92,21 +94,28 @@ export const Drawer: FC<DrawerProps> = props => {
           open={props.open}
           onOpenChange={props.onOpenChange}
         >
-          <DrawerContent>{props.children}</DrawerContent>
+          <DrawerContent>
+            <Box
+              css={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+              }}
+            >
+              {props.children}
+            </Box>
+          </DrawerContent>
         </DialogPrimitive.Root>
       );
     case 'permanent':
       return (
         <StyledPermanentContent variant={props.open ? 'expanded' : 'collapsed'}>
-          <Box>
+          <Box css={{ padding: '$4 $7' }}>
             <Button
               onClick={props.onOpenChange}
               variant="icon"
               size="lg"
               css={{
-                position: 'absolute',
-                top: '0.25rem',
-                left: '0.75rem',
                 color: '$lightTextColor',
                 '&:hover': {
                   color: '$lightTextColor',
@@ -116,8 +125,8 @@ export const Drawer: FC<DrawerProps> = props => {
             >
               <BiMenuAltLeft />
             </Button>
-            {props.children}
           </Box>
+          {props.children}
         </StyledPermanentContent>
       );
     default:
