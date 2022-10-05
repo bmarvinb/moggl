@@ -27,7 +27,7 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 
 const StyledContent = styled(DialogPrimitive.Content, {
   $$transformValue: 'translate3d(-100%,0,0)',
-  backgroundColor: '$primary5',
+  backgroundColor: '$navBg',
   width: '15rem',
   zIndex: 2,
   left: 0,
