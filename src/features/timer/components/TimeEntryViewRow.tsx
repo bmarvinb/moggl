@@ -37,6 +37,7 @@ export type RegularTimeEntry = {
 
 export type ChildTimeEntry = {
   data: TimeEntryViewModel;
+  siblings: number;
   type: TimeEntryRowType.Child;
 };
 
@@ -119,6 +120,20 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
             {props.timeEntry.children.length}
           </Button>
         )}
+
+        {isChildTimeEntry(props.timeEntry) && (
+          <Button
+            color="transparent"
+            css={{
+              minWidth: '2rem',
+              minHeight: '2rem',
+              visibility: 'hidden',
+            }}
+          >
+            {props.timeEntry.siblings}
+          </Button>
+        )}
+
         <Box
           css={{
             display: 'flex',
@@ -194,7 +209,6 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              paddingLeft: isChildTimeEntry(props.timeEntry) ? '$7' : '0',
             }}
           >
             <AdditionalInfo

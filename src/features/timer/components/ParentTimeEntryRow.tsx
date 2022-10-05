@@ -1,3 +1,4 @@
+import { Box } from 'common/components/Box';
 import {
   ParentTimeEntry,
   TimeEntryRowViewModel,
@@ -34,7 +35,7 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
 
   return (
     <>
-      <div data-testid={`${props.timeEntry.data.id}-parent`}>
+      <Box data-testid={`${props.timeEntry.data.id}-parent`}>
         <TimeEntryViewRow
           timeEntry={props.timeEntry}
           edit={props.edit}
@@ -43,8 +44,8 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
           onPlayClicked={props.onPlayClicked}
           onToggleChildrenVisibility={toggleExpanded}
         />
-      </div>
-      <div
+      </Box>
+      <Box
         data-testid={`${props.timeEntry.data.id}-children`}
         hidden={!expanded}
       >
@@ -58,7 +59,7 @@ export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
             onSelectionChange={props.onChildSelectionChange}
           />
         ))}
-      </div>
+      </Box>
     </>
   );
 };

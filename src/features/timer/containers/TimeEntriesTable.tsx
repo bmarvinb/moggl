@@ -76,8 +76,12 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
         ),
       );
 
-  const createChild = (data: TimeEntryViewModel): ChildTimeEntry => ({
+  const createChild = (
+    data: TimeEntryViewModel,
+    siblings: number,
+  ): ChildTimeEntry => ({
     type: TimeEntryRowType.Child,
+    siblings,
     data,
   });
 
@@ -88,15 +92,21 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     data,
   });
 
-  const createParentChildren = (timeEntry: TimeEntryViewModel) => [
-    createChild(timeEntry),
-    ...pipe(
+  const createParentChildren = (timeEntry: TimeEntryViewModel) => {
+    const children = pipe(
       timeEntry,
       restTimeEntries,
       getParentChildren(timeEntry),
-      A.map(createChild),
-    ),
-  ];
+    );
+    const siblings = children.length;
+    return [
+      createChild(timeEntry, siblings),
+      ...pipe(
+        children,
+        A.map(child => createChild(child, siblings)),
+      ),
+    ];
+  };
 
   const calculateParentStartDate = (children: ChildTimeEntry[]): Date =>
     pipe(

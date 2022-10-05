@@ -8,7 +8,7 @@ import { FC } from 'react';
 import {
   BiBriefcase,
   BiDollar,
-  BiDotsHorizontal,
+  BiDotsVertical,
   BiPlay,
   BiPlus,
   BiPurchaseTag,
@@ -90,6 +90,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             gridTemplateColumns: '1fr auto auto',
             columnGap: '$6',
             alignItems: 'center',
+            minHeight: '3rem',
           }}
         >
           {props.mode === TimerMode.Timer ? (
@@ -190,8 +191,16 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             </ToggleMode>
           ) : (
             <Box>
-              <Button variant={'icon'} color="transparent" size={'lg'}>
-                <BiDotsHorizontal></BiDotsHorizontal>
+              <Button
+                css={{
+                  padding: '$4 $1',
+                  minWidth: '1.5rem',
+                }}
+                variant={'icon'}
+                color="transparent"
+                size={'lg'}
+              >
+                <BiDotsVertical></BiDotsVertical>
               </Button>
             </Box>
           )}
