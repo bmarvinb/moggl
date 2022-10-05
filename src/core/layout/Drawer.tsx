@@ -121,7 +121,7 @@ export const Drawer: FC<DrawerProps> = props => {
                   color: '$lightTextColor',
                 },
               }}
-              title="Open menu"
+              title="Open sidebar"
             >
               <BiMenuAltLeft />
             </Button>

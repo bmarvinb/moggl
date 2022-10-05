@@ -27,7 +27,7 @@ export const Navbar: FC<NavbarProps> = props => {
             color: '$lightTextColor',
           },
         }}
-        title="Open menu"
+        title="Open sidebar"
         onClick={() => props.onMenuClicked()}
       >
         <BiMenuAltLeft />
