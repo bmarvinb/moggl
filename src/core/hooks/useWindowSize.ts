@@ -12,15 +12,14 @@ export function useWindowSize(): WindowSize {
   });
 
   useEffect(() => {
-    function handleResize() {
+    const onResize = () =>
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
       });
-    }
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener('resize', onResize);
+    onResize();
+    return () => window.removeEventListener('resize', onResize);
   }, []);
   return windowSize;
 }

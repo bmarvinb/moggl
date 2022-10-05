@@ -70,10 +70,10 @@ export const drawerMachine =
       },
       services: {
         handleResize: () => send => {
-          const cb = () => send('UPDATE_MODE');
-          window.addEventListener('resize', cb);
-          cb();
-          return () => window.removeEventListener('resize', cb);
+          const onResize = () => send('UPDATE_MODE');
+          window.addEventListener('resize', onResize);
+          onResize();
+          return () => window.removeEventListener('resize', onResize);
         },
       },
       guards: {

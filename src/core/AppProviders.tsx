@@ -19,7 +19,7 @@ const queryClient = new QueryClient({
 });
 
 export function applyColorScheme(scheme: ColorScheme): void {
-  document.body.className = scheme === 'dark' ? darkTheme : '';
+  document.body.className = scheme === ColorScheme.Dark ? darkTheme : '';
 }
 
 export const AppProviders: React.FC<{ children: ReactNode }> = props => {
