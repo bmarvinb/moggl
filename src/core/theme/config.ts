@@ -179,11 +179,11 @@ export const darkTheme = createTheme({
     ...neutralDark,
     ...redDark,
     ...cyanDark,
-    lightTextColor: neutral.neutral3,
+    lightTextColor: neutralDark.neutral9,
     lightBgHover: whiteA.whiteA3,
     navBg: primaryDark.primary2,
     navHoverBg: primaryDark.primary3,
     navActiveBg: primaryDark.primary1,
-    timerBg: neutralDark.neutral2,
+    timerBg: neutralDark.neutral1,
   },
 });
