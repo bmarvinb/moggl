@@ -22,13 +22,13 @@ const Link = styled(NavLink, {
   color: '$lightTextColor',
   textDecoration: 'none',
   '&:hover': {
-    background: '$primary4',
+    background: '$navHoverBg',
     cursor: 'pointer',
   },
   '&.active': {
-    background: '$primary6',
+    background: '$navActiveBg',
     '&:hover': {
-      background: '$primary6',
+      background: '$navActiveBg',
       cursor: 'default',
     },
   },
@@ -44,7 +44,6 @@ const ListItem = styled('li', {
   overflowX: 'hidden',
   display: 'flex',
   alignItems: 'center',
-  background: '$primary5',
 });
 
 const Title = styled('div', {

@@ -57,17 +57,16 @@ export const ProfileInfo = ({ open, profileInfo }: ProfileInfoProps) => (
     css={{
       fontSize: '$sm',
       boxShadow: 'none',
-      background: '$primary5',
+      background: '$navBg',
       textAlign: 'left',
       border: 'none',
       color: '$lightTextColor',
-      borderTop: '1px solid $colors$blackA5',
       padding: '$3 $6',
       display: 'flex',
       alignItems: 'center',
       gap: '$6',
       '&:hover': {
-        background: '$primary4',
+        background: '$navHoverBg',
         cursor: 'pointer',
       },
       '&:focus-visible': {

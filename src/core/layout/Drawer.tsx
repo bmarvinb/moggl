@@ -49,7 +49,7 @@ const StyledPermanentContent = styled('div', {
   flexDirection: 'column',
   backgroundColor: '$navBg',
   zIndex: 2,
-  boxShadow: '$md',
+  boxShadow: '$inner',
   transition: 'width 300ms cubic-bezier(0.22, 1, 0.36, 1)',
   position: 'relative',
   height: '100%',

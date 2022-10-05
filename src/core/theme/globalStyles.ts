@@ -11,6 +11,7 @@ export const globalStyles = globalCss({
     height: '100%',
     overscrollBehavior: 'none',
     fontFamily: 'ProximaNova',
+    color: '$colors$neutral9',
   },
   '#root': {
     height: '100%',
