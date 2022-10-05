@@ -43,9 +43,9 @@ export const {
       ...whiteA,
       lightTextColor: neutral.neutral2,
       lightBgHover: blackA.blackA3,
-      navBg: primary.primary7,
-      navHoverBg: primary.primary6,
-      navActiveBg: primary.primary8,
+      navBg: primary.primary5,
+      navHoverBg: primary.primary4,
+      navActiveBg: primary.primary6,
       timerBg: neutral.neutral1,
     },
     space: {
