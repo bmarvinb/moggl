@@ -17,7 +17,7 @@ type DrawerEvent =
   | { type: 'UPDATE_MODE' };
 
 export const drawerMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoCuAdgNYED2GBAxIqAA6mwCWALo6QTSAB6IC0AHAFYAnDgAMYgGwBmAIzCATP1kKA7GOkAaEAE8+0-mJyzVs+dLHzV-awBYAvve2pM2HKVpgqAFQDyAcX8AGQBRTnomVnZOHgReGVUcWwV5SUtrVWFhW209OKUcfhtFBTkU2UFbWQcnEBcsXABjABsGMEo-QNDwhhY2DiRufWFEhRTBDRSLSVktXT4CosyxsrNK6sdndAbKAFUABQARAEFvEIB9AFlfQ7DBiL7owdjeWzFEyQUxIttVW2FpMkTLl9IZjKZzJYRjZ+I5amQIHBOPU3IQSOQBnRelFMUM4n9BDhJCIsqUvqlBCC4rYZESaQDhPwFJJPpZNnVtm4PF4epF+jE+IJZsZDCZ0vxJG85nlmTghUppKppJ8WcTJOyUU1WrAwLzHriXkLpDhrEV+NkxIJBCzZFTeGZbCbFTJJUVZObFRrOSg9TiBXEisaJDJ5EoVOppYLGUT3QprdUvmpZHD7EA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoD2ADmAHYDEAKgPIDi1AMgKKKgF6wCWALu3scyAA9EAWgDsAFgCMOAGwBOAKxK5MgMyjRkuQBoQATxGrJ4nFrmqAHHIsAmUTIAMNhQF8Xu1Jmw4AxgBs2SAoaeiYkEFYObl5+IQRhBRtpDQsjOwdRC1E5cV0DeKMTM0trO0dnNw90LBRSAFUABQARAEFyBgB9AFlKJrCWNi4ePnC44TkHaS1RJ2zncUmdfREZBWSHcVF1DIzxGXE3dxBiPAg4fk8a-CIRgajh2JWbGRwpRwUZNWtVSzyRG3EJgcqgBM32CnEVgBlRAl28-kCEH4kSGMVGKyMOFENhsDjkdkkIOMfwKWVkEk2ayUSS0riOcJQyMG0VughE+IUpjkMzsHIWWhJYgsLxk9kkkk0ElShxcQA */
   createMachine<DrawerContext, DrawerEvent>(
     {
       context: { mode: undefined },
@@ -27,22 +27,8 @@ export const drawerMachine =
         id: 'update-mode',
       },
       id: 'drawer',
-      initial: 'unknown',
+      initial: 'closed',
       states: {
-        unknown: {
-          always: [
-            {
-              actions: 'setTemporaryMode',
-              cond: 'shouldSetTemporaryMode',
-              target: 'closed',
-            },
-            {
-              actions: 'setPermanentMode',
-              cond: 'shouldSetPermanentMode',
-              target: 'closed',
-            },
-          ],
-        },
         open: {
           on: {
             TOGGLE: {
@@ -84,11 +70,10 @@ export const drawerMachine =
       },
       services: {
         handleResize: () => send => {
-          const listener = () => send('UPDATE_MODE');
-          window.addEventListener('resize', listener);
-          return () => {
-            window.removeEventListener('resize', listener);
-          };
+          const cb = () => send('UPDATE_MODE');
+          window.addEventListener('resize', cb);
+          cb();
+          return () => window.removeEventListener('resize', cb);
         },
       },
       guards: {

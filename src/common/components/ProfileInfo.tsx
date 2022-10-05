@@ -70,6 +70,12 @@ export const ProfileInfo = ({ open, profileInfo }: ProfileInfoProps) => (
         background: '$primary4',
         cursor: 'pointer',
       },
+      '&:focus-visible': {
+        outlineColor: '$primary4',
+        outlineStyle: 'solid',
+        outlineWidth: '2px',
+        outlineOffset: '-2px',
+      },
     }}
   >
     <Avatar avatarImageSource={profileInfo.profilePicture} />

@@ -1,5 +1,6 @@
 import { useMachine } from '@xstate/react';
 import { Box } from 'common/components/Box';
+import { useWindowSize } from 'core/hooks/useWindowSize';
 import {
   ReportedDay,
   ReportedDays,
@@ -21,6 +22,7 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
   const [timerState, send] = useMachine(timerMachine);
   const [contentTop, setContentTop] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
+  const size = useWindowSize();
 
   useLayoutEffect(() => {
     if (!contentRef.current) {
@@ -28,7 +30,7 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
     }
     const { y } = contentRef.current.getBoundingClientRect();
     setContentTop(y);
-  }, [contentRef]);
+  }, [contentRef, size.width]);
 
   useEffect(() => {
     if (O.isNone(props.activeTimeEntry)) {

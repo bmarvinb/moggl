@@ -32,9 +32,16 @@ const Link = styled(NavLink, {
       cursor: 'default',
     },
   },
+  '&:focus-visible': {
+    outlineColor: '$primary4',
+    outlineStyle: 'solid',
+    outlineWidth: '2px',
+    outlineOffset: '-2px',
+  },
 });
 
 const ListItem = styled('li', {
+  overflowX: 'hidden',
   display: 'flex',
   alignItems: 'center',
   background: '$primary5',
@@ -66,13 +73,7 @@ export const Menu = ({ items, open }: MenuProps) => (
       overflowY: 'scroll',
     }}
   >
-    <Box
-      css={{
-        padding: '$1 0',
-        overflowX: 'hidden',
-      }}
-      as="ul"
-    >
+    <Box css={{}} as="ul">
       {items.map(item => (
         <ListItem key={item.route}>
           <Link

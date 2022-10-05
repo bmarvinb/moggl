@@ -6,9 +6,12 @@ import { Drawer } from 'core/layout/Drawer';
 import { Navbar } from 'core/layout/Navbar';
 import { drawerMachine, DrawerMode } from 'core/machines/drawerMachine';
 import { UserInfo } from 'features/auth/context/auth-context';
+import { ClientsPage } from 'pages/ClientsPage';
+import { ProjectsPage } from 'pages/ProjectsPage';
+import { TagsPage } from 'pages/TagsPage';
 import { TimerPage } from 'pages/TimerPage';
 import { FC } from 'react';
-import { BiCalendar, BiTimer } from 'react-icons/bi';
+import { BiFolder, BiGroup, BiTag, BiTimer } from 'react-icons/bi';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 export type AuthenticatedAppProps = {
@@ -22,9 +25,19 @@ const menuItems: MenuItem[] = [
     icon: <BiTimer />,
   },
   {
-    route: 'calendar',
-    title: 'Calendar',
-    icon: <BiCalendar />,
+    route: 'projects',
+    title: 'Projects',
+    icon: <BiFolder />,
+  },
+  {
+    route: 'clients',
+    title: 'Clients',
+    icon: <BiGroup />,
+  },
+  {
+    route: 'tags',
+    title: 'Tags',
+    icon: <BiTag />,
   },
 ];
 
@@ -70,14 +83,16 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
             display: 'flex',
             flexDirection: 'column',
             flex: 1,
+            maxHeight: '100vh',
+            overflowY: 'scroll',
           }}
         >
           {temporaryMode && <Navbar onMenuClicked={() => send('TOGGLE')} />}
           <Routes>
-            <Route
-              path="/timer"
-              element={<TimerPage userInfo={props.userInfo} />}
-            />
+            <Route path="/timer" element={<TimerPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/clients" element={<ClientsPage />} />
+            <Route path="/tags" element={<TagsPage />} />
             <Route path="/login" element={<Navigate replace to="/" />} />
           </Routes>
         </Box>

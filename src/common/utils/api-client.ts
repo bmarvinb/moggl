@@ -22,7 +22,7 @@ export async function client<Response = unknown>(
     body: data ? JSON.stringify(data) : undefined,
     headers: {
       'Content-Type': 'application/json',
-      'X-Api-Key': env.REACT_APP_API_KEY || '',
+      'X-Api-Key': env.REACT_APP_API_KEY,
       ...customHeaders,
     },
     ...customConfig,
