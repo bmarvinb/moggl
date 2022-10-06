@@ -181,9 +181,9 @@ export const darkTheme = createTheme({
     ...cyanDark,
     lightTextColor: neutralDark.neutral9,
     lightBgHover: whiteA.whiteA3,
-    navBg: primaryDark.primary2,
-    navHoverBg: primaryDark.primary3,
-    navActiveBg: primaryDark.primary1,
+    navBg: primaryDark.primary5,
+    navHoverBg: primaryDark.primary4,
+    navActiveBg: primaryDark.primary6,
     timerBg: neutralDark.neutral1,
   },
 });
