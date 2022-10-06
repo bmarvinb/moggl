@@ -1,4 +1,5 @@
 import { PageSpinner } from 'common/components/PageSpinner';
+import { ProjectsContent } from 'features/projects/components/ProjectsContent';
 import { useProjects } from 'features/projects/hooks/useProjects';
 
 export const Projects = () => {
@@ -11,6 +12,6 @@ export const Projects = () => {
     case 'error':
       return <div>Error</div>;
     case 'success':
-      return <div>Projects</div>;
+      return <ProjectsContent projects={projects} />;
   }
 };
