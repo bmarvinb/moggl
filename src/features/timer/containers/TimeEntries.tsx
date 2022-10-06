@@ -1,13 +1,13 @@
+import { PageSpinner } from 'common/components/PageSpinner';
 import { format, isSameWeek } from 'date-fns';
 import { isSameDay } from 'date-fns/fp';
 import {
   createTimeEntryViewModel,
   ReportedDay,
 } from 'features/timer/components/ReportedDays';
-import { TimeEntriesLoading } from 'features/timer/components/TimeEntriesLoading';
 import { TimeEntriesContent } from 'features/timer/containers/TimeEntriesContent';
 import { useTimeEntries } from 'features/timer/hooks/useTimeEntries';
-import { InactiveTimeEntry } from 'features/timer/services/time-entries';
+import { InactiveTimeEntry } from 'features/timer/models/time-entries';
 import {
   isActiveTimeEntry,
   isInactiveTimeEntry,
@@ -53,7 +53,7 @@ export const TimeEntries = () => {
 
   switch (status) {
     case 'loading':
-      return <TimeEntriesLoading />;
+      return <PageSpinner />;
     case 'error':
       return <div>Error</div>;
     case 'success':

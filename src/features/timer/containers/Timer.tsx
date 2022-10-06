@@ -4,7 +4,7 @@ import { Input } from 'common/components/Input';
 import { TimerControls } from 'features/timer/components/TimerControls';
 import { useCreateTimeEntry } from 'features/timer/hooks/useCreateTimeEntry';
 import { TimerMode } from 'features/timer/machines/timerMachine';
-import { ActiveTimeEntry } from 'features/timer/services/time-entries';
+import { ActiveTimeEntry } from 'features/timer/models/time-entries';
 import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
 import { FC } from 'react';

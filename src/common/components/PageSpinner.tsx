@@ -1,7 +1,7 @@
 import { Box } from 'common/components/Box';
 import { Spinner } from 'common/components/Spinner';
 
-export const TimeEntriesLoading = () => (
+export const PageSpinner = () => (
   <Box
     css={{
       fontSize: '$4xl',

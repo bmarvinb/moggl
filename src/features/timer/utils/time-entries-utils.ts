@@ -20,7 +20,7 @@ import {
   ActiveTimeEntry,
   InactiveTimeEntry,
   TimeEntry,
-} from 'features/timer/services/time-entries';
+} from 'features/timer/models/time-entries';
 import * as O from 'fp-ts/lib/Option';
 import { numberPad } from 'common/utils/number';
 

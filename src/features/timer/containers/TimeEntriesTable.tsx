@@ -14,7 +14,7 @@ import {
   SelectionChanges,
   useSelection,
 } from 'features/timer/hooks/useSelection';
-import { ActiveTimeEntry } from 'features/timer/services/time-entries';
+import { ActiveTimeEntry } from 'features/timer/models/time-entries';
 import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils';
 import * as B from 'fp-ts/boolean';
 import { Eq, struct } from 'fp-ts/Eq';
