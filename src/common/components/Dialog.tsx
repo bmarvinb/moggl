@@ -14,6 +14,7 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
   right: 0,
   bottom: 0,
   left: 0,
+  zIndex: 3,
 });
 
 const StyledContent = styled(DialogPrimitive.Content, {
@@ -32,6 +33,7 @@ const StyledContent = styled(DialogPrimitive.Content, {
   '&:focus': {
     outline: 'none',
   },
+  zIndex: 4,
 });
 
 const StyledCloseButton = styled(DialogPrimitive.Close, {

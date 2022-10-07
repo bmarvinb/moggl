@@ -36,7 +36,8 @@ export const CreateProjectDialog = () => {
             </select>
           </FormField>
           <FormField>
-            <Box as="label" css={{ fontWeight: '$normal' }}>
+            <Label htmlFor="visibility">Visibility:</Label>
+            <Box id="visibility" as="label" css={{ fontWeight: '$normal' }}>
               <input type="checkbox" />
               Public
             </Box>
