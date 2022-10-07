@@ -4,6 +4,17 @@ import { membershipSchema } from 'core/models/membership';
 import { timeEstimateSchema } from 'core/models/time-estimate';
 import { z } from 'zod';
 
+export type ProjectRequestOptions = {
+  hydrated?: boolean;
+};
+
+export type AddProjectRequestData = {
+  name: string;
+  clientId: string;
+  color: string;
+  isPublic: boolean;
+};
+
 export const projectSchema = z.object({
   id: z.string(),
   name: z.string(),

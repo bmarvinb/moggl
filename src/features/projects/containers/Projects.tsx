@@ -4,7 +4,6 @@ import { useProjects } from 'features/projects/hooks/useProjects';
 
 export const Projects = () => {
   const { status, data: projects } = useProjects();
-  console.log('projects', projects);
 
   switch (status) {
     case 'loading':
