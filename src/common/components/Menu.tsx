@@ -11,6 +11,7 @@ export type MenuItem = {
 export type MenuProps = {
   open: boolean;
   items: MenuItem[];
+  onMenuItemClicked: () => void;
 };
 
 const Link = styled(NavLink, {
@@ -60,7 +61,7 @@ const Icon = styled('div', {
   display: 'flex',
 });
 
-export const Menu = ({ items, open }: MenuProps) => (
+export const Menu = ({ items, open, onMenuItemClicked }: MenuProps) => (
   <Box
     as="nav"
     css={{
@@ -78,6 +79,7 @@ export const Menu = ({ items, open }: MenuProps) => (
           <Link
             to={item.route}
             className={({ isActive }) => (isActive ? 'active' : undefined)}
+            onClick={() => onMenuItemClicked()}
           >
             <Icon>{item.icon}</Icon>
             <Title data-state={open ? 'open' : 'closed'}>{item.title}</Title>

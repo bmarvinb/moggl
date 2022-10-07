@@ -72,7 +72,11 @@ export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
           open={open}
         >
           <>
-            <Menu items={menuItems} open={open} />
+            <Menu
+              items={menuItems}
+              open={open}
+              onMenuItemClicked={() => send('CLOSE')}
+            />
             <ProfileInfo open={open} profileInfo={profileInfo}></ProfileInfo>
           </>
         </Drawer>
