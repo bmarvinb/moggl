@@ -37,10 +37,10 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export const Timer: FC<TimerProps> = props => {
-  const create = useCreateTimeEntry(props.onStart, props.onStop);
+  const addTimeEntry = useCreateTimeEntry(props.onStart, props.onStop);
 
   const onStartClicked = () => {
-    create.mutate({
+    addTimeEntry.mutate({
       start: new Date().toISOString(),
       billable: false,
       description: 'Test',

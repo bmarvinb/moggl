@@ -53,22 +53,22 @@ export const Input = styled('input', {
     },
     size: {
       sm: {
-        $$padding: '$space$2',
+        $$padding: '$space$2 $space$3',
         $$fontSize: '$fontSizes$sm',
         $$lineHeight: '$lineHeights$sm',
       },
       md: {
-        $$padding: '$space$3',
+        $$padding: '$space$3 $space$4',
         $$fontSize: '$fontSizes$base',
         $$lineHeight: '$lineHeights$base',
       },
       lg: {
-        $$padding: '$space$4',
+        $$padding: '$space$4 $space$5',
         $$fontSize: '$fontSizes$lg',
         $$lineHeight: '$lineHeights$lg',
       },
       xl: {
-        $$padding: '$space$5',
+        $$padding: '$space$5 $space$6',
         $$fontSize: '$fontSizes$xl',
         $$lineHeight: '$lineHeights$xl',
       },

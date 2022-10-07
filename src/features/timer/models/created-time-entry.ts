@@ -27,7 +27,7 @@ export const createdTimeEntrySchema = z.object({
 
 export type CreatedTimeEntry = z.infer<typeof createdTimeEntrySchema>;
 
-export type CreateTimeEntryPayload = {
+export type AddTimeEntryRequestData = {
   start: string;
   billable: boolean;
   description: string;
