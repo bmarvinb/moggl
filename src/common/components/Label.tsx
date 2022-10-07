@@ -6,4 +6,5 @@ export const Label = styled('label', {
   lineHeight: '$sm',
   marginBottom: '$2',
   fontWeight: 500,
+  color: '$neutral9',
 });
