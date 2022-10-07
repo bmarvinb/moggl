@@ -1,4 +1,4 @@
-import { activeTimeEntryIntervalSchema } from 'features/timer/services/time-entries';
+import { activeTimeEntryIntervalSchema } from 'features/timer/models/time-entries';
 import { z } from 'zod';
 
 export const createdTimeEntrySchema = z.object({
@@ -27,7 +27,7 @@ export const createdTimeEntrySchema = z.object({
 
 export type CreatedTimeEntry = z.infer<typeof createdTimeEntrySchema>;
 
-export type CreateTimeEntryPayload = {
+export type AddTimeEntryRequestData = {
   start: string;
   billable: boolean;
   description: string;

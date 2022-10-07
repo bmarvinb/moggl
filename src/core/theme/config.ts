@@ -47,6 +47,7 @@ export const {
       navHoverBg: primary.primary4,
       navActiveBg: primary.primary6,
       timerBg: neutral.neutral1,
+      overlay: 'rgba(0,0,0,0.4)',
     },
     space: {
       1: '0.125rem',
@@ -185,5 +186,6 @@ export const darkTheme = createTheme({
     navHoverBg: primaryDark.primary4,
     navActiveBg: primaryDark.primary6,
     timerBg: neutralDark.neutral1,
+    overlay: 'rgba(0,0,0,0.6)',
   },
 });

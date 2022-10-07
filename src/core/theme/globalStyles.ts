@@ -9,7 +9,6 @@ export const globalStyles = globalCss({
     padding: 0,
     width: '100%',
     height: '100%',
-    overscrollBehavior: 'none',
     fontFamily: 'ProximaNova',
     color: '$colors$neutral9',
   },

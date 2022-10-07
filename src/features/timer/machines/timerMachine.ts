@@ -1,4 +1,4 @@
-import { ActiveTimeEntry } from 'features/timer/services/time-entries';
+import { ActiveTimeEntry } from 'features/timer/models/time-entries';
 import { activeTimeEntryDuration } from 'features/timer/utils/time-entries-utils';
 import { assign, createMachine } from 'xstate';
 

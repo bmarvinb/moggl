@@ -10,7 +10,7 @@ import { slideIn, slideOut } from 'common/animations/slide';
 import { fadeIn, fadeOut } from 'common/animations/fade';
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
-  backgroundColor: '$blackA10',
+  backgroundColor: '$overlay',
   position: 'fixed',
   top: 0,
   right: 0,

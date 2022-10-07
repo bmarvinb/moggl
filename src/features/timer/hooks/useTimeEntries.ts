@@ -1,15 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { useUserInfo } from 'features/auth';
+import { useAuthorizedUserInfo } from 'features/auth/hooks/useAuthorizedUserInfo';
 import { getTimeEntries } from 'features/timer/services/time-entries-api';
-import * as O from 'fp-ts/lib/Option';
 
 export function useTimeEntries() {
-  const userInfo = useUserInfo();
-  if (O.isNone(userInfo)) {
-    throw new Error('Unauthorized user');
-  }
+  const userInfo = useAuthorizedUserInfo();
   return useQuery(['timeEntries'], () =>
-    getTimeEntries(userInfo.value.workspace.id, userInfo.value.user.id, {
+    getTimeEntries(userInfo.workspace.id, userInfo.user.id, {
       'page-size': 25,
       page: 1,
     }),

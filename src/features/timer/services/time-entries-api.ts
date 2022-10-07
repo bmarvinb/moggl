@@ -1,14 +1,27 @@
 import {
   CreatedTimeEntry,
   createdTimeEntrySchema,
-  CreateTimeEntryPayload,
-} from 'features/timer/services/created-time-entry';
+  AddTimeEntryRequestData,
+} from 'features/timer/models/created-time-entry';
 import {
   TimeEntries,
-  TimeEntriesRequestOptions,
   timeEntriesSchema,
-} from 'features/timer/services/time-entries';
+} from 'features/timer/models/time-entries';
 import { client, createURLSearchParams } from 'common/utils/api-client';
+
+export type TimeEntriesRequestOptions = {
+  description?: string;
+  start?: string;
+  end?: string;
+  project?: string;
+  task?: string;
+  tags?: string;
+  'project-required'?: boolean;
+  'task-required'?: boolean;
+  'in-progress'?: boolean;
+  page?: number;
+  'page-size'?: number;
+};
 
 export async function getTimeEntries(
   workspaceId: string,
@@ -24,7 +37,7 @@ export async function getTimeEntries(
 
 export async function createTimeEntry(
   workspaceId: string,
-  data: CreateTimeEntryPayload,
+  data: AddTimeEntryRequestData,
 ) {
   return client<CreatedTimeEntry>(`/workspaces/${workspaceId}/time-entries`, {
     data,

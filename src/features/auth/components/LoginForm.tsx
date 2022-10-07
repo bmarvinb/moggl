@@ -4,6 +4,7 @@ import { Box } from 'common/components/Box';
 import { Button } from 'common/components/Button';
 import { FieldError } from 'common/components/FieldError';
 import { FormErrorMessage } from 'common/components/FormErrorMessage';
+import { FormField } from 'common/components/FormField';
 import { Input } from 'common/components/Input';
 import { Label } from 'common/components/Label';
 import { styled } from 'core/theme/config';
@@ -60,11 +61,7 @@ export function LoginForm() {
           marginBottom: '3rem',
         }}
       >
-        <Box
-          css={{
-            marginBottom: '1.5rem',
-          }}
-        >
+        <FormField>
           <Label htmlFor="email">Email:</Label>
           <Input
             aria-label="Email input"
@@ -77,13 +74,9 @@ export function LoginForm() {
             {...register('email')}
           />
           <FieldError>{errors.email?.message}</FieldError>
-        </Box>
+        </FormField>
 
-        <Box
-          css={{
-            marginBottom: '1.5rem',
-          }}
-        >
+        <FormField>
           <Label htmlFor="password">Password:</Label>
           <Input
             aria-label="Password input"
@@ -96,7 +89,7 @@ export function LoginForm() {
             {...register('password')}
           />
           <FieldError>{errors.password?.message}</FieldError>
-        </Box>
+        </FormField>
 
         {auth.isError && (
           <FormErrorMessage>

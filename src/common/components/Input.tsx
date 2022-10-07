@@ -2,12 +2,12 @@ import { styled } from 'core/theme/config';
 
 export const Input = styled('input', {
   width: '100%',
-  padding: '$5',
+  padding: '$$padding',
+  fontSize: '$$fontSize',
+  lineHeight: '$$lineHeight',
   borderRadius: '$md',
   background: '$neutral1',
   border: '1px solid $neutral6',
-  fontSize: '$base',
-  lineHeight: '$base',
   color: '$neutral10',
   '&:hover': {
     borderColor: '$primary5',
@@ -39,7 +39,7 @@ export const Input = styled('input', {
   variants: {
     variant: {
       inline: {
-        padding: '$4 0',
+        $$padding: '$4 0',
         background: 'transparent',
         border: 'none',
         boxShadow: 'none',
@@ -51,5 +51,30 @@ export const Input = styled('input', {
         },
       },
     },
+    size: {
+      sm: {
+        $$padding: '$space$2 $space$3',
+        $$fontSize: '$fontSizes$sm',
+        $$lineHeight: '$lineHeights$sm',
+      },
+      md: {
+        $$padding: '$space$3 $space$4',
+        $$fontSize: '$fontSizes$base',
+        $$lineHeight: '$lineHeights$base',
+      },
+      lg: {
+        $$padding: '$space$4 $space$5',
+        $$fontSize: '$fontSizes$lg',
+        $$lineHeight: '$lineHeights$lg',
+      },
+      xl: {
+        $$padding: '$space$5 $space$6',
+        $$fontSize: '$fontSizes$xl',
+        $$lineHeight: '$lineHeights$xl',
+      },
+    },
+  },
+  defaultVariants: {
+    size: 'md',
   },
 });

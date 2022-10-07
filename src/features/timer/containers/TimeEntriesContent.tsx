@@ -8,7 +8,7 @@ import {
 import { WeekDuration } from 'features/timer/components/WeekDuration';
 import { Timer } from 'features/timer/containers/Timer';
 import { timerMachine, TimerMode } from 'features/timer/machines/timerMachine';
-import { ActiveTimeEntry } from 'features/timer/services/time-entries';
+import { ActiveTimeEntry } from 'features/timer/models/time-entries';
 import * as O from 'fp-ts/lib/Option';
 import { FC, useEffect, useLayoutEffect, useRef, useState } from 'react';
 

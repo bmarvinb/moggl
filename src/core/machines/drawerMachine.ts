@@ -14,7 +14,8 @@ type DrawerEvent =
   | {
       type: 'TOGGLE';
     }
-  | { type: 'UPDATE_MODE' };
+  | { type: 'UPDATE_MODE' }
+  | { type: 'CLOSE' };
 
 export const drawerMachine =
   /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoD2ADmAHYDEAKgPIDi1AMgKKKgF6wCWALu3scyAA9EAWgDsAFgCMOAGwBOAKxK5MgMyjRkuQBoQATxGrJ4nFrmqAHHIsAmUTIAMNhQF8Xu1Jmw4AxgBs2SAoaeiYkEFYObl5+IQRhBRtpDQsjOwdRC1E5cV0DeKMTM0trO0dnNw90LBRSAFUABQARAEFyBgB9AFlKJrCWNi4ePnC44TkHaS1RJ2zncUmdfREZBWSHcVF1DIzxGXE3dxBiPAg4fk8a-CIRgajh2JWbGRwpRwUZNWtVSzyRG3EJgcqgBM32CnEVgBlRAl28-kCEH4kSGMVGKyMOFENhsDjkdkkIOMfwKWVkEk2ayUSS0riOcJQyMG0VughE+IUpjkMzsHIWWhJYgsLxk9kkkk0ElShxcQA */
@@ -32,6 +33,9 @@ export const drawerMachine =
         open: {
           on: {
             TOGGLE: {
+              target: 'closed',
+            },
+            CLOSE: {
               target: 'closed',
             },
           },
