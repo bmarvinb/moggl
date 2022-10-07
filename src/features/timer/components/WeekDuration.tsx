@@ -2,7 +2,7 @@ import { Box } from 'common/components/Box';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
 import { FC } from 'react';
 import { styled } from 'core/theme/config';
-import { PageTitle } from 'common/components/PageTitle';
+import { Title } from 'common/components/Title';
 
 export type WeekDurationProps = {
   weekDuration: number;
@@ -24,12 +24,13 @@ export const WeekDuration: FC<WeekDurationProps> = props => {
         css={{
           display: 'flex',
           justifyContent: 'space-between',
+          marginBottom: '$8',
         }}
       >
-        <PageTitle>
+        <Title as="h1">
           This week
           <TotalTime>{formatDuration(props.weekDuration)}</TotalTime>
-        </PageTitle>
+        </Title>
       </Box>
     </>
   );

@@ -1,6 +1,6 @@
 import { Box } from 'common/components/Box';
 import { Button } from 'common/components/Button';
-import { PageTitle } from 'common/components/PageTitle';
+import { Title } from 'common/components/Title';
 import { Projects } from 'features/projects/models/projects';
 import { FC } from 'react';
 
@@ -20,9 +20,10 @@ export const ProjectsContent: FC<ProjectsContentProps> = props => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'baseline',
+          marginBottom: '$8',
         }}
       >
-        <PageTitle>Projects</PageTitle>
+        <Title as="h1">Projects</Title>
         <Button color="primary">Create new</Button>
       </Box>
       {props.projects.map(project => {
