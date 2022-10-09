@@ -1,5 +1,6 @@
 import { Box } from 'common/components/Box';
 import { Button } from 'common/components/Button';
+import { Card } from 'common/components/Card';
 import { Checkbox } from 'common/components/Checkbox';
 import { styled } from 'core/theme/config';
 import { isToday } from 'date-fns';
@@ -21,11 +22,8 @@ export type TimeEntriesTableViewProps = {
   onToggleClicked: () => void;
 };
 
-const TimeEntriesTable = styled('div', {
+const TimeEntriesTable = styled(Card, {
   marginBottom: '1rem',
-  background: '$neutral1',
-  borderRadius: '$md',
-  boxShadow: '$sm',
   '&:last-child': {
     marginBottom: 0,
   },

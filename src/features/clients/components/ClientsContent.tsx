@@ -1,6 +1,8 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { Box } from 'common/components/Box';
 import { Button } from 'common/components/Button';
+import { Card } from 'common/components/Card';
+import { Container } from 'common/components/Container';
 import { Dialog } from 'common/components/Dialog';
 import { Title } from 'common/components/Title';
 import { AddClientDialog } from 'features/clients/components/AddClientDialog';
@@ -21,7 +23,7 @@ export const ClientsContent: FC<ClientsContentProps> = props => {
   };
 
   return (
-    <Box
+    <Container
       css={{
         padding: '$8',
       }}
@@ -29,6 +31,7 @@ export const ClientsContent: FC<ClientsContentProps> = props => {
       <Box
         css={{
           display: 'flex',
+          flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'baseline',
           marginBottom: '$8',
@@ -42,9 +45,17 @@ export const ClientsContent: FC<ClientsContentProps> = props => {
           <AddClientDialog onClientAdded={onClientAdded} />
         </Dialog>
       </Box>
-      {props.clients.map(client => {
-        return <Box key={client.id}>{client.name}</Box>;
-      })}
-    </Box>
+      <Card
+        css={{
+          padding: '$6 $8',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {props.clients.map(client => {
+          return <Box key={client.id}>{client.name}</Box>;
+        })}
+      </Card>
+    </Container>
   );
 };

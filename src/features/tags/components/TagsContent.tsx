@@ -2,10 +2,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Box } from 'common/components/Box';
 import { Button } from 'common/components/Button';
 import { Dialog } from 'common/components/Dialog';
+import { Container } from 'common/components/Container';
 import { Title } from 'common/components/Title';
 import { AddTagDialog } from 'features/tags/components/AddTagDialog';
 import { Tags } from 'features/tags/models/tags';
 import { FC, useState } from 'react';
+import { Card } from 'common/components/Card';
 
 export type TagsContentProps = {
   tags: Tags;
@@ -21,7 +23,7 @@ export const TagsContent: FC<TagsContentProps> = props => {
   };
 
   return (
-    <Box
+    <Container
       css={{
         padding: '$8',
       }}
@@ -39,11 +41,20 @@ export const TagsContent: FC<TagsContentProps> = props => {
           <Button color="primary" onClick={() => setDialogOpen(true)}>
             Add new
           </Button>
-          <AddTagDialog onTagAdded={onClientAdded} /> </Dialog>
+          <AddTagDialog onTagAdded={onClientAdded} />{' '}
+        </Dialog>
       </Box>
-      {props.tags.map(tag => {
-        return <Box key={tag.id}>{tag.name}</Box>;
-      })}
-    </Box>
+      <Card
+        css={{
+          padding: '$6 $8',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {props.tags.map(tag => {
+          return <Box key={tag.id}>{tag.name}</Box>;
+        })}
+      </Card>
+    </Container>
   );
 };
