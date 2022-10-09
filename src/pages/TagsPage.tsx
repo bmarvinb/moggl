@@ -1,4 +1,3 @@
-// import { Tags } from '../features/tags/containers/Tags';
-// import { React } from 'react';
+import { Tags } from 'features/tags/containers/Tags';
 
-export const TagsPage = () => <div>Tags</div>;
+export const TagsPage = () => <Tags />;
