@@ -5,24 +5,22 @@ import { FieldError } from 'common/components/FieldError';
 import { FormField } from 'common/components/FormField';
 import { Input } from 'common/components/Input';
 import { Label } from 'common/components/Label';
-import { Textarea } from 'common/components/Textarea';
-import { useAddClient } from 'features/clients/hooks/useAddClient';
+import { useAddTag } from 'features/tags/hooks/useAddTag';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-export type AddClientDialogProps = {
-  onClientAdded: () => void;
+export type AddTagDialogProps = {
+  onTagAdded: () => void;
 };
 
 const schema = z.object({
-  name: z.string().min(1, 'Please provide a client name'),
-  note: z.string(),
+  name: z.string().min(1, 'Please provide a tag name'),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-export const ClientForm: FC<AddClientDialogProps> = props => {
+export const TagForm: FC<AddTagDialogProps> = props => {
   const {
     register,
     handleSubmit,
@@ -31,11 +29,11 @@ export const ClientForm: FC<AddClientDialogProps> = props => {
     resolver: zodResolver(schema),
   });
 
-  const { mutate, status } = useAddClient();
+  const { mutate, status } = useAddTag();
 
   const onSubmit: SubmitHandler<FormValues> = data => {
     mutate(data, {
-      onSuccess: () => props.onClientAdded(),
+      onSuccess: () => props.onTagAdded(),
     });
   };
 
@@ -53,18 +51,9 @@ export const ClientForm: FC<AddClientDialogProps> = props => {
             aria-invalid={errors.name?.message ? 'true' : 'false'}
             id="name"
             size="md"
-            placeholder="Client name"
+            placeholder="Tag name"
           />
           <FieldError>{errors.name?.message}</FieldError>
-        </FormField>
-        <FormField>
-          <Label htmlFor="note">Note:</Label>
-          <Textarea
-            {...register('note')}
-            id="notes"
-            size="md"
-            placeholder="Client notes"
-          />
         </FormField>
         {status === 'error' && (
           <Box
@@ -81,7 +70,6 @@ export const ClientForm: FC<AddClientDialogProps> = props => {
         css={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'end',
           gap: '$4',
         }}
       >
