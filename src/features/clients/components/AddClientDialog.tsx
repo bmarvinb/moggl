@@ -1,13 +1,13 @@
 import { Box } from 'common/components/Box';
 import { DialogContent } from 'common/components/Dialog';
-import { ProjectForm } from 'features/projects/components/ProjectForm';
+import { ClientForm } from 'features/clients/components/ClientForm';
 import { FC } from 'react';
 
-export type AddProjectDialogProps = {
-  onProjectAdded: () => void;
+export type AddClientDialogProps = {
+  onClientAdded: () => void;
 };
 
-export const AddProjectDialog: FC<AddProjectDialogProps> = props => {
+export const AddClientDialog: FC<AddClientDialogProps> = props => {
   return (
     <DialogContent>
       <Box>
@@ -18,9 +18,9 @@ export const AddProjectDialog: FC<AddProjectDialogProps> = props => {
             mb: '$6',
           }}
         >
-          Add new project
+          Add new client
         </Box>
-        <ProjectForm onProjectAdded={props.onProjectAdded} />
+        <ClientForm onClientAdded={props.onClientAdded} />
       </Box>
     </DialogContent>
   );
