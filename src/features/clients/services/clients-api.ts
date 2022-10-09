@@ -1,4 +1,5 @@
-import { client, createURLSearchParams } from 'common/utils/api-client';
+import { client } from 'common/utils/api-client';
+import { createURLSearchParams } from 'common/utils/url-params';
 import {
   AddClientRequestData,
   ClientRequestOptions,

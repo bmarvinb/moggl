@@ -1,18 +1,20 @@
-import { client, createURLSearchParams } from 'common/utils/api-client';
+import { client } from 'common/utils/api-client';
+import { createURLSearchParams } from 'common/utils/url-params';
 import {
   AddTagRequestData,
   Tag,
   Tags,
   tagSchema,
-  TagsRequestOptions,
+  TagsSearchCriteria,
   tagsSchema,
+  UpdateTagRequestData,
 } from 'features/tags/models/tags';
 
 export function getAllTags(
   workspaceId: string,
-  options: TagsRequestOptions = {},
+  criteria: TagsSearchCriteria = {},
 ) {
-  const params = createURLSearchParams({ ...options });
+  const params = createURLSearchParams({ ...criteria });
   return client<Tags>(`workspaces/${workspaceId}/tags?${params}`, {
     schema: tagsSchema,
   });
@@ -28,7 +30,7 @@ export function addTag(workspaceId: string, data: AddTagRequestData) {
 export function updateTag(
   workspaceId: string,
   tagId: string,
-  data: AddTagRequestData,
+  data: UpdateTagRequestData,
 ) {
   return client<Tag>(`workspaces/${workspaceId}/tags/${tagId}`, {
     method: 'PUT',

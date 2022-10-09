@@ -4,6 +4,7 @@ import { Button } from 'common/components/Button';
 import { Dialog } from 'common/components/Dialog';
 import { ListItem } from 'common/components/List';
 import { UpdateTagDialog } from 'features/tags/components/UpdateTagDialog';
+import { useUpdateTag } from 'features/tags/hooks/useUpdateTag';
 import { Tag } from 'features/tags/models/tags';
 import { FC, useState } from 'react';
 import { BiArchive, BiPencil } from 'react-icons/bi';
@@ -15,10 +16,25 @@ export type TagListItemProps = {
 export const TagListItem: FC<TagListItemProps> = props => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const queryClient = useQueryClient();
+  const { mutate, status } = useUpdateTag(props.tag.id);
 
   const onTagUpdated = () => {
     setDialogOpen(false);
     queryClient.invalidateQueries(['tags']);
+  };
+
+  const archive = (archived: boolean) => {
+    mutate(
+      {
+        ...props.tag,
+        archived,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['tags']);
+        },
+      },
+    );
   };
 
   return (
@@ -56,9 +72,11 @@ export const TagListItem: FC<TagListItemProps> = props => {
           variant="icon"
           size="md"
           color="transparent"
-          aria-label="Archive tag"
+          aria-label={props.tag.archived ? 'Unarchive' : 'Archive'}
+          onClick={() => archive(!props.tag.archived)}
+          disabled={status === 'loading'}
         >
-          <BiArchive title="Archive tag" />
+          <BiArchive title={props.tag.archived ? 'Unarchive' : 'Archive'} />
         </Button>
       </Box>
     </ListItem>

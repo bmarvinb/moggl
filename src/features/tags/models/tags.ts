@@ -1,17 +1,19 @@
 import { z } from 'zod';
 
-export type TagsRequestOptions = {
-  archived?: boolean;
-  name?: string;
-  page?: number;
-  'page-size'?: number;
-};
+export const tagsRequestOptionsSchema = z.object({
+  archived: z.string().optional(),
+  name: z.string().optional(),
+  page: z.string().optional(),
+  'page-size': z.string().optional(),
+});
+
+export type TagsSearchCriteria = z.infer<typeof tagsRequestOptionsSchema>;
 
 export type AddTagRequestData = {
   name: string;
 };
 
-export type UpdateTagRequestData = AddTagRequestData & { archived?: boolean };
+export type UpdateTagRequestData = { name: string; archived?: boolean };
 
 export const tagSchema = z
   .object({
