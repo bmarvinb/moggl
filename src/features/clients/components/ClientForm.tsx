@@ -5,6 +5,7 @@ import { FieldError } from 'common/components/FieldError';
 import { FormField } from 'common/components/FormField';
 import { Input } from 'common/components/Input';
 import { Label } from 'common/components/Label';
+import { Textarea } from 'common/components/Textarea';
 import { useAddClient } from 'features/clients/hooks/useAddClient';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -58,7 +59,7 @@ export const ClientForm: FC<AddClientDialogProps> = props => {
         </FormField>
         <FormField>
           <Label htmlFor="note">Note:</Label>
-          <Input
+          <Textarea
             {...register('note')}
             id="notes"
             size="md"

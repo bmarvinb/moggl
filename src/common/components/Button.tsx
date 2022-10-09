@@ -18,6 +18,8 @@ export const Button = styled('button', {
   lineHeight: '$$lineHeight',
   outlineColor: '$$outlineColor',
   padding: '$$py $$px',
+  fontFamily: 'ProximaNova',
+  fontWeight: '$normal',
 
   '&:focus-visible': {
     outlineStyle: 'solid',
