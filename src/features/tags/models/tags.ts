@@ -11,6 +11,8 @@ export type AddTagRequestData = {
   name: string;
 };
 
+export type UpdateTagRequestData = AddTagRequestData & { archived?: boolean };
+
 export const tagSchema = z
   .object({
     id: z.string(),

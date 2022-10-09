@@ -24,3 +24,15 @@ export function addTag(workspaceId: string, data: AddTagRequestData) {
     data,
   });
 }
+
+export function updateTag(
+  workspaceId: string,
+  tagId: string,
+  data: AddTagRequestData,
+) {
+  return client<Tag>(`workspaces/${workspaceId}/tags/${tagId}`, {
+    method: 'PUT',
+    schema: tagSchema,
+    data,
+  });
+}

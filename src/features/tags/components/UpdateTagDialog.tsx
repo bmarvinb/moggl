@@ -2,18 +2,19 @@ import { Box } from 'common/components/Box';
 import { DialogContent } from 'common/components/Dialog';
 import { DialogMode } from 'core/models/application/dialog-mode';
 import { TagForm } from 'features/tags/components/TagForm';
-import { useAddTag } from 'features/tags/hooks/useAddTag';
-import { AddTagRequestData } from 'features/tags/models/tags';
+import { useUpdateTag } from 'features/tags/hooks/useUpdateTag';
+import { Tag, UpdateTagRequestData } from 'features/tags/models/tags';
 import { FC } from 'react';
 
-export type AddTagDialog = {
+export type UpdateTagDialogProps = {
+  tag: Tag;
   onSuccess: () => void;
 };
 
-export const AddTagDialog: FC<AddTagDialog> = props => {
-  const { mutate, status } = useAddTag();
+export const UpdateTagDialog: FC<UpdateTagDialogProps> = props => {
+  const { mutate, status } = useUpdateTag(props.tag.id);
 
-  const onSubmit = (data: AddTagRequestData) => {
+  const onSubmit = (data: UpdateTagRequestData) => {
     mutate(data, {
       onSuccess: () => props.onSuccess(),
     });
@@ -29,11 +30,12 @@ export const AddTagDialog: FC<AddTagDialog> = props => {
             mb: '$6',
           }}
         >
-          Add new tag
+          Update tag
         </Box>
         <TagForm
-          operation={DialogMode.Add}
+          operation={DialogMode.Update}
           status={status}
+          tag={props.tag}
           onSubmit={onSubmit}
         />
       </Box>
