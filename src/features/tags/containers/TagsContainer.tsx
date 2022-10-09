@@ -6,7 +6,7 @@ import { useTags } from 'features/tags/hooks/useTags';
 import { useState } from 'react';
 
 export const Tags = () => {
-  const [criteria, setCriteria] = useState<TagsFilterCriteria | undefined>({
+  const [criteria, setCriteria] = useState<TagsFilterCriteria>({
     name: '',
     archived: 'true',
   });
