@@ -3,21 +3,21 @@ import { Box } from 'common/components/Box';
 import { Button } from 'common/components/Button';
 import { Dialog } from 'common/components/Dialog';
 import { Title } from 'common/components/Title';
-import { AddProjectDialog } from 'features/projects/components/AddProjectDialog';
-import { Projects } from 'features/projects/models/projects';
+import { AddClientDialog } from 'features/clients/components/AddClientDialog';
+import { Clients } from 'features/clients/models/clients';
 import { FC, useState } from 'react';
 
-export type ProjectsContentProps = {
-  projects: Projects;
+export type ClientsContentProps = {
+  clients: Clients;
 };
 
-export const ProjectsContent: FC<ProjectsContentProps> = props => {
+export const ClientsContent: FC<ClientsContentProps> = props => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const queryClient = useQueryClient();
 
-  const onProjectAdded = () => {
+  const onClientAdded = () => {
     setDialogOpen(false);
-    queryClient.invalidateQueries(['projects']);
+    queryClient.invalidateQueries(['clients']);
   };
 
   return (
@@ -34,16 +34,16 @@ export const ProjectsContent: FC<ProjectsContentProps> = props => {
           marginBottom: '$8',
         }}
       >
-        <Title as="h1">Projects</Title>
+        <Title as="h1">Clients</Title>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <Button color="primary" onClick={() => setDialogOpen(true)}>
             Add new
           </Button>
-          <AddProjectDialog onProjectAdded={onProjectAdded} />
+          <AddClientDialog onClientAdded={onClientAdded} />
         </Dialog>
       </Box>
-      {props.projects.map(project => {
-        return <Box key={project.id}>{project.name}</Box>;
+      {props.clients.map(client => {
+        return <Box key={client.id}>{client.name}</Box>;
       })}
     </Box>
   );

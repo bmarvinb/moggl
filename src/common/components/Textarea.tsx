@@ -1,6 +1,6 @@
 import { styled } from 'core/theme/config';
 
-export const Input = styled('input', {
+export const Textarea = styled('textarea', {
   width: '100%',
   padding: '$$padding',
   fontSize: '$$fontSize',
@@ -39,20 +39,6 @@ export const Input = styled('input', {
     borderColor: '$neutral6',
   },
   variants: {
-    variant: {
-      inline: {
-        $$padding: '$4 0',
-        background: 'transparent',
-        border: 'none',
-        boxShadow: 'none',
-        '&:focus-visible': {
-          outline: 'none',
-        },
-        '&:focus': {
-          outline: 'none',
-        },
-      },
-    },
     size: {
       sm: {
         $$padding: '$space$2 $space$3',
