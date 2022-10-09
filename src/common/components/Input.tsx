@@ -7,7 +7,7 @@ export const Input = styled('input', {
   lineHeight: '$$lineHeight',
   borderRadius: '$md',
   background: '$neutral1',
-  border: '1px solid $neutral6',
+  border: '1px solid $neutral5',
   color: '$neutral10',
   fontFamily: 'ProximaNova',
   fontWeight: '$normal',

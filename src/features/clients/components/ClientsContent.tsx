@@ -25,7 +25,7 @@ export const ClientsContent: FC<ClientsContentProps> = props => {
   return (
     <Container
       css={{
-        padding: '$8',
+        padding: '$10',
       }}
     >
       <Box
