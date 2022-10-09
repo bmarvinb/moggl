@@ -1,3 +1,3 @@
-import { Tags } from 'features/tags/containers/Tags';
+import { Tags } from 'features/tags/containers/tags';
 
 export const TagsPage = () => <Tags />;
