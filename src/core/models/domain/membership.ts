@@ -1,6 +1,6 @@
-import { hourlyRateSchema } from 'core/models/hourly-rate';
-import { membershipTypeScheme } from 'core/models/membership-type';
-import { statusSchema } from 'core/models/status';
+import { hourlyRateSchema } from 'core/models/domain/hourly-rate';
+import { membershipTypeScheme } from 'core/models/domain/membership-type';
+import { statusSchema } from 'core/models/domain/status';
 import { z } from 'zod';
 
 export const membershipSchema = z.object({
