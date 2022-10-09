@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1108ee26-b85d-4792-93a6-80a36bd4820a/deploy-status)](https://app.netlify.com/sites/lambent-torte-0823c0/deploys)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
