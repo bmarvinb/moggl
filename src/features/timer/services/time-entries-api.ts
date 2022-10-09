@@ -7,7 +7,8 @@ import {
   TimeEntries,
   timeEntriesSchema,
 } from 'features/timer/models/time-entries';
-import { client, createURLSearchParams } from 'common/utils/api-client';
+import { client } from 'common/utils/api-client';
+import { createURLSearchParams } from 'common/utils/url-params';
 
 export type TimeEntriesRequestOptions = {
   description?: string;

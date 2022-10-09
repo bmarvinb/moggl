@@ -15,7 +15,7 @@ import {
   secondaryDark,
   whiteA,
 } from 'core/theme/colors';
-import { styled, theme } from 'core/theme/config';
+import { styled } from 'core/theme/config';
 import { globalStyles } from 'core/theme/globalStyles';
 import { Row } from 'stories/utils/Row';
 
@@ -31,7 +31,6 @@ export default {
 } as ComponentMeta<typeof Button>;
 
 const Template = () => {
-  console.log(theme);
   globalStyles();
   return (
     <Box>

@@ -44,7 +44,7 @@ export const ProjectForm: FC<AddProjectDialogProps> = props => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Box
         css={{
-          marginBottom: '$8',
+          marginBottom: '$10',
         }}
       >
         <FormField>

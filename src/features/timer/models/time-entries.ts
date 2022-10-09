@@ -1,8 +1,8 @@
-import { customFieldSchema } from 'core/models/custom-field';
-import { estimateSchema } from 'core/models/estimate';
-import { hourlyRateSchema } from 'core/models/hourly-rate';
-import { membershipSchema } from 'core/models/membership';
-import { statusSchema } from 'core/models/status';
+import { customFieldSchema } from 'core/models/domain/custom-field';
+import { estimateSchema } from 'core/models/domain/estimate';
+import { hourlyRateSchema } from 'core/models/domain/hourly-rate';
+import { membershipSchema } from 'core/models/domain/membership';
+import { statusSchema } from 'core/models/domain/status';
 import { z } from 'zod';
 
 export const inactiveTimeEntryIntervalSchema = z.object({
