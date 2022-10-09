@@ -15,9 +15,10 @@ import { Tags } from 'features/tags/models/tags';
 import { FC, useState } from 'react';
 
 export type TagsContentProps = {
+  fetching: boolean;
   searchCriteria: TagsFilterCriteria | undefined;
-  onFilterChange: (changes: TagsFilterCriteria) => void;
   tags: Tags;
+  onFilterChange: (changes: TagsFilterCriteria) => void;
 };
 
 export const TagsContent: FC<TagsContentProps> = props => {

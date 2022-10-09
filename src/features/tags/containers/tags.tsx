@@ -1,21 +1,19 @@
 import { PageSpinner } from 'common/components/PageSpinner';
+import { useDebounce } from 'core/hooks/useDebounce';
 import { TagsContent } from 'features/tags/components/TagsContent';
 import { TagsFilterCriteria } from 'features/tags/components/TagsFilter';
 import { useTags } from 'features/tags/hooks/useTags';
 import { useState } from 'react';
 
 export const Tags = () => {
-  const [searchCriteria, setSearchCriteria] = useState<
-    TagsFilterCriteria | undefined
-  >({
+  const [criteria, setCriteria] = useState<TagsFilterCriteria | undefined>({
     name: '',
     archived: 'true',
   });
+  const debouncedCriteria = useDebounce(criteria);
+  const { status, fetchStatus, data } = useTags(debouncedCriteria);
 
-  const tags = useTags(searchCriteria);
-  console.log('status =>', tags.status);
-
-  switch (tags.status) {
+  switch (status) {
     case 'loading':
       return <PageSpinner />;
     case 'error':
@@ -23,13 +21,10 @@ export const Tags = () => {
     case 'success':
       return (
         <TagsContent
-          searchCriteria={searchCriteria}
-          tags={tags.data}
-          onFilterChange={criteria => {
-            console.log('filter', criteria);
-
-            setSearchCriteria(criteria);
-          }}
+          fetching={fetchStatus === 'fetching'}
+          searchCriteria={criteria}
+          tags={data}
+          onFilterChange={criteria => setCriteria(criteria)}
         />
       );
   }
