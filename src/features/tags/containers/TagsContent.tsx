@@ -14,7 +14,7 @@ import { TagsContentTitle } from '../components/TagsContentTitle';
 
 export type TagsContentProps = {
   fetching: boolean;
-  searchCriteria: TagsFilterCriteria | undefined;
+  searchCriteria: TagsFilterCriteria;
   tags: Tags;
   onFilterChange: (changes: TagsFilterCriteria) => void;
 };

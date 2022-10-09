@@ -19,7 +19,7 @@ const schema = z.object({
 export type TagsFilterCriteria = z.infer<typeof schema>;
 
 export type TagsFilterProps = {
-  criteria: TagsFilterCriteria | undefined;
+  criteria: TagsFilterCriteria;
   onChange: (changes: TagsFilterCriteria) => void;
 };
 
