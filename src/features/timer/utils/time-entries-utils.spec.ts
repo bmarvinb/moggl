@@ -9,13 +9,9 @@ test('formatDurationToInlineTime', () => {
   expect(formatDuration(seconds({ hours: 1, minutes: 45, seconds: 30 }))).toBe(
     '1:45:30',
   );
-
   expect(formatDuration(seconds({ minutes: 45, seconds: 30 }))).toBe('0:45:30');
-
   expect(formatDuration(seconds({ minutes: 1, seconds: 5 }))).toBe('0:01:05');
-
   expect(formatDuration(seconds({ seconds: 5 }))).toBe('0:00:05');
-
   expect(formatDuration(0)).toBe('0:00:00');
 });
 
