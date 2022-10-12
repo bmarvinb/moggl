@@ -68,6 +68,8 @@ const workspaceSchema = z.object({
 
 export type Workspace = z.infer<typeof workspaceSchema>;
 
-export const workspacesSchema = z.array(workspaceSchema);
+export const workspacesSchema = z
+  .array(workspaceSchema)
+  .nonempty({ message: 'Should be at least 1 workspace' });
 
 export type Workspaces = z.infer<typeof workspacesSchema>;
