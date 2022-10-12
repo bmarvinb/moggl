@@ -19,18 +19,18 @@ import * as M from 'fp-ts/lib/Monoid';
 import * as N from 'fp-ts/lib/number';
 import * as S from 'fp-ts/lib/string';
 
-function getTotalDuration(timeEntries: InactiveTimeEntry[]): number {
-  return pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum));
-}
-
-function getStartDates(timeEntry: InactiveTimeEntry[]): string[] {
+function getStartDays(timeEntry: InactiveTimeEntry[]): string[] {
   return pipe(
     timeEntry,
     A.map(({ timeInterval }) => format(new Date(timeInterval.start), 'PP')),
   );
 }
 
-function groupByDate(timeEntries: InactiveTimeEntry[]) {
+function calculateDuration(timeEntries: InactiveTimeEntry[]): number {
+  return pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum));
+}
+
+function getReportedDays(timeEntries: InactiveTimeEntry[]) {
   return (dates: string[]): ReportedDay[] =>
     pipe(
       dates,
@@ -41,7 +41,7 @@ function groupByDate(timeEntries: InactiveTimeEntry[]) {
         return {
           id: date,
           date: new Date(date),
-          reportedDuration: pipe(dayTimeEntries, getTotalDuration),
+          reportedDuration: pipe(dayTimeEntries, calculateDuration),
           data: pipe(dayTimeEntries, A.map(createTimeEntryViewModel)),
         };
       }),
@@ -49,33 +49,29 @@ function groupByDate(timeEntries: InactiveTimeEntry[]) {
 }
 
 export const TimeEntries = () => {
-  const { status, data: timeEntries } = useTimeEntries();
-
+  const { status, data } = useTimeEntries();
   switch (status) {
     case 'loading':
       return <PageSpinner />;
     case 'error':
       return <div>Error</div>;
     case 'success':
-      const inactiveTimeEntries = pipe(
-        timeEntries,
-        A.filter(isInactiveTimeEntry),
-      );
+      const timeEntries = pipe(data, A.filter(isInactiveTimeEntry));
       const activeTimeEntry = pipe(timeEntries, A.findFirst(isActiveTimeEntry));
       const weekDuration = pipe(
-        inactiveTimeEntries,
+        timeEntries,
         A.filter(({ timeInterval }) =>
           isSameWeek(new Date(timeInterval.start), new Date(), {
             weekStartsOn: 1,
           }),
         ),
-        getTotalDuration,
+        calculateDuration,
       );
       const reportedDays = pipe(
-        inactiveTimeEntries,
-        getStartDates,
+        timeEntries,
+        getStartDays,
         A.uniq(S.Eq),
-        groupByDate(inactiveTimeEntries),
+        getReportedDays(timeEntries),
       );
       return (
         <TimeEntriesContent

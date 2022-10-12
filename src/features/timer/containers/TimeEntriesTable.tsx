@@ -34,7 +34,7 @@ export type TimeEntriesTableProps = {
   reportedDuration: number;
 };
 
-// TODO: compare task, clientName, tags, billable status
+// TODO: task, clientName, tags, billable status
 const EqTimeEntryViewModel: Eq<TimeEntryViewModel> = struct({
   description: S.Eq,
   billable: B.Eq,
