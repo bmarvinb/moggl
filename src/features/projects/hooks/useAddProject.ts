@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import { useAuthorizedUserInfo } from 'features/auth/hooks/useAuthorizedUserInfo';
+import { useWorkspace } from 'features/auth/hooks/useWorkspace';
 import { AddProjectRequestData } from 'features/projects/models/projects';
 import { addProject } from 'features/projects/services/projects-api';
 
 export function useAddProject() {
-  const userInfo = useAuthorizedUserInfo();
+  const workspace = useWorkspace();
   return useMutation((data: AddProjectRequestData) => {
-    return addProject(userInfo.workspace.id, data);
+    return addProject(workspace.id, data);
   });
 }

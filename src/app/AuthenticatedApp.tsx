@@ -5,18 +5,13 @@ import { ProfileInfo, ProfileInfoData } from 'common/components/ProfileInfo';
 import { Drawer } from 'core/layout/Drawer';
 import { Navbar } from 'core/layout/Navbar';
 import { drawerMachine, DrawerMode } from 'core/machines/drawerMachine';
-import { UserInfo } from 'features/auth/context/auth-context';
+import { useCurrentUser } from 'features/auth/hooks/useCurrentUser';
 import { ClientsPage } from 'pages/ClientsPage';
 import { ProjectsPage } from 'pages/ProjectsPage';
 import { TagsPage } from 'pages/TagsPage';
 import { TimerPage } from 'pages/TimerPage';
-import { FC } from 'react';
 import { BiFolder, BiGroup, BiTag, BiTimer } from 'react-icons/bi';
 import { Navigate, Route, Routes } from 'react-router-dom';
-
-export type AuthenticatedAppProps = {
-  userInfo: UserInfo;
-};
 
 const menuItems: MenuItem[] = [
   {
@@ -41,14 +36,15 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-export const AuthenticatedApp: FC<AuthenticatedAppProps> = props => {
+export const AuthenticatedApp = () => {
   const [state, send] = useMachine(drawerMachine);
+  const currentUser = useCurrentUser();
   const temporaryMode = state.context.mode === DrawerMode.Temporary;
   const open = state.matches('open');
   const profileInfo: ProfileInfoData = {
-    email: props.userInfo.user.email,
-    name: props.userInfo.user.name,
-    profilePicture: props.userInfo.user.profilePicture,
+    email: currentUser.email,
+    name: currentUser.name,
+    profilePicture: currentUser.profilePicture,
   };
 
   return (

@@ -8,7 +8,7 @@ import { useState } from 'react';
 export const Tags = () => {
   const [criteria, setCriteria] = useState<TagsFilterCriteria>({
     name: '',
-    archived: 'true',
+    archived: 'false',
   });
   const debouncedCriteria = useDebounce(criteria);
   const { status, fetchStatus, data } = useTags(debouncedCriteria);

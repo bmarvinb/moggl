@@ -2,7 +2,7 @@ import { media } from 'core/theme/config';
 import { assign, createMachine } from 'xstate';
 
 export enum DrawerMode {
-  Temporary = 'Terporary',
+  Temporary = 'Temporary',
   Permanent = 'Permanent',
 }
 

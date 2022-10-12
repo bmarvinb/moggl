@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { useAuthorizedUserInfo } from 'features/auth/hooks/useAuthorizedUserInfo';
+import { useWorkspace } from 'features/auth/hooks/useWorkspace';
 import { getAllProjects } from 'features/projects/services/projects-api';
 
 export function useProjects() {
-  const userInfo = useAuthorizedUserInfo();
+  const workspace = useWorkspace();
   return useQuery(['projects'], () =>
-    getAllProjects(userInfo.workspace.id, { hydrated: false }),
+    getAllProjects(workspace.id, { hydrated: false }),
   );
 }

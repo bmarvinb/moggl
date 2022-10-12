@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import { useAuthorizedUserInfo } from 'features/auth/hooks/useAuthorizedUserInfo';
+import { useWorkspace } from 'features/auth/hooks/useWorkspace';
 import { AddClientRequestData } from 'features/clients/models/clients';
 import { addClient } from 'features/clients/services/clients-api';
 
 export function useAddClient() {
-  const userInfo = useAuthorizedUserInfo();
+  const workspace = useWorkspace();
   return useMutation((data: AddClientRequestData) => {
-    return addClient(userInfo.workspace.id, data);
+    return addClient(workspace.id, data);
   });
 }

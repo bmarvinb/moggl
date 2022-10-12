@@ -1,8 +1,9 @@
-import { FC } from 'react';
 import { styled } from 'core/theme/config';
+import { FC } from 'react';
 
 const Container = styled('div', {
-  color: '$red4',
+  background: '$neutral1',
+  color: '$red5',
   height: '100vh',
   display: 'flex',
   flexDirection: 'column',
@@ -10,9 +11,8 @@ const Container = styled('div', {
   alignItems: 'center',
 });
 
-export const FullPageErrorFallback: FC<{ error: unknown }> = ({ error }) => (
+export const FullPageErrorFallback: FC<{ error: unknown }> = () => (
   <Container role="alert">
     <p>There&apos;s a problem. Try refreshing the app.</p>
-    <pre>{JSON.stringify(error)}</pre>
   </Container>
 );

@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import { useAuthorizedUserInfo } from 'features/auth/hooks/useAuthorizedUserInfo';
+import { useWorkspace } from 'features/auth/hooks/useWorkspace';
 import { AddTagRequestData } from 'features/tags/models/tags';
 import { addTag } from 'features/tags/services/tags-api';
 
 export function useAddTag() {
-  const userInfo = useAuthorizedUserInfo();
+  const workspace = useWorkspace();
   return useMutation((data: AddTagRequestData) => {
-    return addTag(userInfo.workspace.id, data);
+    return addTag(workspace.id, data);
   });
 }
