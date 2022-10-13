@@ -138,13 +138,13 @@ export const commonTimeEntrySchema = z.object({
   kioskId: z.string().nullable(),
   user: userSchema,
   userId: z.string(),
+  projectId: z.string().nullable(),
+  project: projectSchema.nullable(),
 });
 
 export const activeTimeEntrySchema = z.intersection(
   commonTimeEntrySchema,
   z.object({
-    project: projectSchema.nullable(),
-    projectId: z.string().nullable(),
     timeInterval: activeTimeEntryIntervalSchema,
   }),
 );
@@ -152,8 +152,6 @@ export const activeTimeEntrySchema = z.intersection(
 export const inactiveTimeEntrySchema = z.intersection(
   commonTimeEntrySchema,
   z.object({
-    project: projectSchema,
-    projectId: z.string(),
     timeInterval: inactiveTimeEntryIntervalSchema,
   }),
 );

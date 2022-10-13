@@ -1,4 +1,7 @@
 import { Box } from 'common/components/Box';
+import { Button } from 'common/components/Button';
+import { Checkbox } from 'common/components/Checkbox';
+import { styled } from 'core/theme/config';
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays';
 import {
   formatDuration,
@@ -7,6 +10,7 @@ import {
   isChildTimeEntry,
   isParentTimeEntry,
 } from 'features/timer/utils/time-entries-utils';
+import * as O from 'fp-ts/lib/Option';
 import { FC } from 'react';
 import {
   BiDollar,
@@ -14,9 +18,6 @@ import {
   BiPlay,
   BiPurchaseTag,
 } from 'react-icons/bi';
-import { styled } from 'core/theme/config';
-import { Button } from 'common/components/Button';
-import { Checkbox } from 'common/components/Checkbox';
 
 export const enum TimeEntryRowType {
   Regular = 'Regular',
@@ -211,22 +212,23 @@ export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
               alignItems: 'center',
             }}
           >
-            <AdditionalInfo
-              css={{
-                color: props.timeEntry.data.project.color,
-                '&:before': {
-                  background: props.timeEntry.data.project.color,
-                },
-              }}
-              data-testid="TIME_ENTRY_ADDITIONAL_INFO"
-            >
-              {getTimeEntryInfo(
-                props.timeEntry.data.project.name,
-                props.timeEntry.data.project.clientName,
-                props.timeEntry.data.task,
-              )}
-            </AdditionalInfo>
-
+            {O.isSome(props.timeEntry.data.project) && (
+              <AdditionalInfo
+                css={{
+                  color: props.timeEntry.data.project.value.color,
+                  '&:before': {
+                    background: props.timeEntry.data.project.value.color,
+                  },
+                }}
+                data-testid="TIME_ENTRY_ADDITIONAL_INFO"
+              >
+                {getTimeEntryInfo(
+                  props.timeEntry.data.project.value.name,
+                  props.timeEntry.data.project.value.clientName,
+                  props.timeEntry.data.task,
+                )}
+              </AdditionalInfo>
+            )}
             <Box
               css={{
                 position: 'relative',

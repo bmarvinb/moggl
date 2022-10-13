@@ -34,13 +34,10 @@ export type TimeEntriesTableProps = {
   reportedDuration: number;
 };
 
-// TODO: task, clientName, tags, billable status
+// TODO: task, project, clientName, tags, billable status
 const EqTimeEntryViewModel: Eq<TimeEntryViewModel> = struct({
   description: S.Eq,
   billable: B.Eq,
-  project: struct({
-    name: S.Eq,
-  }),
 });
 
 function getTimeEntryIds(timeEntries: TimeEntryViewModel[]): string[] {

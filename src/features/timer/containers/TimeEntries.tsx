@@ -57,7 +57,7 @@ export const TimeEntries = () => {
       return <div>Error</div>;
     case 'success':
       const timeEntries = pipe(data, A.filter(isInactiveTimeEntry));
-      const activeTimeEntry = pipe(timeEntries, A.findFirst(isActiveTimeEntry));
+      const activeTimeEntry = pipe(data, A.findFirst(isActiveTimeEntry));
       const weekDuration = pipe(
         timeEntries,
         A.filter(({ timeInterval }) =>

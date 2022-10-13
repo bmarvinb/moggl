@@ -20,7 +20,7 @@ export type TimeEntryViewModel = {
   id: string;
   description: string;
   billable: boolean;
-  project: TimeEntryRowProject;
+  project: O.Option<TimeEntryRowProject>;
   task: O.Option<string>;
   start: Date;
   end: Date;
@@ -47,17 +47,23 @@ export function createTimeEntryViewModel(
     id: timeEntry.id,
     description: timeEntry.description,
     billable: timeEntry.billable,
-    project: {
-      name: timeEntry.project.name,
-      color: timeEntry.project.color,
-      clientName: pipe(
-        timeEntry.project.clientName,
-        O.fromNullable,
-        O.chain(clientName =>
-          clientName.length === 0 ? O.none : O.some(clientName),
-        ),
-      ),
-    },
+    project: pipe(
+      timeEntry.project,
+      O.fromNullable,
+      O.map(project => {
+        return {
+          name: project.name,
+          color: project.color,
+          clientName: pipe(
+            project.clientName,
+            O.fromNullable,
+            O.chain(clientName =>
+              clientName.length === 0 ? O.none : O.some(clientName),
+            ),
+          ),
+        };
+      }),
+    ),
     task: pipe(
       timeEntry.task,
       O.fromNullable,
