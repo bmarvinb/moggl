@@ -9,6 +9,7 @@ import { WeekDuration } from 'features/timer/components/WeekDuration';
 import { Timer } from 'features/timer/containers/Timer';
 import { ActiveTimeEntry } from 'features/timer/models/time-entries';
 import { useTimer } from 'features/timer/providers/timer-context';
+import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
 import {
   FC,
@@ -41,13 +42,15 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
   }, [contentRef, size.width]);
 
   useEffect(() => {
-    if (O.isNone(props.activeTimeEntry)) {
-      return;
-    }
-    send({
-      type: 'CONTINUE',
-      payload: new Date(props.activeTimeEntry.value.timeInterval.start),
-    });
+    pipe(
+      props.activeTimeEntry,
+      O.map(activeTimeEntry =>
+        send({
+          type: 'CONTINUE',
+          payload: new Date(activeTimeEntry.timeInterval.start),
+        }),
+      ),
+    );
   }, [props.activeTimeEntry, send]);
 
   const memoizedReportedDays = useMemo(() => {
