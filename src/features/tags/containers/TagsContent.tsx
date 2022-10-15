@@ -37,13 +37,26 @@ export const TagsContent: FC<TagsContentProps> = props => {
         onChange={props.onFilterChange}
       />
 
-      <List>
-        {props.tags.length ? (
-          props.tags.map(tag => <TagListItem key={tag.id} tag={tag} />)
-        ) : (
-          <Box css={{ padding: '$8' }}>Nothing found</Box>
-        )}
-      </List>
+      {props.tags.length ? (
+        <List>
+          {props.tags.map(tag => (
+            <TagListItem key={tag.id} tag={tag} />
+          ))}
+        </List>
+      ) : (
+        <Box
+          css={{
+            padding: '$8',
+            textAlign: 'center',
+            fontSize: '$lg',
+            color: '$neutral7',
+          }}
+        >
+          {props.searchCriteria.name
+            ? `No result found for "${props.searchCriteria.name}"`
+            : 'Nothing found'}
+        </Box>
+      )}
 
       <AddTagDialog
         open={addDialogOpen}
