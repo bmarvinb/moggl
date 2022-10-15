@@ -5,7 +5,7 @@ import {
   createTimeEntryViewModel,
   ReportedDay,
 } from 'features/timer/components/ReportedDays';
-import { TimeEntriesContent } from 'features/timer/components/TimeEntriesContent';
+import { TimeEntriesContent } from 'features/timer/containers/TimeEntriesContent';
 import { useTimeEntries } from 'features/timer/hooks/useTimeEntries';
 import { InactiveTimeEntry } from 'features/timer/models/time-entries';
 import { TimerProvider } from 'features/timer/providers/timer-context';
