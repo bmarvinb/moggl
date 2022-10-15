@@ -1,3 +1,4 @@
+import { numberPad } from 'common/utils/number';
 import {
   differenceInSeconds,
   format,
@@ -12,7 +13,6 @@ import { TimeEntryViewModel } from 'features/timer/components/ReportedDays';
 import {
   ChildTimeEntry,
   ParentTimeEntry,
-  RegularTimeEntry,
   TimeEntryRowType,
   TimeEntryRowViewModel,
 } from 'features/timer/components/TimeEntryViewRow';
@@ -22,7 +22,6 @@ import {
   TimeEntry,
 } from 'features/timer/models/time-entries';
 import * as O from 'fp-ts/lib/Option';
-import { numberPad } from 'common/utils/number';
 
 export function isInactiveTimeEntry(x: TimeEntry): x is InactiveTimeEntry {
   return Boolean(x.projectId) && Boolean(x.timeInterval.end);
@@ -34,12 +33,6 @@ export function isActiveTimeEntry(x: TimeEntry): x is ActiveTimeEntry {
     !x.timeInterval.end &&
     !x.timeInterval.duration
   );
-}
-
-export function isRegularTimeEntry(
-  x: TimeEntryRowViewModel,
-): x is RegularTimeEntry {
-  return x.type === TimeEntryRowType.Regular;
 }
 
 export function isParentTimeEntry(
@@ -87,13 +80,6 @@ export function getTimeEntryInfo(
     return `${project} (${client.value})`;
   }
   return `${project}`;
-}
-
-export function activeTimeEntryDuration(
-  activeTimeEntryStart: Date,
-  now = new Date(),
-) {
-  return differenceInSeconds(now, activeTimeEntryStart);
 }
 
 export function formatDate(

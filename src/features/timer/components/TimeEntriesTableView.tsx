@@ -4,10 +4,8 @@ import { Card } from 'common/components/Card';
 import { Checkbox } from 'common/components/Checkbox';
 import { styled } from 'core/theme/config';
 import { isToday } from 'date-fns';
-import {
-  formatDate,
-  formatDuration,
-} from 'features/timer/utils/time-entries-utils';
+import { DayDuration } from 'features/timer/components/DayDuration';
+import { formatDate } from 'features/timer/utils/time-entries-utils';
 import { FC, ReactNode } from 'react';
 import { BiListUl } from 'react-icons/bi';
 
@@ -15,7 +13,6 @@ export type TimeEntriesTableViewProps = {
   children: ReactNode;
   bulkEditMode: boolean;
   allSelected: boolean;
-  totalTime: number;
   reportedTime: number;
   date: Date;
   onBulkModeChanged: () => void;
@@ -74,17 +71,10 @@ export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
             >
               {formatDate(props.date)}
             </Box>
-            <Box
-              css={{
-                fontWeight: 400,
-                color: '$neutral9',
-                minWidth: '4rem',
-              }}
-            >
-              {isToday(props.date)
-                ? formatDuration(props.totalTime)
-                : formatDuration(props.reportedTime)}
-            </Box>
+            <DayDuration
+              isToday={isToday(props.date)}
+              reportedTime={props.reportedTime}
+            />
           </Label>
         </Box>
         <Label

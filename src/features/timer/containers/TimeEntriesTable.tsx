@@ -27,7 +27,6 @@ import * as S from 'fp-ts/string';
 import { FC, useReducer } from 'react';
 
 export type TimeEntriesTableProps = {
-  activeTimeEntryDuration: O.Option<number>;
   activeTimeEntry: O.Option<ActiveTimeEntry>;
   data: TimeEntryViewModel[];
   date: Date;
@@ -46,11 +45,6 @@ function getTimeEntryIds(timeEntries: TimeEntryViewModel[]): string[] {
 
 export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   const [bulkEditMode, toggleBulkEditMode] = useReducer(state => !state, false);
-  const totalTime = pipe(
-    props.activeTimeEntryDuration,
-    O.map(duration => props.reportedDuration + duration),
-    O.getOrElse(() => props.reportedDuration),
-  );
   const [{ entries, selected }, dispatch] = useSelection(
     getTimeEntryIds(props.data),
   );
@@ -207,7 +201,6 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
     <TimeEntriesTableView
       bulkEditMode={bulkEditMode}
       allSelected={entries.length === selected.length}
-      totalTime={totalTime}
       reportedTime={props.reportedDuration}
       date={props.date}
       onBulkModeChanged={onBulkModeChanged}

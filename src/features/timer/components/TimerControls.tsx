@@ -1,10 +1,8 @@
 import { Box } from 'common/components/Box';
 import { Button } from 'common/components/Button';
+import { styled } from 'core/theme/config';
 import { TimerMode } from 'features/timer/machines/timerMachine';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
-import { pipe } from 'fp-ts/lib/function';
-import * as O from 'fp-ts/lib/Option';
-import { FC } from 'react';
 import {
   BiBriefcase,
   BiDollar,
@@ -14,11 +12,17 @@ import {
   BiPurchaseTag,
   BiStop,
 } from 'react-icons/bi';
-import { styled } from 'core/theme/config';
+
+export type TimerControlsData =
+  | {
+      mode: TimerMode.Timer;
+      running: boolean;
+      duration: number;
+    }
+  | { mode: TimerMode.Manual };
 
 export type TimerControlsProps = {
-  duration: O.Option<number>;
-  mode: TimerMode;
+  data: TimerControlsData;
   onStartClicked: () => void;
   onAddTimeEntryClicked: () => void;
   onStopClicked: () => void;
@@ -31,14 +35,10 @@ const ToggleMode = styled('div', {
   borderRadius: '$md',
   justifyContent: 'center',
   padding: 0,
+  minWidth: '1.5rem',
 });
 
-export const TimerControls: FC<TimerControlsProps> = props => {
-  const inlineTime = pipe(
-    props.duration,
-    O.map(formatDuration),
-    O.getOrElse(() => formatDuration(0)),
-  );
+export const TimerControls = (props: TimerControlsProps) => {
   return (
     <div>
       <Box
@@ -93,7 +93,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             minHeight: '3rem',
           }}
         >
-          {props.mode === TimerMode.Timer ? (
+          {props.data.mode === TimerMode.Timer ? (
             <Box
               css={{
                 fontWeight: 500,
@@ -104,15 +104,15 @@ export const TimerControls: FC<TimerControlsProps> = props => {
                 color: '$neutral10',
               }}
             >
-              {inlineTime}
+              {formatDuration(props.data.duration)}
             </Box>
           ) : (
             <div></div>
           )}
 
-          {props.mode === TimerMode.Timer ? (
+          {props.data.mode === TimerMode.Timer ? (
             <div>
-              {O.isNone(props.duration) ? (
+              {!props.data.running ? (
                 <Button
                   color="primary"
                   variant="icon"
@@ -158,38 +158,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
             </div>
           )}
 
-          {O.isNone(props.duration) ? (
-            <ToggleMode>
-              <Button
-                variant={'icon'}
-                color="transparent"
-                size={'sm'}
-                title="Timer mode"
-                css={{
-                  svg: {
-                    position: 'relative',
-                    right: '-1px',
-                  },
-                }}
-                onClick={() =>
-                  props.mode !== TimerMode.Timer && props.onTimerModeChanged()
-                }
-              >
-                <BiPlay />
-              </Button>
-              <Button
-                variant={'icon'}
-                color="transparent"
-                size={'sm'}
-                title="Manual mode"
-                onClick={() =>
-                  props.mode !== TimerMode.Manual && props.onTimerModeChanged()
-                }
-              >
-                <BiPlus />
-              </Button>
-            </ToggleMode>
-          ) : (
+          {props.data.mode === TimerMode.Timer && props.data.running ? (
             <Box>
               <Button
                 css={{
@@ -203,6 +172,39 @@ export const TimerControls: FC<TimerControlsProps> = props => {
                 <BiDotsVertical></BiDotsVertical>
               </Button>
             </Box>
+          ) : (
+            <ToggleMode>
+              <Button
+                variant={'icon'}
+                color="transparent"
+                size={'sm'}
+                title="Timer mode"
+                css={{
+                  svg: {
+                    position: 'relative',
+                    right: '-1px',
+                  },
+                }}
+                onClick={() =>
+                  props.data.mode !== TimerMode.Timer &&
+                  props.onTimerModeChanged()
+                }
+              >
+                <BiPlay />
+              </Button>
+              <Button
+                variant={'icon'}
+                color="transparent"
+                size={'sm'}
+                title="Manual mode"
+                onClick={() =>
+                  props.data.mode !== TimerMode.Manual &&
+                  props.onTimerModeChanged()
+                }
+              >
+                <BiPlus />
+              </Button>
+            </ToggleMode>
           )}
         </Box>
       </Box>

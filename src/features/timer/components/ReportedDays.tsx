@@ -37,7 +37,6 @@ export type ReportedDay = {
 export type ReportedDaysProps = {
   reportedDays: ReportedDay[];
   activeTimeEntry: O.Option<ActiveTimeEntry>;
-  activeTimeEntryDuration: O.Option<number>;
 };
 
 export function createTimeEntryViewModel(
@@ -90,7 +89,6 @@ export const ReportedDays: FC<ReportedDaysProps> = props => {
             date={date}
             data={timeEntries}
             reportedDuration={reportedDuration}
-            activeTimeEntryDuration={props.activeTimeEntryDuration}
           />
         ),
       )}

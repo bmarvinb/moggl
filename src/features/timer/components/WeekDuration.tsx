@@ -1,8 +1,10 @@
+import { useActor } from '@xstate/react';
 import { Box } from 'common/components/Box';
+import { Title } from 'common/components/Title';
+import { styled } from 'core/theme/config';
+import { useTimer } from 'features/timer/providers/timer-context';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
 import { FC } from 'react';
-import { styled } from 'core/theme/config';
-import { Title } from 'common/components/Title';
 
 export type WeekDurationProps = {
   weekDuration: number;
@@ -18,6 +20,9 @@ const TotalTime = styled('div', {
 });
 
 export const WeekDuration: FC<WeekDurationProps> = props => {
+  const timerService = useTimer();
+  const [timerState] = useActor(timerService);
+  const weekDuration = timerState.context.duration + props.weekDuration;
   return (
     <>
       <Box
@@ -29,7 +34,7 @@ export const WeekDuration: FC<WeekDurationProps> = props => {
       >
         <Title as="h1">
           This week
-          <TotalTime>{formatDuration(props.weekDuration)}</TotalTime>
+          <TotalTime>{formatDuration(weekDuration)}</TotalTime>
         </Title>
       </Box>
     </>

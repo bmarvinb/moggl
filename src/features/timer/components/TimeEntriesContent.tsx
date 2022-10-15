@@ -1,4 +1,4 @@
-import { useMachine } from '@xstate/react';
+import { useActor } from '@xstate/react';
 import { Box } from 'common/components/Box';
 import { useWindowSize } from 'core/hooks/useWindowSize';
 import {
@@ -7,10 +7,17 @@ import {
 } from 'features/timer/components/ReportedDays';
 import { WeekDuration } from 'features/timer/components/WeekDuration';
 import { Timer } from 'features/timer/containers/Timer';
-import { timerMachine, TimerMode } from 'features/timer/machines/timerMachine';
 import { ActiveTimeEntry } from 'features/timer/models/time-entries';
+import { useTimer } from 'features/timer/providers/timer-context';
 import * as O from 'fp-ts/lib/Option';
-import { FC, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {
+  FC,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 export type TimeEntriesContentProps = {
   activeTimeEntry: O.Option<ActiveTimeEntry>;
@@ -19,7 +26,8 @@ export type TimeEntriesContentProps = {
 };
 
 export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
-  const [timerState, send] = useMachine(timerMachine);
+  const timerService = useTimer();
+  const [_, send] = useActor(timerService);
   const [contentTop, setContentTop] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const size = useWindowSize();
@@ -36,20 +44,20 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
     if (O.isNone(props.activeTimeEntry)) {
       return;
     }
-    send('CONTINUE', {
+    send({
+      type: 'CONTINUE',
       payload: props.activeTimeEntry.value,
     });
   }, [props.activeTimeEntry, send]);
 
-  const activeDuration = timerState.matches({ timer: 'running' })
-    ? O.some(timerState.context.duration)
-    : O.none;
-
-  const weekDuration = timerState.context.duration + props.weekDuration;
-
-  const timerMode = timerState.matches({ mode: 'timer' })
-    ? TimerMode.Timer
-    : TimerMode.Manual;
+  const memoizedReportedDays = useMemo(() => {
+    return (
+      <ReportedDays
+        activeTimeEntry={props.activeTimeEntry}
+        reportedDays={props.reportedDays}
+      />
+    );
+  }, [props.activeTimeEntry, props.reportedDays]);
 
   return (
     <Box
@@ -60,15 +68,7 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
         width: '100%',
       }}
     >
-      <Timer
-        activeTimeEntry={props.activeTimeEntry}
-        timeEntryDuration={activeDuration}
-        mode={timerMode}
-        onStart={() => send('START')}
-        onStop={() => send('STOP')}
-        onTimerModeChanged={() => send('MODE.TOGGLE')}
-        onAddTimeEntryClicked={() => console.log('Add time entry')}
-      />
+      <Timer />
 
       <Box
         ref={contentRef}
@@ -89,12 +89,8 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
             flex: 1,
           }}
         >
-          <WeekDuration weekDuration={weekDuration} />
-          <ReportedDays
-            activeTimeEntry={props.activeTimeEntry}
-            activeTimeEntryDuration={activeDuration}
-            reportedDays={props.reportedDays}
-          />
+          <WeekDuration weekDuration={props.weekDuration} />
+          {memoizedReportedDays}
         </Box>
       </Box>
     </Box>
