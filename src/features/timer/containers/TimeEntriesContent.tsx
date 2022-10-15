@@ -46,7 +46,7 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
     }
     send({
       type: 'CONTINUE',
-      payload: props.activeTimeEntry.value,
+      payload: new Date(props.activeTimeEntry.value.timeInterval.start),
     });
   }, [props.activeTimeEntry, send]);
 
@@ -68,7 +68,7 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
         width: '100%',
       }}
     >
-      <Timer />
+      <Timer timeEntry={props.activeTimeEntry} />
 
       <Box
         ref={contentRef}

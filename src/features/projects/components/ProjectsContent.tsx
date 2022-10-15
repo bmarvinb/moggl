@@ -52,7 +52,11 @@ export const ProjectsContent: FC<ProjectsContentProps> = props => {
         }}
       >
         {props.projects.map(project => {
-          return <Box key={project.id}>{project.name}</Box>;
+          return (
+            <Box key={project.id}>
+              {project.id} - {project.name}
+            </Box>
+          );
         })}
       </Card>
     </Container>

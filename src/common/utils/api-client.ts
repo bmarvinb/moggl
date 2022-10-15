@@ -1,12 +1,37 @@
 import { env, isProduction } from 'common/utils/env';
-import { ZodType } from 'zod';
+import { SafeParseError, ZodError, ZodType } from 'zod';
 
-export type ClientConfig<Response> = {
+type ClientConfig<Response> = {
   data?: unknown;
   token?: string;
   headers?: HeadersInit;
   schema?: ZodType<Response>;
 } & RequestInit;
+
+enum ApiClientErrorType {
+  Api = 'Api',
+  Schema = 'Schema',
+}
+
+function apiError(message: string, code: number): ApiClientError {
+  return {
+    type: ApiClientErrorType.Api,
+    message: message,
+    code: code,
+  };
+}
+
+function schemaError<T>(result: SafeParseError<T>): ApiClientError {
+  return {
+    type: ApiClientErrorType.Schema,
+    message: result.error.message,
+    errors: result.error,
+  };
+}
+
+export type ApiClientError =
+  | { type: ApiClientErrorType.Api; message: string; code: number }
+  | { type: ApiClientErrorType.Schema; message: string; errors: ZodError };
 
 export async function client<Response = unknown>(
   endpoint: string,
@@ -28,21 +53,21 @@ export async function client<Response = unknown>(
     ...customConfig,
   }).then(async res => {
     if (!res.ok) {
-      return Promise.reject(res);
+      const { message, code } = await res.json();
+      return Promise.reject(apiError(message, code));
     }
-    return res.json().then(json => {
-      if (!schema) {
-        return json;
+    const json = await res.json();
+    if (!schema) {
+      return json;
+    }
+    return schema.safeParseAsync(json).then(result => {
+      if (result.success) {
+        return result.data;
       }
-      return schema.safeParseAsync(json).then(result => {
-        if (result.success) {
-          return result.data;
-        }
-        if (!isProduction()) {
-          console.error(result.error.message);
-        }
-        return Promise.reject(result.error.message);
-      });
+      if (!isProduction()) {
+        console.error(result.error.message);
+      }
+      return Promise.reject(schemaError<Response>(result));
     });
   });
 }

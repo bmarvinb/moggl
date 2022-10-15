@@ -13,11 +13,11 @@ export type AddTagDialog = {
 };
 
 export const AddTagDialog: FC<AddTagDialog> = props => {
-  const { mutate, status } = useAddTag();
+  const { mutate: addTag, status, error } = useAddTag();
 
   const onSubmit = (data: AddTagRequestData) => {
-    mutate(data, {
-      onSuccess: () => props.onSuccess(),
+    addTag(data, {
+      onSuccess: props.onSuccess,
     });
   };
 
@@ -37,6 +37,7 @@ export const AddTagDialog: FC<AddTagDialog> = props => {
           <TagForm
             operation={DialogMode.Add}
             status={status}
+            error={error?.message}
             onSubmit={onSubmit}
           />
         </Box>

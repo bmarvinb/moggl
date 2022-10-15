@@ -29,7 +29,10 @@ export type UpdateTagData = {
 
 type TagData = AddTagData | UpdateTagData;
 
-export type TagFormProps = TagData & { status: string };
+export type TagFormProps = TagData & {
+  status: string;
+  error: string | undefined;
+};
 
 const submitTitle: Record<DialogMode, string> = {
   [DialogMode.Add]: 'Add',
@@ -78,7 +81,7 @@ export const TagForm: FC<TagFormProps> = props => {
           />
           <FieldError>{formState.errors.name?.message}</FieldError>
         </FormField>
-        {props.status === 'error' && <FormError>Error occured</FormError>}
+        {props.status === 'error' && <FormError>{props.error}</FormError>}
       </Box>
 
       <Box

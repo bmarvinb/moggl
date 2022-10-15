@@ -25,7 +25,7 @@ type TimerEvent =
     }
   | {
       type: 'CONTINUE';
-      payload: ActiveTimeEntry;
+      payload: Date;
     }
   | {
       type: 'STOP';
@@ -35,7 +35,7 @@ type TimerEvent =
     };
 
 export const timerMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QBcCWBbMAnAdGzuqEANmAMQDKAKgIIBKVA2gAwC6ioADgPayprcAdhxAAPRAFoAnABYAjDmZS5ADlVyAzPIBsGgKwAaEAE9JUgEw5zzOeb3nzMvdr0a5AdgC+no-mx4MfyJSMgBhAHkAOSoASUiAVQBRFnYkEB4+AWE08QQJPRlmHBkNKVcVbUd3J20jUzyNZhUcKRVmdzLlFRU7bW1vX0DcP1wsAFdBQVRBKDJY0IBpFJEM-lQhEVyJQr0cHvdzDWsNStapOsk5ZiKrvT1bbRlzPpt+nxARgIIcccnp2eo4QACss0qssptJB0ZC1mEcpNpqu4+hp3Bc8nJtFIcCdmDIZBVHFJ2jIBh8hjh0NwIGAvtgyABZcIAEUSOCo4QA4pyADLJNgrXhrDY5RCuHHMbRyOSySVNBEndESGVFdqPOQyA5wtTmFRkz5UmmUgCGgjGxuIjJZbI53L5oK4QohooQ4saUplhW08t0tRMkm9ON0DgebjaGj1ZME1LgIk+n2CYEFmXW2VAWws7hw2nDMj69nMSKVjQUKgj7gKznMxI6+opn1+UxmyeFabEkjuGhw9gKZdk1hKMiVmOx7mYDjH8r0Ki6de+IxbzvTZhnii66i0mP0xakWbK7lK7jHDj0u70c-8htpC7BTtTkLyDhwHROFmsFYP0r99WVGi7R8LBEDzha5I0Gb4rxNM0LUXe8XU9KxpROcwkIOaVzGHP9nwODpEUaRomgvXAr1gkVlzyMdnykV8HHaPRPww-1Hw6RR7ARWVqgsIjSLbLYrlRNd1DUTddEMJjtgqFo-zKQ4Z1RPE3m8IA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QBcCWBbMAnAdGzuqEANmAMQDKAKgIIBKVA2gAwC6ioADgPayprcAdhxAAPRAEYA7BJzMpAViUA2ZVIAsAZmYAmHQBoQAT0Q6FmnDs0AOTToCcyq800Lm6gL4fD+bHgx+RKRkAMIA8gByVACSEQCqAKIs7EggPHwCwqniCNKy8koKqhraeoYmCK46OApW6ioSEsr2SlJePgG4vrhYAK6CgqiCUGQxIQDSySLp-KhCIjmamvZyUprKEjZa9fbu5ZIbOOrM1jqnds3q9hI67SDd-gQ4fQNDI9RhAApTqTOZC5J7FI5NZ1Bp1MoFOozDZ9rlzDgWnYXMpNFpwco7g90NwIGBHtgyABZMIAEQSOCoYQA4tSADJJNjTXizebZA7WGoOezLWotRRSOEbdQ4KSQtYuWpLaFYzo4HF4+UAQ0EvSVxGJZIpVNpDJ+XBZ-3ZuWUnL5PJaDgUArhRWqUmstTF1maVjFXm8IEEuLgIgeDyCYGZGTmWVAOSkBmMkhdOEdzCc1nsji02janv9cpeg2GwdZYbEiE0N0Rtgk6grSjR1gkcJ0kJwzTRJ2LRWYQNlT26eaN4dM6iFIqBqmYEhrMmskc0nb8Cvx3d+htDAIQkdtzRwjXMtQrQPM6Y6TznytV6p7y+NaNk5eY1ok7h0DrWgujCDvjYk250u8UmgP9zlOdzzZPsEG-OEwQsawTjUNxalvdwZywYCCxyABacDXwwzwPSAA */
   createMachine<TimerContext, TimerEvent>({
     context: { start: O.none, timeEntry: O.none, duration: 0 },
     predictableActionArguments: true,
@@ -57,14 +57,9 @@ export const timerMachine =
               CONTINUE: {
                 target: 'running',
                 actions: assign({
-                  timeEntry: (_, { payload }) => O.some(payload),
-                  start: (_, { payload }) =>
-                    O.some(new Date(payload.timeInterval.start)),
+                  start: (_, { payload }) => O.some(payload),
                   duration: (_, { payload }) =>
-                    differenceInSeconds(
-                      new Date(),
-                      new Date(payload.timeInterval.start),
-                    ),
+                    differenceInSeconds(new Date(), new Date(payload)),
                 }),
               },
             },

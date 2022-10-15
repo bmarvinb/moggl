@@ -11,9 +11,7 @@ export type DayDurationProps = {
 export const DayDuration = (props: DayDurationProps) => {
   const timerService = useTimer();
   const [timerState] = useActor(timerService);
-  const totalTime = timerState.matches({ timer: 'running' })
-    ? props.reportedTime + timerState.context.duration
-    : props.reportedTime;
+  const totalTime = props.reportedTime + timerState.context.duration;
   return (
     <Box
       css={{

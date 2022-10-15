@@ -14,11 +14,11 @@ export type UpdateTagDialogProps = {
 };
 
 export const UpdateTagDialog: FC<UpdateTagDialogProps> = props => {
-  const { mutate, status } = useUpdateTag(props.tag.id);
+  const { mutate: updateTag, status, error } = useUpdateTag(props.tag.id);
 
   const onSubmit = (data: UpdateTagRequestData) => {
-    mutate(data, {
-      onSuccess: () => props.onSuccess(),
+    updateTag(data, {
+      onSuccess: props.onSuccess,
     });
   };
 
@@ -38,6 +38,7 @@ export const UpdateTagDialog: FC<UpdateTagDialogProps> = props => {
           <TagForm
             operation={DialogMode.Update}
             status={status}
+            error={error?.message}
             tag={props.tag}
             onSubmit={onSubmit}
           />

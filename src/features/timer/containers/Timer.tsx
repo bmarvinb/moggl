@@ -7,28 +7,66 @@ import {
   TimerControlsData,
 } from 'features/timer/components/TimerControls';
 import { useCreateTimeEntry } from 'features/timer/hooks/useCreateTimeEntry';
+import { useStopTimeEntry } from 'features/timer/hooks/useStopTimeEntry';
 import { TimerMode } from 'features/timer/machines/timerMachine';
+import { ActiveTimeEntry } from 'features/timer/models/time-entries';
 import { useTimer } from 'features/timer/providers/timer-context';
-import { identity, pipe } from 'fp-ts/lib/function';
+import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+export type TimerProps = {
+  timeEntry: O.Option<ActiveTimeEntry>;
+};
+
 const schema = z.object({
   billable: z.boolean(),
   description: z.string(),
-  projectId: z.string().min(1),
+  projectId: z.string(),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-export const Timer = () => {
+function getDefaultValues(timeEntry: O.Option<ActiveTimeEntry>) {
+  return pipe(
+    timeEntry,
+    O.map(timeEntry => ({
+      billable: timeEntry.billable,
+      description: timeEntry.description,
+      projectId: timeEntry?.projectId ?? '',
+    })),
+    O.getOrElse(() => ({
+      billable: false,
+      description: '',
+      projectId: '634abcee0e2fc14c8e495332', // TODO: mock
+    })),
+  );
+}
+
+export const Timer = (props: TimerProps) => {
   const timerService = useTimer();
   const [timerState, send] = useActor(timerService);
+
   const { mutate: addTimeEntry } = useCreateTimeEntry();
+  const { mutate: stopTimeEntry } = useStopTimeEntry();
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: getDefaultValues(props.timeEntry),
+  });
 
   const isTimerMode = timerState.matches({ mode: 'timer' });
   const isRunning = timerState.matches({ timer: 'running' });
+
+  const timerControlsPayload: TimerControlsData = isTimerMode
+    ? {
+        mode: TimerMode.Timer,
+        running: isRunning,
+        duration: timerState.context.duration,
+      }
+    : {
+        mode: TimerMode.Manual,
+      };
 
   const onStartClicked = () => {
     const start = new Date();
@@ -36,9 +74,9 @@ export const Timer = () => {
     addTimeEntry(
       {
         start: start.toISOString(),
-        billable: false,
+        billable: form.getValues('billable'),
         description: form.getValues('description'),
-        projectId: undefined,
+        projectId: form.getValues('projectId'),
         taskId: undefined,
         end: undefined,
         tagIds: undefined,
@@ -50,39 +88,10 @@ export const Timer = () => {
     );
   };
 
-  const timeEntry = timerState.context.timeEntry;
-  const defaultValues = pipe(
-    timeEntry,
-    O.map(timeEntry => ({
-      billable: timeEntry.billable,
-      description: timeEntry.description,
-      projectId: pipe(
-        timeEntry.projectId,
-        O.fromNullable,
-        O.map(identity),
-        O.getOrElseW(() => ''),
-      ),
-    })),
-    O.getOrElse(() => ({
-      billable: false,
-      description: '',
-      projectId: '',
-    })),
-  );
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(schema),
-  });
-
-  const timerControlsPayload: TimerControlsData = isTimerMode
-    ? {
-        mode: TimerMode.Timer,
-        running: isRunning,
-        duration: timerState.context.duration,
-      }
-    : {
-        mode: TimerMode.Manual,
-      };
+  const onStopClicked = () => {
+    send('STOP'); // TODO: optimistic update
+    stopTimeEntry();
+  };
 
   return (
     <Box
@@ -117,14 +126,13 @@ export const Timer = () => {
             isTimerMode ? 'What are you working on?' : 'What have you done?'
           }
           {...form.register('description')}
-          defaultValue={defaultValues.description}
         />
       </Box>
       <Box>
         <TimerControls
           data={timerControlsPayload}
           onStartClicked={onStartClicked}
-          onStopClicked={() => send('STOP')}
+          onStopClicked={onStopClicked}
           onTimerModeChanged={() => {
             send('MODE.TOGGLE');
           }}

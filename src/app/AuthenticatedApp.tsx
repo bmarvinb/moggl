@@ -62,21 +62,22 @@ export const AuthenticatedApp = () => {
           height: '100%',
         }}
       >
-        <Drawer
-          variant={temporaryMode ? 'temporary' : 'permanent'}
-          onOpenChange={() => send('TOGGLE')}
-          open={open}
-        >
-          <>
-            <Menu
-              items={menuItems}
-              open={open}
-              onMenuItemClicked={() => send('CLOSE')}
-            />
-            <ProfileInfo open={open} profileInfo={profileInfo}></ProfileInfo>
-          </>
-        </Drawer>
-
+        {state.context.mode && (
+          <Drawer
+            variant={temporaryMode ? 'temporary' : 'permanent'}
+            onOpenChange={() => send('TOGGLE')}
+            open={open}
+          >
+            <>
+              <Menu
+                items={menuItems}
+                open={open}
+                onMenuItemClicked={() => send('CLOSE')}
+              />
+              <ProfileInfo open={open} profileInfo={profileInfo}></ProfileInfo>
+            </>
+          </Drawer>
+        )}
         <Box
           as="main"
           css={{

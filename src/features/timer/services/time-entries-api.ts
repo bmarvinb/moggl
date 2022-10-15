@@ -40,8 +40,17 @@ export async function createTimeEntry(
   workspaceId: string,
   data: AddTimeEntryRequestData,
 ) {
-  return client<CreatedTimeEntry>(`/workspaces/${workspaceId}/time-entries`, {
+  return client<CreatedTimeEntry>(`workspaces/${workspaceId}/time-entries`, {
     data,
     schema: createdTimeEntrySchema,
+  });
+}
+
+export async function stopTimeEntry(workspaceId: string, userId: string) {
+  return client(`workspaces/${workspaceId}/user/${userId}/time-entries`, {
+    method: 'PATCH',
+    data: {
+      end: new Date(),
+    },
   });
 }
