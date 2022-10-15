@@ -38,3 +38,9 @@ export function updateTag(
     data,
   });
 }
+
+export function deleteTag(workspaceId: string, tagId: string) {
+  return client(`workspaces/${workspaceId}/tags/${tagId}`, {
+    method: 'DELETE',
+  });
+}

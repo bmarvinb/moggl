@@ -8,5 +8,7 @@ export const List = styled(Card, {
 
 export const ListItem = styled('div', {
   padding: '$6 $8',
-  borderBottom: '1px solid $neutral2',
+  '&:not(:last-child)': {
+    borderBottom: '1px solid $neutral2',
+  },
 });

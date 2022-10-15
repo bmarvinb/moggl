@@ -50,7 +50,10 @@ export const TagForm: FC<TagFormProps> = props => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = data => props.onSubmit(data);
+  const onSubmit: SubmitHandler<FormValues> = data =>
+    props.onSubmit(
+      props.operation === DialogMode.Update ? { ...props.tag, ...data } : data,
+    );
 
   const notEditedName =
     props.operation === DialogMode.Update && props.tag.name === watch('name');
