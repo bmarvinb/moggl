@@ -37,9 +37,7 @@ export const Button = styled('button', {
   },
   variants: {
     variant: {
-      icon: {
-        padding: '$$py',
-      },
+      icon: {},
     },
     color: {
       primary: {
@@ -116,7 +114,36 @@ export const Button = styled('button', {
       },
     },
   },
-  compoundVariants: [],
+  compoundVariants: [
+    {
+      variant: 'icon',
+      size: 'sm',
+      css: {
+        padding: '$1',
+      },
+    },
+    {
+      variant: 'icon',
+      size: 'md',
+      css: {
+        padding: '$2',
+      },
+    },
+    {
+      variant: 'icon',
+      size: 'lg',
+      css: {
+        padding: '$2',
+      },
+    },
+    {
+      variant: 'icon',
+      size: 'xl',
+      css: {
+        padding: '$3',
+      },
+    },
+  ],
   defaultVariants: {
     size: 'md',
     color: 'transparent',
