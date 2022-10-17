@@ -7,9 +7,11 @@ import {
 } from 'features/timer/components/ReportedDays';
 import { WeekDuration } from 'features/timer/components/WeekDuration';
 import { Timer } from 'features/timer/containers/Timer';
-import { ActiveTimeEntry } from 'features/timer/models/time-entries';
+import {
+  ActiveTimeEntry,
+  NewTimeEntry,
+} from 'features/timer/models/time-entries';
 import { useTimer } from 'features/timer/providers/timer-context';
-import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
 import {
   FC,
@@ -42,15 +44,20 @@ export const TimeEntriesContent: FC<TimeEntriesContentProps> = props => {
   }, [contentRef, size.width]);
 
   useEffect(() => {
-    pipe(
-      props.activeTimeEntry,
-      O.map(activeTimeEntry =>
-        send({
-          type: 'CONTINUE',
-          payload: new Date(activeTimeEntry.timeInterval.start),
-        }),
-      ),
-    );
+    if (O.isSome(props.activeTimeEntry)) {
+      const activeTimeEntry = props.activeTimeEntry.value;
+      const newTimeEntry: NewTimeEntry = {
+        start: activeTimeEntry.timeInterval.start,
+        projectId: activeTimeEntry.projectId,
+        description: activeTimeEntry.description,
+        billable: activeTimeEntry.billable,
+        tagIds: activeTimeEntry.tags.map(tag => tag.id),
+      };
+      send({
+        type: 'CONTINUE',
+        payload: newTimeEntry,
+      });
+    }
   }, [props.activeTimeEntry, send]);
 
   const memoizedReportedDays = useMemo(() => {

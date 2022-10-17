@@ -1,4 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useInterpret } from '@xstate/react';
+import { useCurrentUser } from 'features/auth/hooks/useCurrentUser';
+import { useWorkspace } from 'features/auth/hooks/useWorkspace';
 import { timerMachine } from 'features/timer/machines/timerMachine';
 import React from 'react';
 import { InterpreterFrom } from 'xstate';
@@ -10,7 +13,16 @@ const TimerContext = React.createContext<TimerContextData>(
 );
 
 export function TimerProvider(props: { children: React.ReactNode }) {
-  const timerService = useInterpret(timerMachine);
+  const workspace = useWorkspace();
+  const user = useCurrentUser();
+  const queryClient = useQueryClient();
+  const timerService = useInterpret(timerMachine, {
+    context: {
+      workspaceId: workspace.id,
+      userId: user.id,
+      queryClient: queryClient,
+    },
+  });
 
   return (
     <TimerContext.Provider value={timerService}>

@@ -1,9 +1,7 @@
 import {
   CreatedTimeEntry,
   createdTimeEntrySchema,
-  AddTimeEntryRequestData,
-} from 'features/timer/models/created-time-entry';
-import {
+  NewTimeEntry,
   TimeEntries,
   timeEntriesSchema,
 } from 'features/timer/models/time-entries';
@@ -36,10 +34,7 @@ export async function getTimeEntries(
   );
 }
 
-export async function createTimeEntry(
-  workspaceId: string,
-  data: AddTimeEntryRequestData,
-) {
+export async function createTimeEntry(workspaceId: string, data: NewTimeEntry) {
   return client<CreatedTimeEntry>(`workspaces/${workspaceId}/time-entries`, {
     data,
     schema: createdTimeEntrySchema,

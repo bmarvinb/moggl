@@ -9,7 +9,10 @@ import {
 import { useCreateTimeEntry } from 'features/timer/hooks/useCreateTimeEntry';
 import { useStopTimeEntry } from 'features/timer/hooks/useStopTimeEntry';
 import { TimerMode } from 'features/timer/machines/timerMachine';
-import { ActiveTimeEntry } from 'features/timer/models/time-entries';
+import {
+  ActiveTimeEntry,
+  NewTimeEntry,
+} from 'features/timer/models/time-entries';
 import { useTimer } from 'features/timer/providers/timer-context';
 import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
@@ -48,8 +51,6 @@ export const Timer = (props: TimerProps) => {
   const timerService = useTimer();
   const [timerState, send] = useActor(timerService);
 
-  const { mutate: addTimeEntry } = useCreateTimeEntry();
-  const { mutate: stopTimeEntry } = useStopTimeEntry();
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: getDefaultValues(props.timeEntry),
@@ -70,27 +71,21 @@ export const Timer = (props: TimerProps) => {
 
   const onStartClicked = () => {
     const start = new Date();
-    send({ type: 'START', payload: start });
-    addTimeEntry(
-      {
-        start: start.toISOString(),
-        billable: form.getValues('billable'),
-        description: form.getValues('description'),
-        projectId: form.getValues('projectId'),
-        taskId: undefined,
-        end: undefined,
-        tagIds: undefined,
-        customFields: [],
-      },
-      {
-        onError: () => send('STOP'),
-      },
-    );
+    const newTimeEntry: NewTimeEntry = {
+      start: start.toISOString(),
+      billable: form.getValues('billable'),
+      description: form.getValues('description'),
+      projectId: form.getValues('projectId'),
+      tagIds: [],
+    };
+    send({
+      type: 'START',
+      payload: newTimeEntry,
+    });
   };
 
   const onStopClicked = () => {
-    send('STOP'); // TODO: optimistic update
-    stopTimeEntry();
+    send('STOP');
   };
 
   return (

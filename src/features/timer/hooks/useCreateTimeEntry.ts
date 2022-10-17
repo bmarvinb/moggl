@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import { useWorkspace } from 'features/auth/hooks/useWorkspace';
-import { AddTimeEntryRequestData } from 'features/timer/models/created-time-entry';
+import { NewTimeEntry } from 'features/timer/models/time-entries';
 import { createTimeEntry } from 'features/timer/services/time-entries-api';
 
 export function useCreateTimeEntry() {
   const workspace = useWorkspace();
-  return useMutation((data: AddTimeEntryRequestData) =>
+  return useMutation((data: NewTimeEntry) =>
     createTimeEntry(workspace.id, data),
   );
 }

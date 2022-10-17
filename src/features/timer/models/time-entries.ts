@@ -138,13 +138,13 @@ export const commonTimeEntrySchema = z.object({
   kioskId: z.string().nullable(),
   user: userSchema,
   userId: z.string(),
-  projectId: z.string().nullable(),
-  project: projectSchema.nullable(),
 });
 
 export const activeTimeEntrySchema = z.intersection(
   commonTimeEntrySchema,
   z.object({
+    projectId: z.string().nullable(),
+    project: projectSchema.nullable(),
     timeInterval: activeTimeEntryIntervalSchema,
   }),
 );
@@ -152,6 +152,8 @@ export const activeTimeEntrySchema = z.intersection(
 export const inactiveTimeEntrySchema = z.intersection(
   commonTimeEntrySchema,
   z.object({
+    projectId: z.string(),
+    project: projectSchema,
     timeInterval: inactiveTimeEntryIntervalSchema,
   }),
 );
@@ -161,14 +163,46 @@ export const timeEntrySchema = z.union([
   inactiveTimeEntrySchema,
 ]);
 
+export const timeEntriesSchema = z.array(timeEntrySchema);
+
+export const createdTimeEntrySchema = z.object({
+  billable: z.boolean(),
+  description: z.string(),
+  id: z.string(),
+  isLocked: z.boolean(),
+  projectId: z.string().nullable(),
+  tagIds: z.array(z.string()).nullable(),
+  taskId: z.string().nullable(),
+  timeInterval: activeTimeEntryIntervalSchema,
+  userId: z.string(),
+  workspaceId: z.string(),
+  customFieldValues: z
+    .array(
+      z.object({
+        customFieldId: z.string(),
+        timeEntryId: z.string(),
+        value: z.string(),
+        name: z.string(),
+        type: z.string(),
+      }),
+    )
+    .nullable(),
+});
+
 export type TimeEntry = z.infer<typeof timeEntrySchema>;
 
 export type ActiveTimeEntry = z.infer<typeof activeTimeEntrySchema>;
 
 export type InactiveTimeEntry = z.infer<typeof inactiveTimeEntrySchema>;
 
-export type TimeEntryProject = z.infer<typeof projectSchema>;
-
-export const timeEntriesSchema = z.array(timeEntrySchema);
-
 export type TimeEntries = z.infer<typeof timeEntriesSchema>;
+
+export type CreatedTimeEntry = z.infer<typeof createdTimeEntrySchema>;
+
+export type NewTimeEntry = {
+  start: string;
+  projectId: string | null;
+  description: string;
+  billable: boolean;
+  tagIds: string[];
+};
