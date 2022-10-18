@@ -9,7 +9,7 @@ import { formatDate } from 'features/timer/utils/time-entries-utils';
 import { FC, ReactNode } from 'react';
 import { BiListUl } from 'react-icons/bi';
 
-export type TimeEntriesTableViewProps = {
+type Props = {
   children: ReactNode;
   bulkEditMode: boolean;
   allSelected: boolean;
@@ -34,7 +34,7 @@ const Label = styled('div', {
   fontWeight: '$semibold',
 });
 
-export const TimeEntriesTableView: FC<TimeEntriesTableViewProps> = props => {
+export const TimeEntriesTableView: FC<Props> = props => {
   return (
     <TimeEntriesTable>
       <Box

@@ -1,8 +1,8 @@
 import {
-  CreatedTimeEntry,
+  CreatedTimeEntryModel,
   createdTimeEntrySchema,
-  NewTimeEntry,
-  TimeEntries,
+  NewTimeEntryModel,
+  TimeEntriesModel,
   timeEntriesSchema,
 } from 'features/timer/models/time-entries';
 import { client } from 'common/utils/api-client';
@@ -28,17 +28,23 @@ export async function getTimeEntries(
   options: TimeEntriesRequestOptions = {},
 ) {
   const params = createURLSearchParams({ ...options, hydrated: true });
-  return client<TimeEntries>(
+  return client<TimeEntriesModel>(
     `workspaces/${workspaceId}/user/${userId}/time-entries?${params}`,
     { schema: timeEntriesSchema },
   );
 }
 
-export async function createTimeEntry(workspaceId: string, data: NewTimeEntry) {
-  return client<CreatedTimeEntry>(`workspaces/${workspaceId}/time-entries`, {
-    data,
-    schema: createdTimeEntrySchema,
-  });
+export async function createTimeEntry(
+  workspaceId: string,
+  data: NewTimeEntryModel,
+) {
+  return client<CreatedTimeEntryModel>(
+    `workspaces/${workspaceId}/time-entries`,
+    {
+      data,
+      schema: createdTimeEntrySchema,
+    },
+  );
 }
 
 export async function stopTimeEntry(workspaceId: string, userId: string) {

@@ -2,8 +2,8 @@ import { Box } from 'common/components/Box';
 import { isToday } from 'date-fns';
 import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable';
 import {
-  ActiveTimeEntry,
-  InactiveTimeEntry,
+  ActiveTimeEntryModel,
+  InactiveTimeEntryModel,
 } from 'features/timer/models/time-entries';
 import { timeEntryDuration } from 'features/timer/utils/time-entries-utils';
 import { pipe } from 'fp-ts/lib/function';
@@ -36,11 +36,11 @@ export type ReportedDay = {
 
 export type ReportedDaysProps = {
   reportedDays: ReportedDay[];
-  activeTimeEntry: O.Option<ActiveTimeEntry>;
+  activeTimeEntry: O.Option<ActiveTimeEntryModel>;
 };
 
 export function createTimeEntryViewModel(
-  timeEntry: InactiveTimeEntry,
+  timeEntry: InactiveTimeEntryModel,
 ): TimeEntryViewModel {
   return {
     id: timeEntry.id,

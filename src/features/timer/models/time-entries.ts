@@ -152,8 +152,8 @@ export const activeTimeEntrySchema = z.intersection(
 export const inactiveTimeEntrySchema = z.intersection(
   commonTimeEntrySchema,
   z.object({
-    projectId: z.string(),
-    project: projectSchema,
+    projectId: z.string().nullable(),
+    project: projectSchema.nullable(),
     timeInterval: inactiveTimeEntryIntervalSchema,
   }),
 );
@@ -189,17 +189,17 @@ export const createdTimeEntrySchema = z.object({
     .nullable(),
 });
 
-export type TimeEntry = z.infer<typeof timeEntrySchema>;
+export type TimeEntryModel = z.infer<typeof timeEntrySchema>;
 
-export type ActiveTimeEntry = z.infer<typeof activeTimeEntrySchema>;
+export type ActiveTimeEntryModel = z.infer<typeof activeTimeEntrySchema>;
 
-export type InactiveTimeEntry = z.infer<typeof inactiveTimeEntrySchema>;
+export type InactiveTimeEntryModel = z.infer<typeof inactiveTimeEntrySchema>;
 
-export type TimeEntries = z.infer<typeof timeEntriesSchema>;
+export type TimeEntriesModel = z.infer<typeof timeEntriesSchema>;
 
-export type CreatedTimeEntry = z.infer<typeof createdTimeEntrySchema>;
+export type CreatedTimeEntryModel = z.infer<typeof createdTimeEntrySchema>;
 
-export type NewTimeEntry = {
+export type NewTimeEntryModel = {
   start: string;
   projectId: string | null;
   description: string;

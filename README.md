@@ -4,7 +4,6 @@
 
 Production [site](https://lambent-torte-0823c0.netlify.app/)
 
-
 ## Available Scripts
 
 In the project directory, you can run:

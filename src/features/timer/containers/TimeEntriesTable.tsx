@@ -14,7 +14,7 @@ import {
   SelectionChanges,
   useSelection,
 } from 'features/timer/hooks/useSelection';
-import { ActiveTimeEntry } from 'features/timer/models/time-entries';
+import { ActiveTimeEntryModel } from 'features/timer/models/time-entries';
 import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils';
 import * as B from 'fp-ts/boolean';
 import { Eq, struct } from 'fp-ts/Eq';
@@ -27,7 +27,7 @@ import * as S from 'fp-ts/string';
 import { FC, useReducer } from 'react';
 
 export type TimeEntriesTableProps = {
-  activeTimeEntry: O.Option<ActiveTimeEntry>;
+  activeTimeEntry: O.Option<ActiveTimeEntryModel>;
   data: TimeEntryViewModel[];
   date: Date;
   reportedDuration: number;

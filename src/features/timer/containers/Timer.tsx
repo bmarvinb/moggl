@@ -1,26 +1,24 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useActor } from '@xstate/react';
 import { Box } from 'common/components/Box';
 import { Input } from 'common/components/Input';
 import {
   TimerControls,
   TimerControlsData,
 } from 'features/timer/components/TimerControls';
-import { useCreateTimeEntry } from 'features/timer/hooks/useCreateTimeEntry';
-import { useStopTimeEntry } from 'features/timer/hooks/useStopTimeEntry';
-import { TimerMode } from 'features/timer/machines/timerMachine';
+import { useTimerMode } from 'features/timer/hooks/useTimerMode';
+import { NewTimeEntryModel } from 'features/timer/models/time-entries';
 import {
-  ActiveTimeEntry,
-  NewTimeEntry,
-} from 'features/timer/models/time-entries';
-import { useTimer } from 'features/timer/providers/timer-context';
-import { pipe } from 'fp-ts/lib/function';
+  useTimerAPI,
+  useTimerState,
+} from 'features/timer/providers/TimerProvider';
+import { constVoid, pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 export type TimerProps = {
-  timeEntry: O.Option<ActiveTimeEntry>;
+  newTimeEntry: O.Option<NewTimeEntryModel>;
 };
 
 const schema = z.object({
@@ -31,7 +29,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-function getDefaultValues(timeEntry: O.Option<ActiveTimeEntry>) {
+function getDefaultValues(timeEntry: O.Option<NewTimeEntryModel>) {
   return pipe(
     timeEntry,
     O.map(timeEntry => ({
@@ -48,44 +46,44 @@ function getDefaultValues(timeEntry: O.Option<ActiveTimeEntry>) {
 }
 
 export const Timer = (props: TimerProps) => {
-  const timerService = useTimer();
-  const [timerState, send] = useActor(timerService);
+  const timerState = useTimerState();
+  const { resume, start, stop } = useTimerAPI();
+  const [timerMode, setTimerMode] = useTimerMode();
+
+  useEffect(() => {
+    if (O.isSome(props.newTimeEntry)) {
+      resume(props.newTimeEntry.value);
+    }
+  }, [props.newTimeEntry, resume]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: getDefaultValues(props.timeEntry),
+    defaultValues: getDefaultValues(props.newTimeEntry),
   });
 
-  const isTimerMode = timerState.matches({ mode: 'timer' });
-  const isRunning = timerState.matches({ timer: 'running' });
-
-  const timerControlsPayload: TimerControlsData = isTimerMode
-    ? {
-        mode: TimerMode.Timer,
-        running: isRunning,
-        duration: timerState.context.duration,
-      }
-    : {
-        mode: TimerMode.Manual,
-      };
+  const timerControlsData: TimerControlsData =
+    timerMode === 'timer'
+      ? {
+          mode: 'timer',
+          timerState,
+        }
+      : {
+          mode: 'manual',
+        };
 
   const onStartClicked = () => {
-    const start = new Date();
-    const newTimeEntry: NewTimeEntry = {
-      start: start.toISOString(),
+    const newTimeEntry: NewTimeEntryModel = {
+      start: new Date().toISOString(),
       billable: form.getValues('billable'),
       description: form.getValues('description'),
       projectId: form.getValues('projectId'),
       tagIds: [],
     };
-    send({
-      type: 'START',
-      payload: newTimeEntry,
-    });
+    start(newTimeEntry);
   };
 
   const onStopClicked = () => {
-    send('STOP');
+    stop();
   };
 
   return (
@@ -118,24 +116,27 @@ export const Timer = (props: TimerProps) => {
             width: '100%',
           }}
           placeholder={
-            isTimerMode ? 'What are you working on?' : 'What have you done?'
+            timerMode === 'timer'
+              ? 'What are you working on?'
+              : 'What have you done?'
           }
           {...form.register('description')}
         />
       </Box>
       <Box>
         <TimerControls
-          data={timerControlsPayload}
+          data={timerControlsData}
           onStartClicked={onStartClicked}
           onStopClicked={onStopClicked}
           onTimerModeChanged={() => {
-            send('MODE.TOGGLE');
+            setTimerMode(timerMode === 'manual' ? 'timer' : 'manual');
           }}
           onAddTimeEntryClicked={() => {
             console.log('time entry clicked');
           }}
         />
       </Box>
+      <pre>{JSON.stringify(timerState)}</pre>
     </Box>
   );
 };

@@ -17,17 +17,22 @@ import {
   TimeEntryRowViewModel,
 } from 'features/timer/components/TimeEntryViewRow';
 import {
-  ActiveTimeEntry,
-  InactiveTimeEntry,
-  TimeEntry,
+  ActiveTimeEntryModel,
+  InactiveTimeEntryModel,
+  NewTimeEntryModel,
+  TimeEntryModel,
 } from 'features/timer/models/time-entries';
 import * as O from 'fp-ts/lib/Option';
 
-export function isInactiveTimeEntry(x: TimeEntry): x is InactiveTimeEntry {
+export function isInactiveTimeEntry(
+  x: TimeEntryModel,
+): x is InactiveTimeEntryModel {
   return Boolean(x.projectId) && Boolean(x.timeInterval.end);
 }
 
-export function isActiveTimeEntry(x: TimeEntry): x is ActiveTimeEntry {
+export function isActiveTimeEntry(
+  x: TimeEntryModel,
+): x is ActiveTimeEntryModel {
   return (
     Boolean(x.timeInterval.start) &&
     !x.timeInterval.end &&
@@ -47,7 +52,9 @@ export function isChildTimeEntry(
   return x.type === TimeEntryRowType.Child;
 }
 
-export function timeEntryDuration({ timeInterval }: InactiveTimeEntry): number {
+export function timeEntryDuration({
+  timeInterval,
+}: InactiveTimeEntryModel): number {
   return differenceInSeconds(
     new Date(timeInterval.end),
     new Date(timeInterval.start),
@@ -100,3 +107,7 @@ export function formatDate(
     ? `${inlineDate}, ${date.getFullYear()}`
     : inlineDate;
 }
+
+export const calculateDuration = (newTimeEntry: NewTimeEntryModel) => {
+  return differenceInSeconds(new Date(), new Date(newTimeEntry.start));
+};

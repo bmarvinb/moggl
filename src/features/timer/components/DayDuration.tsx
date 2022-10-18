@@ -1,17 +1,12 @@
-import { useActor } from '@xstate/react';
 import { Box } from 'common/components/Box';
-import { useTimer } from 'features/timer/providers/timer-context';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
 
-export type DayDurationProps = {
+type Props = {
   isToday: boolean;
   reportedTime: number;
 };
 
-export const DayDuration = (props: DayDurationProps) => {
-  const timerService = useTimer();
-  const [timerState] = useActor(timerService);
-  const totalTime = props.reportedTime + timerState.context.duration;
+export const DayDuration = (props: Props) => {
   return (
     <Box
       css={{
@@ -20,9 +15,7 @@ export const DayDuration = (props: DayDurationProps) => {
         minWidth: '4rem',
       }}
     >
-      {props.isToday
-        ? formatDuration(totalTime)
-        : formatDuration(props.reportedTime)}
+      {formatDuration(props.reportedTime)}
     </Box>
   );
 };

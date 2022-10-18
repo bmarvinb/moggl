@@ -1,7 +1,8 @@
 import { Box } from 'common/components/Box';
 import { Button } from 'common/components/Button';
 import { styled } from 'core/theme/config';
-import { TimerMode } from 'features/timer/machines/timerMachine';
+import { TimerStatus } from 'features/timer/models/timer-status';
+import { TimerState } from 'features/timer/providers/TimerProvider';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
 import {
   BiBriefcase,
@@ -15,13 +16,12 @@ import {
 
 export type TimerControlsData =
   | {
-      mode: TimerMode.Timer;
-      running: boolean;
-      duration: number;
+      mode: 'timer';
+      timerState: TimerState;
     }
-  | { mode: TimerMode.Manual };
+  | { mode: 'manual' };
 
-export type TimerControlsProps = {
+export type Props = {
   data: TimerControlsData;
   onStartClicked: () => void;
   onAddTimeEntryClicked: () => void;
@@ -38,7 +38,13 @@ const ToggleMode = styled('div', {
   minWidth: '1.5rem',
 });
 
-export const TimerControls = (props: TimerControlsProps) => {
+export const TimerControls = ({
+  data,
+  onStartClicked,
+  onAddTimeEntryClicked,
+  onStopClicked,
+  onTimerModeChanged,
+}: Props) => {
   return (
     <div>
       <Box
@@ -93,7 +99,7 @@ export const TimerControls = (props: TimerControlsProps) => {
             minHeight: '3rem',
           }}
         >
-          {props.data.mode === TimerMode.Timer ? (
+          {data.mode === 'timer' ? (
             <Box
               css={{
                 fontWeight: 500,
@@ -104,15 +110,19 @@ export const TimerControls = (props: TimerControlsProps) => {
                 color: '$neutral10',
               }}
             >
-              {formatDuration(props.data.duration)}
+              {formatDuration(
+                data.timerState.status === TimerStatus.Running
+                  ? data.timerState.duration
+                  : 0,
+              )}
             </Box>
           ) : (
             <div></div>
           )}
 
-          {props.data.mode === TimerMode.Timer ? (
+          {data.mode === 'timer' ? (
             <div>
-              {!props.data.running ? (
+              {data.timerState.status === TimerStatus.Idle ? (
                 <Button
                   color="primary"
                   variant="icon"
@@ -126,7 +136,7 @@ export const TimerControls = (props: TimerControlsProps) => {
                       right: '-1px',
                     },
                   }}
-                  onClick={() => props.onStartClicked()}
+                  onClick={() => onStartClicked()}
                 >
                   <BiPlay />
                 </Button>
@@ -138,7 +148,7 @@ export const TimerControls = (props: TimerControlsProps) => {
                   size={'xl'}
                   aria-label="Stop timer"
                   title="Stop timer"
-                  onClick={() => props.onStopClicked()}
+                  onClick={() => onStopClicked()}
                 >
                   <BiStop />
                 </Button>
@@ -151,14 +161,15 @@ export const TimerControls = (props: TimerControlsProps) => {
                 size={'xl'}
                 aria-label="Add time entry"
                 title="Add time entry"
-                onClick={() => props.onAddTimeEntryClicked()}
+                onClick={() => onAddTimeEntryClicked()}
               >
                 <BiPlus />
               </Button>
             </div>
           )}
 
-          {props.data.mode === TimerMode.Timer && props.data.running ? (
+          {data.mode === 'timer' &&
+          data.timerState.status === TimerStatus.Running ? (
             <Box>
               <Button
                 css={{
@@ -185,10 +196,7 @@ export const TimerControls = (props: TimerControlsProps) => {
                     right: '-1px',
                   },
                 }}
-                onClick={() =>
-                  props.data.mode !== TimerMode.Timer &&
-                  props.onTimerModeChanged()
-                }
+                onClick={() => data.mode !== 'timer' && onTimerModeChanged()}
               >
                 <BiPlay />
               </Button>
@@ -197,10 +205,7 @@ export const TimerControls = (props: TimerControlsProps) => {
                 color="transparent"
                 size={'sm'}
                 title="Manual mode"
-                onClick={() =>
-                  props.data.mode !== TimerMode.Manual &&
-                  props.onTimerModeChanged()
-                }
+                onClick={() => data.mode !== 'manual' && onTimerModeChanged()}
               >
                 <BiPlus />
               </Button>

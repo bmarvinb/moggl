@@ -5,9 +5,9 @@ import {
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow';
 import { SelectionChanges } from 'features/timer/hooks/useSelection';
-import { FC, useReducer } from 'react';
+import { useReducer } from 'react';
 
-export type ParentTimeEntryRowProps = {
+export type Props = {
   timeEntry: ParentTimeEntry;
   edit: boolean;
   selectedIds: string[];
@@ -16,7 +16,7 @@ export type ParentTimeEntryRowProps = {
   onChildSelectionChange: (id: string) => void;
 };
 
-export const ParentTimeEntryRow: FC<ParentTimeEntryRowProps> = props => {
+export const ParentTimeEntryRow = (props: Props) => {
   const [expanded, toggleExpanded] = useReducer(state => !state, false);
 
   const childrenIds = props.timeEntry.children.map(({ data }) => data.id);

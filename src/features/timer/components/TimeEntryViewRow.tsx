@@ -47,7 +47,7 @@ export type TimeEntryRowViewModel =
   | ParentTimeEntry
   | ChildTimeEntry;
 
-export type TimeEntryViewRowProps = {
+type Props = {
   timeEntry: TimeEntryRowViewModel;
   edit: boolean;
   selected: boolean;
@@ -91,7 +91,7 @@ const AdditionalInfo = styled('div', {
   },
 });
 
-export const TimeEntryViewRow: FC<TimeEntryViewRowProps> = props => {
+export const TimeEntryViewRow: FC<Props> = props => {
   return (
     <>
       <TimeEntryItem
