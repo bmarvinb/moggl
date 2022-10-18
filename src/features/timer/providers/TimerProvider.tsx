@@ -5,13 +5,7 @@ import { NewTimeEntryModel } from 'features/timer/models/time-entries';
 import { TimerStatus } from 'features/timer/models/timer-status';
 import { calculateDuration } from 'features/timer/utils/time-entries-utils';
 import * as O from 'fp-ts/lib/Option';
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useReducer,
-} from 'react';
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
 
 export type TimerState =
   | { status: TimerStatus.Idle }
