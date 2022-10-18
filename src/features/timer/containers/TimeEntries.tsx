@@ -22,7 +22,11 @@ import * as M from 'fp-ts/lib/Monoid';
 import * as N from 'fp-ts/lib/number';
 import * as S from 'fp-ts/lib/string';
 import * as O from 'fp-ts/lib/Option';
-import { TimerProvider } from 'features/timer/providers/TimerProvider';
+import {
+  TimerProvider,
+  useTimerAPI,
+} from 'features/timer/providers/TimerProvider';
+import { useEffect } from 'react';
 
 function calculateDuration(timeEntries: InactiveTimeEntryModel[]): number {
   return pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum));
@@ -91,7 +95,7 @@ export const TimeEntries = (props: { timeEntries: TimeEntriesModel }) => {
     })),
   );
   return (
-    <TimerProvider>
+    <TimerProvider newTimeEntry={newTimeEntry}>
       <Timer newTimeEntry={newTimeEntry} />
       <TimeEntriesReportedDays
         activeTimeEntry={activeTimeEntry}

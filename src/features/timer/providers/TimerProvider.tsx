@@ -4,6 +4,7 @@ import { useStopTimeEntry } from 'features/timer/hooks/useStopTimeEntry';
 import { NewTimeEntryModel } from 'features/timer/models/time-entries';
 import { TimerStatus } from 'features/timer/models/timer-status';
 import { calculateDuration } from 'features/timer/utils/time-entries-utils';
+import * as O from 'fp-ts/lib/Option';
 import React, {
   createContext,
   useContext,
@@ -89,20 +90,28 @@ const TimerContext = createContext<TimerState>(initialState);
 
 const TimerAPIContext = createContext<TimerAPI>({} as TimerAPI);
 
-export const TimerProvider = ({ children }: { children: React.ReactNode }) => {
+export const TimerProvider = ({
+  children,
+  newTimeEntry,
+}: {
+  newTimeEntry: O.Option<NewTimeEntryModel>;
+  children: React.ReactNode;
+}) => {
   const [state, dispatch] = useReducer(timerReducer, initialState);
 
   const { mutate: createTimeEntry } = useCreateTimeEntry();
   const { mutate: stopTimeEntry } = useStopTimeEntry();
 
   useEffect(() => {
+    if (O.isSome(newTimeEntry)) {
+      resume(newTimeEntry.value);
+    }
+  }, [newTimeEntry]);
+
+  useEffect(() => {
     if (state.status === TimerStatus.Running) {
-      const interval = setInterval(() => {
-        dispatch({ type: 'tick' });
-      }, 1000);
-      return () => {
-        clearInterval(interval);
-      };
+      const interval = setInterval(() => dispatch({ type: 'tick' }), 1000);
+      return () => clearInterval(interval);
     }
   }, [state.status]);
 
@@ -120,9 +129,14 @@ export const TimerProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const stop = () => {
-    // const prev = state.newTimeEntry;
+    invariant(state.status === TimerStatus.Running);
+    const prev = state.newTimeEntry;
     dispatch({ type: 'stop' });
-    // stopTimeEntry();
+    stopTimeEntry(undefined, {
+      onError: () => {
+        dispatch({ type: 'start', data: prev });
+      },
+    });
   };
 
   const api = {

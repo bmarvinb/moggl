@@ -13,7 +13,7 @@ import {
 } from 'features/timer/providers/TimerProvider';
 import { constVoid, pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -47,14 +47,8 @@ function getDefaultValues(timeEntry: O.Option<NewTimeEntryModel>) {
 
 export const Timer = (props: TimerProps) => {
   const timerState = useTimerState();
-  const { resume, start, stop } = useTimerAPI();
+  const { start, stop } = useTimerAPI();
   const [timerMode, setTimerMode] = useTimerMode();
-
-  useEffect(() => {
-    if (O.isSome(props.newTimeEntry)) {
-      resume(props.newTimeEntry.value);
-    }
-  }, [props.newTimeEntry, resume]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -136,7 +130,6 @@ export const Timer = (props: TimerProps) => {
           }}
         />
       </Box>
-      <pre>{JSON.stringify(timerState)}</pre>
     </Box>
   );
 };
