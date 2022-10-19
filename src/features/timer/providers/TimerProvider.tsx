@@ -13,6 +13,11 @@ export type TimerState =
       status: TimerStatus.Running;
       duration: number;
       newTimeEntry: NewTimeEntryModel;
+    }
+  | {
+      status: TimerStatus.Saving;
+      duration: number;
+      newTimeEntry: NewTimeEntryModel;
     };
 
 export type TimerAPI = {
@@ -35,6 +40,9 @@ export type TimerEvent =
     }
   | {
       type: 'tick';
+    }
+  | {
+      type: 'save';
     };
 
 function timerReducer(state: TimerState, event: TimerEvent): TimerState {
@@ -65,14 +73,27 @@ function timerReducer(state: TimerState, event: TimerEvent): TimerState {
             status: TimerStatus.Idle,
           };
         case 'tick':
+        case 'resume':
           return {
             ...state,
             duration: calculateDuration(state.newTimeEntry),
+          };
+        case 'save':
+          return {
+            ...state,
+            status: TimerStatus.Saving,
           };
         default:
           return state;
       }
     }
+    case TimerStatus.Saving:
+      switch (event.type) {
+        case 'stop':
+          return { status: TimerStatus.Idle };
+        default:
+          return state;
+      }
     default:
       return state;
   }
@@ -94,7 +115,9 @@ export const TimerProvider = ({
   const [state, dispatch] = useReducer(timerReducer, initialState);
 
   const { mutate: createTimeEntry } = useCreateTimeEntry();
-  const { mutate: stopTimeEntry } = useStopTimeEntry();
+  const { mutate: stopTimeEntry } = useStopTimeEntry({
+    onSuccess: () => dispatch({ type: 'stop' }),
+  });
 
   useEffect(() => {
     if (O.isSome(newTimeEntry)) {
@@ -113,7 +136,7 @@ export const TimerProvider = ({
     dispatch({ type: 'start', data: newTimeEntry });
     createTimeEntry(newTimeEntry, {
       onError: () => {
-        stop();
+        dispatch({ type: 'stop' });
       },
     });
   };
@@ -125,7 +148,7 @@ export const TimerProvider = ({
   const stop = () => {
     invariant(state.status === TimerStatus.Running);
     const prev = state.newTimeEntry;
-    dispatch({ type: 'stop' });
+    dispatch({ type: 'save' });
     stopTimeEntry(undefined, {
       onError: () => {
         dispatch({ type: 'start', data: prev });
@@ -146,7 +169,7 @@ export const TimerProvider = ({
   );
 };
 
-export const useTimerState = () => {
+export const useTimer = () => {
   const context = useContext(TimerContext);
   if (context === undefined) {
     throw new Error(`useTimerState must be used within a TimerProvider`);

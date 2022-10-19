@@ -1,6 +1,7 @@
 import { Box } from 'common/components/Box';
 import { Title } from 'common/components/Title';
 import { styled } from 'core/theme/config';
+import { useActiveDuration } from 'features/timer/hooks/useActiveDuration';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
 import { FC } from 'react';
 
@@ -18,6 +19,7 @@ const TotalTime = styled('div', {
 });
 
 export const WeekDuration: FC<WeekDurationProps> = props => {
+  const duration = useActiveDuration(props.weekDuration);
   return (
     <Box
       css={{
@@ -28,7 +30,7 @@ export const WeekDuration: FC<WeekDurationProps> = props => {
     >
       <Title as="h1">
         This week
-        <TotalTime>{formatDuration(props.weekDuration)}</TotalTime>
+        <TotalTime>{formatDuration(duration)}</TotalTime>
       </Title>
     </Box>
   );

@@ -7,10 +7,7 @@ import {
 } from 'features/timer/components/TimerControls';
 import { useTimerMode } from 'features/timer/hooks/useTimerMode';
 import { NewTimeEntryModel } from 'features/timer/models/time-entries';
-import {
-  useTimerAPI,
-  useTimerState,
-} from 'features/timer/providers/TimerProvider';
+import { useTimerAPI, useTimer } from 'features/timer/providers/TimerProvider';
 import { constVoid, pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
 import { useEffect, useMemo } from 'react';
@@ -46,7 +43,7 @@ function getDefaultValues(timeEntry: O.Option<NewTimeEntryModel>) {
 }
 
 export const Timer = (props: TimerProps) => {
-  const timerState = useTimerState();
+  const state = useTimer();
   const { start, stop } = useTimerAPI();
   const [timerMode, setTimerMode] = useTimerMode();
 
@@ -59,7 +56,7 @@ export const Timer = (props: TimerProps) => {
     timerMode === 'timer'
       ? {
           mode: 'timer',
-          timerState,
+          state,
         }
       : {
           mode: 'manual',

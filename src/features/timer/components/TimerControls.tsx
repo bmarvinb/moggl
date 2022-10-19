@@ -17,7 +17,7 @@ import {
 export type TimerControlsData =
   | {
       mode: 'timer';
-      timerState: TimerState;
+      state: TimerState;
     }
   | { mode: 'manual' };
 
@@ -111,8 +111,8 @@ export const TimerControls = ({
               }}
             >
               {formatDuration(
-                data.timerState.status === TimerStatus.Running
-                  ? data.timerState.duration
+                data.state.status === TimerStatus.Running
+                  ? data.state.duration
                   : 0,
               )}
             </Box>
@@ -122,7 +122,19 @@ export const TimerControls = ({
 
           {data.mode === 'timer' ? (
             <div>
-              {data.timerState.status === TimerStatus.Idle ? (
+              {[TimerStatus.Running].includes(data.state.status) ? (
+                <Button
+                  color={'danger'}
+                  variant="icon"
+                  shape="rounded"
+                  size={'xl'}
+                  aria-label="Stop timer"
+                  title="Stop timer"
+                  onClick={() => onStopClicked()}
+                >
+                  <BiStop />
+                </Button>
+              ) : (
                 <Button
                   color="primary"
                   variant="icon"
@@ -139,18 +151,6 @@ export const TimerControls = ({
                   onClick={() => onStartClicked()}
                 >
                   <BiPlay />
-                </Button>
-              ) : (
-                <Button
-                  color={'danger'}
-                  variant="icon"
-                  shape="rounded"
-                  size={'xl'}
-                  aria-label="Stop timer"
-                  title="Stop timer"
-                  onClick={() => onStopClicked()}
-                >
-                  <BiStop />
                 </Button>
               )}
             </div>
@@ -169,7 +169,7 @@ export const TimerControls = ({
           )}
 
           {data.mode === 'timer' &&
-          data.timerState.status === TimerStatus.Running ? (
+          data.state.status === TimerStatus.Running ? (
             <Box>
               <Button
                 css={{

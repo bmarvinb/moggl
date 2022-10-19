@@ -2,12 +2,12 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { VariantProps } from '@stitches/react';
 import { Box } from 'common/components/Box';
 import { Button } from 'common/components/Button';
-import { absurd } from 'fp-ts/lib/function';
 import React, { FC } from 'react';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { styled } from 'core/theme/config';
 import { slideIn, slideOut } from 'common/animations/slide';
 import { fadeIn, fadeOut } from 'common/animations/fade';
+import { assertNever } from 'common/utils/assert';
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
   backgroundColor: '$overlay',
@@ -130,6 +130,6 @@ export const Drawer: FC<DrawerProps> = props => {
         </StyledPermanentContent>
       );
     default:
-      return absurd(props.variant);
+      return assertNever(props.variant);
   }
 };

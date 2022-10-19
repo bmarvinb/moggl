@@ -1,5 +1,6 @@
+import { assertNever } from 'common/utils/assert';
 import * as A from 'fp-ts/lib/Array';
-import { absurd, pipe } from 'fp-ts/lib/function';
+import { pipe } from 'fp-ts/lib/function';
 import { Dispatch, useReducer } from 'react';
 
 export type SelectionChanges = {
@@ -63,7 +64,7 @@ function reducer(
           : state.selected.concat([action.payload]),
       };
     default:
-      return absurd(action);
+      return assertNever(action);
   }
 }
 
