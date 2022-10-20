@@ -204,5 +204,4 @@ export type NewTimeEntryModel = {
   projectId: string | null;
   description: string;
   billable: boolean;
-  tagIds: string[];
 };

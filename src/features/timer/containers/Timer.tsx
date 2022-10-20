@@ -7,10 +7,9 @@ import {
 } from 'features/timer/components/TimerControls';
 import { useTimerMode } from 'features/timer/hooks/useTimerMode';
 import { NewTimeEntryModel } from 'features/timer/models/time-entries';
-import { useTimerAPI, useTimer } from 'features/timer/providers/TimerProvider';
-import { constVoid, pipe } from 'fp-ts/lib/function';
+import { useTimer, useTimerAPI } from 'features/timer/providers/TimerProvider';
+import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
-import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -68,7 +67,6 @@ export const Timer = (props: TimerProps) => {
       billable: form.getValues('billable'),
       description: form.getValues('description'),
       projectId: form.getValues('projectId'),
-      tagIds: [],
     };
     start(newTimeEntry);
   };

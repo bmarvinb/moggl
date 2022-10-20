@@ -23,6 +23,7 @@ export type TimerState =
 export type TimerAPI = {
   start: (newTimeEntry: NewTimeEntryModel) => void;
   resume: (newTimeEntry: NewTimeEntryModel) => void;
+  resumeExisting: (newTimeEntry: NewTimeEntryModel) => void;
   stop: () => void;
 };
 
@@ -89,6 +90,12 @@ function timerReducer(state: TimerState, event: TimerEvent): TimerState {
     }
     case TimerStatus.Saving:
       switch (event.type) {
+        case 'start':
+          return {
+            status: TimerStatus.Running,
+            duration: 0,
+            newTimeEntry: event.data,
+          };
         case 'stop':
           return { status: TimerStatus.Idle };
         default:
@@ -156,10 +163,18 @@ export const TimerProvider = ({
     });
   };
 
+  const resumeExisting = (newTimeEntry: NewTimeEntryModel) => {
+    if (state.status === TimerStatus.Running) {
+      stop();
+    }
+    start(newTimeEntry);
+  };
+
   const api = {
     start,
     stop,
     resume,
+    resumeExisting,
   };
 
   return (

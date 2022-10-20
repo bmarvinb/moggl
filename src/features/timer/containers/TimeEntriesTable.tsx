@@ -15,11 +15,12 @@ import {
   useSelection,
 } from 'features/timer/hooks/useSelection';
 import { ActiveTimeEntryModel } from 'features/timer/models/time-entries';
+import { useTimerAPI } from 'features/timer/providers/TimerProvider';
 import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils';
 import * as B from 'fp-ts/boolean';
 import { Eq, struct } from 'fp-ts/Eq';
 import * as A from 'fp-ts/lib/Array';
-import { pipe } from 'fp-ts/lib/function';
+import { constNull, pipe } from 'fp-ts/lib/function';
 import * as M from 'fp-ts/lib/Monoid';
 import * as N from 'fp-ts/lib/number';
 import * as O from 'fp-ts/lib/Option';
@@ -48,6 +49,7 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   const [{ entries, selected }, dispatch] = useSelection(
     getTimeEntryIds(props.data),
   );
+  const timerAPI = useTimerAPI();
 
   const isTimeEntryRowChecked = (id: string) => selected.includes(id);
 
@@ -194,7 +196,16 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   };
 
   const onPlayClicked = (timeEntry: TimeEntryRowViewModel) => {
-    console.log('Play', timeEntry);
+    timerAPI.resumeExisting({
+      start: new Date().toISOString(),
+      projectId: pipe(
+        timeEntry.data.project,
+        O.map(project => project.id),
+        O.getOrElseW(constNull),
+      ),
+      description: timeEntry.data.description,
+      billable: timeEntry.data.billable,
+    });
   };
 
   return (
