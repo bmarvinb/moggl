@@ -62,6 +62,7 @@ export function TimerMachineProvider(props: {
       },
     },
     actions: {
+      // TODO: cancel requests if they are not finished until new event occured
       updateTimeEntry: context => {
         invariant(context.id, 'Id must be provided');
         updateTimeEntry(

@@ -76,12 +76,15 @@ export const Timer = (props: TimerProps) => {
           running={isRunning}
           mode={state.context.mode}
           billable={state.context.timeEntry.billable}
-          onBillableStatusChanged={() =>
+          onBillableStatusChanged={() => {
             send({
               type: 'UPDATE_TIME_ENTRY',
               data: { billable: !state.context.timeEntry.billable },
-            })
-          }
+            });
+            send({
+              type: 'SAVE_TIME_ENTRY',
+            });
+          }}
           onDiscard={() => send('DISCARD')}
           onStartClicked={() =>
             send({ type: 'START', start: new Date().toISOString() })
