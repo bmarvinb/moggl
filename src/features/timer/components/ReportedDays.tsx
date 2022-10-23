@@ -11,6 +11,7 @@ import * as O from 'fp-ts/lib/Option';
 import { FC } from 'react';
 
 export type TimeEntryRowProject = {
+  id: string;
   name: string;
   color: string;
   clientName: O.Option<string>;
@@ -51,6 +52,7 @@ export function createTimeEntryViewModel(
       O.fromNullable,
       O.map(project => {
         return {
+          id: project.id,
           name: project.name,
           color: project.color,
           clientName: pipe(

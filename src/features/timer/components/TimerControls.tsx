@@ -1,8 +1,6 @@
 import { Box } from 'common/components/Box';
 import { Button } from 'common/components/Button';
 import { styled } from 'core/theme/config';
-import { TimerStatus } from 'features/timer/models/timer-status';
-import { TimerState } from 'features/timer/providers/TimerProvider';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
 import {
   BiBriefcase,
@@ -14,15 +12,12 @@ import {
   BiStop,
 } from 'react-icons/bi';
 
-export type TimerControlsData =
-  | {
-      mode: 'timer';
-      state: TimerState;
-    }
-  | { mode: 'manual' };
-
 export type Props = {
-  data: TimerControlsData;
+  duration: number;
+  loading: boolean;
+  running: boolean;
+  mode: 'Timer' | 'Manual';
+  onDiscard: () => void;
   onStartClicked: () => void;
   onAddTimeEntryClicked: () => void;
   onStopClicked: () => void;
@@ -39,7 +34,11 @@ const ToggleMode = styled('div', {
 });
 
 export const TimerControls = ({
-  data,
+  duration,
+  mode,
+  loading,
+  running,
+  onDiscard,
   onStartClicked,
   onAddTimeEntryClicked,
   onStopClicked,
@@ -99,7 +98,7 @@ export const TimerControls = ({
             minHeight: '3rem',
           }}
         >
-          {data.mode === 'timer' ? (
+          {mode === 'Timer' ? (
             <Box
               css={{
                 fontWeight: 500,
@@ -110,19 +109,15 @@ export const TimerControls = ({
                 color: '$neutral10',
               }}
             >
-              {formatDuration(
-                data.state.status === TimerStatus.Running
-                  ? data.state.duration
-                  : 0,
-              )}
+              {formatDuration(duration)}
             </Box>
           ) : (
             <div></div>
           )}
 
-          {data.mode === 'timer' ? (
+          {mode === 'Timer' ? (
             <div>
-              {[TimerStatus.Running].includes(data.state.status) ? (
+              {running ? (
                 <Button
                   color={'danger'}
                   variant="icon"
@@ -131,6 +126,7 @@ export const TimerControls = ({
                   aria-label="Stop timer"
                   title="Stop timer"
                   onClick={() => onStopClicked()}
+                  disabled={loading}
                 >
                   <BiStop />
                 </Button>
@@ -149,6 +145,7 @@ export const TimerControls = ({
                     },
                   }}
                   onClick={() => onStartClicked()}
+                  disabled={loading}
                 >
                   <BiPlay />
                 </Button>
@@ -168,8 +165,7 @@ export const TimerControls = ({
             </div>
           )}
 
-          {data.mode === 'timer' &&
-          data.state.status === TimerStatus.Running ? (
+          {mode === 'Timer' && running ? (
             <Box>
               <Button
                 css={{
@@ -179,6 +175,7 @@ export const TimerControls = ({
                 variant={'icon'}
                 color="transparent"
                 size={'lg'}
+                onClick={onDiscard} // TODO: discard action should be inside menu
               >
                 <BiDotsVertical></BiDotsVertical>
               </Button>
@@ -196,7 +193,7 @@ export const TimerControls = ({
                     right: '-1px',
                   },
                 }}
-                onClick={() => data.mode !== 'timer' && onTimerModeChanged()}
+                onClick={() => mode !== 'Timer' && onTimerModeChanged()}
               >
                 <BiPlay />
               </Button>
@@ -205,7 +202,7 @@ export const TimerControls = ({
                 color="transparent"
                 size={'sm'}
                 title="Manual mode"
-                onClick={() => data.mode !== 'manual' && onTimerModeChanged()}
+                onClick={() => mode !== 'Manual' && onTimerModeChanged()}
               >
                 <BiPlus />
               </Button>

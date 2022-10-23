@@ -1,3 +1,4 @@
+import { useActor } from '@xstate/react';
 import { max, min } from 'date-fns';
 import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow';
 import { TimeEntryViewModel } from 'features/timer/components/ReportedDays';
@@ -14,12 +15,13 @@ import {
   SelectionChanges,
   useSelection,
 } from 'features/timer/hooks/useSelection';
+import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 import { ActiveTimeEntryModel } from 'features/timer/models/time-entries';
 import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils';
 import * as B from 'fp-ts/boolean';
 import { Eq, struct } from 'fp-ts/Eq';
 import * as A from 'fp-ts/lib/Array';
-import { pipe } from 'fp-ts/lib/function';
+import { constNull, constUndefined, pipe } from 'fp-ts/lib/function';
 import * as M from 'fp-ts/lib/Monoid';
 import * as N from 'fp-ts/lib/number';
 import * as O from 'fp-ts/lib/Option';
@@ -44,11 +46,12 @@ function getTimeEntryIds(timeEntries: TimeEntryViewModel[]): string[] {
 }
 
 export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
+  const service = useTimerMachine();
+  const [timerState, timerSend] = useActor(service);
   const [bulkEditMode, toggleBulkEditMode] = useReducer(state => !state, false);
   const [{ entries, selected }, dispatch] = useSelection(
     getTimeEntryIds(props.data),
   );
-
   const isTimeEntryRowChecked = (id: string) => selected.includes(id);
 
   const restTimeEntries = (timeEntry: TimeEntryViewModel) =>
@@ -194,7 +197,22 @@ export const TimeEntriesTable: FC<TimeEntriesTableProps> = props => {
   };
 
   const onPlayClicked = (timeEntry: TimeEntryRowViewModel) => {
-    console.log('Play', timeEntry);
+    timerSend({
+      type: 'RESUME',
+      data: {
+        id: timeEntry.data.id,
+        start: new Date().toISOString(),
+        timeEntry: {
+          description: timeEntry.data.description,
+          billable: timeEntry.data.billable,
+          projectId: pipe(
+            timeEntry.data.project,
+            O.map(project => project.id),
+            O.getOrElseW(constUndefined),
+          ),
+        },
+      },
+    });
   };
 
   return (

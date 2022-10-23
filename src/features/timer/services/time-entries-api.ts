@@ -4,6 +4,7 @@ import {
   NewTimeEntryModel,
   TimeEntriesModel,
   timeEntriesSchema,
+  UpdateTimeEntryRequestData,
 } from 'features/timer/models/time-entries';
 import { client } from 'common/utils/api-client';
 import { createURLSearchParams } from 'common/utils/url-params';
@@ -36,7 +37,7 @@ export async function getTimeEntries(
 
 export async function createTimeEntry(
   workspaceId: string,
-  data: NewTimeEntryModel,
+  data: Omit<NewTimeEntryModel, 'id'>,
 ) {
   return client<CreatedTimeEntryModel>(
     `workspaces/${workspaceId}/time-entries`,
@@ -53,5 +54,22 @@ export async function stopTimeEntry(workspaceId: string, userId: string) {
     data: {
       end: new Date(),
     },
+  });
+}
+
+export async function updateTimeEntry(
+  workspaceId: string,
+  id: string,
+  data: UpdateTimeEntryRequestData,
+) {
+  return client(`workspaces/${workspaceId}/time-entries/${id}`, {
+    method: 'PUT',
+    data,
+  });
+}
+
+export async function deleteTimeEntry(workspaceId: string, id: string) {
+  return client(`/workspaces/${workspaceId}/time-entries/${id}`, {
+    method: 'DELETE',
   });
 }

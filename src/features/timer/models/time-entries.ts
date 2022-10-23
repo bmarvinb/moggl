@@ -200,9 +200,16 @@ export type TimeEntriesModel = z.infer<typeof timeEntriesSchema>;
 export type CreatedTimeEntryModel = z.infer<typeof createdTimeEntrySchema>;
 
 export type NewTimeEntryModel = {
+  id: string;
   start: string;
-  projectId: string | null;
+  projectId?: string;
   description: string;
   billable: boolean;
-  tagIds: string[];
+};
+
+export type UpdateTimeEntryRequestData = {
+  billable: boolean;
+  description: string;
+  start?: string;
+  projectId?: string;
 };

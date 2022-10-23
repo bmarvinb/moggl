@@ -1,22 +1,17 @@
-import { assertNever } from 'common/utils/assert';
-import { TimerStatus } from 'features/timer/models/timer-status';
-import { useTimer } from 'features/timer/providers/TimerProvider';
+import { useActor } from '@xstate/react';
+import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 import { useRef } from 'react';
 
 export function useActiveDuration(initialDuration: number): number {
-  const timer = useTimer();
-  const status = timer.status;
+  const service = useTimerMachine();
+  const [state] = useActor(service);
   const durationRef = useRef(initialDuration);
-  switch (status) {
-    case TimerStatus.Idle:
-      return initialDuration;
-    case TimerStatus.Running:
-      const updatedTime = initialDuration + timer.duration;
-      durationRef.current = updatedTime;
-      return updatedTime;
-    case TimerStatus.Saving:
-      return durationRef.current;
-    default:
-      return assertNever(status);
+  if (state.matches('creating') || state.matches('running')) {
+    const updatedTime = initialDuration + state.context.duration;
+    durationRef.current = updatedTime;
+    return updatedTime;
+  } else if (state.matches('saving')) {
+    return durationRef.current;
   }
+  return initialDuration;
 }

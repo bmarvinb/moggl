@@ -1,81 +1,36 @@
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useActor } from '@xstate/react';
 import { Box } from 'common/components/Box';
 import { Input } from 'common/components/Input';
-import {
-  TimerControls,
-  TimerControlsData,
-} from 'features/timer/components/TimerControls';
+import { TimerControls } from 'features/timer/components/TimerControls';
 import { useTimerMode } from 'features/timer/hooks/useTimerMode';
+import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 import { NewTimeEntryModel } from 'features/timer/models/time-entries';
-import { useTimerAPI, useTimer } from 'features/timer/providers/TimerProvider';
-import { constVoid, pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
-import { useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 export type TimerProps = {
   newTimeEntry: O.Option<NewTimeEntryModel>;
 };
 
-const schema = z.object({
-  billable: z.boolean(),
-  description: z.string(),
-  projectId: z.string(),
-});
-
-type FormValues = z.infer<typeof schema>;
-
-function getDefaultValues(timeEntry: O.Option<NewTimeEntryModel>) {
-  return pipe(
-    timeEntry,
-    O.map(timeEntry => ({
-      billable: timeEntry.billable,
-      description: timeEntry.description,
-      projectId: timeEntry?.projectId ?? '',
-    })),
-    O.getOrElse(() => ({
-      billable: false,
-      description: '',
-      projectId: '634abcee0e2fc14c8e495332', // TODO: mock
-    })),
-  );
-}
-
 export const Timer = (props: TimerProps) => {
-  const state = useTimer();
-  const { start, stop } = useTimerAPI();
+  const service = useTimerMachine();
+  const [timerState, timerSend] = useActor(service);
   const [timerMode, setTimerMode] = useTimerMode();
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: getDefaultValues(props.newTimeEntry),
-  });
-
-  const timerControlsData: TimerControlsData =
-    timerMode === 'timer'
-      ? {
-          mode: 'timer',
-          state,
-        }
-      : {
-          mode: 'manual',
-        };
-
   const onStartClicked = () => {
-    const newTimeEntry: NewTimeEntryModel = {
-      start: new Date().toISOString(),
-      billable: form.getValues('billable'),
-      description: form.getValues('description'),
-      projectId: form.getValues('projectId'),
-      tagIds: [],
-    };
-    start(newTimeEntry);
+    timerSend({ type: 'START', start: new Date().toISOString() });
   };
 
   const onStopClicked = () => {
-    stop();
+    timerSend('STOP');
   };
+
+  const isLoading =
+    timerState.matches('creating') ||
+    timerState.matches('saving') ||
+    timerState.matches('discarding');
+
+  const isRunning =
+    timerState.matches('running') || timerState.matches('creating');
 
   return (
     <Box
@@ -111,12 +66,27 @@ export const Timer = (props: TimerProps) => {
               ? 'What are you working on?'
               : 'What have you done?'
           }
-          {...form.register('description')}
+          value={timerState.context.timeEntry.description}
+          onChange={e =>
+            timerSend({
+              type: 'UPDATE_TIME_ENTRY',
+              data: { description: e.target.value },
+            })
+          }
+          onBlur={e =>
+            timerSend({
+              type: 'SAVE_TIME_ENTRY',
+            })
+          }
         />
       </Box>
       <Box>
         <TimerControls
-          data={timerControlsData}
+          duration={timerState.context.duration}
+          loading={isLoading}
+          running={isRunning}
+          onDiscard={() => timerSend('DISCARD')}
+          mode={timerState.context.mode}
           onStartClicked={onStartClicked}
           onStopClicked={onStopClicked}
           onTimerModeChanged={() => {
