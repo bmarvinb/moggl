@@ -1,7 +1,9 @@
 import { Box } from 'common/components/Box';
 import { Button } from 'common/components/Button';
 import { styled } from 'core/theme/config';
+import { TimerMode } from 'features/timer/machines/TimerMachine';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
+import { FC } from 'react';
 import {
   BiBriefcase,
   BiDollar,
@@ -12,16 +14,18 @@ import {
   BiStop,
 } from 'react-icons/bi';
 
-export type Props = {
+export type TimerControlsProps = {
   duration: number;
+  billable: boolean;
   loading: boolean;
   running: boolean;
-  mode: 'Timer' | 'Manual';
+  mode: TimerMode;
   onDiscard: () => void;
   onStartClicked: () => void;
   onAddTimeEntryClicked: () => void;
   onStopClicked: () => void;
-  onTimerModeChanged: () => void;
+  onBillableStatusChanged: () => void;
+  onTimerModeChanged: (mode: TimerMode) => void;
 };
 
 const ToggleMode = styled('div', {
@@ -33,17 +37,9 @@ const ToggleMode = styled('div', {
   minWidth: '1.5rem',
 });
 
-export const TimerControls = ({
-  duration,
-  mode,
-  loading,
-  running,
-  onDiscard,
-  onStartClicked,
-  onAddTimeEntryClicked,
-  onStopClicked,
-  onTimerModeChanged,
-}: Props) => {
+export const TimerControls: FC<TimerControlsProps> = props => {
+  const isTimerMode = props.mode === 'Timer';
+
   return (
     <div>
       <Box
@@ -84,6 +80,10 @@ export const TimerControls = ({
             color="transparent"
             size={'lg'}
             aria-label="Change billable status"
+            css={{
+              color: props.billable ? '$primary5' : '$neutral8',
+            }}
+            onClick={props.onBillableStatusChanged}
           >
             <BiDollar title="Change billable status" />
           </Button>
@@ -98,7 +98,7 @@ export const TimerControls = ({
             minHeight: '3rem',
           }}
         >
-          {mode === 'Timer' ? (
+          {isTimerMode ? (
             <Box
               css={{
                 fontWeight: 500,
@@ -109,15 +109,15 @@ export const TimerControls = ({
                 color: '$neutral10',
               }}
             >
-              {formatDuration(duration)}
+              {formatDuration(props.duration)}
             </Box>
           ) : (
             <div></div>
           )}
 
-          {mode === 'Timer' ? (
+          {isTimerMode ? (
             <div>
-              {running ? (
+              {props.running ? (
                 <Button
                   color={'danger'}
                   variant="icon"
@@ -125,8 +125,8 @@ export const TimerControls = ({
                   size={'xl'}
                   aria-label="Stop timer"
                   title="Stop timer"
-                  onClick={() => onStopClicked()}
-                  disabled={loading}
+                  onClick={props.onStopClicked}
+                  disabled={props.loading}
                 >
                   <BiStop />
                 </Button>
@@ -144,8 +144,8 @@ export const TimerControls = ({
                       right: '-1px',
                     },
                   }}
-                  onClick={() => onStartClicked()}
-                  disabled={loading}
+                  onClick={props.onStartClicked}
+                  disabled={props.loading}
                 >
                   <BiPlay />
                 </Button>
@@ -158,14 +158,14 @@ export const TimerControls = ({
                 size={'xl'}
                 aria-label="Add time entry"
                 title="Add time entry"
-                onClick={() => onAddTimeEntryClicked()}
+                onClick={props.onAddTimeEntryClicked}
               >
                 <BiPlus />
               </Button>
             </div>
           )}
 
-          {mode === 'Timer' && running ? (
+          {props.running ? (
             <Box>
               <Button
                 css={{
@@ -175,7 +175,7 @@ export const TimerControls = ({
                 variant={'icon'}
                 color="transparent"
                 size={'lg'}
-                onClick={onDiscard} // TODO: discard action should be inside menu
+                onClick={props.onDiscard} // TODO: discard action should be inside menu
               >
                 <BiDotsVertical></BiDotsVertical>
               </Button>
@@ -193,7 +193,7 @@ export const TimerControls = ({
                     right: '-1px',
                   },
                 }}
-                onClick={() => mode !== 'Timer' && onTimerModeChanged()}
+                onClick={() => props.onTimerModeChanged('Timer')}
               >
                 <BiPlay />
               </Button>
@@ -202,7 +202,7 @@ export const TimerControls = ({
                 color="transparent"
                 size={'sm'}
                 title="Manual mode"
-                onClick={() => mode !== 'Manual' && onTimerModeChanged()}
+                onClick={() => props.onTimerModeChanged('Manual')}
               >
                 <BiPlus />
               </Button>

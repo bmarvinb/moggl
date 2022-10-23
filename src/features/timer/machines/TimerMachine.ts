@@ -2,6 +2,8 @@ import { invariant } from 'common/utils/invariant';
 import { differenceInSeconds } from 'date-fns';
 import { assign, createMachine } from 'xstate';
 
+export type TimerMode = 'Timer' | 'Manual';
+
 type TimeEntryData = {
   projectId: string | undefined;
   description: string;
@@ -12,7 +14,7 @@ type TimerContext = {
   id?: string;
   start?: string;
   timeEntry: TimeEntryData;
-  mode: 'Timer' | 'Manual';
+  mode: TimerMode;
   duration: number;
 };
 
@@ -42,9 +44,10 @@ type TimerEvent =
   | { type: 'DISCARD.ERROR' }
   | { type: 'UPDATE_TIME_ENTRY'; data: Partial<TimeEntryData> }
   | { type: 'SAVE_TIME_ENTRY' }
-  | { type: 'TICK' };
+  | { type: 'TICK' }
+  | { type: 'UPDATE_MODE'; mode: TimerMode };
 
-/** @xstate-layout N4IgpgJg5mDOIC5QBUCWBbMAnAsgQwGMALVAOzADpUIAbMAYgGVkBBAJWQG0AGAXUVAAHAPaxUAF1TDSAkAA9EARgAcANgoBOAEzKAzBsWLd+gCzKNJgDQgAnogCsu9fa0B2Xfe673y7htUAvgHWaJi4hCTkVLQMAMIA8gByyACSiQCqAKI8-EggImKS0rIKCCrq2noGRqbmVraIWjoUhgYeqtzKrqqKqq5BIRjY+MRklARYYHiSpFBMrBwUjOmxsZmMjDmyBRJSMnmlHa4UqrqKJhr2ihpeGt3WdgiqlxS6Wqpa9qpfrjrPAyBQsMImMKBMpjM5sx2MgKJk2Gx4mwtnkdkV9qBSloVBRuIovr0vJ1sbplA9EGYTBR7CZVF0tNxuCTvgCgeFRlFwdMyHNUrEANIooSiXbFA4UkyKV5+G7KL7KC69VTkhD2Gm4zx6RyqEwuLQmVlDdmRShYACupFIPPoABEUoxYuwbUL8iL0SUlIyqVctHcjIpuCYLmSGk87hRlO8GW88RozgbgoCjSMTRRzZbrcx4gAFF1ovYep5qV7KfG9aqOVwq7y6Cjvct+N6uX4mfqJtkp0Hpq2zeh8wV8bZugvihAK5TSuV0yXPRwaFVq2uuFSuCw++yl5SGsKdqLdzMsABqmQA+qkcKfMsk2ABNPPDsWYxC+DS49xXeNaM7uFW6qkmYwPjlJplzxBNBh3EEolgPAADcD0PNIAHE4QRJF70KEcnyebhjlOc5LmuW57lDExPjrMjy10QMgzVbdgQ5SgYPg3tGCPZClhWNYNgw0UMXkJRi0qfRDGMCw6mrOU6x6VxuA6RQmh1DR6ONUEIFQWACDwLB1N7O0HSdVDEWRQdUQffjSgDL8KFXJlmzxSMXHqR4dXsCNdWbD5rlaLQVN3Sh1M07TdLmfTHTYG1ONWdZNlM4VMMfASyi9akFL9M4aI0ENHkjTRujVetSU+ZT22TKCGHSbMbRYZBT3PS9rzvOLXQSizEB6V8ZUcd4nH1VxnOffE638OMug+DQDC3UrIMY+g2HWdIL1491R3sKtQzpKVVGeLLOkDHp-gBUhhAgOBZA7crojoIdWsLLoIxcZQ5RpQxXA3X8-AoSUTEDLLmTIvzLq5SEbr4wtSVfKynrWvFFFkrQVW+CdAMZIwaVMXzpoY1N91mUGVuw3wJ0ZT5nh0X1W10RGN1xW4Ok8fVHHsQHGIoZieXxrCktJKkoblWTXqZSS3MlCbqLVVd5V0FnU0CrSdI5szbtHBTemGplPg3LonoRjbHGpcxzDpXDtG8GWxk5xLSnnUMAFo3Imx2nadtagiCIA */
+/** @xstate-layout N4IgpgJg5mDOIC5QBUCWBbMAnAsgQwGMALVAOzADpUIAbMAYgGVkBBAJWQG0AGAXUVAAHAPaxUAF1TDSAkAA9EAJgDMyitwCsAFgBsAdmUAOTXsWKAnMoA0IAJ6INynRQ2LTWwwEYNht3q0AvgE2aJi4hCTkVLQMAMIA8gByyACSiQCqAKI8-EggImKS0rIKCCpqmroGxhqmFtZ2SoqGFJ6e5tz6hr6WymZBIRjY+MRklNR09OkACgAiLMiZAPo48bPZfLIFElIyeaW16tzHJ6fHnjb2CMqarc16Gjo6WgY3OgMgocMRYxQEWGA8JJSFAmKwOBRGOlYrFMoxGDktqIdsV9ogdI4KA89K9zDplHpuAZLujzBoKH0dJ4zJpDNpfB8vuFRlF-oDgaDmOxkBRMmw2PE2Ii8tsintQKVFM9Wlp2h5uOYvOZZSSEB4tC4qtpOrpuJ5uMpGUNmZFKGygWRQalYgBpYVCZFikqIDx6ChaJyeXw6PUdbiKVUabTqDRE444vTPQzvYKfY0jU0ULAAV1IpEt9FmKUYsXYs3t+Udu2dCH1oYo+PMZkezTaOlVOnMbu9mmavjaLyNYQTvxTaYzzHi0wLouLaIQBkULiJOKJHnbelVBLUUs8laMqnKei73xZlD76ZB9Gtds2IqLqIliEMyvdyg8yn1ni0Bvagcxei9+Ken8UXs8O4mr2qaHpyLAAGrLKkODLJkyRsAAmiOF7ivI15Bq05iKv4L6KFoTYaKqWjBh696WPo3AehGgE9lEsB4AAbgOEFpAA4ry-KCshhRjleCAYmo2K4vihLEo0aqKOSeGKDqNyaE8Uo0T8dGMcx4FsZC0KwvC3EoqhkqqCGVRGCYZiWEudIUKujiWJJFifkpe4UBAqCwAQeBYC5R5ZjmeYcQKQpng6PGXmhpadOYFDmGuPjPI2uGEeJzzkoYxGNp+so3I4jmJi5bkeV5oI+bmbCzJpMJwgiQWFiF+mIGW3AVsoVaSTotZrqqvhRZG+H4r42g3IoOVjFMcwLFBKQwUscHIIhulOuOzxTmubhSt0yoWIlVxeFJeIPD6ejKpGhjDeQ9BsHC6QwfNvFhU2UU3rUqXPgYVKLklXgVo2SoYtG+gxrGpDCBAcCyEytHjDESK1SW92KmSejPS8nrvVcL6RZlN54h4bQKqdZoAhaILQ3pJYelJFieEYMmGIdh31klPgUsoPhUYjWgWPjSYgZaJMLXxdIatS3SpXSTb6A2TPHAS9OflhqVc-RTHE+eMPjh6jVmVTvjcLTTZ4hZ5KygRGL+uUQ2xuDymUHl7mebzquk+O1Jte6MWKtoyo6IYDRXAJLg3l4aVU8qAGW-G1t87dpSRWcccnKjiAALTOKcjaeD1qhaPhQRBEAA */
 export const timerMachine = createMachine<TimerContext, TimerEvent>({
   context: {
     timeEntry: { projectId: undefined, description: '', billable: false },
@@ -68,7 +71,13 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
           actions: assign({
             id: (_, event) => event.data.id,
             start: (_, event) => event.data.start,
+            mode: _ => 'Timer',
             timeEntry: (_, event) => event.data.timeEntry,
+          }),
+        },
+        UPDATE_MODE: {
+          actions: assign({
+            mode: (_, event) => event.mode,
           }),
         },
       },
@@ -173,6 +182,7 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
       actions: assign({
         id: (_, event) => event.data.id,
         start: (_, event) => event.data.start,
+        mode: _ => 'Timer',
         timeEntry: (_, event) => event.data.timeEntry,
       }),
     },

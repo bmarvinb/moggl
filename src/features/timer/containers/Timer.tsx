@@ -2,7 +2,6 @@ import { useActor } from '@xstate/react';
 import { Box } from 'common/components/Box';
 import { Input } from 'common/components/Input';
 import { TimerControls } from 'features/timer/components/TimerControls';
-import { useTimerMode } from 'features/timer/hooks/useTimerMode';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 import { NewTimeEntryModel } from 'features/timer/models/time-entries';
 import * as O from 'fp-ts/lib/Option';
@@ -13,24 +12,14 @@ export type TimerProps = {
 
 export const Timer = (props: TimerProps) => {
   const service = useTimerMachine();
-  const [timerState, timerSend] = useActor(service);
-  const [timerMode, setTimerMode] = useTimerMode();
+  const [state, send] = useActor(service);
 
-  const onStartClicked = () => {
-    timerSend({ type: 'START', start: new Date().toISOString() });
-  };
-
-  const onStopClicked = () => {
-    timerSend('STOP');
-  };
-
+  // TODO: replace with machine selector
   const isLoading =
-    timerState.matches('creating') ||
-    timerState.matches('saving') ||
-    timerState.matches('discarding');
-
-  const isRunning =
-    timerState.matches('running') || timerState.matches('creating');
+    state.matches('creating') ||
+    state.matches('saving') ||
+    state.matches('discarding');
+  const isRunning = state.matches('running') || state.matches('creating');
 
   return (
     <Box
@@ -62,19 +51,19 @@ export const Timer = (props: TimerProps) => {
             width: '100%',
           }}
           placeholder={
-            timerMode === 'timer'
+            state.context.mode === 'Timer'
               ? 'What are you working on?'
               : 'What have you done?'
           }
-          value={timerState.context.timeEntry.description}
+          value={state.context.timeEntry.description}
           onChange={e =>
-            timerSend({
+            send({
               type: 'UPDATE_TIME_ENTRY',
               data: { description: e.target.value },
             })
           }
           onBlur={e =>
-            timerSend({
+            send({
               type: 'SAVE_TIME_ENTRY',
             })
           }
@@ -82,16 +71,23 @@ export const Timer = (props: TimerProps) => {
       </Box>
       <Box>
         <TimerControls
-          duration={timerState.context.duration}
+          duration={state.context.duration}
           loading={isLoading}
           running={isRunning}
-          onDiscard={() => timerSend('DISCARD')}
-          mode={timerState.context.mode}
-          onStartClicked={onStartClicked}
-          onStopClicked={onStopClicked}
-          onTimerModeChanged={() => {
-            setTimerMode(timerMode === 'manual' ? 'timer' : 'manual');
-          }}
+          mode={state.context.mode}
+          billable={state.context.timeEntry.billable}
+          onBillableStatusChanged={() =>
+            send({
+              type: 'UPDATE_TIME_ENTRY',
+              data: { billable: !state.context.timeEntry.billable },
+            })
+          }
+          onDiscard={() => send('DISCARD')}
+          onStartClicked={() =>
+            send({ type: 'START', start: new Date().toISOString() })
+          }
+          onStopClicked={() => send('STOP')}
+          onTimerModeChanged={mode => send({ type: 'UPDATE_MODE', mode })}
           onAddTimeEntryClicked={() => {
             console.log('time entry clicked');
           }}
