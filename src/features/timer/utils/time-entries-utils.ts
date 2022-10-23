@@ -27,7 +27,7 @@ import * as O from 'fp-ts/lib/Option';
 export function isInactiveTimeEntry(
   x: TimeEntryModel,
 ): x is InactiveTimeEntryModel {
-  return Boolean(x.projectId) && Boolean(x.timeInterval.end);
+  return Boolean(x.timeInterval.end);
 }
 
 export function isActiveTimeEntry(

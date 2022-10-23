@@ -212,23 +212,25 @@ export const TimeEntryViewRow: FC<Props> = props => {
               alignItems: 'center',
             }}
           >
-            {O.isSome(props.timeEntry.data.project) && (
-              <AdditionalInfo
-                css={{
-                  color: props.timeEntry.data.project.value.color,
-                  '&:before': {
-                    background: props.timeEntry.data.project.value.color,
-                  },
-                }}
-                data-testid="TIME_ENTRY_ADDITIONAL_INFO"
-              >
-                {getTimeEntryInfo(
-                  props.timeEntry.data.project.value.name,
-                  props.timeEntry.data.project.value.clientName,
-                  props.timeEntry.data.task,
-                )}
-              </AdditionalInfo>
-            )}
+            <div>
+              {O.isSome(props.timeEntry.data.project) && (
+                <AdditionalInfo
+                  css={{
+                    color: props.timeEntry.data.project.value.color,
+                    '&:before': {
+                      background: props.timeEntry.data.project.value.color,
+                    },
+                  }}
+                  data-testid="TIME_ENTRY_ADDITIONAL_INFO"
+                >
+                  {getTimeEntryInfo(
+                    props.timeEntry.data.project.value.name,
+                    props.timeEntry.data.project.value.clientName,
+                    props.timeEntry.data.task,
+                  )}
+                </AdditionalInfo>
+              )}
+            </div>
             <Box
               css={{
                 position: 'relative',
