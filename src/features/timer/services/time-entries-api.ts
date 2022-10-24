@@ -1,7 +1,7 @@
 import {
+  AddTimeEntryRequestData,
   CreatedTimeEntryModel,
   createdTimeEntrySchema,
-  NewTimeEntryModel,
   TimeEntriesModel,
   timeEntriesSchema,
   UpdateTimeEntryRequestData,
@@ -35,9 +35,9 @@ export async function getTimeEntries(
   );
 }
 
-export async function createTimeEntry(
+export async function addTimeEntry(
   workspaceId: string,
-  data: Omit<NewTimeEntryModel, 'id'>,
+  data: AddTimeEntryRequestData,
 ) {
   return client<CreatedTimeEntryModel>(
     `workspaces/${workspaceId}/time-entries`,

@@ -10,7 +10,7 @@ export function useActiveDuration(initialDuration: number): number {
     const updatedTime = initialDuration + state.context.duration;
     durationRef.current = updatedTime;
     return updatedTime;
-  } else if (state.matches('saving')) {
+  } else if (state.matches('saving') || state.matches('discarding')) {
     return durationRef.current;
   }
   return initialDuration;

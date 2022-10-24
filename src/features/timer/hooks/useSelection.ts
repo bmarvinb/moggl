@@ -71,9 +71,9 @@ function reducer(
 export function useSelection(
   entries: string[] = [],
 ): [SelectionState, Dispatch<SelectionEvent>] {
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, send] = useReducer(reducer, {
     ...initialState,
     entries,
   });
-  return [state, dispatch];
+  return [state, send];
 }

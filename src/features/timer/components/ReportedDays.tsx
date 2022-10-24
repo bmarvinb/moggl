@@ -1,14 +1,10 @@
 import { Box } from 'common/components/Box';
-import { isToday } from 'date-fns';
 import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable';
-import {
-  ActiveTimeEntryModel,
-  InactiveTimeEntryModel,
-} from 'features/timer/models/time-entries';
+import { InactiveTimeEntryModel } from 'features/timer/models/time-entries';
 import { timeEntryDuration } from 'features/timer/utils/time-entries-utils';
 import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
-import { FC } from 'react';
+import React from 'react';
 
 export type TimeEntryRowProject = {
   id: string;
@@ -37,7 +33,6 @@ export type ReportedDay = {
 
 export type ReportedDaysProps = {
   reportedDays: ReportedDay[];
-  activeTimeEntry: O.Option<ActiveTimeEntryModel>;
 };
 
 export function createTimeEntryViewModel(
@@ -50,20 +45,18 @@ export function createTimeEntryViewModel(
     project: pipe(
       timeEntry.project,
       O.fromNullable,
-      O.map(project => {
-        return {
-          id: project.id,
-          name: project.name,
-          color: project.color,
-          clientName: pipe(
-            project.clientName,
-            O.fromNullable,
-            O.chain(clientName =>
-              clientName.length === 0 ? O.none : O.some(clientName),
-            ),
+      O.map(project => ({
+        id: project.id,
+        name: project.name,
+        color: project.color,
+        clientName: pipe(
+          project.clientName,
+          O.fromNullable,
+          O.chain(clientName =>
+            clientName.length === 0 ? O.none : O.some(clientName),
           ),
-        };
-      }),
+        ),
+      })),
     ),
     task: pipe(
       timeEntry.task,
@@ -76,7 +69,7 @@ export function createTimeEntryViewModel(
   };
 }
 
-export const ReportedDays: FC<ReportedDaysProps> = props => {
+export const ReportedDays: React.FC<ReportedDaysProps> = props => {
   return (
     <Box
       css={{
@@ -87,7 +80,6 @@ export const ReportedDays: FC<ReportedDaysProps> = props => {
         ({ id, date, reportedDuration, data: timeEntries }) => (
           <TimeEntriesTable
             key={id}
-            activeTimeEntry={isToday(date) ? props.activeTimeEntry : O.none}
             date={date}
             data={timeEntries}
             reportedDuration={reportedDuration}

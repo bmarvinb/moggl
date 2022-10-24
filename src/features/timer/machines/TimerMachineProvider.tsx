@@ -1,12 +1,12 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useActor, useInterpret } from '@xstate/react';
 import { invariant } from 'common/utils/invariant';
-import { useCreateTimeEntry } from 'features/timer/hooks/useCreateTimeEntry';
+import { useAddTimeEntry } from 'features/timer/hooks/useCreateTimeEntry';
 import { useDeleteTimeEntry } from 'features/timer/hooks/useDeleteTimeEntry';
 import { useStopTimeEntry } from 'features/timer/hooks/useStopTimeEntry';
 import { useUpdateTimeEntry } from 'features/timer/hooks/useUpdateTimeEntry';
 import { timerMachine } from 'features/timer/machines/TimerMachine';
-import { NewTimeEntryModel } from 'features/timer/models/time-entries';
+import { TimeEntryInProgressModel } from 'features/timer/models/time-entries';
 import * as O from 'fp-ts/lib/Option';
 import React, { useEffect } from 'react';
 import { InterpreterFrom } from 'xstate';
@@ -18,14 +18,14 @@ const TimerContext = React.createContext<TimerContextData>(
 );
 
 export function TimerMachineProvider(props: {
-  newTimeEntry: O.Option<NewTimeEntryModel>;
+  timeEntryInProgress: O.Option<TimeEntryInProgressModel>;
   children: React.ReactNode;
 }) {
-  const { mutate: addTimeEntry } = useCreateTimeEntry();
+  const { mutate: addTimeEntry } = useAddTimeEntry();
   const { mutate: stopTimeEntry } = useStopTimeEntry();
   const { mutate: updateTimeEntry } = useUpdateTimeEntry();
   const { mutate: deleteTimeEntry } = useDeleteTimeEntry();
-  const queryClient = useQueryClient();
+  const { invalidateQueries } = useQueryClient();
 
   const service = useInterpret(timerMachine, {
     services: {
@@ -39,7 +39,7 @@ export function TimerMachineProvider(props: {
             billable: context.timeEntry.billable,
           },
           {
-            onSuccess: () => send('START.SUCCESS'),
+            onSuccess: data => send({ type: 'START.SUCCESS', id: data.id }),
             onError: () => send('START.ERROR'),
           },
         );
@@ -47,7 +47,7 @@ export function TimerMachineProvider(props: {
       stopTimeEntry: () => send => {
         stopTimeEntry(undefined, {
           onSuccess: async () => {
-            await queryClient.invalidateQueries(['timeEntries']);
+            await invalidateQueries(['timeEntries']);
             send('SAVING.SUCCESS');
           },
           onError: () => send('SAVING.ERROR'),
@@ -62,7 +62,6 @@ export function TimerMachineProvider(props: {
       },
     },
     actions: {
-      // TODO: cancel requests if they are not finished until new event occured
       updateTimeEntry: context => {
         invariant(context.id, 'Id must be provided');
         updateTimeEntry(
@@ -87,21 +86,21 @@ export function TimerMachineProvider(props: {
   const [timerState, timerSend] = useActor(service);
 
   useEffect(() => {
-    if (O.isSome(props.newTimeEntry)) {
+    if (O.isSome(props.timeEntryInProgress)) {
       timerSend({
         type: 'CONTINUE',
         data: {
-          id: props.newTimeEntry.value.id,
-          start: props.newTimeEntry.value.start,
+          id: props.timeEntryInProgress.value.id,
+          start: props.timeEntryInProgress.value.timeInterval.start,
           timeEntry: {
-            description: props.newTimeEntry.value.description,
-            projectId: props.newTimeEntry.value.projectId || undefined,
-            billable: props.newTimeEntry.value.billable,
+            description: props.timeEntryInProgress.value.description,
+            projectId: props.timeEntryInProgress.value.projectId || undefined,
+            billable: props.timeEntryInProgress.value.billable,
           },
         },
       });
     }
-  }, [props.newTimeEntry, timerSend]);
+  }, [props.timeEntryInProgress, timerSend]);
 
   return (
     <TimerContext.Provider value={service}>

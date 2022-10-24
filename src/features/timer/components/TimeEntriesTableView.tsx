@@ -6,11 +6,11 @@ import { styled } from 'core/theme/config';
 import { isToday } from 'date-fns';
 import { DayDuration } from 'features/timer/components/DayDuration';
 import { formatDate } from 'features/timer/utils/time-entries-utils';
-import { FC, ReactNode } from 'react';
+import React from 'react';
 import { BiListUl } from 'react-icons/bi';
 
-type Props = {
-  children: ReactNode;
+type TimeEntriesTableViewProps = {
+  children: React.ReactNode;
   bulkEditMode: boolean;
   allSelected: boolean;
   reportedTime: number;
@@ -34,67 +34,68 @@ const Label = styled('div', {
   fontWeight: '$semibold',
 });
 
-export const TimeEntriesTableView: FC<Props> = props => {
-  return (
-    <TimeEntriesTable>
-      <Box
-        css={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          padding: '$6 $8',
-        }}
-      >
+export const TimeEntriesTableView: React.FC<TimeEntriesTableViewProps> =
+  props => {
+    return (
+      <TimeEntriesTable>
         <Box
           css={{
             display: 'flex',
-            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '$6 $8',
           }}
         >
-          {props.bulkEditMode && (
-            <Box
-              css={{
-                marginRight: '$4',
-              }}
-            >
-              <Checkbox
-                onChange={props.onBulkModeChanged}
-                checked={props.allSelected}
+          <Box
+            css={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            {props.bulkEditMode && (
+              <Box
+                css={{
+                  marginRight: '$4',
+                }}
+              >
+                <Checkbox
+                  onChange={props.onBulkModeChanged}
+                  checked={props.allSelected}
+                />
+              </Box>
+            )}
+            <Label>
+              <Box
+                css={{
+                  marginRight: '$2',
+                  color: '$neutral10',
+                }}
+              >
+                {formatDate(props.date)}
+              </Box>
+              <DayDuration
+                isToday={isToday(props.date)}
+                reportedTime={props.reportedTime}
               />
-            </Box>
-          )}
-          <Label>
-            <Box
-              css={{
-                marginRight: '$2',
-                color: '$neutral10',
-              }}
+            </Label>
+          </Box>
+          <Label
+            css={{
+              position: 'relative',
+              right: '-0.25rem',
+            }}
+          >
+            <Button
+              variant="icon"
+              color="transparent"
+              size={'lg'}
+              aria-label="Toggle edit mode"
+              onClick={props.onToggleClicked}
             >
-              {formatDate(props.date)}
-            </Box>
-            <DayDuration
-              isToday={isToday(props.date)}
-              reportedTime={props.reportedTime}
-            />
+              <BiListUl title="Toggle" />
+            </Button>
           </Label>
         </Box>
-        <Label
-          css={{
-            position: 'relative',
-            right: '-0.25rem',
-          }}
-        >
-          <Button
-            variant="icon"
-            color="transparent"
-            size={'lg'}
-            aria-label="Toggle edit mode"
-            onClick={props.onToggleClicked}
-          >
-            <BiListUl title="Toggle" />
-          </Button>
-        </Label>
-      </Box>
-      {props.children}
-    </TimeEntriesTable>
-  );
-};
+        {props.children}
+      </TimeEntriesTable>
+    );
+  };

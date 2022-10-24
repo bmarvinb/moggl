@@ -3,7 +3,7 @@ import { Button } from 'common/components/Button';
 import { styled } from 'core/theme/config';
 import { TimerMode } from 'features/timer/machines/TimerMachine';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
-import { FC } from 'react';
+import React from 'react';
 import {
   BiBriefcase,
   BiDollar,
@@ -37,7 +37,7 @@ const ToggleMode = styled('div', {
   minWidth: '1.5rem',
 });
 
-export const TimerControls: FC<TimerControlsProps> = props => {
+export const TimerControls: React.FC<TimerControlsProps> = props => {
   const isTimerMode = props.mode === 'Timer';
 
   return (
@@ -175,6 +175,7 @@ export const TimerControls: FC<TimerControlsProps> = props => {
                 variant={'icon'}
                 color="transparent"
                 size={'lg'}
+                disabled={props.loading}
                 onClick={props.onDiscard} // TODO: discard action should be inside menu
               >
                 <BiDotsVertical></BiDotsVertical>

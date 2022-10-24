@@ -11,7 +11,7 @@ import {
   isParentTimeEntry,
 } from 'features/timer/utils/time-entries-utils';
 import * as O from 'fp-ts/lib/Option';
-import { FC } from 'react';
+import React from 'react';
 import {
   BiDollar,
   BiDotsVerticalRounded,
@@ -47,7 +47,7 @@ export type TimeEntryRowViewModel =
   | ParentTimeEntry
   | ChildTimeEntry;
 
-type Props = {
+type TimeEntryViewRowProps = {
   timeEntry: TimeEntryRowViewModel;
   edit: boolean;
   selected: boolean;
@@ -91,7 +91,7 @@ const AdditionalInfo = styled('div', {
   },
 });
 
-export const TimeEntryViewRow: FC<Props> = props => {
+export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
   return (
     <>
       <TimeEntryItem

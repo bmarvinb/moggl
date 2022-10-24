@@ -3,11 +3,11 @@ import { Box } from 'common/components/Box';
 import { Input } from 'common/components/Input';
 import { TimerControls } from 'features/timer/components/TimerControls';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
-import { NewTimeEntryModel } from 'features/timer/models/time-entries';
+import { TimeEntryInProgressModel } from 'features/timer/models/time-entries';
 import * as O from 'fp-ts/lib/Option';
 
 export type TimerProps = {
-  newTimeEntry: O.Option<NewTimeEntryModel>;
+  timeEntryInProgress: O.Option<TimeEntryInProgressModel>;
 };
 
 export const Timer = (props: TimerProps) => {

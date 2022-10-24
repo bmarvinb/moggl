@@ -20,7 +20,7 @@ type TimerContext = {
 
 type TimerEvent =
   | { type: 'START'; start: string }
-  | { type: 'START.SUCCESS' }
+  | { type: 'START.SUCCESS'; id: string }
   | { type: 'START.ERROR' }
   | {
       type: 'CONTINUE';
@@ -94,6 +94,9 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
       on: {
         'START.SUCCESS': {
           target: 'running',
+          actions: assign({
+            id: (_, event) => event.id,
+          }),
         },
         'START.ERROR': {
           target: 'idle',

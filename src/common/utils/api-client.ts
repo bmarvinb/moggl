@@ -56,7 +56,11 @@ export async function client<Response = unknown>(
       const { message, code } = await res.json();
       return Promise.reject(apiError(message, code));
     }
-    const json = await res.json();
+    const text = await res.text();
+    if (!text) {
+      return {};
+    }
+    const json = JSON.parse(text);
     if (!schema) {
       return json;
     }

@@ -5,24 +5,24 @@ import { membershipSchema } from 'core/models/domain/membership';
 import { statusSchema } from 'core/models/domain/status';
 import { z } from 'zod';
 
-export const inactiveTimeEntryIntervalSchema = z.object({
+const finishedIntervalSchema = z.object({
   start: z.string(),
   end: z.string(),
   duration: z.string(),
 });
 
-export const activeTimeEntryIntervalSchema = z.object({
+const inProgressIntervalSchema = z.object({
   start: z.string(),
   end: z.null(),
   duration: z.null(),
 });
 
-export const summaryReportSettingsSchema = z.object({
+const summaryReportSettingsSchema = z.object({
   group: z.string(),
   subgroup: z.string(),
 });
 
-export const settingsSchema = z.object({
+const settingsSchema = z.object({
   weekStart: z.string(),
   timeZone: z.string(),
   timeFormat: z.string(),
@@ -54,7 +54,7 @@ export const settingsSchema = z.object({
   showOnlyWorkingDays: z.boolean(),
 });
 
-export const userSchema = z.object({
+const userSchema = z.object({
   id: z.string(),
   email: z.string(),
   name: z.string(),
@@ -67,7 +67,7 @@ export const userSchema = z.object({
   customFields: z.array(customFieldSchema),
 });
 
-export const taskSchema = z.object({
+const taskSchema = z.object({
   id: z.string(),
   name: z.string(),
   projectId: z.string(),
@@ -87,14 +87,14 @@ export const taskSchema = z.object({
     .nullable(),
 });
 
-export const tagsSchema = z.object({
+const tagsSchema = z.object({
   archived: z.boolean(),
   id: z.string(),
   name: z.string(),
   workspaceId: z.string(),
 });
 
-export const timeEstimateSchema = z.object({
+const timeEstimateSchema = z.object({
   estimate: z.string(),
   type: z.string(),
   resetOption: z.unknown().nullable(),
@@ -102,7 +102,7 @@ export const timeEstimateSchema = z.object({
   includeNonBillable: z.boolean(),
 });
 
-export const projectSchema = z.object({
+const projectSchema = z.object({
   id: z.string(),
   name: z.string(),
   hourlyRate: hourlyRateSchema,
@@ -123,7 +123,7 @@ export const projectSchema = z.object({
   public: z.boolean(),
 });
 
-export const commonTimeEntrySchema = z.object({
+const commonTimeEntrySchema = z.object({
   id: z.string(),
   description: z.string(),
   tags: z.array(tagsSchema),
@@ -140,27 +140,27 @@ export const commonTimeEntrySchema = z.object({
   userId: z.string(),
 });
 
-export const activeTimeEntrySchema = z.intersection(
+const timeEntryInProgressSchema = z.intersection(
   commonTimeEntrySchema,
   z.object({
     projectId: z.string().nullable(),
     project: projectSchema.nullable(),
-    timeInterval: activeTimeEntryIntervalSchema,
+    timeInterval: inProgressIntervalSchema,
   }),
 );
 
-export const inactiveTimeEntrySchema = z.intersection(
+const finishedTimeEntrySchema = z.intersection(
   commonTimeEntrySchema,
   z.object({
     projectId: z.string().nullable(),
     project: projectSchema.nullable(),
-    timeInterval: inactiveTimeEntryIntervalSchema,
+    timeInterval: finishedIntervalSchema,
   }),
 );
 
 export const timeEntrySchema = z.union([
-  activeTimeEntrySchema,
-  inactiveTimeEntrySchema,
+  timeEntryInProgressSchema,
+  finishedTimeEntrySchema,
 ]);
 
 export const timeEntriesSchema = z.array(timeEntrySchema);
@@ -173,7 +173,7 @@ export const createdTimeEntrySchema = z.object({
   projectId: z.string().nullable(),
   tagIds: z.array(z.string()).nullable(),
   taskId: z.string().nullable(),
-  timeInterval: activeTimeEntryIntervalSchema,
+  timeInterval: inProgressIntervalSchema,
   userId: z.string(),
   workspaceId: z.string(),
   customFieldValues: z
@@ -191,16 +191,17 @@ export const createdTimeEntrySchema = z.object({
 
 export type TimeEntryModel = z.infer<typeof timeEntrySchema>;
 
-export type ActiveTimeEntryModel = z.infer<typeof activeTimeEntrySchema>;
+export type TimeEntryInProgressModel = z.infer<
+  typeof timeEntryInProgressSchema
+>;
 
-export type InactiveTimeEntryModel = z.infer<typeof inactiveTimeEntrySchema>;
+export type InactiveTimeEntryModel = z.infer<typeof finishedTimeEntrySchema>;
 
 export type TimeEntriesModel = z.infer<typeof timeEntriesSchema>;
 
 export type CreatedTimeEntryModel = z.infer<typeof createdTimeEntrySchema>;
 
-export type NewTimeEntryModel = {
-  id: string;
+export type AddTimeEntryRequestData = {
   start: string;
   projectId?: string;
   description: string;

@@ -1,14 +1,18 @@
 import { Box } from 'common/components/Box';
 import { useActiveDuration } from 'features/timer/hooks/useActiveDuration';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
+import React from 'react';
 
-type Props = {
+type DayDurationProps = {
   isToday: boolean;
   reportedTime: number;
 };
 
-export const DayDuration = (props: Props) => {
-  const duration = useActiveDuration(props.reportedTime);
+export const DayDuration: React.FC<DayDurationProps> = ({
+  reportedTime,
+  isToday,
+}) => {
+  const duration = useActiveDuration(reportedTime);
   return (
     <Box
       css={{
@@ -17,7 +21,7 @@ export const DayDuration = (props: Props) => {
         minWidth: '4rem',
       }}
     >
-      {formatDuration(props.isToday ? duration : props.reportedTime)}
+      {formatDuration(isToday ? duration : reportedTime)}
     </Box>
   );
 };
