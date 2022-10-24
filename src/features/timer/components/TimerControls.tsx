@@ -17,6 +17,7 @@ import {
 export type TimerControlsProps = {
   duration: number;
   billable: boolean;
+  creating: boolean;
   loading: boolean;
   running: boolean;
   mode: TimerMode;
@@ -39,7 +40,6 @@ const ToggleMode = styled('div', {
 
 export const TimerControls: React.FC<TimerControlsProps> = props => {
   const isTimerMode = props.mode === 'Timer';
-
   return (
     <div>
       <Box
@@ -175,8 +175,8 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
                 variant={'icon'}
                 color="transparent"
                 size={'lg'}
-                disabled={props.loading}
-                onClick={props.onDiscard} // TODO: discard action should be inside menu
+                disabled={props.loading || props.creating}
+                onClick={props.onDiscard}
               >
                 <BiDotsVertical></BiDotsVertical>
               </Button>

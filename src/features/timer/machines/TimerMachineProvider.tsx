@@ -25,7 +25,7 @@ export function TimerMachineProvider(props: {
   const { mutate: stopTimeEntry } = useStopTimeEntry();
   const { mutate: updateTimeEntry } = useUpdateTimeEntry();
   const { mutate: deleteTimeEntry } = useDeleteTimeEntry();
-  const { invalidateQueries } = useQueryClient();
+  const queryClient = useQueryClient();
 
   const service = useInterpret(timerMachine, {
     services: {
@@ -39,15 +39,15 @@ export function TimerMachineProvider(props: {
             billable: context.timeEntry.billable,
           },
           {
-            onSuccess: data => send({ type: 'START.SUCCESS', id: data.id }),
-            onError: () => send('START.ERROR'),
+            onSuccess: data => send({ type: 'CREATING.SUCCESS', id: data.id }),
+            onError: () => send('CREATING.ERROR'),
           },
         );
       },
       stopTimeEntry: () => send => {
         stopTimeEntry(undefined, {
           onSuccess: async () => {
-            await invalidateQueries(['timeEntries']);
+            await queryClient.invalidateQueries(['timeEntries']);
             send('SAVING.SUCCESS');
           },
           onError: () => send('SAVING.ERROR'),

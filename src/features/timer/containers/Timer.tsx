@@ -13,12 +13,8 @@ export type TimerProps = {
 export const Timer = (props: TimerProps) => {
   const service = useTimerMachine();
   const [state, send] = useActor(service);
-
-  // TODO: replace with machine selector
-  const isLoading =
-    state.matches('creating') ||
-    state.matches('saving') ||
-    state.matches('discarding');
+  const isCreating = state.matches('creating');
+  const isLoading = state.matches('saving') || state.matches('discarding');
   const isRunning = state.matches('running') || state.matches('creating');
 
   return (
@@ -72,6 +68,7 @@ export const Timer = (props: TimerProps) => {
       <Box>
         <TimerControls
           duration={state.context.duration}
+          creating={isCreating}
           loading={isLoading}
           running={isRunning}
           mode={state.context.mode}
