@@ -21,50 +21,40 @@ export function TimerMachineProvider(props: {
   timeEntryInProgress: O.Option<TimeEntryInProgressModel>;
   children: React.ReactNode;
 }) {
-  const { mutate: addTimeEntry } = useAddTimeEntry();
-  const { mutate: stopTimeEntry } = useStopTimeEntry();
-  const { mutate: updateTimeEntry } = useUpdateTimeEntry();
-  const { mutate: deleteTimeEntry } = useDeleteTimeEntry();
+  const { mutateAsync: addTimeEntry } = useAddTimeEntry();
+  const { mutateAsync: stopTimeEntry } = useStopTimeEntry();
+  const { mutateAsync: updateTimeEntry } = useUpdateTimeEntry();
+  const { mutateAsync: deleteTimeEntry } = useDeleteTimeEntry();
   const queryClient = useQueryClient();
 
   const service = useInterpret(timerMachine, {
     services: {
-      addTimeEntry: context => send => {
+      addTimeEntry: context => () => {
         invariant(context.start, 'Start date should be provided');
-        addTimeEntry(
-          {
-            start: context.start,
-            projectId: context.timeEntry.projectId,
-            description: context.timeEntry.description,
-            billable: context.timeEntry.billable,
-          },
-          {
-            onSuccess: data => send({ type: 'CREATING.SUCCESS', id: data.id }),
-            onError: () => send('CREATING.ERROR'),
-          },
-        );
-      },
-      stopTimeEntry: () => send => {
-        stopTimeEntry(undefined, {
-          onSuccess: async () => {
-            await queryClient.invalidateQueries(['timeEntries']);
-            send('SAVING.SUCCESS');
-          },
-          onError: () => send('SAVING.ERROR'),
+        return addTimeEntry({
+          start: context.start,
+          projectId: context.timeEntry.projectId,
+          description: context.timeEntry.description,
+          billable: context.timeEntry.billable,
+        }).then(res => {
+          return res.id;
         });
       },
-      discard: context => send => {
+      stopTimeEntry: () => () => {
+        return stopTimeEntry();
+      },
+      discard: context => () => {
         invariant(context.id, 'Id must be provided');
-        deleteTimeEntry(context.id, {
-          onSuccess: () => send('DISCARD.SUCCESS'),
-          onError: () => send('DISCARD.ERROR'),
-        });
+        return deleteTimeEntry(context.id);
       },
     },
     actions: {
+      refetchTimeEntries: _ => {
+        return queryClient.invalidateQueries(['timeEntries']);
+      },
       updateTimeEntry: context => {
         invariant(context.id, 'Id must be provided');
-        updateTimeEntry(
+        return updateTimeEntry(
           {
             id: context.id,
             data: {
@@ -93,8 +83,8 @@ export function TimerMachineProvider(props: {
           id: props.timeEntryInProgress.value.id,
           start: props.timeEntryInProgress.value.timeInterval.start,
           timeEntry: {
-            description: props.timeEntryInProgress.value.description,
             projectId: props.timeEntryInProgress.value.projectId || undefined,
+            description: props.timeEntryInProgress.value.description,
             billable: props.timeEntryInProgress.value.billable,
           },
         },
@@ -112,7 +102,9 @@ export function TimerMachineProvider(props: {
 export function useTimerMachine() {
   const context = React.useContext(TimerContext);
   if (context === undefined) {
-    throw new Error(`useTimer must be used within a TimerProvider`);
+    throw new Error(
+      `useTimerMachine must be used within a TimerMachineProvider`,
+    );
   }
   return context;
 }
