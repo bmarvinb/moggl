@@ -12,14 +12,22 @@ type TimeEntryData = {
 
 type TimerContext = {
   id?: string;
-  start?: string;
+  start?: Date;
   timeEntry: TimeEntryData;
   mode: TimerMode;
   duration: number;
 };
 
-type TimerEvent =
-  | { type: 'START'; start: string }
+export enum TimerState {
+  Idle = 'idle',
+  Running = 'running',
+  Creating = 'creating',
+  Discarding = 'discarding',
+  Saving = 'saving',
+}
+
+export type TimerEvent =
+  | { type: 'START'; start: Date }
   | {
       type: 'CONTINUE';
       data: { id: string; start: Date; timeEntry: TimeEntryData };
@@ -50,7 +58,7 @@ const initialContext: TimerContext = {
   },
 };
 
-/** @xstate-layout N4IgpgJg5mDOIC5QBUCWBbMAnAsgQwGMALVAOzADpUIAbMAYgGVkBBAJWQG0AGAXUVAAHAPaxUAF1TDSAkAA9EAWgBsATgrcATMuUBGAMwAOAKzL9m7gBZdAGhABPRJdUB2Coc2bDh7spfmXY0tjAF8QuzRMXEIScipaBgBhAHkAOWQASVSAVQBRHn4kEBExSWlZBQRNfTcdbhcXVWNuY30W1U07RwRdfw19VUtuE10ffSCwiIxsfGIySmo6emyABQARFmRcgH0cZLX8vlkSiSkZIsrFawoG1VVDS0aGrWNVLsQ2-QoLb09zXWUlkMNUmIEiMxi8woBCwYDwklIUHoEGkC1IADdhABrSjg6JzOIwuEIqAIMiYgjws6cXS8ArHUSncoXJwuSwaPwWTTNFzcXqdByIXnqT4PMymXSPfSgvGzWKUIlUxH0bBYYRYCiCGjwgBm6vQFFlkMJsKVpPJwkpZVINLpRyKJ2tFUQml03AoRks+iGgMMvQBlneCGMroojxDul0rRcD2BMum+Pl0NNJPomUSAGl6Q7GU6WVVlMYKKpdJoYwD6t6vEGfOpBtw7i4yw9LI941E5VCsABXUikMhItYZRiJdhrbNCXNnZ09PmGDQtKyqZQmDyBINqZQaYy1ny-GrS8JghOduI9vsDpjIZIrCfFKfM0CVRruhu-TzcT-KBtBg-fPQrqo7SuE07YQgSlDnv2yrplm9qTqU075oYdzFqu4zfq2AKGDWbQ3N+krLoEowDGBiZdr20FIowLAAGo7JkOA7Lk6RsAAmnejpIU+iCYTc3KFjUHi+C0uHui4BHOH4xijJYZGnpQsB4Oil4onEFo4oaJ7GopykDmSGKWlS0gFJxD7nDxVQ1BQxiNN6krGEEhgSQK3SfN8wx+jGOgAhJclHkaEEUEpKnKqq6qatq4h6lgBqBUmIX6RaVrUnwZmIY+8hOMomgUDoQxltwAzivoyhBhGYbETGjSPLyLjyTpFAQKgsCUlgzXKmpaKYpp8VQs1rV4O1SWGSlJlpfB94ZRZWU9FyHrfn4Db1DJ9w1uy9xDOMRUoTlcYBdpQUDW1HVIuFGparq+paR2jXHUNp0GRSxk2hNhQIUyM2VJGbo3N4gxtDJXn6BuwTuMEO7LhYjkSQ1EHLOsmwMRkTHbCxyDseln0zpKZYUACryuKVEn+jWzQaGym6upG3j1Qdt3w2wuSMNkTFY3mlmKL04l+rTFZ8q0gaCggha6MWgJ+N6O4+I5YRHqQwgQHAsh9epCQMtNM6uGhTTljoQF6LYwtDOo1hDG6jlGJTcNJoqJIa9j+a6PcYY7poy7mF4jQ4cLgLsjy0n1GYfKHlMDNJlBA4Oxzs1srlhZm7yzs5WyG47guNQrj4DZRqE9PgQlemItH3GzcEbg1dyRUSyWOi-lo7hLe7pa2XyOg2-1LUnVHOaa07UbqP4Se8l6wz6Eb3RD-jHSRn7wxlnTYcF-MJeZZcrrzuWfPfgL3pBooXx3FXznB9UoxRnLIRAA */
+/** @xstate-layout N4IgpgJg5mDOIC5QBUCWBbMAnAsgQwGMALVAOzADpUIAbMAYgGVkBBAJWQG0AGAXUVAAHAPaxUAF1TDSAkAA9EAWgBsATgoAOAMwAWAOzcNqgEzGArHvNmANCACeiM1oCMFHRqNa9zw6tXc9AF9A2zRMXEIScipaBgBhAHkAOWQASSSAVQBRHn4kEBExSWlZBQRjLwplZQC9VTNuJ0aTWwcEZz0tCm4tVR1DM2cNHrMdYNCMbHxiMkpqOnoMgAUAERZkLIB9HASVnL5ZQokpGXyyrW4KPouzZR1nO8HnY1bEY3qrjz8Dbg7B+vGIDCU0iswoBCwYDwklIUHoEGkc1IADdhABrSjAiIzaIQqEwqAIMiogjQk6cZy8XKHUTHEpnRD6HTdZSWbjmAK-SyvBAGdQXLQaHTKLS3Zz6LSArHTKKUPFk2H0bBYYRYCiCGjQgBmqvQFGloNxkIVhOJwlJxVIFKpB3yR0tpTePQot2MOh0qkF-g0FWUPLMAYo4ueg0sqj09zGISBk2xsvBxoJ9DScQA0tS7bSHQzysozBRLMYHnmKu9nDy9EKKOY1M5-MpnL0zKopbGZWCsABXUikMhwlapRhxdgrDNCLMnR3tX4abqNbge5QaMw+vQ2eyINTKbor7iqYYeCqdVvhdvRLs9vtMZAJJZjgoT+mgMp1S57w+mbhfmqqHleLrGA2S7+M24YAtGBo4pQF69oqKbpra45FJOOb+G+wphoMwrLhWVY1qodbcA2TYaCeIJQRQMFXowLAAGpbGkOBbFkKRsAAmve9ooc+m53N02j3Ko1ROM4Fi4cy+GEcR9QthBbaGpQsB4MiV4ItEZoYvq8kUUpKmwkSKLmmS0i5Jxj6nDx5SVBYnqRgG7h6MoLwbggArVoYGgdBo1QPI5UYTKeCkULpV7Kqq6qauIOpYHqkHxiF+lmha5J8GZyFPvIjJOVUdw9J4AQNr+LnuOoPlLjogHNsKkpyYFFEQKgsCklgDWKmpSKoppcVgg1TV4C1fYGSSxlWqliEPulFmZe0xjshQWg1Kye4BP8Gg8lW+79KKeVCcY2hkXGPWNc1rVwmFaoatqupaXV8a9Sdg1JSNpnjVxGVlM4n2XM2RHDB6uhmBU-pVj6K4EXolhro2B1ngwyxrBsmyMcxrEca95lTooXTuJ5y4WKKooGM5bSKJ9zIBg0e33D6hGkbV5GyvQbBZIwGRMWldJTWUpNqAW2gdD84p7hGPJ5rOAMBoBWjGBG4bBNGpDCBAcCyN16mxDSk1TuGnz1JWxb1p9PL9Ooka-I0TgaBGygw0F8oEprnNTnWs46Cu7wiqYVv7qL7ougVa4FRc0P04d57drBUCO9mlkRsYVSjOKBh1k5IsuWLc5eEuwx7qJZi2zpyl9tH3HTW7egFn0HILcKBHVH+c3eUTBHmMn1QF3dx39adJfvYgn3NgWXhcguFz8xWlR1kWDzuoYMtBKHsO91zShFhXlYuBDX5C+GOg8ljVwmIMHgHo577y4EQA */
 export const timerMachine = createMachine<TimerContext, TimerEvent>({
   context: initialContext,
   predictableActionArguments: true,
@@ -58,6 +66,7 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
   initial: 'idle',
   states: {
     idle: {
+      entry: 'reset',
       on: {
         START: {
           target: 'creating',
@@ -82,11 +91,9 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
           onDone: [
             {
               target: 'running',
-              actions: [
-                assign({
-                  id: (_, { data: id }) => id,
-                }),
-              ],
+              actions: assign({
+                id: (_, { data: id }) => id,
+              }),
             },
           ],
           onError: [
@@ -127,7 +134,6 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
         onDone: [
           {
             target: 'idle',
-            actions: ['reset', 'refetchTimeEntries'],
           },
         ],
         onError: [
@@ -193,7 +199,7 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
       invariant(event.type === 'CONTINUE', 'Event has improper type');
       return {
         id: event.data.id,
-        start: event.data.start.toISOString(),
+        start: event.data.start,
         timeEntry: event.data.timeEntry,
         mode: 'Timer',
       };
@@ -202,7 +208,7 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
       invariant(event.type === 'RESUME', 'Event has improper type');
       return {
         id: event.data.id,
-        start: event.data.start.toISOString(),
+        start: event.data.start,
         timeEntry: event.data.timeEntry,
         mode: 'Timer',
       };

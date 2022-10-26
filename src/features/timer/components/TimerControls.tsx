@@ -16,10 +16,10 @@ import {
 
 export type TimerControlsProps = {
   duration: number;
+  running: boolean;
+  updating: boolean;
   billable: boolean;
   creating: boolean;
-  loading: boolean;
-  running: boolean;
   mode: TimerMode;
   onDiscard: () => void;
   onStartClicked: () => void;
@@ -117,7 +117,7 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
 
           {isTimerMode ? (
             <div>
-              {props.running ? (
+              {props.running || props.creating ? (
                 <Button
                   color={'danger'}
                   variant="icon"
@@ -126,7 +126,7 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
                   aria-label="Stop timer"
                   title="Stop timer"
                   onClick={props.onStopClicked}
-                  disabled={props.loading}
+                  disabled={props.updating}
                 >
                   <BiStop />
                 </Button>
@@ -145,7 +145,6 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
                     },
                   }}
                   onClick={props.onStartClicked}
-                  disabled={props.loading}
                 >
                   <BiPlay />
                 </Button>
@@ -175,7 +174,7 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
                 variant={'icon'}
                 color="transparent"
                 size={'lg'}
-                disabled={props.loading || props.creating}
+                disabled={props.creating || props.updating}
                 onClick={props.onDiscard}
               >
                 <BiDotsVertical></BiDotsVertical>

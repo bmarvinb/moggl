@@ -7,7 +7,7 @@ export enum DrawerMode {
 }
 
 type DrawerContext = {
-  mode: DrawerMode | undefined;
+  mode?: DrawerMode;
 };
 
 type DrawerEvent =
@@ -18,51 +18,51 @@ type DrawerEvent =
   | { type: 'CLOSE' };
 
 export const drawerMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoD2ADmAHYDEAKgPIDi1AMgKKKgF6wCWALu3scyAA9EAWgDsAFgCMOAGwBOAKxK5MgMyjRkuQBoQATxGrJ4nFrmqAHHIsAmUTIAMNhQF8Xu1Jmw4AxgBs2SAoaeiYkEFYObl5+IQRhBRtpDQsjOwdRC1E5cV0DeKMTM0trO0dnNw90LBRSAFUABQARAEFyBgB9AFlKJrCWNi4ePnC44TkHaS1RJ2zncUmdfREZBWSHcVF1DIzxGXE3dxBiPAg4fk8a-CIRgajh2JWbGRwpRwUZNWtVSzyRG3EJgcqgBM32CnEVgBlRAl28-kCEH4kSGMVGKyMOFENhsDjkdkkIOMfwKWVkEk2ayUSS0riOcJQyMG0VughE+IUpjkMzsHIWWhJYgsLxk9kkkk0ElShxcQA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QQE4EMDuYUDoD2ADmAHYDEAKgPIDi1AMgKIDaADALqKgF6wCWALrzzFOIAB6IArADYWOAEwAOAOzKWy6ZICcyrQGZJAGhABPRABZzOAIy75WyfOt6t1ldIC+H46kzZ8RGQAwnSUAMrM7KLcfILCohIIMtI40tLmmvpaLNbS8sZmCG5y+ta25ormDubWkopePuhYuADGADY8kBQ09JEcSCAxAkIiA4kyckqq6pm6BgWISoo4+nUV5pLW8i6SDSC+zaQAqgAKACIAguQMAPoAspRnfdE8w-FjFvmmi3qTkiwsX7ySyKSouPYHbDHc5XW4PJ5Maz9LivOKjUCJGo4RQAmqSZSSPTA5R6PTSBYIeTKbHyFgyDIAvS5PSgrzeEDEPAQOCiSG4QgkF6xEYJRDSRSSHAVBxOHFaDJacnfSnqHAsLT6IlU2SK3IQpr+dqdCBCt7o8QWcx6GzWHTE9RaWl6cwU3LyVLOXU6Cb43bsvmmtGihAAWhStoclWB0gJ8jSLuVIes6pslipTN+ZTj8jZHiAA */
   createMachine<DrawerContext, DrawerEvent>(
     {
-      context: { mode: undefined },
-      predictableActionArguments: true,
-      invoke: {
-        src: 'handleResize',
-        id: 'update-mode',
-      },
-      id: 'drawer',
-      initial: 'closed',
-      states: {
-        open: {
-          on: {
-            TOGGLE: {
-              target: 'closed',
-            },
-            CLOSE: {
-              target: 'closed',
-            },
-          },
-        },
-        closed: {
-          on: {
-            TOGGLE: {
-              target: 'open',
-            },
-          },
-        },
-      },
+  context: {},
+  predictableActionArguments: true,
+  invoke: {
+    src: 'handleResize',
+    id: 'update-mode',
+  },
+  id: 'drawer',
+  initial: 'closed',
+  states: {
+    open: {
       on: {
-        UPDATE_MODE: [
-          {
-            actions: 'setTemporaryMode',
-            cond: 'shouldSetTemporaryMode',
-            target: '.closed',
-          },
-          {
-            actions: 'setPermanentMode',
-            cond: 'shouldSetPermanentMode',
-            target: '.closed',
-          },
-        ],
+        TOGGLE: {
+          target: 'closed',
+        },
+        CLOSE: {
+          target: 'closed',
+        },
       },
     },
+    closed: {
+      on: {
+        TOGGLE: {
+          target: 'open',
+        },
+      },
+    },
+  },
+  on: {
+    UPDATE_MODE: [
+      {
+        target: '.closed',
+        cond: 'shouldSetTemporaryMode',
+        actions: 'setTemporaryMode',
+      },
+      {
+        target: '.closed',
+        cond: 'shouldSetPermanentMode',
+        actions: 'setPermanentMode',
+      },
+    ],
+  },
+},
     {
       actions: {
         setTemporaryMode: assign({
