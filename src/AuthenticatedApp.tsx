@@ -4,7 +4,11 @@ import { Menu, MenuItem } from 'shared/components/Menu';
 import { ProfileInfo, ProfileInfoData } from 'shared/components/ProfileInfo';
 import { Drawer } from 'layout/Drawer';
 import { Navbar } from 'layout/Navbar';
-import { drawerMachine, DrawerMode } from 'layout/machines/drawerMachine';
+import {
+  drawerMachine,
+  DrawerMode,
+  DrawerState,
+} from 'layout/machines/drawerMachine';
 import { useCurrentUser } from 'features/auth/hooks/currentUser';
 import { ClientsPage } from 'pages/ClientsPage';
 import { ProjectsPage } from 'pages/ProjectsPage';
@@ -40,7 +44,7 @@ export const AuthenticatedApp = () => {
   const [state, send] = useMachine(drawerMachine);
   const currentUser = useCurrentUser();
   const temporaryMode = state.context.mode === DrawerMode.Temporary;
-  const open = state.matches('open');
+  const open = state.matches(DrawerState.Open);
   const profileInfo: ProfileInfoData = {
     email: currentUser.email,
     name: currentUser.name,

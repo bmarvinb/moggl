@@ -1,4 +1,5 @@
 import { useActor } from '@xstate/react';
+import { TimerState } from 'features/timer/machines/TimerMachine';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 import { useRef } from 'react';
 
@@ -6,11 +7,16 @@ export function useActiveDuration(initialDuration: number): number {
   const service = useTimerMachine();
   const [state] = useActor(service);
   const durationRef = useRef(initialDuration);
-  if (state.matches('creating') || state.matches('running')) {
+  const isRunning =
+    state.matches(TimerState.Creating) || state.matches(TimerState.Running);
+  const isUpdating =
+    state.matches(TimerState.Saving) || state.matches(TimerState.Discarding);
+
+  if (isRunning) {
     const updatedTime = initialDuration + state.context.duration;
     durationRef.current = updatedTime;
     return updatedTime;
-  } else if (state.matches('saving') || state.matches('discarding')) {
+  } else if (isUpdating) {
     return durationRef.current;
   }
   return initialDuration;
