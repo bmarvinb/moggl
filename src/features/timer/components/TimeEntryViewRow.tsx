@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 import {
   isChildTimeEntry,
   isParentTimeEntry,
   TimeEntryRowType,
 } from 'features/timer/hooks/timeEntrySelection';
 import { InactiveTimeEntry } from 'features/timer/models/time-entry';
+=======
+import { Box } from 'shared/components/Box';
+import { Button } from 'shared/components/Button';
+import { Checkbox } from 'shared/components/Checkbox';
+import { styled } from 'theme/config';
+>>>>>>> 23a795780602d9dc59f02f7c1683e4c68b51233f
 import {
   formatDuration,
   formatTimeEntryDate,
@@ -18,10 +25,21 @@ import {
   BiPlay,
   BiPurchaseTag,
 } from 'react-icons/bi';
+<<<<<<< HEAD
 import { Box } from 'shared/components/Box';
 import { Button } from 'shared/components/Button';
 import { Checkbox } from 'shared/components/Checkbox';
 import { styled } from 'theme/config';
+=======
+import { InactiveTimeEntry } from 'features/timer/models/time-entry';
+import { constNull, pipe } from 'fp-ts/lib/function';
+
+export const enum TimeEntryRowType {
+  Regular = 'Regular',
+  Parent = 'Parent',
+  Child = 'Child',
+}
+>>>>>>> 23a795780602d9dc59f02f7c1683e4c68b51233f
 
 export type ParentTimeEntry = {
   data: InactiveTimeEntry;

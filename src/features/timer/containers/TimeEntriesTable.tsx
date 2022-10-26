@@ -9,6 +9,7 @@ import {
   TimeEntryRowViewModel,
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow';
+<<<<<<< HEAD
 import {
   isParentTimeEntry,
   SelectionChanges,
@@ -17,6 +18,12 @@ import {
 } from 'features/timer/hooks/timeEntrySelection';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 import { InactiveTimeEntry } from 'features/timer/models/time-entry';
+=======
+import { SelectionChanges, useSelection } from 'features/timer/hooks/selection';
+import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
+import { InactiveTimeEntry } from 'features/timer/models/time-entry';
+import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils';
+>>>>>>> 23a795780602d9dc59f02f7c1683e4c68b51233f
 import * as B from 'fp-ts/boolean';
 import { Eq, struct } from 'fp-ts/Eq';
 import * as A from 'fp-ts/lib/Array';
