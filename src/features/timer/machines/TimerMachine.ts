@@ -12,14 +12,14 @@ type TimeEntryData = {
 
 type TimerContext = {
   id?: string;
-  start?: string;
+  start?: Date;
   timeEntry: TimeEntryData;
   mode: TimerMode;
   duration: number;
 };
 
 type TimerEvent =
-  | { type: 'START'; start: string }
+  | { type: 'START'; start: Date }
   | {
       type: 'CONTINUE';
       data: { id: string; start: Date; timeEntry: TimeEntryData };
@@ -58,6 +58,7 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
   initial: 'idle',
   states: {
     idle: {
+      onEntry: 'reset',
       on: {
         START: {
           target: 'creating',
@@ -127,7 +128,6 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
         onDone: [
           {
             target: 'idle',
-            actions: ['reset', 'refetchTimeEntries'],
           },
         ],
         onError: [
@@ -193,7 +193,7 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
       invariant(event.type === 'CONTINUE', 'Event has improper type');
       return {
         id: event.data.id,
-        start: event.data.start.toISOString(),
+        start: event.data.start,
         timeEntry: event.data.timeEntry,
         mode: 'Timer',
       };
@@ -202,7 +202,7 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
       invariant(event.type === 'RESUME', 'Event has improper type');
       return {
         id: event.data.id,
-        start: event.data.start.toISOString(),
+        start: event.data.start,
         timeEntry: event.data.timeEntry,
         mode: 'Timer',
       };

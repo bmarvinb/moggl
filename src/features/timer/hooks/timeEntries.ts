@@ -4,10 +4,12 @@ import { useWorkspace } from 'features/auth/hooks/workspace';
 import { toTimeEntry } from 'features/timer/models/time-entry';
 import { timeEntries } from 'features/timer/services/time-entries';
 
+export const QUERY_KEY = 'timeEntries';
+
 export function useTimeEntries() {
   const workspace = useWorkspace();
   const currentUser = useCurrentUser();
-  return useQuery(['timeEntries'], () =>
+  return useQuery([QUERY_KEY], () =>
     timeEntries
       .getAll(workspace.id, currentUser.id, {
         'page-size': 25,

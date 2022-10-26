@@ -40,7 +40,7 @@ export const Timer = (props: TimerProps) => {
         css={{
           flex: 1,
         }}
-    >
+      >
         <Input
           variant={'inline'}
           css={{
@@ -83,9 +83,7 @@ export const Timer = (props: TimerProps) => {
             });
           }}
           onDiscard={() => send('DISCARD')}
-          onStartClicked={() =>
-            send({ type: 'START', start: new Date().toISOString() })
-          }
+          onStartClicked={() => send({ type: 'START', start: new Date() })}
           onStopClicked={() => send('STOP')}
           onTimerModeChanged={mode => send({ type: 'UPDATE_MODE', mode })}
           onAddTimeEntryClicked={() => {

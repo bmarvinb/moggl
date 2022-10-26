@@ -169,9 +169,12 @@ export type CreatedTimeEntryDTO = z.infer<typeof createdTimeEntrySchema>;
 
 export type AddTimeEntryDTO = {
   start: string;
-  projectId?: string;
+  end?: string;
   description: string;
   billable: boolean;
+  projectId?: string;
+  taskId?: string;
+  tagIds?: string[];
 };
 
 export type UpdateTimeEntryDTO = {

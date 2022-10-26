@@ -34,7 +34,7 @@ export function TimerMachineProvider(props: {
         invariant(context.start, 'Start date should be provided');
         return addTimeEntry
           .mutateAsync({
-            start: context.start,
+            start: context.start.toISOString(),
             projectId: context.timeEntry.projectId,
             description: context.timeEntry.description,
             billable: context.timeEntry.billable,
@@ -43,8 +43,13 @@ export function TimerMachineProvider(props: {
             return res.id;
           });
       },
-      stopTimeEntry: () => () => {
-        return stopTimeEntry.mutateAsync();
+      stopTimeEntry: context => () => {
+        invariant(context.start, 'Start must be provided');
+        return stopTimeEntry.mutateAsync({
+          start: context.start,
+          description: context.timeEntry.description,
+          billable: context.timeEntry.billable,
+        });
       },
       discard: context => () => {
         invariant(context.id, 'Id must be provided');
@@ -57,11 +62,12 @@ export function TimerMachineProvider(props: {
       },
       updateTimeEntry: context => {
         invariant(context.id, 'Id must be provided');
+        invariant(context.start, 'Start must be provided');
         return updateTimeEntry.mutateAsync(
           {
             id: context.id,
             data: {
-              start: context.start,
+              start: context.start.toISOString(),
               billable: context.timeEntry.billable,
               projectId: context.timeEntry.projectId || undefined,
               description: context.timeEntry.description,
