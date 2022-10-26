@@ -1,8 +1,8 @@
-import { Box } from 'common/components/Box';
-import { Dialog, DialogContent } from 'common/components/Dialog';
-import { DialogMode } from 'core/models/application/dialog-mode';
+import { Box } from 'shared/components/Box';
+import { Dialog, DialogContent } from 'shared/components/Dialog';
+import { DialogMode } from 'layout/models/dialog-mode';
 import { TagForm } from 'features/tags/components/TagForm';
-import { useAddTag } from 'features/tags/hooks/useAddTag';
+import { useAddTag } from 'features/tags/hooks/addTag';
 import { AddTagRequestData } from 'features/tags/models/tags';
 import { FC } from 'react';
 

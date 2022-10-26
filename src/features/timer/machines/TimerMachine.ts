@@ -1,4 +1,4 @@
-import { invariant } from 'common/utils/invariant';
+import { invariant } from 'shared/utils/invariant';
 import { differenceInSeconds } from 'date-fns';
 import { assign, createMachine } from 'xstate';
 
@@ -22,11 +22,11 @@ type TimerEvent =
   | { type: 'START'; start: string }
   | {
       type: 'CONTINUE';
-      data: { id: string; start: string; timeEntry: TimeEntryData };
+      data: { id: string; start: Date; timeEntry: TimeEntryData };
     }
   | {
       type: 'RESUME';
-      data: { id: string; start: string; timeEntry: TimeEntryData };
+      data: { id: string; start: Date; timeEntry: TimeEntryData };
     }
   | { type: 'STOP' }
   | { type: 'DISCARD' }
@@ -193,7 +193,7 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
       invariant(event.type === 'CONTINUE', 'Event has improper type');
       return {
         id: event.data.id,
-        start: event.data.start,
+        start: event.data.start.toISOString(),
         timeEntry: event.data.timeEntry,
         mode: 'Timer',
       };
@@ -202,7 +202,7 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
       invariant(event.type === 'RESUME', 'Event has improper type');
       return {
         id: event.data.id,
-        start: event.data.start,
+        start: event.data.start.toISOString(),
         timeEntry: event.data.timeEntry,
         mode: 'Timer',
       };

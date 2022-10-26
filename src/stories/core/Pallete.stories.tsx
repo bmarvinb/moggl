@@ -1,6 +1,6 @@
 import { ComponentMeta } from '@storybook/react';
-import { Box } from 'common/components/Box';
-import { Button } from 'common/components/Button';
+import { Box } from 'shared/components/Box';
+import { Button } from 'shared/components/Button';
 import {
   blackA,
   cyan,
@@ -14,9 +14,9 @@ import {
   secondary,
   secondaryDark,
   whiteA,
-} from 'core/theme/colors';
-import { styled } from 'core/theme/config';
-import { globalStyles } from 'core/theme/globalStyles';
+} from 'theme/colors';
+import { styled } from 'theme/config';
+import { globalStyles } from 'theme/globalStyles';
 import { Row } from 'stories/utils/Row';
 
 const Color = styled('div', {

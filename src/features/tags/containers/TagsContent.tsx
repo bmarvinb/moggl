@@ -1,6 +1,6 @@
-import { Box } from 'common/components/Box';
-import { Container } from 'common/components/Container';
-import { List } from 'common/components/List';
+import { Box } from 'shared/components/Box';
+import { Container } from 'shared/components/Container';
+import { List } from 'shared/components/List';
 import { AddTagDialog } from 'features/tags/components/AddTagDialog';
 import { TagsContentTitle } from 'features/tags/components/TagsContentTitle';
 import {

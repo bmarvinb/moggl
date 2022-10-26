@@ -1,6 +1,6 @@
-import { Box } from 'common/components/Box';
-import { Button } from 'common/components/Button';
-import { ListItem } from 'common/components/List';
+import { Box } from 'shared/components/Box';
+import { Button } from 'shared/components/Button';
+import { ListItem } from 'shared/components/List';
 import { Tag } from 'features/tags/models/tags';
 import { FC } from 'react';
 import { BiArchive, BiPencil, BiTrash } from 'react-icons/bi';

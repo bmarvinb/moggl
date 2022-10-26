@@ -1,7 +1,6 @@
 import { useActor } from '@xstate/react';
 import { max, min } from 'date-fns';
 import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow';
-import { TimeEntryViewModel } from 'features/timer/components/ReportedDays';
 import { TimeEntriesTableView } from 'features/timer/components/TimeEntriesTableView';
 import {
   ChildTimeEntry,
@@ -11,11 +10,9 @@ import {
   TimeEntryRowViewModel,
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow';
-import {
-  SelectionChanges,
-  useSelection,
-} from 'features/timer/hooks/useSelection';
+import { SelectionChanges, useSelection } from 'features/timer/hooks/selection';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
+import { InactiveTimeEntry } from 'features/timer/models/time-entry';
 import { isParentTimeEntry } from 'features/timer/utils/time-entries-utils';
 import * as B from 'fp-ts/boolean';
 import { Eq, struct } from 'fp-ts/Eq';
@@ -28,18 +25,18 @@ import * as S from 'fp-ts/string';
 import React from 'react';
 
 export type TimeEntriesTableProps = {
-  data: TimeEntryViewModel[];
+  data: InactiveTimeEntry[];
   date: Date;
   reportedDuration: number;
 };
 
 // TODO: task, project, clientName, tags, billable status
-const EqTimeEntryViewModel: Eq<TimeEntryViewModel> = struct({
+const EqTimeEntryViewModel: Eq<InactiveTimeEntry> = struct({
   description: S.Eq,
   billable: B.Eq,
 });
 
-function getTimeEntryIds(timeEntries: TimeEntryViewModel[]): string[] {
+function getTimeEntryIds(timeEntries: InactiveTimeEntry[]): string[] {
   return timeEntries.map(({ id }) => id);
 }
 
@@ -55,15 +52,15 @@ export const TimeEntriesTable: React.FC<TimeEntriesTableProps> = props => {
   );
   const isTimeEntryRowChecked = (id: string) => selected.includes(id);
 
-  const restTimeEntries = (timeEntry: TimeEntryViewModel) =>
+  const restTimeEntries = (timeEntry: InactiveTimeEntry) =>
     pipe(
       props.data,
       A.filter(({ id }) => id !== timeEntry.id),
     );
 
   const getParentChildren =
-    (timeEntry: TimeEntryViewModel) =>
-    (timeEntries: TimeEntryViewModel[]): TimeEntryViewModel[] =>
+    (timeEntry: InactiveTimeEntry) =>
+    (timeEntries: InactiveTimeEntry[]): InactiveTimeEntry[] =>
       pipe(
         timeEntries,
         A.filter(comparedTimeEntry =>
@@ -72,7 +69,7 @@ export const TimeEntriesTable: React.FC<TimeEntriesTableProps> = props => {
       );
 
   const createChild = (
-    data: TimeEntryViewModel,
+    data: InactiveTimeEntry,
     siblings: number,
   ): ChildTimeEntry => ({
     type: TimeEntryRowType.Child,
@@ -81,13 +78,13 @@ export const TimeEntriesTable: React.FC<TimeEntriesTableProps> = props => {
   });
 
   const createRegularTimeEntry = (
-    data: TimeEntryViewModel,
+    data: InactiveTimeEntry,
   ): RegularTimeEntry => ({
     type: TimeEntryRowType.Regular,
     data,
   });
 
-  const createParentChildren = (timeEntry: TimeEntryViewModel) => {
+  const createParentChildren = (timeEntry: InactiveTimeEntry) => {
     const children = pipe(
       timeEntry,
       restTimeEntries,
@@ -125,7 +122,7 @@ export const TimeEntriesTable: React.FC<TimeEntriesTableProps> = props => {
     );
 
   const createParentTimeEntry = (
-    timeEntry: TimeEntryViewModel,
+    timeEntry: InactiveTimeEntry,
   ): ParentTimeEntry => {
     const children = createParentChildren(timeEntry);
     return {
@@ -140,7 +137,7 @@ export const TimeEntriesTable: React.FC<TimeEntriesTableProps> = props => {
     };
   };
 
-  const isParent = (timeEntry: TimeEntryViewModel): boolean =>
+  const isParent = (timeEntry: InactiveTimeEntry): boolean =>
     pipe(
       restTimeEntries(timeEntry),
       A.some(comparedTimeEntry =>
@@ -149,7 +146,7 @@ export const TimeEntriesTable: React.FC<TimeEntriesTableProps> = props => {
     );
 
   const isChild =
-    (timeEntry: TimeEntryViewModel) =>
+    (timeEntry: InactiveTimeEntry) =>
     (timeEntries: ParentTimeEntry[]): boolean =>
       pipe(
         timeEntries,
@@ -202,7 +199,7 @@ export const TimeEntriesTable: React.FC<TimeEntriesTableProps> = props => {
       type: 'RESUME',
       data: {
         id: timeEntry.data.id,
-        start: new Date().toISOString(),
+        start: new Date(),
         timeEntry: {
           description: timeEntry.data.description,
           billable: timeEntry.data.billable,

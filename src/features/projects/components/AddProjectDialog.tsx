@@ -1,5 +1,5 @@
-import { Box } from 'common/components/Box';
-import { DialogContent } from 'common/components/Dialog';
+import { Box } from 'shared/components/Box';
+import { DialogContent } from 'shared/components/Dialog';
 import { ProjectForm } from 'features/projects/components/ProjectForm';
 import { FC } from 'react';
 

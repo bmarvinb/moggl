@@ -1,12 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box } from 'common/components/Box';
-import { Button } from 'common/components/Button';
-import { FieldError } from 'common/components/FieldError';
-import { FormError } from 'common/components/FormError';
-import { FormField } from 'common/components/FormField';
-import { Input } from 'common/components/Input';
-import { Label } from 'common/components/Label';
-import { DialogMode } from 'core/models/application/dialog-mode';
+import { Box } from 'shared/components/Box';
+import { Button } from 'shared/components/Button';
+import { FieldError } from 'shared/components/FieldError';
+import { FormError } from 'shared/components/FormError';
+import { FormField } from 'shared/components/FormField';
+import { Input } from 'shared/components/Input';
+import { Label } from 'shared/components/Label';
+import { DialogMode } from 'layout/models/dialog-mode';
 import {
   AddTagRequestData,
   Tag,

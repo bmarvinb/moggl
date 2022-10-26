@@ -1,6 +1,6 @@
-import { Box } from 'common/components/Box';
-import { Button } from 'common/components/Button';
-import { styled } from 'core/theme/config';
+import { Box } from 'shared/components/Box';
+import { Button } from 'shared/components/Button';
+import { styled } from 'theme/config';
 import { TimerMode } from 'features/timer/machines/TimerMachine';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
 import React from 'react';

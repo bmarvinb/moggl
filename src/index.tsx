@@ -1,7 +1,7 @@
-import { AppProviders } from 'core/AppProviders';
+import { AppProviders } from 'AppProviders';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './app/App';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(

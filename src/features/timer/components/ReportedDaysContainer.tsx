@@ -1,5 +1,5 @@
-import { Box } from 'common/components/Box';
-import { useWindowSize } from 'core/hooks/useWindowSize';
+import { Box } from 'shared/components/Box';
+import { useWindowSize } from 'shared/hooks/windowSize';
 import React from 'react';
 
 export type ReportedDaysContainerProps = {

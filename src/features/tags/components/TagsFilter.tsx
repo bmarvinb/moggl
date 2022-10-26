@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box } from 'common/components/Box';
-import { Card } from 'common/components/Card';
-import { Input } from 'common/components/Input';
+import { Box } from 'shared/components/Box';
+import { Card } from 'shared/components/Card';
+import { Input } from 'shared/components/Input';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

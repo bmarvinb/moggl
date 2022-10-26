@@ -1,13 +1,13 @@
 import { useActor } from '@xstate/react';
-import { Box } from 'common/components/Box';
-import { Input } from 'common/components/Input';
+import { Box } from 'shared/components/Box';
+import { Input } from 'shared/components/Input';
 import { TimerControls } from 'features/timer/components/TimerControls';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
-import { TimeEntryInProgressModel } from 'features/timer/models/time-entries';
 import * as O from 'fp-ts/lib/Option';
+import { ActiveTimeEntry } from 'features/timer/models/time-entry';
 
 export type TimerProps = {
-  timeEntryInProgress: O.Option<TimeEntryInProgressModel>;
+  activeTimeEntry: O.Option<ActiveTimeEntry>;
 };
 
 export const Timer = (props: TimerProps) => {

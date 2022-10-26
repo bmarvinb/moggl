@@ -1,8 +1,7 @@
-import { Box } from 'common/components/Box';
-import { Button } from 'common/components/Button';
-import { Checkbox } from 'common/components/Checkbox';
-import { styled } from 'core/theme/config';
-import { TimeEntryViewModel } from 'features/timer/components/ReportedDays';
+import { Box } from 'shared/components/Box';
+import { Button } from 'shared/components/Button';
+import { Checkbox } from 'shared/components/Checkbox';
+import { styled } from 'theme/config';
 import {
   formatDuration,
   formatTimeEntryDate,
@@ -18,6 +17,8 @@ import {
   BiPlay,
   BiPurchaseTag,
 } from 'react-icons/bi';
+import { InactiveTimeEntry } from 'features/timer/models/time-entry';
+import { constNull, pipe } from 'fp-ts/lib/function';
 
 export const enum TimeEntryRowType {
   Regular = 'Regular',
@@ -26,18 +27,18 @@ export const enum TimeEntryRowType {
 }
 
 export type ParentTimeEntry = {
-  data: TimeEntryViewModel;
+  data: InactiveTimeEntry;
   type: TimeEntryRowType.Parent;
   children: ChildTimeEntry[];
 };
 
 export type RegularTimeEntry = {
-  data: TimeEntryViewModel;
+  data: InactiveTimeEntry;
   type: TimeEntryRowType.Regular;
 };
 
 export type ChildTimeEntry = {
-  data: TimeEntryViewModel;
+  data: InactiveTimeEntry;
   siblings: number;
   type: TimeEntryRowType.Child;
 };
@@ -188,7 +189,10 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
                     display: 'none',
                   }}
                 >
-                  {formatTimeEntryDate(props.timeEntry.data)}
+                  {formatTimeEntryDate(
+                    props.timeEntry.data.start,
+                    props.timeEntry.data.end,
+                  )}
                 </Box>
                 <Box
                   css={{
@@ -212,25 +216,25 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
               alignItems: 'center',
             }}
           >
-            <div>
-              {O.isSome(props.timeEntry.data.project) && (
-                <AdditionalInfo
-                  css={{
-                    color: props.timeEntry.data.project.value.color,
-                    '&:before': {
-                      background: props.timeEntry.data.project.value.color,
-                    },
-                  }}
-                  data-testid="TIME_ENTRY_ADDITIONAL_INFO"
-                >
-                  {getTimeEntryInfo(
-                    props.timeEntry.data.project.value.name,
-                    props.timeEntry.data.project.value.clientName,
-                    props.timeEntry.data.task,
-                  )}
-                </AdditionalInfo>
+            <Box>
+              {pipe(
+                props.timeEntry.data,
+                getTimeEntryInfo,
+                O.fold(constNull, ({ color, name }) => (
+                  <AdditionalInfo
+                    css={{
+                      color: color,
+                      '&:before': {
+                        background: color,
+                      },
+                    }}
+                    data-testid="TIME_ENTRY_ADDITIONAL_INFO"
+                  >
+                    {name}
+                  </AdditionalInfo>
+                )),
               )}
-            </div>
+            </Box>
             <Box
               css={{
                 position: 'relative',
