@@ -1,5 +1,5 @@
-import { hourlyRateSchema } from 'core/models/domain/hourly-rate';
-import { statusSchema } from 'core/models/domain/status';
+import { hourlyRateSchema } from 'shared/scheme/hourly-rate';
+import { statusSchema } from 'shared/scheme/status';
 import { z } from 'zod';
 
 export const taskSchema = z.object({

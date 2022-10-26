@@ -1,4 +1,4 @@
-import { Box } from 'common/components/Box';
+import { Box } from 'shared/components/Box';
 import {
   ReportedDay,
   ReportedDays,

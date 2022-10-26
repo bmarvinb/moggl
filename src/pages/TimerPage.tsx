@@ -1,6 +1,6 @@
-import { PageSpinner } from 'common/components/PageSpinner';
+import { PageSpinner } from 'shared/components/PageSpinner';
 import { TimeEntries } from 'features/timer/containers/TimeEntries';
-import { useTimeEntries } from 'features/timer/hooks/useTimeEntries';
+import { useTimeEntries } from 'features/timer/hooks/timeEntries';
 
 export const TimerPage = () => {
   const { status, data } = useTimeEntries();

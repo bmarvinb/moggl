@@ -1,5 +1,5 @@
-import { Box } from 'common/components/Box';
-import { useActiveDuration } from 'features/timer/hooks/useActiveDuration';
+import { Box } from 'shared/components/Box';
+import { useActiveDuration } from 'features/timer/hooks/activeDuration';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
 import React from 'react';
 

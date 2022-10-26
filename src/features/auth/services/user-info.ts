@@ -1,4 +1,4 @@
-import { client } from 'common/utils/api-client';
+import { client } from 'shared/utils/api-client';
 import { User, userSchema } from 'features/auth/services/user';
 import { Workspace, workspacesSchema } from 'features/auth/services/workspace';
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray';

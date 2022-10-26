@@ -1,8 +1,8 @@
-import { Box } from 'common/components/Box';
-import { Button } from 'common/components/Button';
-import { Card } from 'common/components/Card';
-import { Checkbox } from 'common/components/Checkbox';
-import { styled } from 'core/theme/config';
+import { Box } from 'shared/components/Box';
+import { Button } from 'shared/components/Button';
+import { Card } from 'shared/components/Card';
+import { Checkbox } from 'shared/components/Checkbox';
+import { styled } from 'theme/config';
 import { isToday } from 'date-fns';
 import { DayDuration } from 'features/timer/components/DayDuration';
 import { formatDate } from 'features/timer/utils/time-entries-utils';

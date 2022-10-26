@@ -1,6 +1,6 @@
-import { Box } from 'common/components/Box';
-import { Button } from 'common/components/Button';
-import { Title } from 'common/components/Title';
+import { Box } from 'shared/components/Box';
+import { Button } from 'shared/components/Button';
+import { Title } from 'shared/components/Title';
 import { FC } from 'react';
 
 export type TagsContentTitleProps = {

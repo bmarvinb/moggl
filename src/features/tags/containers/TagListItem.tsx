@@ -1,7 +1,7 @@
 import { TagListViewItem } from 'features/tags/components/TagListViewItem';
 import { UpdateTagDialog } from 'features/tags/components/UpdateTagDialog';
-import { useDeleteTag } from 'features/tags/hooks/useDeleteTag';
-import { useUpdateTag } from 'features/tags/hooks/useUpdateTag';
+import { useDeleteTag } from 'features/tags/hooks/deleteTag';
+import { useUpdateTag } from 'features/tags/hooks/updateTag';
 import { Tag } from 'features/tags/models/tags';
 import { FC, useState } from 'react';
 

@@ -1,14 +1,15 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useActor, useInterpret } from '@xstate/react';
-import { invariant } from 'common/utils/invariant';
-import { useAddTimeEntry } from 'features/timer/hooks/useCreateTimeEntry';
-import { useDeleteTimeEntry } from 'features/timer/hooks/useDeleteTimeEntry';
-import { useStopTimeEntry } from 'features/timer/hooks/useStopTimeEntry';
-import { useUpdateTimeEntry } from 'features/timer/hooks/useUpdateTimeEntry';
+import { useAddTimeEntry } from 'features/timer/hooks/createTimeEntry';
+import { useDeleteTimeEntry } from 'features/timer/hooks/deleteTimeEntry';
+import { useStopTimeEntry } from 'features/timer/hooks/stopTimeEntry';
+import { useUpdateTimeEntry } from 'features/timer/hooks/updateTimeEntry';
 import { timerMachine } from 'features/timer/machines/TimerMachine';
-import { TimeEntryInProgressModel } from 'features/timer/models/time-entries';
+import { ActiveTimeEntry } from 'features/timer/models/time-entry';
+import { constUndefined, pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
 import React, { useEffect } from 'react';
+import { invariant } from 'shared/utils/invariant';
 import { InterpreterFrom } from 'xstate';
 
 type TimerContextData = InterpreterFrom<typeof timerMachine>;
@@ -18,34 +19,36 @@ const TimerContext = React.createContext<TimerContextData>(
 );
 
 export function TimerMachineProvider(props: {
-  timeEntryInProgress: O.Option<TimeEntryInProgressModel>;
+  activeTimeEntry: O.Option<ActiveTimeEntry>;
   children: React.ReactNode;
 }) {
-  const { mutateAsync: addTimeEntry } = useAddTimeEntry();
-  const { mutateAsync: stopTimeEntry } = useStopTimeEntry();
-  const { mutateAsync: updateTimeEntry } = useUpdateTimeEntry();
-  const { mutateAsync: deleteTimeEntry } = useDeleteTimeEntry();
+  const addTimeEntry = useAddTimeEntry();
+  const stopTimeEntry = useStopTimeEntry();
+  const updateTimeEntry = useUpdateTimeEntry();
+  const deleteTimeEntry = useDeleteTimeEntry();
   const queryClient = useQueryClient();
 
   const service = useInterpret(timerMachine, {
     services: {
       addTimeEntry: context => () => {
         invariant(context.start, 'Start date should be provided');
-        return addTimeEntry({
-          start: context.start,
-          projectId: context.timeEntry.projectId,
-          description: context.timeEntry.description,
-          billable: context.timeEntry.billable,
-        }).then(res => {
-          return res.id;
-        });
+        return addTimeEntry
+          .mutateAsync({
+            start: context.start,
+            projectId: context.timeEntry.projectId,
+            description: context.timeEntry.description,
+            billable: context.timeEntry.billable,
+          })
+          .then(res => {
+            return res.id;
+          });
       },
       stopTimeEntry: () => () => {
-        return stopTimeEntry();
+        return stopTimeEntry.mutateAsync();
       },
       discard: context => () => {
         invariant(context.id, 'Id must be provided');
-        return deleteTimeEntry(context.id);
+        return deleteTimeEntry.mutateAsync(context.id);
       },
     },
     actions: {
@@ -54,7 +57,7 @@ export function TimerMachineProvider(props: {
       },
       updateTimeEntry: context => {
         invariant(context.id, 'Id must be provided');
-        return updateTimeEntry(
+        return updateTimeEntry.mutateAsync(
           {
             id: context.id,
             data: {
@@ -76,21 +79,25 @@ export function TimerMachineProvider(props: {
   const [timerState, timerSend] = useActor(service);
 
   useEffect(() => {
-    if (O.isSome(props.timeEntryInProgress)) {
+    if (O.isSome(props.activeTimeEntry)) {
       timerSend({
         type: 'CONTINUE',
         data: {
-          id: props.timeEntryInProgress.value.id,
-          start: props.timeEntryInProgress.value.timeInterval.start,
+          id: props.activeTimeEntry.value.id,
+          start: props.activeTimeEntry.value.start,
           timeEntry: {
-            projectId: props.timeEntryInProgress.value.projectId || undefined,
-            description: props.timeEntryInProgress.value.description,
-            billable: props.timeEntryInProgress.value.billable,
+            projectId: pipe(
+              props.activeTimeEntry,
+              O.map(project => project.id),
+              O.getOrElseW(constUndefined),
+            ),
+            description: props.activeTimeEntry.value.description,
+            billable: props.activeTimeEntry.value.billable,
           },
         },
       });
     }
-  }, [props.timeEntryInProgress, timerSend]);
+  }, [props.activeTimeEntry, timerSend]);
 
   return (
     <TimerContext.Provider value={service}>

@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box } from 'common/components/Box';
-import { Button } from 'common/components/Button';
-import { FieldError } from 'common/components/FieldError';
-import { FormField } from 'common/components/FormField';
-import { Input } from 'common/components/Input';
-import { Label } from 'common/components/Label';
-import { useAddProject } from 'features/projects/hooks/useAddProject';
+import { Box } from 'shared/components/Box';
+import { Button } from 'shared/components/Button';
+import { FieldError } from 'shared/components/FieldError';
+import { FormField } from 'shared/components/FormField';
+import { Input } from 'shared/components/Input';
+import { Label } from 'shared/components/Label';
+import { useAddProject } from 'features/projects/hooks/addProject';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';

@@ -1,21 +1,16 @@
 import { format, isSameWeek } from 'date-fns';
 import { isSameDay } from 'date-fns/fp';
-import {
-  createTimeEntryViewModel,
-  ReportedDay,
-} from 'features/timer/components/ReportedDays';
+import { ReportedDay } from 'features/timer/components/ReportedDays';
 import { TimeEntriesReportedDays } from 'features/timer/containers/TimeEntriesReportedDays';
 import { Timer } from 'features/timer/containers/Timer';
 import { TimerMachineProvider } from 'features/timer/machines/TimerMachineProvider';
 import {
-  InactiveTimeEntryModel,
-  TimeEntriesModel,
-} from 'features/timer/models/time-entries';
-import {
-  isTimeEntryFinished,
-  isTimeEntryInProgress,
-  timeEntryDuration,
-} from 'features/timer/utils/time-entries-utils';
+  InactiveTimeEntry,
+  isActiveTimeEntry,
+  isInactiveTimeEntry,
+  TimeEntry,
+} from 'features/timer/models/time-entry';
+import { timeEntryDuration } from 'features/timer/utils/time-entries-utils';
 import * as A from 'fp-ts/lib/Array';
 import { pipe } from 'fp-ts/lib/function';
 import * as M from 'fp-ts/lib/Monoid';
@@ -24,43 +19,43 @@ import * as S from 'fp-ts/lib/string';
 import React from 'react';
 
 export type TimeEntriesProps = {
-  timeEntries: TimeEntriesModel;
+  timeEntries: TimeEntry[];
 };
 
-function calculateDuration(timeEntries: InactiveTimeEntryModel[]): number {
+function calculateDuration(timeEntries: InactiveTimeEntry[]): number {
   return pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum));
 }
 
-function getStartDays(timeEntry: InactiveTimeEntryModel[]): string[] {
+function getStartDays(timeEntry: InactiveTimeEntry[]): string[] {
   return pipe(
     timeEntry,
-    A.map(({ timeInterval }) => format(new Date(timeInterval.start), 'PP')),
+    A.map(({ start }) => format(start, 'PP')),
   );
 }
 
-function getReportedDays(timeEntries: InactiveTimeEntryModel[]) {
+function getReportedDays(timeEntries: InactiveTimeEntry[]) {
   return (dates: string[]): ReportedDay[] =>
     pipe(
       dates,
       A.map(date => {
-        const dayTimeEntries = timeEntries.filter(({ timeInterval }) =>
-          isSameDay(new Date(timeInterval.start), new Date(date)),
+        const dayTimeEntries = timeEntries.filter(({ start }) =>
+          isSameDay(start, new Date(date)),
         );
         return {
           id: date,
           date: new Date(date),
           reportedDuration: pipe(dayTimeEntries, calculateDuration),
-          data: pipe(dayTimeEntries, A.map(createTimeEntryViewModel)),
+          data: dayTimeEntries,
         };
       }),
     );
 }
 
-function weekDuration(timeEntries: InactiveTimeEntryModel[]): number {
+function weekDuration(timeEntries: InactiveTimeEntry[]): number {
   return pipe(
     timeEntries,
     A.filter(timeEntry =>
-      isSameWeek(new Date(timeEntry.timeInterval.start), new Date(), {
+      isSameWeek(new Date(timeEntry.start), new Date(), {
         weekStartsOn: 1,
       }),
     ),
@@ -68,7 +63,7 @@ function weekDuration(timeEntries: InactiveTimeEntryModel[]): number {
   );
 }
 
-function reportedDays(timeEntries: InactiveTimeEntryModel[]) {
+function reportedDays(timeEntries: InactiveTimeEntry[]) {
   return pipe(
     timeEntries,
     getStartDays,
@@ -78,20 +73,20 @@ function reportedDays(timeEntries: InactiveTimeEntryModel[]) {
 }
 
 export const TimeEntries: React.FC<TimeEntriesProps> = props => {
-  const finishedTimeEntries = pipe(
+  const inactiveTimeEntries = pipe(
     props.timeEntries,
-    A.filter(isTimeEntryFinished),
+    A.filter(isInactiveTimeEntry),
   );
-  const timeEntryInProgress = pipe(
+  const activeTimeEntry = pipe(
     props.timeEntries,
-    A.findFirst(isTimeEntryInProgress),
+    A.findFirst(isActiveTimeEntry),
   );
   return (
-    <TimerMachineProvider timeEntryInProgress={timeEntryInProgress}>
-      <Timer timeEntryInProgress={timeEntryInProgress} />
+    <TimerMachineProvider activeTimeEntry={activeTimeEntry}>
+      <Timer activeTimeEntry={activeTimeEntry} />
       <TimeEntriesReportedDays
-        weekDuration={weekDuration(finishedTimeEntries)}
-        reportedDays={reportedDays(finishedTimeEntries)}
+        weekDuration={weekDuration(inactiveTimeEntries)}
+        reportedDays={reportedDays(inactiveTimeEntries)}
       />
     </TimerMachineProvider>
   );
