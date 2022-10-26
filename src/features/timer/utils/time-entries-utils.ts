@@ -8,11 +8,6 @@ import {
   secondsToHours,
   secondsToMinutes,
 } from 'date-fns';
-import {
-  ChildTimeEntry,
-  ParentTimeEntry,
-  TimeEntryRowViewModel,
-} from 'features/timer/components/TimeEntryViewRow';
 import { InactiveTimeEntry } from 'features/timer/models/time-entry';
 import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';

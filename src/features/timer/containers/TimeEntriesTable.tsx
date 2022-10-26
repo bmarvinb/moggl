@@ -13,8 +13,8 @@ import {
   isParentTimeEntry,
   SelectionChanges,
   TimeEntryRowType,
-  useSelection,
-} from 'features/timer/hooks/selection';
+  useTimeEntrySelection,
+} from 'features/timer/hooks/timeEntrySelection';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 import { InactiveTimeEntry } from 'features/timer/models/time-entry';
 import * as B from 'fp-ts/boolean';
@@ -50,7 +50,7 @@ export const TimeEntriesTable: React.FC<TimeEntriesTableProps> = props => {
     state => !state,
     false,
   );
-  const [{ entries, selected }, send] = useSelection(
+  const [{ entries, selected }, send] = useTimeEntrySelection(
     getTimeEntryIds(props.data),
   );
   const isTimeEntryRowChecked = (id: string) => selected.includes(id);

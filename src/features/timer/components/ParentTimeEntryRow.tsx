@@ -4,7 +4,7 @@ import {
   TimeEntryRowViewModel,
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow';
-import { SelectionChanges } from 'features/timer/hooks/selection';
+import { SelectionChanges } from 'features/timer/hooks/timeEntrySelection';
 import React from 'react';
 
 export type ParentTimeEntryRowProps = {

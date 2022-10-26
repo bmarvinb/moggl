@@ -2,7 +2,7 @@ import {
   isChildTimeEntry,
   isParentTimeEntry,
   TimeEntryRowType,
-} from 'features/timer/hooks/selection';
+} from 'features/timer/hooks/timeEntrySelection';
 import { InactiveTimeEntry } from 'features/timer/models/time-entry';
 import {
   formatDuration,

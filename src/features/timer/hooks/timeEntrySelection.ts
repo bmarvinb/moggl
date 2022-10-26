@@ -73,7 +73,7 @@ function reducer(
   }
 }
 
-export function useSelection(
+export function useTimeEntrySelection(
   entries: string[] = [],
 ): [SelectionState, Dispatch<SelectionEvent>] {
   const [state, send] = useReducer(reducer, {
