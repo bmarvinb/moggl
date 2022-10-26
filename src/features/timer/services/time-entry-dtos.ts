@@ -111,8 +111,6 @@ const projectSchema = z.object({
   public: z.boolean(),
 });
 
-const commonTimeEntrySchema = z.object({});
-
 export const timeEntrySchema = z.object({
   id: z.string(),
   description: z.string(),
@@ -147,8 +145,8 @@ export const createdTimeEntrySchema = z.object({
   taskId: z.string().nullable(),
   timeInterval: z.object({
     start: z.string(),
-    end: z.string(),
-    duration: z.string(),
+    end: z.string().nullable(),
+    duration: z.string().nullable(),
   }),
   userId: z.string(),
   workspaceId: z.string(),

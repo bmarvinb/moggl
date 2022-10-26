@@ -40,7 +40,7 @@ export const Timer = (props: TimerProps) => {
         css={{
           flex: 1,
         }}
-      >
+    >
         <Input
           variant={'inline'}
           css={{

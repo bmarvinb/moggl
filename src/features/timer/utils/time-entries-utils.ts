@@ -36,7 +36,7 @@ export function isChildTimeEntry(
 }
 
 export function timeEntryDuration({ start, end }: InactiveTimeEntry): number {
-  return differenceInSeconds(end, start);
+return differenceInSeconds(end, start);
 }
 
 export function formatDuration(duration: number): string {
