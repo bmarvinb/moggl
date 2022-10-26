@@ -58,18 +58,18 @@ const initialContext: TimerContext = {
   },
 };
 
-/** @xstate-layout N4IgpgJg5mDOIC5QBUCWBbMAnAsgQwGMALVAOzADpUIAbMAYgGVkBBAJWQG0AGAXUVAAHAPaxUAF1TDSAkAA9EAWgBsATgrcATMuUBGAMwAOAKzL9m7gBZdAGhABPRJdUB2Coc2bDh7spfmXY0tjAF8QuzRMXEIScipaBgBhAHkAOWQASVSAVQBRHn4kEBExSWlZBQRNfTcdbhcXVWNuY30W1U07RwRdfw19VUtuE10ffSCwiIxsfGIySmo6emyABQARFmRcgH0cZLX8vlkSiSkZIsrFawoG1VVDS0aGrWNVLsQ2-QoLb09zXWUlkMNUmIEiMxi8woBCwYDwklIUHoEGkC1IADdhABrSjg6JzOIwuEIqAIMiYgjws6cXS8ArHUSncoXJwuSwaPwWTTNFzcXqdByIXnqT4PMymXSPfSgvGzWKUIlUxH0bBYYRYCiCGjwgBm6vQFFlkMJsKVpPJwkpZVINLpRyKJ2tFUQml03AoRks+iGgMMvQBlneCGMroojxDul0rRcD2BMum+Pl0NNJPomUSAGl6Q7GU6WVVlMYKKpdJoYwD6t6vEGfOpBtw7i4yw9LI941E5VCsABXUikMhItYZRiJdhrbNCXNnZ09PmGDQtKyqZQmDyBINqZQaYy1ny-GrS8JghOduI9vsDpjIZIrCfFKfM0CVRruhu-TzcT-KBtBg-fPQrqo7SuE07YQgSlDnv2yrplm9qTqU075oYdzFqu4zfq2AKGDWbQ3N+krLoEowDGBiZdr20FIowLAAGo7JkOA7Lk6RsAAmnejpIU+iCYTc3KFjUHi+C0uHui4BHOH4xijJYZGnpQsB4Oil4onEFo4oaJ7GopykDmSGKWlS0gFJxD7nDxVQ1BQxiNN6krGEEhgSQK3SfN8wx+jGOgAhJclHkaEEUEpKnKqq6qatq4h6lgBqBUmIX6RaVrUnwZmIY+8hOMomgUDoQxltwAzivoyhBhGYbETGjSPLyLjyTpFAQKgsCUlgzXKmpaKYpp8VQs1rV4O1SWGSlJlpfB94ZRZWU9FyHrfn4Db1DJ9w1uy9xDOMRUoTlcYBdpQUDW1HVIuFGparq+paR2jXHUNp0GRSxk2hNhQIUyM2VJGbo3N4gxtDJXn6BuwTuMEO7LhYjkSQ1EHLOsmwMRkTHbCxyDseln0zpKZYUACryuKVEn+jWzQaGym6upG3j1Qdt3w2wuSMNkTFY3mlmKL04l+rTFZ8q0gaCggha6MWgJ+N6O4+I5YRHqQwgQHAsh9epCQMtNM6uGhTTljoQF6LYwtDOo1hDG6jlGJTcNJoqJIa9j+a6PcYY7poy7mF4jQ4cLgLsjy0n1GYfKHlMDNJlBA4Oxzs1srlhZm7yzs5WyG47guNQrj4DZRqE9PgQlemItH3GzcEbg1dyRUSyWOi-lo7hLe7pa2XyOg2-1LUnVHOaa07UbqP4Se8l6wz6Eb3RD-jHSRn7wxlnTYcF-MJeZZcrrzuWfPfgL3pBooXx3FXznB9UoxRnLIRAA */
+/** @xstate-layout N4IgpgJg5mDOIC5QBUCWBbMAnAsgQwGMALVAOzADpUIAbMAYgGVkBBAJWQG0AGAXUVAAHAPaxUAF1TDSAkAA9EAWgBsATgrcATMuUBGAMwAOAKzL9m7gBZdAGhABPRJdUB2Coc2bDh7spfmXY0tjAF8QuzRMXEIScipaBgBhAHkAOWQASVSAVQBRHn4kEBExSWlZBQRNfTcdbhcXVWNuY30W1U07RwRdfw19VUtuE10ffSCwiIxsfGIySmo6emyABQARFmRcgH0cZLX8vlkSiSkZIsrFawoG1VVDS0aGrWNVLsQ2-QoLb09zXWUlkMNUmIEiMxi8woBCwYDwklIUHoEGkC1IADdhABrSjg6JzOIwuEIqAIMiYgjws6cXS8ArHUSncoXJwuSwaPwWTTNFzcXqdByIXnqT4PMymXSPfSgvGzWKUIlUxH0bBYYRYCiCGjwgBm6vQFFlkMJsKVpPJwkpZVINLpRyKJ2tFUQml03AoRks+iGgMMvQBlneCGMroojxDul0rRcD2BMum+Pl0NNJPomUSAGl6Q7GU6WVVlMYKKpdJoYwD6t6vEGfOpBtw7i4yw9LI941E5VCsABXUikMhItYZRiJdhrbNCXNnZ09PmGDQtKyqZQmDyBINqZQaYy1ny-GrS8JghOduI9vsDpjIZIrCfFKfM0CVRruhu-TzcT-KBtBg-fPQrqo7SuE07YQgSlDnv2yrplm9qTqU075oYdzFqu4zfq2AKGDWbQ3N+krLoEowDGBiZdr20FIowLAAGo7JkOA7Lk6RsAAmnejpIU+iCYTc3KFjUHi+C0uHui4BHOH4xijJYZGnpQsB4Oil4onEFo4oaJ7GopykDmSGKWlS0gFJxD7nDxVQ1BQxiNN6krGEEhgSQK3SfN8wx+jGOgAhJclHkaEEUEpKnKqq6qatq4h6lgBqBUmIX6RaVrUnwZmIY+8hOMomgUDoQxltwAzivoyhBhGYbETGjSPLyLjyTpFAQKgsCUlgzXKmpaKYpp8VQs1rV4O1SWGSlJlpfB94ZRZWU9FyHrfn4Db1DJ9w1uy9xDOMRUoTlcYBdpQUDW1HVIuFGparq+paR2jXHUNp0GRSxk2hNhQIUyM2VJGbo3N4gxtDJXn6BuwTuMEO7LhYjkSQ1EHLOsmwMRkTHbCxyDseln0zooXxAn6Ji2eM4y8q5SiRuyjnNF41geLoQGGHD8r0GwuSMNkTFY3mlmKL04kE85FZ8q0gaCggha6MWgJ+N6O4+I5YRHqQwgQHAsh9epCQMtNM6uGhTTljoQF6LYYtDOo1hDG6jlGGyyhM1Cioktr2P5vT87BB4y7mF4jQ4WLgKU-U0nB20BgO2elEDi73OzWyuWFpbvL0zlbIbjuC41CuPgNlGoQHbdQWJYiMfcbNwRuDV3JFdLJY6L+WjuEtmgltyyc6BHlD3cNJc5jrbtRuo-jJ7yXrDPopvdMPFD066AZDGu9UF+B8ql5llyuvO5beC4QtRt6Qa48WHStHyi3ig0ishEAA */
 export const timerMachine = createMachine<TimerContext, TimerEvent>({
   context: initialContext,
   predictableActionArguments: true,
   id: 'TimerMachine',
   initial: 'idle',
   states: {
-    [TimerState.Idle]: {
-      onEntry: 'reset',
+    idle: {
+      entry: 'reset',
       on: {
         START: {
-          target: TimerState.Creating,
+          target: 'creating',
           actions: 'assignStart',
         },
         CONTINUE: {
@@ -81,7 +81,7 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
         },
       },
     },
-    [TimerState.Creating]: {
+    creating: {
       invoke: [
         {
           src: 'startTimer',
@@ -90,12 +90,10 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
           src: 'addTimeEntry',
           onDone: [
             {
-              target: TimerState.Running,
-              actions: [
-                assign({
-                  id: (_, { data: id }) => id,
-                }),
-              ],
+              target: 'running',
+              actions: assign({
+                id: (_, { data: id }) => id,
+              }),
             },
           ],
           onError: [
@@ -111,16 +109,16 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
         },
       },
     },
-    [TimerState.Running]: {
+    running: {
       invoke: {
         src: 'startTimer',
       },
       on: {
         DISCARD: {
-          target: TimerState.Discarding,
+          target: 'discarding',
         },
         STOP: {
-          target: TimerState.Saving,
+          target: 'saving',
         },
         TICK: {
           actions: 'updateDuration',
@@ -130,17 +128,17 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
         },
       },
     },
-    [TimerState.Saving]: {
+    saving: {
       invoke: {
         src: 'stopTimeEntry',
         onDone: [
           {
-            target: TimerState.Idle,
+            target: 'idle',
           },
         ],
         onError: [
           {
-            target: TimerState.Running,
+            target: 'running',
           },
         ],
       },
