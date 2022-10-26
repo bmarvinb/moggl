@@ -18,7 +18,15 @@ type TimerContext = {
   duration: number;
 };
 
-type TimerEvent =
+export enum TimerState {
+  Idle = 'idle',
+  Running = 'running',
+  Creating = 'creating',
+  Discarding = 'discarding',
+  Saving = 'saving',
+}
+
+export type TimerEvent =
   | { type: 'START'; start: Date }
   | {
       type: 'CONTINUE';
@@ -57,11 +65,11 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
   id: 'TimerMachine',
   initial: 'idle',
   states: {
-    idle: {
+    [TimerState.Idle]: {
       onEntry: 'reset',
       on: {
         START: {
-          target: 'creating',
+          target: TimerState.Creating,
           actions: 'assignStart',
         },
         CONTINUE: {
@@ -73,7 +81,7 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
         },
       },
     },
-    creating: {
+    [TimerState.Creating]: {
       invoke: [
         {
           src: 'startTimer',
@@ -82,7 +90,7 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
           src: 'addTimeEntry',
           onDone: [
             {
-              target: 'running',
+              target: TimerState.Running,
               actions: [
                 assign({
                   id: (_, { data: id }) => id,
@@ -103,16 +111,16 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
         },
       },
     },
-    running: {
+    [TimerState.Running]: {
       invoke: {
         src: 'startTimer',
       },
       on: {
         DISCARD: {
-          target: 'discarding',
+          target: TimerState.Discarding,
         },
         STOP: {
-          target: 'saving',
+          target: TimerState.Saving,
         },
         TICK: {
           actions: 'updateDuration',
@@ -122,17 +130,17 @@ export const timerMachine = createMachine<TimerContext, TimerEvent>({
         },
       },
     },
-    saving: {
+    [TimerState.Saving]: {
       invoke: {
         src: 'stopTimeEntry',
         onDone: [
           {
-            target: 'idle',
+            target: TimerState.Idle,
           },
         ],
         onError: [
           {
-            target: 'running',
+            target: TimerState.Running,
           },
         ],
       },

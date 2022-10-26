@@ -83,7 +83,7 @@ export const TimeEntries: React.FC<TimeEntriesProps> = props => {
   );
   return (
     <TimerMachineProvider activeTimeEntry={activeTimeEntry}>
-      <Timer activeTimeEntry={activeTimeEntry} />
+      <Timer />
       <TimeEntriesReportedDays
         weekDuration={weekDuration(inactiveTimeEntries)}
         reportedDays={reportedDays(inactiveTimeEntries)}

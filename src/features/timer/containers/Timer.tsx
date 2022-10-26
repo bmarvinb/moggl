@@ -3,19 +3,15 @@ import { Box } from 'shared/components/Box';
 import { Input } from 'shared/components/Input';
 import { TimerControls } from 'features/timer/components/TimerControls';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
-import * as O from 'fp-ts/lib/Option';
-import { ActiveTimeEntry } from 'features/timer/models/time-entry';
+import { TimerState } from 'features/timer/machines/TimerMachine';
 
-export type TimerProps = {
-  activeTimeEntry: O.Option<ActiveTimeEntry>;
-};
-
-export const Timer = (props: TimerProps) => {
+export const Timer = () => {
   const service = useTimerMachine();
   const [state, send] = useActor(service);
-  const isCreating = state.matches('creating');
-  const isLoading = state.matches('saving') || state.matches('discarding');
-  const isRunning = state.matches('running') || state.matches('creating');
+  const isRunning = state.matches(TimerState.Running);
+  const isCreating = state.matches(TimerState.Creating);
+  const isUpdating =
+    state.matches(TimerState.Saving) || state.matches(TimerState.Discarding);
 
   return (
     <Box
@@ -69,7 +65,7 @@ export const Timer = (props: TimerProps) => {
         <TimerControls
           duration={state.context.duration}
           creating={isCreating}
-          loading={isLoading}
+          updating={isUpdating}
           running={isRunning}
           mode={state.context.mode}
           billable={state.context.timeEntry.billable}
