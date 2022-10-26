@@ -1,4 +1,3 @@
-import { numberPad } from 'common/utils/number';
 import {
   differenceInSeconds,
   format,
@@ -9,7 +8,6 @@ import {
   secondsToHours,
   secondsToMinutes,
 } from 'date-fns';
-import { TimeEntryViewModel } from 'features/timer/components/ReportedDays';
 import {
   ChildTimeEntry,
   ParentTimeEntry,
@@ -17,27 +15,13 @@ import {
   TimeEntryRowViewModel,
 } from 'features/timer/components/TimeEntryViewRow';
 import {
-  TimeEntryInProgressModel,
-  InactiveTimeEntryModel,
-  TimeEntryModel,
-} from 'features/timer/models/time-entries';
+  InactiveTimeEntry,
+  TimeEntryProject,
+  TimeEntryTask,
+} from 'features/timer/models/time-entry';
+import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
-
-export function isTimeEntryFinished(
-  x: TimeEntryModel,
-): x is InactiveTimeEntryModel {
-  return Boolean(x.timeInterval.end);
-}
-
-export function isTimeEntryInProgress(
-  x: TimeEntryModel,
-): x is TimeEntryInProgressModel {
-  return (
-    Boolean(x.timeInterval.start) &&
-    !x.timeInterval.end &&
-    !x.timeInterval.duration
-  );
-}
+import { numberPad } from 'shared/utils/number';
 
 export function isParentTimeEntry(
   x: TimeEntryRowViewModel,
@@ -51,13 +35,8 @@ export function isChildTimeEntry(
   return x.type === TimeEntryRowType.Child;
 }
 
-export function timeEntryDuration({
-  timeInterval,
-}: InactiveTimeEntryModel): number {
-  return differenceInSeconds(
-    new Date(timeInterval.end),
-    new Date(timeInterval.start),
-  );
+export function timeEntryDuration({ start, end }: InactiveTimeEntry): number {
+return differenceInSeconds(end, start);
 }
 
 export function formatDuration(duration: number): string {
@@ -67,25 +46,47 @@ export function formatDuration(duration: number): string {
   return `${hours}:${numberPad(minutes)}:${numberPad(seconds)}`;
 }
 
-export function formatTimeEntryDate(timeEntry: TimeEntryViewModel): string {
-  return `${format(timeEntry.start, 'p')} - ${format(timeEntry.end, 'p')}`;
+export function formatTimeEntryDate(start: Date, end: Date): string {
+  return `${format(start, 'p')} - ${format(end, 'p')}`;
 }
 
-export function getTimeEntryInfo(
-  project: string,
-  client: O.Option<string>,
-  task: O.Option<string>,
-): string {
-  if (O.isSome(task) && O.isSome(client)) {
-    return `${project}: ${task.value} (${client.value})`;
-  }
-  if (O.isSome(task)) {
-    return `${project}: ${task.value}`;
-  }
-  if (O.isSome(client)) {
-    return `${project} (${client.value})`;
-  }
-  return `${project}`;
+export function getTimeEntryInfo(timeEntry: InactiveTimeEntry) {
+  return pipe(
+    timeEntry.project,
+    O.map(({ clientName, name, color }) => {
+      const task = pipe(
+        timeEntry.task,
+        O.map(({ name }) => name),
+        O.getOrElse(() => ''),
+      );
+      if (task && clientName) {
+        return {
+          name: `${name}: ${task} (${clientName})`,
+          color,
+        };
+      } else if (task) {
+        return {
+          name: `${name}: ${task}`,
+          color,
+        };
+      }
+      return {
+        name,
+        color,
+      };
+    }),
+  );
+
+  // if (O.isSome(task) && O.isSome(project)) {
+  //   return `${project}: ${task.value} (${client.value})`;
+  // }
+  // if (O.isSome(task)) {
+  //   return `${project}: ${task.value}`;
+  // }
+  // if (O.isSome(client)) {
+  //   return `${project} (${client.value})`;
+  // }
+  // return `${project}`;
 }
 
 export function formatDate(

@@ -1,8 +1,8 @@
-import { PageSpinner } from 'common/components/PageSpinner';
-import { useDebounce } from 'core/hooks/useDebounce';
+import { PageSpinner } from 'shared/components/PageSpinner';
+import { useDebounce } from 'shared/hooks/debounce';
 import { TagsContent } from 'features/tags/containers/TagsContent';
 import { TagsFilterCriteria } from 'features/tags/components/TagsFilter';
-import { useTags } from 'features/tags/hooks/useTags';
+import { useTags } from 'features/tags/hooks/tags';
 import { useState } from 'react';
 
 export const Tags = () => {

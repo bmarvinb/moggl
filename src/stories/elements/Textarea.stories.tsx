@@ -1,8 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { Box } from 'common/components/Box';
-import { Textarea as TextareaComponent } from 'common/components/Textarea';
-import { darkTheme } from 'core/theme/config';
-import { globalStyles } from 'core/theme/globalStyles';
+import { Box } from 'shared/components/Box';
+import { Textarea as TextareaComponent } from 'shared/components/Textarea';
+import { darkTheme } from 'theme/config';
+import { globalStyles } from 'theme/globalStyles';
 import { Row } from 'stories/utils/Row';
 
 export default {

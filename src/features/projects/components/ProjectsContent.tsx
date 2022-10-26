@@ -1,10 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { Box } from 'common/components/Box';
-import { Button } from 'common/components/Button';
-import { Card } from 'common/components/Card';
-import { Container } from 'common/components/Container';
-import { Dialog } from 'common/components/Dialog';
-import { Title } from 'common/components/Title';
+import { Box } from 'shared/components/Box';
+import { Button } from 'shared/components/Button';
+import { Card } from 'shared/components/Card';
+import { Container } from 'shared/components/Container';
+import { Dialog } from 'shared/components/Dialog';
+import { Title } from 'shared/components/Title';
 import { AddProjectDialog } from 'features/projects/components/AddProjectDialog';
 import { Projects } from 'features/projects/models/projects';
 import { FC, useState } from 'react';

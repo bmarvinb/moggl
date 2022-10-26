@@ -1,10 +1,10 @@
-import { Box } from 'common/components/Box';
+import { Box } from 'shared/components/Box';
 import {
   ParentTimeEntry,
   TimeEntryRowViewModel,
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow';
-import { SelectionChanges } from 'features/timer/hooks/useSelection';
+import { SelectionChanges } from 'features/timer/hooks/selection';
 import React from 'react';
 
 export type ParentTimeEntryRowProps = {

@@ -1,9 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { BiCart } from 'react-icons/bi';
-import { Box } from 'common/components/Box';
-import { Button } from 'common/components/Button';
-import { darkTheme } from 'core/theme/config';
-import { globalStyles } from 'core/theme/globalStyles';
+import { Box } from 'shared/components/Box';
+import { Button } from 'shared/components/Button';
+import { darkTheme } from 'theme/config';
+import { globalStyles } from 'theme/globalStyles';
 import { Row } from '../utils/Row';
 
 export default {

@@ -1,6 +1,6 @@
-import { PageSpinner } from 'common/components/PageSpinner';
+import { PageSpinner } from 'shared/components/PageSpinner';
 import { ClientsContent } from 'features/clients/components/ClientsContent';
-import { useClients } from 'features/clients/hooks/useClients';
+import { useClients } from 'features/clients/hooks/clients';
 
 export const Clients = () => {
   const { status, data: clients } = useClients();
