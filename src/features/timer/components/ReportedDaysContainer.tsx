@@ -21,14 +21,7 @@ export const ReportedDaysContainer: React.FC<ReportedDaysContainerProps> =
     }, [contentRef, size.width]);
 
     return (
-      <Box
-        css={{
-          display: 'flex',
-          flex: 1,
-          flexDirection: 'column',
-          width: '100%',
-        }}
-      >
+      <div className="flex w-full flex-1 flex-col">
         <Box
           ref={contentRef}
           css={{
@@ -38,19 +31,10 @@ export const ReportedDaysContainer: React.FC<ReportedDaysContainerProps> =
             maxHeight: `calc(100vh - ${contentTop + 1}px)`,
           }}
         >
-          <Box
-            css={{
-              padding: '1rem',
-              overflow: 'scroll',
-              background: '$neutral2',
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-            }}
-          >
+          <div className="flex flex-1 flex-col overflow-scroll bg-slate-200 p-4 dark:bg-slate-800">
             {props.children}
-          </Box>
+          </div>
         </Box>
-      </Box>
+      </div>
     );
   };

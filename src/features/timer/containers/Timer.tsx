@@ -14,29 +14,8 @@ export const Timer = () => {
     state.matches(TimerState.Saving) || state.matches(TimerState.Discarding);
 
   return (
-    <Box
-      css={{
-        display: 'flex',
-        width: '100%',
-        flexDirection: 'column',
-        padding: '0.75rem 1rem',
-        boxShadow: '$md',
-        background: '$timerBg',
-        position: 'relative',
-        zIndex: 1,
-
-        '@md': {
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        },
-      }}
-    >
-      <Box
-        css={{
-          flex: 1,
-        }}
-      >
+    <div className="relative z-10 flex w-full flex-col bg-slate-50 py-3 px-4 shadow-md dark:bg-slate-900">
+      <div className="flex-1">
         <Input
           variant={'inline'}
           css={{
@@ -60,7 +39,7 @@ export const Timer = () => {
             })
           }
         />
-      </Box>
+      </div>
       <Box>
         <TimerControls
           duration={state.context.duration}
@@ -87,6 +66,6 @@ export const Timer = () => {
           }}
         />
       </Box>
-    </Box>
+    </div>
   );
 };

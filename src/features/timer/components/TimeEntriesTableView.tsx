@@ -38,52 +38,27 @@ export const TimeEntriesTableView: React.FC<TimeEntriesTableViewProps> =
   props => {
     return (
       <TimeEntriesTable>
-        <Box
-          css={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            padding: '$6 $8',
-          }}
-        >
-          <Box
-            css={{
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
+        <div className="flex justify-between py-6 px-8">
+          <div className="align-center flex">
             {props.bulkEditMode && (
-              <Box
-                css={{
-                  marginRight: '$4',
-                }}
-              >
+              <div className="mr-4">
                 <Checkbox
                   onChange={props.onBulkModeChanged}
                   checked={props.allSelected}
                 />
-              </Box>
+              </div>
             )}
             <Label>
-              <Box
-                css={{
-                  marginRight: '$2',
-                  color: '$neutral10',
-                }}
-              >
+              <div className="mr-2 text-slate-900 dark:text-slate-50">
                 {formatDate(props.date)}
-              </Box>
+              </div>
               <DayDuration
                 isToday={isToday(props.date)}
                 reportedTime={props.reportedTime}
               />
             </Label>
-          </Box>
-          <Label
-            css={{
-              position: 'relative',
-              right: '-0.25rem',
-            }}
-          >
+          </div>
+          <Label className="relative -right-2">
             <Button
               variant="icon"
               color="transparent"
@@ -94,7 +69,7 @@ export const TimeEntriesTableView: React.FC<TimeEntriesTableViewProps> =
               <BiListUl title="Toggle" />
             </Button>
           </Label>
-        </Box>
+        </div>
         {props.children}
       </TimeEntriesTable>
     );
