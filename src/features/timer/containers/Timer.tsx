@@ -1,8 +1,7 @@
 import { useActor } from '@xstate/react';
-import { Input } from 'shared/components/Input';
 import { TimerControls } from 'features/timer/components/TimerControls';
-import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 import { TimerState } from 'features/timer/machines/TimerMachine';
+import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 
 export const Timer = () => {
   const service = useTimerMachine();
@@ -13,13 +12,10 @@ export const Timer = () => {
     state.matches(TimerState.Saving) || state.matches(TimerState.Discarding);
 
   return (
-    <div className="relative  flex w-full flex-col bg-slate-50 py-3 px-4 shadow-md dark:bg-slate-900">
+    <div className="relative flex w-full flex-col gap-2 bg-neutral-50 py-3 px-4 shadow-md dark:bg-neutralDark-50 md:flex-row md:items-center">
       <div className="flex-1">
-        <Input
-          variant={'inline'}
-          css={{
-            width: '100%',
-          }}
+        <input
+          className="w-full bg-transparent p-3 placeholder-neutral-600 focus:outline-none"
           placeholder={
             state.context.mode === 'Timer'
               ? 'What are you working on?'

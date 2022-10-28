@@ -51,7 +51,7 @@ export const AuthenticatedApp = () => {
   };
 
   return (
-    <div className="flex h-full flex-col bg-slate-100">
+    <div className="flex h-full flex-col bg-neutral-100">
       <div className="flex h-full">
         {state.context.mode && (
           <Drawer

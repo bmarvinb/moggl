@@ -39,7 +39,7 @@ export const TagsContent: FC<TagsContentProps> = props => {
           ))}
         </List>
       ) : (
-        <div className="p-8 text-center text-lg text-slate-700 dark:text-slate-200">
+        <div className="p-8 text-center text-lg text-neutral-700 dark:text-neutral-100">
           {props.searchCriteria.name
             ? `No result found for "${props.searchCriteria.name}"`
             : 'Nothing found'}

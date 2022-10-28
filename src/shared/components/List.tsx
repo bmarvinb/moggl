@@ -17,7 +17,7 @@ export type ListItemProps = {
 
 export const ListItem = (props: ListItemProps) => (
   <div
-    className={`border-b border-slate-100 py-6 px-8 last:border-b-0 dark:border-slate-800 ${props.className}`}
+    className={`border-b border-neutral-100 py-6 px-8 last:border-b-0 dark:border-neutral-800 ${props.className}`}
   >
     {props?.children}
   </div>

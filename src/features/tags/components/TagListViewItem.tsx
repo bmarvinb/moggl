@@ -1,4 +1,3 @@
-import { Button } from 'shared/components/Button';
 import { ListItem } from 'shared/components/List';
 import { Tag } from 'features/tags/models/tags';
 import { FC } from 'react';
@@ -18,38 +17,26 @@ export const TagListViewItem: FC<TagListViewItemProps> = props => {
     <ListItem className="align-center flex justify-between" key={props.tag.id}>
       <div>{props.tag.name}</div>
       <div className="align-center flex gap-4">
-        <Button
-          variant="icon"
-          size="md"
-          color="transparent"
-          aria-label="Edit tag"
-          onClick={() => props.onEdit()}
-        >
+        <button aria-label="Edit tag" onClick={() => props.onEdit()}>
           <BiPencil title="Edit tag" />
-        </Button>
+        </button>
 
-        <Button
-          variant="icon"
-          size="md"
-          color="transparent"
+        <button
           aria-label={props.tag.archived ? 'Restore' : 'Archive'}
           onClick={() => props.onArchive(!props.tag.archived)}
           disabled={props.updateTagStatus === 'loading'}
         >
           <BiArchive title={props.tag.archived ? 'Unarchive' : 'Archive'} />
-        </Button>
+        </button>
 
         {props.tag.archived && (
-          <Button
-            variant="icon"
-            size="md"
-            color="transparent"
+          <button
             aria-label="Delete"
             onClick={() => props.onDelete()}
             disabled={props.deleteTagStatus === 'loading'}
           >
             <BiTrash title="Delete" />
-          </Button>
+          </button>
         )}
       </div>
     </ListItem>

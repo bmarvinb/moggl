@@ -6,7 +6,7 @@ export type LabelProps = {
 };
 
 export const Label = (props: LabelProps) => (
-  <label className="mb-2 block text-sm font-bold text-slate-900 dark:text-slate-50">
+  <label className="mb-2 block text-sm font-bold text-neutral-900 dark:text-neutral-50">
     {props.children}
   </label>
 );

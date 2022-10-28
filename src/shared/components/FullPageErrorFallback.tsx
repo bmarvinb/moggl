@@ -5,7 +5,7 @@ export const FullPageErrorFallback: FC<{ error: unknown }> = props => {
 
   return (
     <div
-      className="flex flex-col justify-center bg-slate-100 items-center text-slate-500 dark:bg-slate-800 dark:text-slate-200"
+      className="flex flex-col items-center justify-center bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-200"
       role="alert"
     >
       <p>There&apos;s a problem. Try refreshing the app.</p>

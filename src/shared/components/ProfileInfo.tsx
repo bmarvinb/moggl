@@ -10,13 +10,13 @@ export type ProfileInfoProps = {
 };
 
 const Avatar = (props: { avatarImageSource: string }) => (
-  <div className="absolute w-10 overflow-hidden rounded-full border border-slate-400/50">
+  <div className="absolute w-10 overflow-hidden rounded-full border border-neutral-400/50">
     <img className="w-full" src={props.avatarImageSource} alt="Avatar" />
   </div>
 );
 
 export const ProfileInfo = ({ open, profileInfo }: ProfileInfoProps) => (
-  <button className="flex items-center gap-6 border-none bg-blue-500 px-3 py-3 text-left text-sm text-slate-100 shadow-none hover:cursor-pointer hover:bg-blue-400">
+  <button className="border-b-none flex items-center gap-6   bg-primary-500 px-3 py-3 text-left text-sm text-neutral-100 shadow-none hover:cursor-pointer  hover:bg-primary-400">
     <Avatar avatarImageSource={profileInfo.profilePicture} />
     <div className="pl-12">
       <div

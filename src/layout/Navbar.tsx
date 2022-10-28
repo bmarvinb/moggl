@@ -1,4 +1,3 @@
-import { Button } from 'shared/components/Button';
 import { FC } from 'react';
 import { BiMenuAltLeft } from 'react-icons/bi';
 
@@ -8,22 +7,10 @@ export type NavbarProps = {
 
 export const Navbar: FC<NavbarProps> = props => {
   return (
-    <nav className="bg-blue-500 px-6 py-3 text-slate-100">
-      <Button
-        variant="icon"
-        color="transparent"
-        size="lg"
-        css={{
-          color: '$lightTextColor',
-          '&:hover': {
-            color: '$lightTextColor',
-          },
-        }}
-        title="Open sidebar"
-        onClick={() => props.onMenuClicked()}
-      >
+    <nav className="bg-primary-500 dark:bg-primaryDark-500 px-3 py-1.5 text-neutral-100">
+      <button title="Open sidebar" onClick={() => props.onMenuClicked()}>
         <BiMenuAltLeft />
-      </Button>
+      </button>
     </nav>
   );
 };

@@ -1,4 +1,3 @@
-import { Button } from 'shared/components/Button';
 import { Card } from 'shared/components/Card';
 import { Checkbox } from 'shared/components/Checkbox';
 import { isToday } from 'date-fns';
@@ -31,7 +30,7 @@ export const TimeEntriesTableView: React.FC<TimeEntriesTableViewProps> =
                 />
               </div>
             )}
-            <div className="mr-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
+            <div className="mr-2 text-lg font-semibold text-neutral-900 dark:text-neutral-50">
               {formatDate(props.date)}
             </div>
             <DayDuration
@@ -40,15 +39,12 @@ export const TimeEntriesTableView: React.FC<TimeEntriesTableViewProps> =
             />
           </div>
           <div className="relative -right-2 flex items-center text-lg font-bold">
-            <Button
-              variant="icon"
-              color="transparent"
-              size={'lg'}
+            <button
               aria-label="Toggle edit mode"
               onClick={props.onToggleClicked}
             >
               <BiListUl title="Toggle" />
-            </Button>
+            </button>
           </div>
         </div>
         {props.children}

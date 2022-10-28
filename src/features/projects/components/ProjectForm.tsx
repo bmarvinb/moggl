@@ -1,8 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'shared/components/Button';
 import { FieldError } from 'shared/components/FieldError';
 import { FormField } from 'shared/components/FormField';
-import { Input } from 'shared/components/Input';
 import { Label } from 'shared/components/Label';
 import { useAddProject } from 'features/projects/hooks/addProject';
 import { FC } from 'react';
@@ -44,11 +42,11 @@ export const ProjectForm: FC<AddProjectDialogProps> = props => {
       <div className="mb-10">
         <FormField>
           <Label>Name:</Label>
-          <Input
+          <input
             {...register('name')}
             aria-invalid={errors.name?.message ? 'true' : 'false'}
+            className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 invalid:focus:border-red-500 invalid:focus:ring-red-500 sm:text-sm`}
             id="project"
-            size="md"
             placeholder="Project name"
           />
           <FieldError>{errors.name?.message}</FieldError>
@@ -74,14 +72,9 @@ export const ProjectForm: FC<AddProjectDialogProps> = props => {
       </div>
 
       <div className="flex flex-col justify-end gap-4">
-        <Button
-          size="md"
-          type="submit"
-          color="primary"
-          disabled={status === 'loading'}
-        >
+        <button type="submit" disabled={status === 'loading'}>
           Add
-        </Button>
+        </button>
       </div>
     </form>
   );

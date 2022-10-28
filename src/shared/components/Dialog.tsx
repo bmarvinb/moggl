@@ -1,7 +1,6 @@
 import React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { styled } from 'theme/config';
-import { Button } from 'shared/components/Button';
 import { BiX } from 'react-icons/bi';
 
 const Dialog = DialogPrimitive.Root;
@@ -53,9 +52,9 @@ const DialogContent = (props: DialogContentProps) => (
     <StyledContent>
       {props.children}
       <StyledCloseButton asChild>
-        <Button color="transparent" variant="icon" size="lg">
+        <button>
           <BiX />
-        </Button>
+        </button>
       </StyledCloseButton>
     </StyledContent>
   </DialogPrimitive.Portal>

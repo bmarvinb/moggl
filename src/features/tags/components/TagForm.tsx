@@ -1,9 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'shared/components/Button';
 import { FieldError } from 'shared/components/FieldError';
 import { FormError } from 'shared/components/FormError';
 import { FormField } from 'shared/components/FormField';
-import { Input } from 'shared/components/Input';
 import { Label } from 'shared/components/Label';
 import { DialogMode } from 'layout/models/dialog-mode';
 import {
@@ -67,11 +65,11 @@ export const TagForm: FC<TagFormProps> = props => {
       <div className="mb-10">
         <FormField>
           <Label>Name:</Label>
-          <Input
+          <input
             {...register('name')}
             aria-invalid={formState.errors.name?.message ? 'true' : 'false'}
+            className={`block w-full rounded-md p-3 dark:bg-neutral-600`}
             id="name"
-            size="md"
             placeholder="Tag name"
           />
           <FieldError>{formState.errors.name?.message}</FieldError>
@@ -80,14 +78,9 @@ export const TagForm: FC<TagFormProps> = props => {
       </div>
 
       <div className="flex flex-col gap-4">
-        <Button
-          size="md"
-          type="submit"
-          color="primary"
-          disabled={submitDisabled}
-        >
+        <button type="submit" color="primary" disabled={submitDisabled}>
           {submitTitle[props.operation]}
-        </Button>
+        </button>
       </div>
     </form>
   );

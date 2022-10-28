@@ -7,7 +7,7 @@ export type CardProps = {
 
 export const Card = (props: CardProps) => (
   <div
-    className={`rounded bg-slate-50 shadow-md dark:bg-slate-900 ${props.className}`}
+    className={`rounded-lg bg-neutral-50 shadow-md dark:bg-neutralDark-50 ${props.className}`}
   >
     {props.children}
   </div>

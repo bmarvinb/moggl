@@ -23,10 +23,10 @@ export const ReportedDaysContainer: React.FC<ReportedDaysContainerProps> =
       <div className="flex w-full flex-1 flex-col">
         <div
           className="flex flex-1 flex-col "
-          style={{ maxHeight: `calc(100vh - ${contentTop + 1}px)` }}
+          style={{ maxHeight: `calc(100vh - ${contentTop}px)` }}
           ref={contentRef}
         >
-          <div className="flex flex-1 flex-col overflow-scroll bg-slate-200 p-4 dark:bg-slate-800">
+          <div className="flex flex-1 flex-col overflow-scroll bg-neutral-100 px-5 py-6 dark:bg-neutral-800">
             {props.children}
           </div>
         </div>

@@ -1,5 +1,4 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { Button } from 'shared/components/Button';
 import { Card } from 'shared/components/Card';
 import { Container } from 'shared/components/Container';
 import { Dialog } from 'shared/components/Dialog';
@@ -26,9 +25,7 @@ export const ProjectsContent: FC<ProjectsContentProps> = props => {
       <div className="mb-8 flex justify-between align-baseline">
         <Title>Projects</Title>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <Button color="primary" onClick={() => setDialogOpen(true)}>
-            Add new
-          </Button>
+          <button onClick={() => setDialogOpen(true)}>Add new</button>
           <AddProjectDialog onProjectAdded={onProjectAdded} />
         </Dialog>
       </div>

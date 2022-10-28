@@ -9,7 +9,7 @@ import {
   formatTimeEntryDate,
   getTimeEntryInfo,
 } from 'features/timer/utils/time-entries-utils';
-import { constNull, pipe } from 'fp-ts/lib/function';
+import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
 import React from 'react';
 import {
@@ -18,7 +18,6 @@ import {
   BiPlay,
   BiPurchaseTag,
 } from 'react-icons/bi';
-import { Button } from 'shared/components/Button';
 import { Checkbox } from 'shared/components/Checkbox';
 
 export type ParentTimeEntry = {
@@ -56,7 +55,7 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
   return (
     <>
       <div
-        className="flex items-center border-t border-slate-100 py-2 px-3 dark:border-slate-800"
+        className="flex items-center gap-3 border-t border-neutral-100 py-3 px-4 dark:border-neutral-800"
         key={props.timeEntry.data.id}
       >
         {props.edit && (
@@ -66,12 +65,7 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
           />
         )}
         {isParentTimeEntry(props.timeEntry) && (
-          <Button
-            color="transparent"
-            css={{
-              minWidth: '2rem',
-              minHeight: '2rem',
-            }}
+          <button
             onClick={() =>
               props.onToggleChildrenVisibility &&
               props.onToggleChildrenVisibility()
@@ -80,28 +74,21 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
             data-testid="TOGGLE_CHILDREN_VISIBILITY_BUTTON"
           >
             {props.timeEntry.children.length}
-          </Button>
+          </button>
         )}
 
         {isChildTimeEntry(props.timeEntry) && (
-          <Button
-            color="transparent"
-            css={{
-              minWidth: '2rem',
-              minHeight: '2rem',
-              visibility: 'hidden',
-            }}
-          >
-            {props.timeEntry.siblings}
-          </Button>
+          <button>{props.timeEntry.siblings}</button>
         )}
 
         <div className="flex flex-1 flex-col">
           <div>
             <div className="mb-2 flex flex-row items-center justify-between">
               <div
-                className={`text-slate-900 ${
+                className={` ${
                   props.timeEntry.data.description.length === 0
+                    ? 'text-neutral-600 dark:text-neutral-100'
+                    : 'text-neutral-900 dark:text-neutral-50'
                 }`}
                 data-testid="TIME_ENTRY_DESCRIPTION"
               >
@@ -109,22 +96,12 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
               </div>
 
               <div className="flex items-center gap-3">
-                <Button
-                  variant="icon"
-                  size="lg"
-                  color="transparent"
-                  aria-label="Select tags"
-                >
+                <button aria-label="Select tags">
                   <BiPurchaseTag title="Select tags" />
-                </Button>
-                <Button
-                  variant="icon"
-                  size="lg"
-                  color="transparent"
-                  aria-label="Change billable status"
-                >
+                </button>
+                <button aria-label="Change billable status">
                   <BiDollar title="Change billable status" />
-                </Button>
+                </button>
                 <div className="hidden">
                   {formatTimeEntryDate(
                     props.timeEntry.data.start,
@@ -146,29 +123,26 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
               {pipe(
                 props.timeEntry.data,
                 getTimeEntryInfo,
-                O.fold(constNull, ({ color, name }) => (
-                  <div data-testid="TIME_ENTRY_ADDITIONAL_INFO">{name}</div>
-                )),
+                O.fold(
+                  () => (
+                    <div className="text-sm text-neutral-600">
+                      Select project
+                    </div>
+                  ),
+                  ({ color, name }) => <div className="text-sm">{name}</div>,
+                ),
               )}
             </div>
-            <div className="relative right-2 flex gap-1">
-              <Button
-                variant="icon"
-                size="lg"
-                color="transparent"
+            <div className="relative -right-2 flex gap-1">
+              <button
                 onClick={() => props.onPlayClicked(props.timeEntry)}
                 aria-label="Start timer"
               >
                 <BiPlay title="Play" />
-              </Button>
-              <Button
-                variant="icon"
-                size="lg"
-                color="transparent"
-                aria-label="Open actions"
-              >
+              </button>
+              <button aria-label="Open actions">
                 <BiDotsVerticalRounded title="Actions" />
-              </Button>
+              </button>
             </div>
           </div>
         </div>

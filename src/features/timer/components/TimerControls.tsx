@@ -1,4 +1,3 @@
-import { Button } from 'shared/components/Button';
 import { TimerMode } from 'features/timer/machines/TimerMachine';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
 import React from 'react';
@@ -31,41 +30,25 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
   const isTimerMode = props.mode === 'Timer';
   return (
     <div>
-      <div className="flex w-full items-center justify-between">
-        <div className="relative grid grid-cols-3">
-          <Button
-            variant="icon"
-            color="transparent"
-            size={'lg'}
-            aria-label="Select project"
-          >
+      <div className="flex w-full items-center justify-between gap-3">
+        <div className="flex gap-2">
+          <button aria-label="Select project">
             <BiBriefcase title="Select project" />
-          </Button>
-          <Button
-            variant="icon"
-            color="transparent"
-            size={'lg'}
-            aria-label="Select tags"
-          >
+          </button>
+          <button aria-label="Select tags">
             <BiPurchaseTag title="Select tags" />
-          </Button>
-          <Button
-            variant="icon"
-            color="transparent"
-            size={'lg'}
+          </button>
+          <button
             aria-label="Change billable status"
-            css={{
-              color: props.billable ? '$primary5' : '$neutral8',
-            }}
             onClick={props.onBillableStatusChanged}
           >
             <BiDollar title="Change billable status" />
-          </Button>
+          </button>
         </div>
 
         <div className="flex items-center gap-3">
           {isTimerMode ? (
-            <div className="text-right text-lg font-semibold text-slate-900 dark:text-slate-50">
+            <div className="min-w-[4rem] text-right text-lg font-semibold text-neutral-800 dark:text-neutralDark-900">
               {formatDuration(props.duration)}
             </div>
           ) : (
@@ -75,94 +58,61 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
           {isTimerMode ? (
             <div>
               {props.running || props.creating ? (
-                <Button
-                  color={'danger'}
-                  variant="icon"
-                  shape="rounded"
-                  size={'xl'}
+                <button
+                  className="rounded-full bg-red-400 p-2 text-xl text-neutral-50 hover:bg-red-300 dark:bg-redDark-400 dark:hover:bg-redDark-500"
                   aria-label="Stop timer"
                   title="Stop timer"
                   onClick={props.onStopClicked}
                   disabled={props.updating}
                 >
                   <BiStop />
-                </Button>
+                </button>
               ) : (
-                <Button
-                  color="primary"
-                  variant="icon"
-                  shape="rounded"
+                <button
+                  className="rounded-full bg-primary-400 p-2 text-xl text-neutral-50 hover:bg-primary-300 dark:bg-primaryDark-400 dark:hover:bg-primaryDark-500"
                   aria-label="Start timer"
-                  size={'xl'}
                   title="Start timer"
-                  css={{
-                    svg: {
-                      position: 'relative',
-                      right: '-1px',
-                    },
-                  }}
                   onClick={props.onStartClicked}
                 >
-                  <BiPlay />
-                </Button>
+                  <BiPlay className="relative -right-0.5" />
+                </button>
               )}
             </div>
           ) : (
             <div>
-              <Button
-                color="transparent"
-                size={'xl'}
+              <button
                 aria-label="Add time entry"
                 title="Add time entry"
                 onClick={props.onAddTimeEntryClicked}
               >
                 <BiPlus />
-              </Button>
+              </button>
             </div>
           )}
 
           {props.running ? (
             <div>
-              <Button
-                css={{
-                  padding: '$4 $1',
-                  minWidth: '1.5rem',
-                }}
-                variant={'icon'}
-                color="transparent"
-                size={'lg'}
+              <button
                 disabled={props.creating || props.updating}
                 onClick={props.onDiscard}
               >
                 <BiDotsVertical></BiDotsVertical>
-              </Button>
+              </button>
             </div>
           ) : (
             <div className="flex flex-col justify-center rounded p-0">
-              <Button
-                variant={'icon'}
-                color="transparent"
-                size={'sm'}
+              <button
                 title="Timer mode"
-                css={{
-                  svg: {
-                    position: 'relative',
-                    right: '-1px',
-                  },
-                }}
                 onClick={() => props.onTimerModeChanged('Timer')}
               >
                 <BiPlay />
-              </Button>
-              <Button
-                variant={'icon'}
-                color="transparent"
-                size={'sm'}
+              </button>
+              <button
                 title="Manual mode"
                 onClick={() => props.onTimerModeChanged('Manual')}
               >
                 <BiPlus />
-              </Button>
+              </button>
             </div>
           )}
         </div>

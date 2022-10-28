@@ -9,10 +9,12 @@ export type WeekDurationProps = {
 export const WeekDuration: React.FC<WeekDurationProps> = ({ weekDuration }) => {
   const duration = useActiveDuration(weekDuration);
   return (
-    <div className="mb-8 flex place-content-between">
+    <div className="mb-4 flex place-content-between">
       <div className="flex">
-        <h1 className="text-xl font-bold">This week</h1>
-        <div className="ml-2 inline-flex text-xl font-normal text-slate-900 dark:text-slate-50">
+        <h1 className="text-xl font-bold text-neutral-900 dark:text-neutralDark-900">
+          This week
+        </h1>
+        <div className="ml-2 inline-flex text-xl font-normal text-neutral-900 dark:text-neutral-50">
           {formatDuration(duration)}
         </div>
       </div>
