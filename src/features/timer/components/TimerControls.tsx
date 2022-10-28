@@ -1,5 +1,4 @@
 import { Button } from 'shared/components/Button';
-import { styled } from 'theme/config';
 import { TimerMode } from 'features/timer/machines/TimerMachine';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
 import React from 'react';
@@ -27,15 +26,6 @@ export type TimerControlsProps = {
   onBillableStatusChanged: () => void;
   onTimerModeChanged: (mode: TimerMode) => void;
 };
-
-const ToggleMode = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  borderRadius: '$md',
-  justifyContent: 'center',
-  padding: 0,
-  minWidth: '1.5rem',
-});
 
 export const TimerControls: React.FC<TimerControlsProps> = props => {
   const isTimerMode = props.mode === 'Timer';
@@ -73,7 +63,7 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
           </Button>
         </div>
 
-        <div className="grid columns-3 items-center gap-6 ">
+        <div className="flex items-center gap-3">
           {isTimerMode ? (
             <div className="text-right text-lg font-semibold text-slate-900 dark:text-slate-50">
               {formatDuration(props.duration)}
@@ -148,7 +138,7 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
               </Button>
             </div>
           ) : (
-            <ToggleMode>
+            <div className="flex flex-col justify-center rounded p-0">
               <Button
                 variant={'icon'}
                 color="transparent"
@@ -173,7 +163,7 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
               >
                 <BiPlus />
               </Button>
-            </ToggleMode>
+            </div>
           )}
         </div>
       </div>

@@ -20,7 +20,6 @@ import {
 } from 'react-icons/bi';
 import { Button } from 'shared/components/Button';
 import { Checkbox } from 'shared/components/Checkbox';
-import { styled } from 'theme/config';
 
 export type ParentTimeEntry = {
   data: InactiveTimeEntry;
@@ -53,47 +52,12 @@ type TimeEntryViewRowProps = {
   onToggleChildrenVisibility?: () => void;
 };
 
-const TimeEntryItem = styled('div', {
-  display: 'flex',
-  padding: '0.75rem 1rem',
-  gap: '$6',
-  borderTop: '1px solid $neutral2',
-  alignItems: 'center',
-});
-
-const Description = styled('div', {
-  lineHeight: '$lg',
-  color: '$neutral9',
-  variants: {
-    empty: {
-      true: {
-        color: '$neutral7',
-      },
-    },
-  },
-});
-
-const AdditionalInfo = styled('div', {
-  position: 'relative',
-  paddingLeft: '0.75rem',
-  fontSize: '$sm',
-  '&:before': {
-    position: 'absolute',
-    content: '',
-    width: '0.3rem',
-    height: '0.3rem',
-    borderRadius: '100%',
-    top: 'calc(50% - 0.15rem)',
-    left: '-0rem',
-  },
-});
-
 export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
   return (
     <>
-      <TimeEntryItem
+      <div
+        className="flex items-center border-t border-slate-100 py-2 px-3 dark:border-slate-800"
         key={props.timeEntry.data.id}
-        data-testid="TIME_ENTRY_VIEW_ROW"
       >
         {props.edit && (
           <Checkbox
@@ -135,14 +99,16 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
         <div className="flex flex-1 flex-col">
           <div>
             <div className="mb-2 flex flex-row items-center justify-between">
-              <Description
-                empty={props.timeEntry.data.description.length === 0}
+              <div
+                className={`text-slate-900 ${
+                  props.timeEntry.data.description.length === 0
+                }`}
                 data-testid="TIME_ENTRY_DESCRIPTION"
               >
                 {props.timeEntry.data.description || 'Add description'}
-              </Description>
+              </div>
 
-              <div className="grid grid-cols-3 items-center gap-1">
+              <div className="flex items-center gap-3">
                 <Button
                   variant="icon"
                   size="lg"
@@ -159,7 +125,7 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
                 >
                   <BiDollar title="Change billable status" />
                 </Button>
-                <div className="flex-none">
+                <div className="hidden">
                   {formatTimeEntryDate(
                     props.timeEntry.data.start,
                     props.timeEntry.data.end,
@@ -181,17 +147,7 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
                 props.timeEntry.data,
                 getTimeEntryInfo,
                 O.fold(constNull, ({ color, name }) => (
-                  <AdditionalInfo
-                    css={{
-                      color: color,
-                      '&:before': {
-                        background: color,
-                      },
-                    }}
-                    data-testid="TIME_ENTRY_ADDITIONAL_INFO"
-                  >
-                    {name}
-                  </AdditionalInfo>
+                  <div data-testid="TIME_ENTRY_ADDITIONAL_INFO">{name}</div>
                 )),
               )}
             </div>
@@ -216,7 +172,7 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
             </div>
           </div>
         </div>
-      </TimeEntryItem>
+      </div>
     </>
   );
 };

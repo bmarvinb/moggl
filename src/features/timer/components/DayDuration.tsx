@@ -13,7 +13,7 @@ export const DayDuration: React.FC<DayDurationProps> = ({
 }) => {
   const duration = useActiveDuration(reportedTime);
   return (
-    <div className="font-normal text-slate-900 dark:text-slate-100">
+    <div className="font-normal text-slate-800 dark:text-slate-100">
       {formatDuration(isToday ? duration : reportedTime)}
     </div>
   );

@@ -1,7 +1,6 @@
 import { Button } from 'shared/components/Button';
 import { Card } from 'shared/components/Card';
 import { Checkbox } from 'shared/components/Checkbox';
-import { styled } from 'theme/config';
 import { isToday } from 'date-fns';
 import { DayDuration } from 'features/timer/components/DayDuration';
 import { formatDate } from 'features/timer/utils/time-entries-utils';
@@ -18,27 +17,12 @@ type TimeEntriesTableViewProps = {
   onToggleClicked: () => void;
 };
 
-const TimeEntriesTable = styled(Card, {
-  marginBottom: '1rem',
-  '&:last-child': {
-    marginBottom: 0,
-  },
-});
-
-const Label = styled('div', {
-  fontSize: '$lg',
-  lineHeight: '$lg',
-  display: 'flex',
-  alignItems: 'center',
-  fontWeight: '$semibold',
-});
-
 export const TimeEntriesTableView: React.FC<TimeEntriesTableViewProps> =
   props => {
     return (
-      <Card>
-        <div className="flex justify-between py-6 px-8">
-          <div className="align-center flex">
+      <Card className="mb-4">
+        <div className="flex justify-between py-3 px-4">
+          <div className="flex items-center">
             {props.bulkEditMode && (
               <div className="mr-4">
                 <Checkbox
@@ -47,17 +31,15 @@ export const TimeEntriesTableView: React.FC<TimeEntriesTableViewProps> =
                 />
               </div>
             )}
-            <Label>
-              <div className="mr-2 text-slate-900 dark:text-slate-50">
-                {formatDate(props.date)}
-              </div>
-              <DayDuration
-                isToday={isToday(props.date)}
-                reportedTime={props.reportedTime}
-              />
-            </Label>
+            <div className="mr-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
+              {formatDate(props.date)}
+            </div>
+            <DayDuration
+              isToday={isToday(props.date)}
+              reportedTime={props.reportedTime}
+            />
           </div>
-          <Label className="relative -right-2">
+          <div className="relative -right-2 flex items-center text-lg font-bold">
             <Button
               variant="icon"
               color="transparent"
@@ -67,7 +49,7 @@ export const TimeEntriesTableView: React.FC<TimeEntriesTableViewProps> =
             >
               <BiListUl title="Toggle" />
             </Button>
-          </Label>
+          </div>
         </div>
         {props.children}
       </Card>

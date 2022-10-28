@@ -1,5 +1,4 @@
 import React from 'react';
-import { styled } from 'theme/config';
 
 export type TitleProps = {
   children?: React.ReactNode;
