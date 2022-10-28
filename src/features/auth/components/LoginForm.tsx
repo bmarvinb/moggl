@@ -12,13 +12,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { z } from 'zod';
 
-const LoginButton = styled(Button, {
-  width: '100%',
-  '@xl': {
-    width: '50%',
-  },
-});
-
 const schema = z.object({
   email: z.string().email('Please provide valid email'),
   password: z.string().min(5, 'Minimum password length is 5 characters'),
@@ -56,11 +49,7 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Box
-        css={{
-          marginBottom: '3rem',
-        }}
-      >
+      <div className="mb-10">
         <FormField>
           <Label htmlFor="email">Email:</Label>
           <Input
@@ -96,9 +85,9 @@ export function LoginForm() {
             The email/password combination used was not found on the system.
           </FormErrorMessage>
         )}
-      </Box>
+      </div>
 
-      <LoginButton
+      <Button
         aria-label="Login button"
         color="primary"
         type="submit"
@@ -106,7 +95,7 @@ export function LoginForm() {
         data-testid="login-form-button"
       >
         Log in
-      </LoginButton>
+      </Button>
     </form>
   );
 }

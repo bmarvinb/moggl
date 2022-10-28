@@ -1,4 +1,3 @@
-import { Box } from 'shared/components/Box';
 import { Container } from 'shared/components/Container';
 import { List } from 'shared/components/List';
 import { AddTagDialog } from 'features/tags/components/AddTagDialog';
@@ -26,11 +25,7 @@ export const TagsContent: FC<TagsContentProps> = props => {
   };
 
   return (
-    <Container
-      css={{
-        padding: '$8',
-      }}
-    >
+    <Container className="p-8">
       <TagsContentTitle addNewTag={() => setAddDialogOpen(true)} />
       <TagsFilter
         criteria={props.searchCriteria}
@@ -44,18 +39,11 @@ export const TagsContent: FC<TagsContentProps> = props => {
           ))}
         </List>
       ) : (
-        <Box
-          css={{
-            padding: '$8',
-            textAlign: 'center',
-            fontSize: '$lg',
-            color: '$neutral7',
-          }}
-        >
+        <div className="p-8 text-center text-lg text-slate-700 dark:text-slate-200">
           {props.searchCriteria.name
             ? `No result found for "${props.searchCriteria.name}"`
             : 'Nothing found'}
-        </Box>
+        </div>
       )}
 
       <AddTagDialog

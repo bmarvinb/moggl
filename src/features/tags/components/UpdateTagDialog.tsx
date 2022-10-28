@@ -1,4 +1,3 @@
-import { Box } from 'shared/components/Box';
 import { Dialog, DialogContent } from 'shared/components/Dialog';
 import { DialogMode } from 'layout/models/dialog-mode';
 import { TagForm } from 'features/tags/components/TagForm';
@@ -25,16 +24,8 @@ export const UpdateTagDialog: FC<UpdateTagDialogProps> = props => {
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent>
-        <Box>
-          <Box
-            css={{
-              fontWeight: '$semibold',
-              fontSize: '$lg',
-              mb: '$6',
-            }}
-          >
-            Update tag
-          </Box>
+        <div>
+          <div className="mb-6 text-lg font-semibold">Update tag</div>
           <TagForm
             operation={DialogMode.Update}
             status={status}
@@ -42,7 +33,7 @@ export const UpdateTagDialog: FC<UpdateTagDialogProps> = props => {
             tag={props.tag}
             onSubmit={onSubmit}
           />
-        </Box>
+        </div>
       </DialogContent>
     </Dialog>
   );

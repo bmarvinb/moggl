@@ -1,5 +1,5 @@
-import { styled } from 'theme/config';
+import React from 'react';
 
-export const FormErrorMessage = styled('div', {
-  color: '$red4',
-});
+export const FormErrorMessage = (props: { children: React.ReactNode }) => (
+  <div className="text-red-400"></div>
+);

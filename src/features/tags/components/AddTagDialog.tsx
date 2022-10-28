@@ -1,4 +1,3 @@
-import { Box } from 'shared/components/Box';
 import { Dialog, DialogContent } from 'shared/components/Dialog';
 import { DialogMode } from 'layout/models/dialog-mode';
 import { TagForm } from 'features/tags/components/TagForm';
@@ -24,23 +23,15 @@ export const AddTagDialog: FC<AddTagDialog> = props => {
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent>
-        <Box>
-          <Box
-            css={{
-              fontWeight: '$semibold',
-              fontSize: '$lg',
-              mb: '$6',
-            }}
-          >
-            Add new tag
-          </Box>
+        <div>
+          <div className="mb-6 text-lg font-semibold">Add new tag</div>
           <TagForm
             operation={DialogMode.Add}
             status={status}
             error={error?.message}
             onSubmit={onSubmit}
           />
-        </Box>
+        </div>
       </DialogContent>
     </Dialog>
   );

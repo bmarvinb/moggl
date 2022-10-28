@@ -1,4 +1,3 @@
-import { Box } from 'shared/components/Box';
 import { Button } from 'shared/components/Button';
 import { ListItem } from 'shared/components/List';
 import { Tag } from 'features/tags/models/tags';
@@ -16,22 +15,9 @@ export type TagListViewItemProps = {
 
 export const TagListViewItem: FC<TagListViewItemProps> = props => {
   return (
-    <ListItem
-      css={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
-      key={props.tag.id}
-    >
-      <Box>{props.tag.name}</Box>
-      <Box
-        css={{
-          display: 'flex',
-          gap: '$4',
-          alignItems: 'center',
-        }}
-      >
+    <ListItem className="align-center flex justify-between" key={props.tag.id}>
+      <div>{props.tag.name}</div>
+      <div className="align-center flex gap-4">
         <Button
           variant="icon"
           size="md"
@@ -65,7 +51,7 @@ export const TagListViewItem: FC<TagListViewItemProps> = props => {
             <BiTrash title="Delete" />
           </Button>
         )}
-      </Box>
+      </div>
     </ListItem>
   );
 };

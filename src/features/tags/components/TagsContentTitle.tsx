@@ -17,7 +17,7 @@ export const TagsContentTitle: FC<TagsContentTitleProps> = props => {
         marginBottom: '$10',
       }}
     >
-      <Title as="h1">Tags</Title>
+      <Title>Tags</Title>
       <Button color="primary" onClick={props.addNewTag}>
         Add new
       </Button>

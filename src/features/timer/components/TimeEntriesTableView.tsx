@@ -37,7 +37,7 @@ const Label = styled('div', {
 export const TimeEntriesTableView: React.FC<TimeEntriesTableViewProps> =
   props => {
     return (
-      <TimeEntriesTable>
+      <Card>
         <div className="flex justify-between py-6 px-8">
           <div className="align-center flex">
             {props.bulkEditMode && (
@@ -71,6 +71,6 @@ export const TimeEntriesTableView: React.FC<TimeEntriesTableViewProps> =
           </Label>
         </div>
         {props.children}
-      </TimeEntriesTable>
+      </Card>
     );
   };

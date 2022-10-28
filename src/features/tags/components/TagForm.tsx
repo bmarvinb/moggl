@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box } from 'shared/components/Box';
 import { Button } from 'shared/components/Button';
 import { FieldError } from 'shared/components/FieldError';
 import { FormError } from 'shared/components/FormError';
@@ -65,11 +64,7 @@ export const TagForm: FC<TagFormProps> = props => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Box
-        css={{
-          marginBottom: '$10',
-        }}
-      >
+      <div className="mb-10">
         <FormField>
           <Label htmlFor="name">Name:</Label>
           <Input
@@ -82,15 +77,9 @@ export const TagForm: FC<TagFormProps> = props => {
           <FieldError>{formState.errors.name?.message}</FieldError>
         </FormField>
         {props.status === 'error' && <FormError>{props.error}</FormError>}
-      </Box>
+      </div>
 
-      <Box
-        css={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '$4',
-        }}
-      >
+      <div className="flex flex-col gap-4">
         <Button
           size="md"
           type="submit"
@@ -99,7 +88,7 @@ export const TagForm: FC<TagFormProps> = props => {
         >
           {submitTitle[props.operation]}
         </Button>
-      </Box>
+      </div>
     </form>
   );
 };

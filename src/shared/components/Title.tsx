@@ -1,18 +1,11 @@
+import React from 'react';
 import { styled } from 'theme/config';
 
-export const Title = styled('div', {
-  fontWeight: 'bold',
-  margin: 0,
-  padding: 0,
-  variants: {
-    size: {
-      xl: {
-        fontSize: '$xl',
-        lineHeight: '$xl',
-      },
-    },
-  },
-  defaultVariants: {
-    size: 'xl',
-  },
-});
+export type TitleProps = {
+  children?: React.ReactNode;
+  classNames?: string;
+};
+
+export const Title = (props: TitleProps) => (
+  <h1 className="m-0 p-0 text-xl font-bold">{props.children}</h1>
+);

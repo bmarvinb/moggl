@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box } from 'shared/components/Box';
 import { Button } from 'shared/components/Button';
 import { FieldError } from 'shared/components/FieldError';
 import { FormField } from 'shared/components/FormField';
@@ -42,11 +41,7 @@ export const ProjectForm: FC<AddProjectDialogProps> = props => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Box
-        css={{
-          marginBottom: '$10',
-        }}
-      >
+      <div className="mb-10">
         <FormField>
           <Label htmlFor="project">Name:</Label>
           <Input
@@ -68,30 +63,17 @@ export const ProjectForm: FC<AddProjectDialogProps> = props => {
         </FormField>
         <FormField>
           <Label htmlFor="isPublic">Visibility:</Label>
-          <Box id="isPublic" as="label" css={{ fontWeight: '$normal' }}>
+          <label id="isPublic" className="font-normal">
             <input {...register('isPublic')} type="checkbox" />
             Public
-          </Box>
+          </label>
         </FormField>
         {status === 'error' && (
-          <Box
-            css={{
-              color: '$red5',
-            }}
-          >
-            Error occured
-          </Box>
+          <div className="text-red-500">Error occured</div>
         )}
-      </Box>
+      </div>
 
-      <Box
-        css={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'end',
-          gap: '$4',
-        }}
-      >
+      <div className="flex flex-col justify-end gap-4">
         <Button
           size="md"
           type="submit"
@@ -100,7 +82,7 @@ export const ProjectForm: FC<AddProjectDialogProps> = props => {
         >
           Add
         </Button>
-      </Box>
+      </div>
     </form>
   );
 };

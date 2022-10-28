@@ -1,4 +1,3 @@
-import { Box } from 'shared/components/Box';
 import { DialogContent } from 'shared/components/Dialog';
 import { ProjectForm } from 'features/projects/components/ProjectForm';
 import { FC } from 'react';
@@ -10,18 +9,10 @@ export type AddProjectDialogProps = {
 export const AddProjectDialog: FC<AddProjectDialogProps> = props => {
   return (
     <DialogContent>
-      <Box>
-        <Box
-          css={{
-            fontWeight: '$semibold',
-            fontSize: '$lg',
-            mb: '$6',
-          }}
-        >
-          Add new project
-        </Box>
+      <div>
+        <div className="mb-6 text-lg font-semibold">Add new project</div>
         <ProjectForm onProjectAdded={props.onProjectAdded} />
-      </Box>
+      </div>
     </DialogContent>
   );
 };

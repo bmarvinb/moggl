@@ -1,5 +1,5 @@
 import { Box } from 'shared/components/Box';
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { styled } from 'theme/config';
 
 const Children = styled('div', {
@@ -21,7 +21,7 @@ const Children = styled('div', {
 });
 
 export const AuthLayout: FC<{
-  children: JSX.Element;
+  children: React.ReactNode;
 }> = ({ children }) => {
   return (
     <Box

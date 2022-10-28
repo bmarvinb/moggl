@@ -1,17 +1,12 @@
 import { AuthLayout, LoginForm } from 'features/auth';
-import { Box } from 'shared/components/Box';
 
 export function LoginPage() {
   return (
     <AuthLayout>
-      <Box
-        css={{
-          width: '100%',
-        }}
-      >
+      <div className="w-full">
         <h2>Log in to your account</h2>
         <LoginForm />
-      </Box>
+      </div>
     </AuthLayout>
   );
 }

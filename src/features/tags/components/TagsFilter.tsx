@@ -42,19 +42,9 @@ export const TagsFilter: FC<TagsFilterProps> = props => {
   };
 
   return (
-    <Card
-      css={{
-        marginBottom: '$6',
-      }}
-    >
+    <Card className="mb-6">
       <form onSubmit={e => e.preventDefault()} onChange={onFilterChange}>
-        <Box
-          css={{
-            display: 'flex',
-            padding: '$6 $8',
-            gap: '$8',
-          }}
-        >
+        <div className="flex gap-8 px-6 py-8">
           <Box>
             <select {...register('archived')} name="archived">
               <option value="false">Show active</option>
@@ -68,7 +58,7 @@ export const TagsFilter: FC<TagsFilterProps> = props => {
           >
             <Input {...register('name')} name="name" placeholder="Tag name" />
           </Box>
-        </Box>
+        </div>
       </form>
     </Card>
   );

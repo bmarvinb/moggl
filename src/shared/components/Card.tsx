@@ -1,7 +1,14 @@
-import { styled } from 'theme/config';
+import React from 'react';
 
-export const Card = styled('div', {
-  background: '$neutral1',
-  borderRadius: '$md',
-  boxShadow: '$sm',
-});
+export type CardProps = {
+  className?: string;
+  children?: React.ReactNode;
+};
+
+export const Card = (props: CardProps) => (
+  <div
+    className={`rounded bg-slate-50 shadow-md dark:bg-slate-900 ${props.className}`}
+  >
+    {props.children}
+  </div>
+);

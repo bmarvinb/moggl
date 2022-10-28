@@ -1,5 +1,4 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { Box } from 'shared/components/Box';
 import { Button } from 'shared/components/Button';
 import { Card } from 'shared/components/Card';
 import { Container } from 'shared/components/Container';
@@ -23,39 +22,22 @@ export const ProjectsContent: FC<ProjectsContentProps> = props => {
   };
 
   return (
-    <Container
-      css={{
-        padding: '$10',
-      }}
-    >
-      <Box
-        css={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
-          marginBottom: '$8',
-        }}
-      >
-        <Title as="h1">Projects</Title>
+    <Container className="p-10">
+      <div className="mb-8 flex justify-between align-baseline">
+        <Title>Projects</Title>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <Button color="primary" onClick={() => setDialogOpen(true)}>
             Add new
           </Button>
           <AddProjectDialog onProjectAdded={onProjectAdded} />
         </Dialog>
-      </Box>
-      <Card
-        css={{
-          padding: '$6 $8',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
+      </div>
+      <Card className="flex flex-col py-6 px-8">
         {props.projects.map(project => {
           return (
-            <Box key={project.id}>
+            <div key={project.id}>
               {project.id} - {project.name}
-            </Box>
+            </div>
           );
         })}
       </Card>
