@@ -66,7 +66,7 @@ export const TagForm: FC<TagFormProps> = props => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-10">
         <FormField>
-          <Label htmlFor="name">Name:</Label>
+          <Label>Name:</Label>
           <Input
             {...register('name')}
             aria-invalid={formState.errors.name?.message ? 'true' : 'false'}

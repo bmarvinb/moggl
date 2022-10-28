@@ -1,5 +1,9 @@
-import { styled } from 'theme/config';
+import React from 'react';
 
-export const FormField = styled('div', {
-  marginBottom: '$6',
-});
+export type FormFieldProps = {
+  children?: React.ReactNode;
+};
+
+export const FormField = (props: FormFieldProps) => (
+  <div className="mb-6">{props.children}</div>
+);

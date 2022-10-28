@@ -1,4 +1,3 @@
-import { Box } from 'shared/components/Box';
 import { Button } from 'shared/components/Button';
 import { Card } from 'shared/components/Card';
 import { Checkbox } from 'shared/components/Checkbox';

@@ -1,4 +1,3 @@
-import { Box } from 'shared/components/Box';
 import {
   ReportedDay,
   ReportedDays,
@@ -15,20 +14,13 @@ type TimeEntriesReportedDaysProps = {
 export const TimeEntriesReportedDays: React.FC<TimeEntriesReportedDaysProps> =
   props => {
     return (
-      <Box
-        css={{
-          display: 'flex',
-          flex: 1,
-          flexDirection: 'column',
-          width: '100%',
-        }}
-      >
+      <div className="flex w-full flex-1 flex-col">
         <ReportedDaysContainer>
           {props.reportedDays.length > 0 && (
             <WeekDuration weekDuration={props.weekDuration} />
           )}
           <ReportedDays reportedDays={props.reportedDays} />
         </ReportedDaysContainer>
-      </Box>
+      </div>
     );
   };

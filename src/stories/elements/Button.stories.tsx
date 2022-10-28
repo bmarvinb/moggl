@@ -1,6 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { BiCart } from 'react-icons/bi';
-import { Box } from 'shared/components/Box';
 import { Button } from 'shared/components/Button';
 import { darkTheme } from 'theme/config';
 import { globalStyles } from 'theme/globalStyles';
@@ -17,8 +16,8 @@ export default {
 const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
   globalStyles();
   return (
-    <Box className={args.darkMode ? darkTheme : ''}>
-      <Box>
+    <div className={args.darkMode ? darkTheme : ''}>
+      <div>
         <Row>
           <Button color={'transparent'} size={'sm'}>
             Button
@@ -33,9 +32,9 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
             Button
           </Button>
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <Row>
           <Button size={'sm'} color="primary">
             Button
@@ -50,9 +49,9 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
             Button
           </Button>
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <Row>
           <Button size={'sm'} color="danger">
             Button
@@ -67,9 +66,9 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
             Button
           </Button>
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <Row>
           <Button size={'sm'} fill="outline" color="primary">
             Button
@@ -84,9 +83,9 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
             Button
           </Button>
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <Row>
           <Button size={'sm'} fill="outline" color="danger">
             Button
@@ -101,16 +100,16 @@ const BasicTemplate: ComponentStory<typeof Button> = (args: any) => {
             Button
           </Button>
         </Row>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 
 const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
   globalStyles();
   return (
-    <Box className={args.darkMode ? darkTheme : ''}>
-      <Box>
+    <div className={args.darkMode ? darkTheme : ''}>
+      <div>
         <Row>
           <Button color="transparent" variant="icon" size={'sm'}>
             <BiCart />
@@ -125,9 +124,9 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
             <BiCart />
           </Button>
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <Row>
           <Button size={'sm'} variant="icon" color="primary">
             <BiCart />
@@ -142,9 +141,9 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
             <BiCart />
           </Button>
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <Row>
           <Button size={'sm'} variant="icon" color="danger">
             <BiCart />
@@ -159,9 +158,9 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
             <BiCart />
           </Button>
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <Row>
           <Button fill="outline" size={'sm'} variant="icon" color="primary">
             <BiCart />
@@ -176,9 +175,9 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
             <BiCart />
           </Button>
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <Row>
           <Button fill="outline" size={'sm'} variant="icon" color="danger">
             <BiCart />
@@ -193,8 +192,8 @@ const IconTemplate: ComponentStory<typeof Button> = (args: any) => {
             <BiCart />
           </Button>
         </Row>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

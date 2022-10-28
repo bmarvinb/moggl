@@ -18,7 +18,6 @@ import {
   BiPlay,
   BiPurchaseTag,
 } from 'react-icons/bi';
-import { Box } from 'shared/components/Box';
 import { Button } from 'shared/components/Button';
 import { Checkbox } from 'shared/components/Checkbox';
 import { styled } from 'theme/config';
@@ -133,23 +132,9 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
           </Button>
         )}
 
-        <Box
-          css={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-          }}
-        >
-          <Box>
-            <Box
-              css={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: '$2',
-              }}
-            >
+        <div className="flex flex-1 flex-col">
+          <div>
+            <div className="mb-2 flex flex-row items-center justify-between">
               <Description
                 empty={props.timeEntry.data.description.length === 0}
                 data-testid="TIME_ENTRY_DESCRIPTION"
@@ -157,14 +142,7 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
                 {props.timeEntry.data.description || 'Add description'}
               </Description>
 
-              <Box
-                css={{
-                  display: 'grid',
-                  gridTemplateColumns: 'auto auto auto',
-                  gridColumnGap: '$1',
-                  alignItems: 'center',
-                }}
-              >
+              <div className="grid grid-cols-3 items-center gap-1">
                 <Button
                   variant="icon"
                   size="lg"
@@ -181,39 +159,24 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
                 >
                   <BiDollar title="Change billable status" />
                 </Button>
-                <Box
-                  css={{
-                    display: 'none',
-                  }}
-                >
+                <div className="flex-none">
                   {formatTimeEntryDate(
                     props.timeEntry.data.start,
                     props.timeEntry.data.end,
                   )}
-                </Box>
-                <Box
-                  css={{
-                    fontWeight: 500,
-                    fontSize: '$lg',
-                    lineHeight: '$lg',
-                  }}
+                </div>
+                <div
+                  className="text-lg font-bold"
                   data-testid="TIME_ENTRY_DURATION"
                 >
                   {formatDuration(props.timeEntry.data.duration)}
-                </Box>
-              </Box>
-            </Box>
-          </Box>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <Box
-            css={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Box>
+          <div className="flex flex-row items-center justify-between">
+            <div>
               {pipe(
                 props.timeEntry.data,
                 getTimeEntryInfo,
@@ -231,15 +194,8 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
                   </AdditionalInfo>
                 )),
               )}
-            </Box>
-            <Box
-              css={{
-                position: 'relative',
-                display: 'flex',
-                gap: '$1',
-                right: '-0.25rem',
-              }}
-            >
+            </div>
+            <div className="relative right-2 flex gap-1">
               <Button
                 variant="icon"
                 size="lg"
@@ -257,9 +213,9 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
               >
                 <BiDotsVerticalRounded title="Actions" />
               </Button>
-            </Box>
-          </Box>
-        </Box>
+            </div>
+          </div>
+        </div>
       </TimeEntryItem>
     </>
   );

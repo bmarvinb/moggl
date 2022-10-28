@@ -1,6 +1,5 @@
-import { Box } from 'shared/components/Box';
-import { useWindowSize } from 'shared/hooks/windowSize';
 import React from 'react';
+import { useWindowSize } from 'shared/hooks/windowSize';
 
 export type ReportedDaysContainerProps = {
   children: React.ReactNode;
@@ -22,19 +21,15 @@ export const ReportedDaysContainer: React.FC<ReportedDaysContainerProps> =
 
     return (
       <div className="flex w-full flex-1 flex-col">
-        <Box
+        <div
+          className="flex flex-1 flex-col "
+          style={{ maxHeight: `calc(100vh - ${contentTop + 1}px)` }}
           ref={contentRef}
-          css={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-            maxHeight: `calc(100vh - ${contentTop + 1}px)`,
-          }}
         >
           <div className="flex flex-1 flex-col overflow-scroll bg-slate-200 p-4 dark:bg-slate-800">
             {props.children}
           </div>
-        </Box>
+        </div>
       </div>
     );
   };

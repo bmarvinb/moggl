@@ -1,5 +1,4 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { Box } from 'shared/components/Box';
 import { FullPageSpinner } from 'shared/components/FullPageSpinner';
 import { darkTheme } from 'theme/config';
 import { globalStyles } from 'theme/globalStyles';
@@ -15,9 +14,9 @@ export default {
 const Template: ComponentStory<typeof FullPageSpinner> = (args: any) => {
   globalStyles();
   return (
-    <Box className={args.darkMode ? darkTheme : ''}>
+    <div className={args.darkMode ? darkTheme : ''}>
       <FullPageSpinner />
-    </Box>
+    </div>
   );
 };
 

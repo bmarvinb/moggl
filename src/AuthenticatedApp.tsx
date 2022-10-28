@@ -1,5 +1,4 @@
 import { useMachine } from '@xstate/react';
-import { Box } from 'shared/components/Box';
 import { Menu, MenuItem } from 'shared/components/Menu';
 import { ProfileInfo, ProfileInfoData } from 'shared/components/ProfileInfo';
 import { Drawer } from 'layout/Drawer';
@@ -52,20 +51,8 @@ export const AuthenticatedApp = () => {
   };
 
   return (
-    <Box
-      css={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        background: '$neutral1',
-      }}
-    >
-      <Box
-        css={{
-          display: 'flex',
-          height: '100%',
-        }}
-      >
+    <div className="flex h-full flex-col bg-slate-100">
+      <div className="flex h-full">
         {state.context.mode && (
           <Drawer
             variant={temporaryMode ? 'temporary' : 'permanent'}
@@ -82,16 +69,7 @@ export const AuthenticatedApp = () => {
             </>
           </Drawer>
         )}
-        <Box
-          as="main"
-          css={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-            maxHeight: '100vh',
-            overflowY: 'scroll',
-          }}
-        >
+        <main className="flex max-h-screen flex-1 flex-col overflow-y-scroll">
           {temporaryMode && <Navbar onMenuClicked={() => send('TOGGLE')} />}
           <Routes>
             <Route path="/timer" element={<TimerPage />} />
@@ -100,9 +78,9 @@ export const AuthenticatedApp = () => {
             <Route path="/tags" element={<TagsPage />} />
             <Route path="/login" element={<Navigate replace to="/" />} />
           </Routes>
-        </Box>
-      </Box>
-    </Box>
+        </main>
+      </div>
+    </div>
   );
 };
 

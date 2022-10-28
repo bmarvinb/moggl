@@ -1,4 +1,3 @@
-import { Box } from 'shared/components/Box';
 import { Button } from 'shared/components/Button';
 import { styled } from 'theme/config';
 import { TimerMode } from 'features/timer/machines/TimerMachine';
@@ -42,23 +41,8 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
   const isTimerMode = props.mode === 'Timer';
   return (
     <div>
-      <Box
-        css={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '100%',
-          minHeight: '2.5rem',
-        }}
-      >
-        <Box
-          css={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr',
-            columnGap: '$4',
-            position: 'relative',
-          }}
-        >
+      <div className="flex w-full items-center justify-between">
+        <div className="relative grid grid-cols-3">
           <Button
             variant="icon"
             color="transparent"
@@ -87,30 +71,13 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
           >
             <BiDollar title="Change billable status" />
           </Button>
-        </Box>
+        </div>
 
-        <Box
-          css={{
-            display: 'grid',
-            gridTemplateColumns: '1fr auto auto',
-            columnGap: '$6',
-            alignItems: 'center',
-            minHeight: '3rem',
-          }}
-        >
+        <div className="grid columns-3 items-center gap-6 ">
           {isTimerMode ? (
-            <Box
-              css={{
-                fontWeight: 500,
-                fontSize: '$lg',
-                lineHeight: '$lg',
-                minWidth: '5rem',
-                textAlign: 'right',
-                color: '$neutral10',
-              }}
-            >
+            <div className="text-right text-lg font-semibold text-slate-900 dark:text-slate-50">
               {formatDuration(props.duration)}
-            </Box>
+            </div>
           ) : (
             <div></div>
           )}
@@ -165,7 +132,7 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
           )}
 
           {props.running ? (
-            <Box>
+            <div>
               <Button
                 css={{
                   padding: '$4 $1',
@@ -179,7 +146,7 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
               >
                 <BiDotsVertical></BiDotsVertical>
               </Button>
-            </Box>
+            </div>
           ) : (
             <ToggleMode>
               <Button
@@ -208,8 +175,8 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
               </Button>
             </ToggleMode>
           )}
-        </Box>
-      </Box>
+        </div>
+      </div>
     </div>
   );
 };

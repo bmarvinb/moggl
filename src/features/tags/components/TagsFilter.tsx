@@ -1,9 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box } from 'shared/components/Box';
-import { Card } from 'shared/components/Card';
-import { Input } from 'shared/components/Input';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { Card } from 'shared/components/Card';
+import { Input } from 'shared/components/Input';
 import { z } from 'zod';
 
 export type TagsFilter = {
@@ -45,19 +44,15 @@ export const TagsFilter: FC<TagsFilterProps> = props => {
     <Card className="mb-6">
       <form onSubmit={e => e.preventDefault()} onChange={onFilterChange}>
         <div className="flex gap-8 px-6 py-8">
-          <Box>
+          <div>
             <select {...register('archived')} name="archived">
               <option value="false">Show active</option>
               <option value="true">Show archived</option>
             </select>
-          </Box>
-          <Box
-            css={{
-              flex: 1,
-            }}
-          >
+          </div>
+          <div className="flex-1">
             <Input {...register('name')} name="name" placeholder="Tag name" />
-          </Box>
+          </div>
         </div>
       </form>
     </Card>

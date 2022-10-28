@@ -1,81 +1,20 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { VariantProps } from '@stitches/react';
-import { Box } from 'shared/components/Box';
-import { Button } from 'shared/components/Button';
 import React, { FC } from 'react';
 import { BiMenuAltLeft } from 'react-icons/bi';
-import { styled } from 'theme/config';
-import { slideIn, slideOut } from 'shared/animations/slide';
-import { fadeIn, fadeOut } from 'shared/animations/fade';
+import { Button } from 'shared/components/Button';
 import { assertNever } from 'shared/utils/assert';
 
-const StyledOverlay = styled(DialogPrimitive.Overlay, {
-  backgroundColor: '$overlay',
-  position: 'fixed',
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0,
-  zIndex: 1,
-  '&[data-state="open"]': {
-    animation: `${fadeIn} 300ms cubic-bezier(0.22, 1, 0.36, 1)`,
-  },
-  '&[data-state="closed"]': {
-    animation: `${fadeOut} 300ms cubic-bezier(0.22, 1, 0.36, 1)`,
-  },
-});
-
-const StyledContent = styled(DialogPrimitive.Content, {
-  $$transformValue: 'translate3d(-100%,0,0)',
-  backgroundColor: '$navBg',
-  width: '15rem',
-  zIndex: 2,
-  left: 0,
-  position: 'fixed',
-  top: 0,
-  display: 'flex',
-  bottom: 0,
-  '&[data-state="open"]': {
-    animation: `${slideIn} 150ms cubic-bezier(0.22, 1, 0.36, 1)`,
-  },
-  '&[data-state="closed"]': {
-    animation: `${slideOut} 150ms cubic-bezier(0.22, 1, 0.36, 1)`,
-  },
-});
-
-const StyledPermanentContent = styled('div', {
-  $$transformValue: 'translate3d(-100%,0,0)',
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: '$navBg',
-  zIndex: 2,
-  boxShadow: '$inner',
-  transition: 'width 300ms cubic-bezier(0.22, 1, 0.36, 1)',
-  position: 'relative',
-  height: '100%',
-  overflow: 'hidden',
-  variants: {
-    variant: {
-      collapsed: {
-        width: '4rem',
-      },
-      expanded: {
-        width: '15rem',
-      },
-    },
-  },
-});
-
-type DrawerContentVariants = VariantProps<typeof StyledContent>;
 type DialogContentPrimitiveProps = React.ComponentProps<
   typeof DialogPrimitive.Content
 >;
-type DrawerContentProps = DialogContentPrimitiveProps & DrawerContentVariants;
+type DrawerContentProps = DialogContentPrimitiveProps;
 
 const DrawerContent = (props: DrawerContentProps) => (
   <DialogPrimitive.Portal>
-    <StyledOverlay />
-    <StyledContent>{props.children}</StyledContent>
+    <DialogPrimitive.Overlay className="fixed top-0 left-0 bottom-0 right-0 z-10 bg-black/75" />
+    <DialogPrimitive.Content className="fixed top-0 left-0 bottom-0 z-20 flex w-56 bg-blue-500 duration-200">
+      {props.children}
+    </DialogPrimitive.Content>
   </DialogPrimitive.Portal>
 );
 
@@ -95,22 +34,18 @@ export const Drawer: FC<DrawerProps> = props => {
           onOpenChange={props.onOpenChange}
         >
           <DrawerContent>
-            <Box
-              css={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '100%',
-              }}
-            >
-              {props.children}
-            </Box>
+            <div className="flex w-full flex-col">{props.children}</div>
           </DrawerContent>
         </DialogPrimitive.Root>
       );
     case 'permanent':
       return (
-        <StyledPermanentContent variant={props.open ? 'expanded' : 'collapsed'}>
-          <Box css={{ padding: '$4 $7' }}>
+        <div
+          className={`relative z-20 flex h-full flex-col overflow-hidden bg-blue-500 shadow-inner duration-200 ease-in ease-out ${
+            props.open ? 'w-56' : 'w-16'
+          }`}
+        >
+          <div className="px-4 py-3">
             <Button
               onClick={props.onOpenChange}
               variant="icon"
@@ -125,9 +60,9 @@ export const Drawer: FC<DrawerProps> = props => {
             >
               <BiMenuAltLeft />
             </Button>
-          </Box>
+          </div>
           {props.children}
-        </StyledPermanentContent>
+        </div>
       );
     default:
       return assertNever(props.variant);

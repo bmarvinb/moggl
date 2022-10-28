@@ -1,5 +1,4 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { Box } from 'shared/components/Box';
 import { Input as InputComponent } from 'shared/components/Input';
 import { darkTheme } from 'theme/config';
 import { globalStyles } from 'theme/globalStyles';
@@ -16,25 +15,25 @@ export default {
 const Template: ComponentStory<typeof InputComponent> = (args: any) => {
   globalStyles();
   return (
-    <Box className={args.darkMode ? darkTheme : ''}>
-      <Box>
+    <div className={args.darkMode ? darkTheme : ''}>
+      <div>
         <Row>
           <InputComponent placeholder="Enter value" />
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <Row>
           <InputComponent variant="inline" placeholder="Enter value" />
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <Row>
           <InputComponent placeholder="Enter value" disabled={true} />
         </Row>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

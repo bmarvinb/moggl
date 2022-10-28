@@ -1,5 +1,3 @@
-import { Box } from 'shared/components/Box';
-import { styled } from 'theme/config';
 import { NavLink } from 'react-router-dom';
 
 export type MenuItem = {
@@ -14,78 +12,30 @@ export type MenuProps = {
   onMenuItemClicked: () => void;
 };
 
-const Link = styled(NavLink, {
-  padding: '$8 $9',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '$6',
-  width: '100%',
-  color: '$lightTextColor',
-  textDecoration: 'none',
-  '&:hover': {
-    background: '$navHoverBg',
-    cursor: 'pointer',
-  },
-  '&.active': {
-    background: '$navActiveBg',
-    '&:hover': {
-      background: '$navActiveBg',
-      cursor: 'default',
-    },
-  },
-  '&:focus-visible': {
-    outlineColor: '$primary4',
-    outlineStyle: 'solid',
-    outlineWidth: '2px',
-    outlineOffset: '-2px',
-  },
-});
-
-const ListItem = styled('li', {
-  overflowX: 'hidden',
-  display: 'flex',
-  alignItems: 'center',
-});
-
-const Title = styled('div', {
-  '&[data-state="open"]': {
-    opacity: 1,
-  },
-  '&[data-state="closed"]': {
-    opacity: 0,
-  },
-});
-
-const Icon = styled('div', {
-  fontSize: '$xl',
-  display: 'flex',
-});
-
 export const Menu = ({ items, open, onMenuItemClicked }: MenuProps) => (
-  <Box
-    as="nav"
-    css={{
-      display: 'flex',
-      flex: 1,
-      justifyContent: 'space-between',
-      flexDirection: 'column',
-      color: '$neutral1',
-      overflowY: 'scroll',
-    }}
-  >
-    <Box css={{}} as="ul">
+  <nav className="flex flex-1 flex-col justify-between overflow-y-scroll text-slate-900 dark:text-slate-50">
+    <ul>
       {items.map(item => (
-        <ListItem key={item.route}>
-          <Link
+        <li className="flex items-center overflow-x-hidden" key={item.route}>
+          <NavLink
             to={item.route}
-            className={({ isActive }) => (isActive ? 'active' : undefined)}
+            className={({ isActive }) =>
+              `flex w-full items-center gap-6 py-4 px-5 text-slate-50 no-underline hover:cursor-pointer hover:bg-blue-400 active:bg-blue-500 active:hover:cursor-default ${
+                isActive ? 'bg-blue-600 hover:bg-blue-600' : undefined
+              }`
+            }
             onClick={() => onMenuItemClicked()}
           >
-            <Icon>{item.icon}</Icon>
-            <Title data-state={open ? 'open' : 'closed'}>{item.title}</Title>
-          </Link>
-        </ListItem>
+            <div className="flex text-xl">{item.icon}</div>
+            <div
+              className="data-[state=open]:opacity-100 data-[state=closed]:opacity-0"
+              data-state={open ? 'open' : 'closed'}
+            >
+              {item.title}
+            </div>
+          </NavLink>
+        </li>
       ))}
-    </Box>
-  </Box>
+    </ul>
+  </nav>
 );

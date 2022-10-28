@@ -43,7 +43,7 @@ export const ProjectForm: FC<AddProjectDialogProps> = props => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-10">
         <FormField>
-          <Label htmlFor="project">Name:</Label>
+          <Label>Name:</Label>
           <Input
             {...register('name')}
             aria-invalid={errors.name?.message ? 'true' : 'false'}
@@ -54,15 +54,15 @@ export const ProjectForm: FC<AddProjectDialogProps> = props => {
           <FieldError>{errors.name?.message}</FieldError>
         </FormField>
         <FormField>
-          <Label htmlFor="clientId">Client:</Label>
+          <Label>Client:</Label>
           <select {...register('clientId')} id="clientId"></select>
         </FormField>
         <FormField>
-          <Label htmlFor="color">Color:</Label>
+          <Label>Color:</Label>
           <input {...register('color')} type="color" id="color" />
         </FormField>
         <FormField>
-          <Label htmlFor="isPublic">Visibility:</Label>
+          <Label>Visibility:</Label>
           <label id="isPublic" className="font-normal">
             <input {...register('isPublic')} type="checkbox" />
             Public

@@ -1,5 +1,4 @@
 import { useActor } from '@xstate/react';
-import { Box } from 'shared/components/Box';
 import { Input } from 'shared/components/Input';
 import { TimerControls } from 'features/timer/components/TimerControls';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
@@ -14,7 +13,7 @@ export const Timer = () => {
     state.matches(TimerState.Saving) || state.matches(TimerState.Discarding);
 
   return (
-    <div className="relative z-10 flex w-full flex-col bg-slate-50 py-3 px-4 shadow-md dark:bg-slate-900">
+    <div className="relative  flex w-full flex-col bg-slate-50 py-3 px-4 shadow-md dark:bg-slate-900">
       <div className="flex-1">
         <Input
           variant={'inline'}
@@ -40,7 +39,7 @@ export const Timer = () => {
           }
         />
       </div>
-      <Box>
+      <div>
         <TimerControls
           duration={state.context.duration}
           creating={isCreating}
@@ -65,7 +64,7 @@ export const Timer = () => {
             console.log('time entry clicked');
           }}
         />
-      </Box>
+      </div>
     </div>
   );
 };

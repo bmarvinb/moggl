@@ -1,5 +1,4 @@
 import { ComponentMeta } from '@storybook/react';
-import { Box } from 'shared/components/Box';
 import { Button } from 'shared/components/Button';
 import {
   blackA,
@@ -33,8 +32,8 @@ export default {
 const Template = () => {
   globalStyles();
   return (
-    <Box>
-      <Box>
+    <div>
+      <div>
         <h2>Primary</h2>
         <Row>
           {Object.values(primary).map(color => (
@@ -46,9 +45,9 @@ const Template = () => {
             <Color key={color} css={{ background: color }} />
           ))}
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <h2>Secondary</h2>
         <Row>
           {Object.values(secondary).map(color => (
@@ -60,9 +59,9 @@ const Template = () => {
             <Color key={color} css={{ background: color }} />
           ))}
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <h2>Neutral</h2>
         <Row>
           {Object.values(neutral).map(color => (
@@ -74,9 +73,9 @@ const Template = () => {
             <Color key={color} css={{ background: color }} />
           ))}
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <h2>Red</h2>
         <Row>
           {Object.values(red).map(color => (
@@ -88,9 +87,9 @@ const Template = () => {
             <Color key={color} css={{ background: color }} />
           ))}
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <h2>Cyan</h2>
         <Row>
           {Object.values(cyan).map(color => (
@@ -102,9 +101,9 @@ const Template = () => {
             <Color key={color} css={{ background: color }} />
           ))}
         </Row>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <h2>Alpha</h2>
         <Row>
           {Object.values(whiteA).map(color => (
@@ -116,8 +115,8 @@ const Template = () => {
             <Color key={color} css={{ background: color }} />
           ))}
         </Row>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

@@ -1,5 +1,7 @@
 import React from 'react';
 
-export const FormErrorMessage = (props: { children: React.ReactNode }) => (
+export type FormErrorMessageProps = { children?: React.ReactNode };
+
+export const FormErrorMessage = (props: FormErrorMessageProps) => (
   <div className="text-red-400"></div>
 );

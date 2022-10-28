@@ -1,17 +1,7 @@
-import { Box } from 'shared/components/Box';
 import { Spinner } from 'shared/components/Spinner';
 
 export const PageSpinner = () => (
-  <Box
-    css={{
-      fontSize: '$4xl',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100%',
-      background: '$neutral2',
-    }}
-  >
+  <div className="flex h-full items-center justify-center bg-slate-200 text-4xl dark:bg-slate-700">
     <Spinner />
-  </Box>
+  </div>
 );
