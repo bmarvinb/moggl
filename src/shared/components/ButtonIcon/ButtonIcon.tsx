@@ -16,19 +16,13 @@ export type ButtonIconProps = DefaultProps &
   };
 
 export const ButtonIcon = React.forwardRef<HTMLButtonElement, ButtonIconProps>(
-  ({
-    icon,
-    variant = 'transparent',
-    size = 'md',
-    className,
-    type,
-    ...rest
-  }: ButtonIconProps) => {
+  (
+    { icon, variant = 'transparent', size = 'md', className, type, ...rest },
+    ref,
+  ) => {
     const buttonIconClasses = classes(variant, size);
-    console.log('classes', buttonIconClasses);
-
     return (
-      <button className={cn(buttonIconClasses, className)} {...rest}>
+      <button ref={ref} className={cn(buttonIconClasses, className)} {...rest}>
         {icon}
       </button>
     );

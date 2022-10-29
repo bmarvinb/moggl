@@ -9,6 +9,7 @@ import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from 'shared/components/Button';
+import { Input } from 'shared/components/Input';
 
 export type AddTagData = {
   operation: DialogMode.Add;
@@ -58,12 +59,12 @@ export const TagForm: FC<TagFormProps> = props => {
       <div className="mb-10">
         <FormField>
           <Label>Name:</Label>
-          <input
+          <Input
             {...register('name')}
-            aria-invalid={formState.errors.name?.message ? 'true' : 'false'}
-            className={`block w-full rounded-md p-3 dark:bg-neutral-600`}
             id="name"
             placeholder="Tag name"
+            className={``}
+            aria-invalid={formState.errors.name?.message ? 'true' : 'false'}
           />
           <FieldError>{formState.errors.name?.message}</FieldError>
         </FormField>

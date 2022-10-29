@@ -29,7 +29,7 @@ export const TagsContent: FC<TagsContentProps> = props => {
 
   return (
     <Container className="p-8">
-      <div className="mb-5 flex justify-between align-baseline">
+      <div className="mb-5 flex justify-between items-center">
         <Title>Tags</Title>
         <Button
           variant="primary"
@@ -53,7 +53,7 @@ export const TagsContent: FC<TagsContentProps> = props => {
           ))}
         </List>
       ) : (
-        <div className="p-8 text-center text-lg text-neutral-700 dark:text-neutral-100">
+        <div className="p-4 text-center text-lg text-neutral-700 dark:text-neutral-100">
           {props.searchCriteria.name
             ? `No result found for "${props.searchCriteria.name}"`
             : 'Nothing found'}

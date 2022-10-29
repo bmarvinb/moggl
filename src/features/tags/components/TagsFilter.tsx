@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { Card } from 'shared/components/Card';
+import { Input } from 'shared/components/Input';
 import { z } from 'zod';
 
 export type TagsFilter = {
@@ -50,7 +51,7 @@ export const TagsFilter: FC<TagsFilterProps> = props => {
             </select>
           </div>
           <div className="flex-1">
-            <input {...register('name')} name="name" placeholder="Tag name" />
+            <Input {...register('name')} name="name" placeholder="Tag name" />
           </div>
         </div>
       </form>
