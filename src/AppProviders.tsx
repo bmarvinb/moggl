@@ -3,7 +3,6 @@ import React, { ReactNode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from 'features/auth/context/auth-context';
 import { ColorScheme, usePrefersColorScheme } from 'theme/prefersColorScheme';
-import { darkTheme } from 'theme/config';
 import { globalStyles } from 'theme/globalStyles';
 
 const queryClient = new QueryClient({
@@ -16,7 +15,10 @@ const queryClient = new QueryClient({
 });
 
 export function applyColorScheme(scheme: ColorScheme): void {
-  document.body.className = scheme === ColorScheme.Dark ? darkTheme : '';
+  const enableDarkMode = scheme === ColorScheme.Dark;
+  enableDarkMode
+    ? document.documentElement.classList.add('dark')
+    : document.documentElement.classList.remove('dark');
 }
 
 export const AppProviders: React.FC<{ children: ReactNode }> = props => {

@@ -20,15 +20,15 @@ export const Menu = ({ items, open, onMenuItemClicked }: MenuProps) => (
           <NavLink
             to={item.route}
             className={({ isActive }) =>
-              `flex w-full items-center gap-6 py-4 px-5 text-neutral-50 no-underline hover:cursor-pointer hover:bg-primary-400 active:bg-primary-500 active:hover:cursor-default ${
-                isActive ? 'bg-primary-600 hover:bg-primary-600' : undefined
+              `flex w-full items-center gap-6 py-4 px-5 text-neutral-50 no-underline hover:cursor-pointer hover:bg-primary-300 active:hover:cursor-default ${
+                isActive ? 'bg-primary-500 hover:bg-primary-500' : undefined
               }`
             }
             onClick={() => onMenuItemClicked()}
           >
-            <div className="flex text-xl">{item.icon}</div>
+            <div className="left-0.5 relative flex text-xl">{item.icon}</div>
             <div
-              className="data-[state=open]:opacity-100 data-[state=closed]:opacity-0"
+              className="duration-200 data-[state=open]:opacity-100 data-[state=closed]:opacity-0"
               data-state={open ? 'open' : 'closed'}
             >
               {item.title}

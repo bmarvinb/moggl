@@ -12,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AppProviders>
-      <App />
+      <div className="h-full text-neutral-900 dark:text-neutralDark-900">
+        <App />
+      </div>
     </AppProviders>
   </React.StrictMode>,
 );

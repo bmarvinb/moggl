@@ -7,7 +7,7 @@ export type NavbarProps = {
 
 export const Navbar: FC<NavbarProps> = props => {
   return (
-    <nav className="bg-primary-500 dark:bg-primaryDark-500 px-3 py-1.5 text-neutral-100">
+    <nav className="leading-3 bg-primary-500 dark:bg-primaryDark-500 px-4 py-4 text-neutral-100 items-center">
       <button title="Open sidebar" onClick={() => props.onMenuClicked()}>
         <BiMenuAltLeft />
       </button>

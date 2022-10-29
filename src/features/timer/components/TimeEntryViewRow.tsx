@@ -55,7 +55,7 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
   return (
     <>
       <div
-        className="flex items-center gap-3 border-t border-neutral-100 py-3 px-4 dark:border-neutral-800"
+        className="flex items-center gap-4 border-t border-neutral-100 py-3 px-4 dark:border-neutral-800"
         key={props.timeEntry.data.id}
       >
         {props.edit && (
@@ -66,6 +66,7 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
         )}
         {isParentTimeEntry(props.timeEntry) && (
           <button
+            className="text-neutral-800 dark:text-neutral-100"
             onClick={() =>
               props.onToggleChildrenVisibility &&
               props.onToggleChildrenVisibility()
@@ -78,42 +79,36 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
         )}
 
         {isChildTimeEntry(props.timeEntry) && (
-          <button>{props.timeEntry.siblings}</button>
+          <button className="opacity-0">{props.timeEntry.siblings}</button>
         )}
 
-        <div className="flex flex-1 flex-col">
-          <div>
-            <div className="mb-2 flex flex-row items-center justify-between">
-              <div
-                className={` ${
-                  props.timeEntry.data.description.length === 0
-                    ? 'text-neutral-600 dark:text-neutral-100'
-                    : 'text-neutral-900 dark:text-neutral-50'
-                }`}
-                data-testid="TIME_ENTRY_DESCRIPTION"
-              >
-                {props.timeEntry.data.description || 'Add description'}
+        <div className="flex flex-col w-full">
+          <div className="mb-2 grid grid-cols-[5fr_1fr] gap-3 items-center">
+            <div
+              className={` truncate ${
+                props.timeEntry.data.description.length === 0
+                  ? 'text-neutral-600 dark:text-neutral-100'
+                  : 'text-neutral-900 dark:text-neutral-50'
+              }`}
+              data-testid="TIME_ENTRY_DESCRIPTION"
+            >
+              {props.timeEntry.data.description || 'Add description'}
+            </div>
+            <div className="flex items-center gap-3 justify-end">
+              <button aria-label="Select tags">
+                <BiPurchaseTag title="Select tags" />
+              </button>
+              <button aria-label="Change billable status">
+                <BiDollar title="Change billable status" />
+              </button>
+              <div className="hidden">
+                {formatTimeEntryDate(
+                  props.timeEntry.data.start,
+                  props.timeEntry.data.end,
+                )}
               </div>
-
-              <div className="flex items-center gap-3">
-                <button aria-label="Select tags">
-                  <BiPurchaseTag title="Select tags" />
-                </button>
-                <button aria-label="Change billable status">
-                  <BiDollar title="Change billable status" />
-                </button>
-                <div className="hidden">
-                  {formatTimeEntryDate(
-                    props.timeEntry.data.start,
-                    props.timeEntry.data.end,
-                  )}
-                </div>
-                <div
-                  className="text-lg font-bold"
-                  data-testid="TIME_ENTRY_DURATION"
-                >
-                  {formatDuration(props.timeEntry.data.duration)}
-                </div>
+              <div className="text-lg font-semibold">
+                {formatDuration(props.timeEntry.data.duration)}
               </div>
             </div>
           </div>
@@ -125,7 +120,7 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
                 getTimeEntryInfo,
                 O.fold(
                   () => (
-                    <div className="text-sm text-neutral-600">
+                    <div className="text-sm text-neutral-600 dark:text-neutralDark-600">
                       Select project
                     </div>
                   ),
@@ -133,7 +128,7 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
                 ),
               )}
             </div>
-            <div className="relative -right-2 flex gap-1">
+            <div className="relative -right-1 flex gap-1">
               <button
                 onClick={() => props.onPlayClicked(props.timeEntry)}
                 aria-label="Start timer"

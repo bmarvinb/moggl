@@ -10,7 +10,6 @@ body,
 
 body {
   font-family: 'ProximaNova';
-  @apply text-neutral-900;
 }
 
 @font-face {
@@ -25,7 +24,7 @@ body {
 }
 @font-face {
   font-family: 'ProximaNova';
-  font-weight: 500;
+  font-weight: 600;
   src: url('../public/fonts/ProximaNova-Semibold.woff');
 }
 @font-face {

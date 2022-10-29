@@ -10,8 +10,8 @@ type DrawerContentProps = DialogContentPrimitiveProps;
 
 const DrawerContent = (props: DrawerContentProps) => (
   <DialogPrimitive.Portal>
-    <DialogPrimitive.Overlay className="fixed top-0 left-0 bottom-0 right-0 z-10 bg-black/75" />
-    <DialogPrimitive.Content className="fixed top-0 left-0 bottom-0 z-20 flex w-56 bg-primary-500 duration-200 dark:bg-primaryDark-500">
+    <DialogPrimitive.Overlay className="fixed top-0 left-0 bottom-0 right-0 z-10 bg-black/50" />
+    <DialogPrimitive.Content className="ease-in-out duration-200 fixed top-0 left-0 bottom-0 z-20 flex bg-primary-400  dark:bg-primaryDark-400">
       {props.children}
     </DialogPrimitive.Content>
   </DialogPrimitive.Portal>
@@ -40,13 +40,17 @@ export const Drawer: FC<DrawerProps> = props => {
     case 'permanent':
       return (
         <div
-          className={`relative z-20 flex h-full flex-col overflow-hidden bg-primary-500 shadow-inner duration-200 ease-in-out dark:bg-primaryDark-500 ${
+          className={`relative z-20 flex h-full flex-col overflow-hidden bg-primary-400 shadow-inner duration-200 ease-in-out dark:bg-primaryDark-400 ${
             props.open ? 'w-56' : 'w-16'
           }`}
         >
-          <div className="px-4 py-3">
-            <button onClick={props.onOpenChange} title="Open sidebar">
-              <BiMenuAltLeft />
+          <div>
+            <button
+              className={`px-5 py-4 flex items-center text-neutral-50 dark:text-neutralDark-900`}
+              onClick={props.onOpenChange}
+              title="Open sidebar"
+            >
+              <BiMenuAltLeft className="relative left-1" />
             </button>
           </div>
           {props.children}

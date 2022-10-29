@@ -16,38 +16,35 @@ type TimeEntriesTableViewProps = {
   onToggleClicked: () => void;
 };
 
-export const TimeEntriesTableView: React.FC<TimeEntriesTableViewProps> =
-  props => {
-    return (
-      <Card className="mb-4">
-        <div className="flex justify-between py-3 px-4">
-          <div className="flex items-center">
-            {props.bulkEditMode && (
-              <div className="mr-4">
-                <Checkbox
-                  onChange={props.onBulkModeChanged}
-                  checked={props.allSelected}
-                />
-              </div>
-            )}
-            <div className="mr-2 text-lg font-semibold text-neutral-900 dark:text-neutral-50">
-              {formatDate(props.date)}
-            </div>
-            <DayDuration
-              isToday={isToday(props.date)}
-              reportedTime={props.reportedTime}
+export const TimeEntriesTableView: React.FC<
+  TimeEntriesTableViewProps
+> = props => {
+  return (
+    <Card className="mb-4">
+      <div className="flex justify-between py-3 px-4">
+        <div className="flex items-center">
+          {props.bulkEditMode && (
+            <Checkbox
+              className="mr-4"
+              onChange={props.onBulkModeChanged}
+              checked={props.allSelected}
             />
+          )}
+          <div className="mr-2 text-lg font-semibold text-neutral-900 dark:text-neutral-50">
+            {formatDate(props.date)}
           </div>
-          <div className="relative -right-2 flex items-center text-lg font-bold">
-            <button
-              aria-label="Toggle edit mode"
-              onClick={props.onToggleClicked}
-            >
-              <BiListUl title="Toggle" />
-            </button>
-          </div>
+          <DayDuration
+            isToday={isToday(props.date)}
+            reportedTime={props.reportedTime}
+          />
         </div>
-        {props.children}
-      </Card>
-    );
-  };
+        <div className="relative -right-0.5 flex items-center text-lg font-bold">
+          <button aria-label="Toggle edit mode" onClick={props.onToggleClicked}>
+            <BiListUl title="Toggle" />
+          </button>
+        </div>
+      </div>
+      {props.children}
+    </Card>
+  );
+};
