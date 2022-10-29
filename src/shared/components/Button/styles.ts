@@ -2,7 +2,7 @@ import { ButtonSize, ButtonVariant } from 'shared/components/Button/Button';
 import { cn } from 'theme/utils';
 
 const baseClasses =
-  'inline-flex items-center border border-transparent font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2';
+  'inline-flex items-center border border-transparent font-medium rounded-md shadow-sm focus:outline-none focus:ring-2';
 
 const sizes: Record<ButtonSize, string> = {
   xs: 'px-2.5 py-1.5 text-xs',
@@ -12,7 +12,7 @@ const sizes: Record<ButtonSize, string> = {
   xl: 'px-6 py-3 text-base',
 };
 
-const colors: Record<ButtonVariant, string> = {
+const variants: Record<ButtonVariant, string> = {
   primary:
     'text-neutral-50 dark:text-neutralDark-900 bg-primary-400 dark:bg-primaryDark-400 hover:bg-primary-500 dark:hover:bg-primary-500 focus:ring-primary-400 dark:focus:ring-primaryDark-400',
 };
@@ -24,4 +24,5 @@ export const classes = (
   size: ButtonSize,
   variant: ButtonVariant,
   disabled?: boolean,
-) => cn(baseClasses, sizes[size], colors[variant], disabled && disabledClasses);
+) =>
+  cn(baseClasses, sizes[size], variants[variant], disabled && disabledClasses);

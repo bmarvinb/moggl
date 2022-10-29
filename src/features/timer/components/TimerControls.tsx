@@ -10,6 +10,7 @@ import {
   BiPurchaseTag,
   BiStop,
 } from 'react-icons/bi';
+import { ButtonIcon } from 'shared/components/ButtonIcon';
 
 export type TimerControlsProps = {
   duration: number;
@@ -31,19 +32,10 @@ export const TimerControls: React.FC<TimerControlsProps> = props => {
   return (
     <div>
       <div className="flex w-full items-center justify-between gap-4">
-        <div className="flex gap-4">
-          <button aria-label="Select project">
-            <BiBriefcase title="Select project" />
-          </button>
-          <button aria-label="Select tags">
-            <BiPurchaseTag title="Select tags" />
-          </button>
-          <button
-            aria-label="Change billable status"
-            onClick={props.onBillableStatusChanged}
-          >
-            <BiDollar title="Change billable status" />
-          </button>
+        <div className="flex gap-2">
+          <ButtonIcon icon={<BiBriefcase title="Select project" />} />
+          <ButtonIcon icon={<BiPurchaseTag title="Select tags" />} />
+          <ButtonIcon icon={<BiDollar title="Change billable status" />} />
         </div>
 
         <div className="flex items-center">

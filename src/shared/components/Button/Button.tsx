@@ -12,7 +12,7 @@ export type ButtonProps = DefaultProps &
   React.ButtonHTMLAttributes<HTMLButtonElement> & {
     loading?: boolean;
     disabled?: boolean;
-    type?: 'button' | 'submit';
+    type?: 'button' | 'reset' | 'submit';
     leftIcon?: React.ReactElement;
     rightIcon?: React.ReactElement;
     size?: ButtonSize;

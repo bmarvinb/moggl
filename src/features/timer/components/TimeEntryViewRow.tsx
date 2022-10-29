@@ -18,6 +18,7 @@ import {
   BiPlay,
   BiPurchaseTag,
 } from 'react-icons/bi';
+import { ButtonIcon } from 'shared/components/ButtonIcon';
 import { Checkbox } from 'shared/components/Checkbox';
 
 export type ParentTimeEntry = {
@@ -94,20 +95,16 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
             >
               {props.timeEntry.data.description || 'Add description'}
             </div>
-            <div className="flex items-center gap-3 justify-end">
-              <button aria-label="Select tags">
-                <BiPurchaseTag title="Select tags" />
-              </button>
-              <button aria-label="Change billable status">
-                <BiDollar title="Change billable status" />
-              </button>
+            <div className="flex items-center gap-1 justify-end">
+              <ButtonIcon icon={<BiPurchaseTag title="Select tags" />} />
+              <ButtonIcon icon={<BiDollar title="Change billable status" />} />
               <div className="hidden">
                 {formatTimeEntryDate(
                   props.timeEntry.data.start,
                   props.timeEntry.data.end,
                 )}
               </div>
-              <div className="text-lg font-semibold">
+              <div className="ml-2 text-lg font-semibold">
                 {formatDuration(props.timeEntry.data.duration)}
               </div>
             </div>
@@ -129,15 +126,11 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
               )}
             </div>
             <div className="relative -right-1 flex gap-1">
-              <button
+              <ButtonIcon
                 onClick={() => props.onPlayClicked(props.timeEntry)}
-                aria-label="Start timer"
-              >
-                <BiPlay title="Play" />
-              </button>
-              <button aria-label="Open actions">
-                <BiDotsVerticalRounded title="Actions" />
-              </button>
+                icon={<BiPlay title="Play" />}
+              />
+              <ButtonIcon icon={<BiDotsVerticalRounded title="Actions" />} />
             </div>
           </div>
         </div>
