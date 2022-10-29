@@ -7,13 +7,12 @@ const Dialog = DialogPrimitive.Root;
 const DialogTrigger = DialogPrimitive.Trigger;
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
-  backgroundColor: '$overlay',
   position: 'fixed',
   top: 0,
   right: 0,
   bottom: 0,
   left: 0,
-  zIndex: 3,
+  zIndex: 20,
 });
 
 const StyledContent = styled(DialogPrimitive.Content, {
@@ -25,14 +24,13 @@ const StyledContent = styled(DialogPrimitive.Content, {
   maxHeight: '85vh',
   padding: '$8',
   marginTop: '-5vh',
-  backgroundColor: '$neutral1',
   borderRadius: '$lg',
   boxShadow: '$md',
   willChange: 'transform',
   '&:focus': {
     outline: 'none',
   },
-  zIndex: 4,
+  zIndex: 30,
 });
 
 const StyledCloseButton = styled(DialogPrimitive.Close, {
@@ -48,11 +46,11 @@ type DialogContentProps = DialogContentPrimitiveProps;
 
 const DialogContent = (props: DialogContentProps) => (
   <DialogPrimitive.Portal>
-    <StyledOverlay />
-    <StyledContent>
+    <StyledOverlay className="bg-black/50" />
+    <StyledContent className="bg-neutral-50 dark:bg-neutralDark-200">
       {props.children}
       <StyledCloseButton asChild>
-        <button>
+        <button className="text-neutral-50 dark:text-neutralDark-900">
           <BiX />
         </button>
       </StyledCloseButton>

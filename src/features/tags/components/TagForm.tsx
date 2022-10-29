@@ -4,31 +4,28 @@ import { FormError } from 'shared/components/FormError';
 import { FormField } from 'shared/components/FormField';
 import { Label } from 'shared/components/Label';
 import { DialogMode } from 'layout/models/dialog-mode';
-import {
-  AddTagRequestData,
-  Tag,
-  UpdateTagRequestData,
-} from 'features/tags/models/tags';
+import { AddTagDTO, Tag, UpdateTagDTO } from 'features/tags/models/tags';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { Button } from 'shared/components/Button';
 
 export type AddTagData = {
   operation: DialogMode.Add;
-  onSubmit: (data: AddTagRequestData) => void;
+  onSubmit: (data: AddTagDTO) => void;
 };
 
 export type UpdateTagData = {
   operation: DialogMode.Update;
   tag: Tag;
-  onSubmit: (data: UpdateTagRequestData) => void;
+  onSubmit: (data: UpdateTagDTO) => void;
 };
 
 type TagData = AddTagData | UpdateTagData;
 
 export type TagFormProps = TagData & {
-  status: string;
-  error: string | undefined;
+  loading: boolean;
+  error?: string;
 };
 
 const submitTitle: Record<DialogMode, string> = {
@@ -50,15 +47,11 @@ export const TagForm: FC<TagFormProps> = props => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = data =>
+  const onSubmit: SubmitHandler<FormValues> = data => {
     props.onSubmit(
       props.operation === DialogMode.Update ? { ...props.tag, ...data } : data,
     );
-
-  const notEditedName =
-    props.operation === DialogMode.Update && props.tag.name === watch('name');
-
-  const submitDisabled = props.status === 'loading' || notEditedName;
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -74,14 +67,18 @@ export const TagForm: FC<TagFormProps> = props => {
           />
           <FieldError>{formState.errors.name?.message}</FieldError>
         </FormField>
-        {props.status === 'error' && <FormError>{props.error}</FormError>}
+        {props.error && <FormError>{props.error}</FormError>}
       </div>
 
-      <div className="flex flex-col gap-4">
-        <button type="submit" color="primary" disabled={submitDisabled}>
-          {submitTitle[props.operation]}
-        </button>
-      </div>
+      <Button
+        type="submit"
+        className="w-full justify-center"
+        variant="primary"
+        loading={props.loading}
+        disabled={props.loading}
+      >
+        {submitTitle[props.operation]}
+      </Button>
     </form>
   );
 };

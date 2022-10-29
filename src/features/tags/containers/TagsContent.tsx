@@ -1,7 +1,4 @@
-import { Container } from 'shared/components/Container';
-import { List } from 'shared/components/List';
 import { AddTagDialog } from 'features/tags/components/AddTagDialog';
-import { TagsContentTitle } from 'features/tags/components/TagsContentTitle';
 import {
   TagsFilter,
   TagsFilterCriteria,
@@ -9,6 +6,10 @@ import {
 import { TagListItem } from 'features/tags/containers/TagListItem';
 import { Tags } from 'features/tags/models/tags';
 import { FC, useState } from 'react';
+import { Button } from 'shared/components/Button/Button';
+import { Container } from 'shared/components/Container';
+import { List } from 'shared/components/List';
+import { Title } from 'shared/components/Title';
 
 export type TagsContentProps = {
   fetching: boolean;
@@ -24,9 +25,22 @@ export const TagsContent: FC<TagsContentProps> = props => {
     setAddDialogOpen(false);
   };
 
+  console.log('add dialog', addDialogOpen);
+
   return (
     <Container className="p-8">
-      <TagsContentTitle addNewTag={() => setAddDialogOpen(true)} />
+      <div className="mb-5 flex justify-between align-baseline">
+        <Title>Tags</Title>
+        <Button
+          variant="primary"
+          onClick={() => {
+            console.log('click');
+            setAddDialogOpen(true);
+          }}
+        >
+          Add new
+        </Button>
+      </div>
       <TagsFilter
         criteria={props.searchCriteria}
         onChange={props.onFilterChange}
