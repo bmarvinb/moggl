@@ -20,7 +20,7 @@ export const Menu = ({ items, open, onMenuItemClicked }: MenuProps) => (
           <NavLink
             to={item.route}
             className={({ isActive }) =>
-              `flex w-full items-center gap-6 py-4 px-5 text-neutral-50 no-underline hover:cursor-pointer hover:bg-primary-300 active:hover:cursor-default ${
+              `flex w-full items-center gap-6 py-4 px-5 focus-visible:outline focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-primary-400 text-neutral-50 no-underline hover:cursor-pointer hover:bg-primary-300 active:hover:cursor-default ${
                 isActive ? 'bg-primary-500 hover:bg-primary-500' : undefined
               }`
             }

@@ -44,13 +44,13 @@ export const Drawer: FC<DrawerProps> = props => {
             props.open ? 'w-56' : 'w-16'
           }`}
         >
-          <div>
+          <div className="px-4 py-3">
             <button
-              className={`px-5 py-4 flex items-center text-neutral-50 dark:text-neutralDark-900`}
+              className={`p-2 flex items-center text-neutral-50 dark:text-neutralDark-900`}
               onClick={props.onOpenChange}
               title="Open sidebar"
             >
-              <BiMenuAltLeft className="relative left-1" />
+              <BiMenuAltLeft className="relative" />
             </button>
           </div>
           {props.children}

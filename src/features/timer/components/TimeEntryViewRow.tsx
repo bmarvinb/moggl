@@ -55,7 +55,7 @@ export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
   return (
     <>
       <div
-        className="flex items-center gap-4 border-t border-neutral-100 py-3 px-4 dark:border-neutral-800"
+        className="flex items-center gap-4 border-t border-neutral-100 py-3 px-4 dark:border-neutralDark-100"
         key={props.timeEntry.data.id}
       >
         {props.edit && (

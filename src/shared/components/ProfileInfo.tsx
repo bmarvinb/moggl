@@ -10,7 +10,7 @@ export type ProfileInfoProps = {
 };
 
 const Avatar = (props: { avatarImageSource: string }) => (
-  <div className="absolute w-10 overflow-hidden rounded-full border border-neutral-400/50">
+  <div className="absolute w-10 overflow-hidden rounded-full border border-neutral-400/50 dark:border-neutralDark-400/50">
     <img className="w-full" src={props.avatarImageSource} alt="Avatar" />
   </div>
 );
