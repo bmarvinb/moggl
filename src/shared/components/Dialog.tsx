@@ -1,7 +1,7 @@
 import React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { styled } from 'theme/config';
 import { BiX } from 'react-icons/bi';
+import { styled } from '@stitches/react';
 
 const Dialog = DialogPrimitive.Root;
 const DialogTrigger = DialogPrimitive.Trigger;

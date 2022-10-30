@@ -1,9 +1,9 @@
 import { BiLoaderAlt } from 'react-icons/bi';
-import { DefaultProps } from 'theme/types';
 import { cn } from 'theme/utils';
 
-export type SpinnerProps = DefaultProps & {
+export type SpinnerProps = {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  className?: string;
 };
 
 const sizes = {

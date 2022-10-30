@@ -1,23 +1,22 @@
 import React from 'react';
 import { Spinner } from 'shared/components/Spinner/Spinner';
-import { DefaultProps } from 'theme/types';
 import { cn } from 'theme/utils';
 
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type ButtonVariant = 'primary';
 
-export type ButtonProps = DefaultProps &
-  React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    loading?: boolean;
-    disabled?: boolean;
-    type?: 'button' | 'reset' | 'submit';
-    leftIcon?: React.ReactElement;
-    rightIcon?: React.ReactElement;
-    size?: ButtonSize;
-    variant?: ButtonVariant;
-    children?: React.ReactNode;
-  };
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  loading?: boolean;
+  disabled?: boolean;
+  type?: 'button' | 'reset' | 'submit';
+  leftIcon?: React.ReactElement;
+  rightIcon?: React.ReactElement;
+  size?: ButtonSize;
+  variant?: ButtonVariant;
+  children?: React.ReactNode;
+  className?: string;
+};
 
 function classes(size: ButtonSize, variant: ButtonVariant, disabled?: boolean) {
   const sizes: Record<ButtonSize, string> = {

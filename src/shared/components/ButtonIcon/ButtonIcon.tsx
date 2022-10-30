@@ -1,18 +1,17 @@
 import React from 'react';
-import { DefaultProps } from 'theme/types';
 import { cn } from 'theme/utils';
 
 export type ButtonIconVariant = 'transparent';
 
 export type ButtonIconSize = 'md';
 
-export type ButtonIconProps = DefaultProps &
-  React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    icon: React.ReactElement;
-    type?: 'reset' | 'button' | 'submit';
-    size?: ButtonIconSize;
-    variant?: ButtonIconVariant;
-  };
+export type ButtonIconProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  icon: React.ReactElement;
+  type?: 'reset' | 'button' | 'submit';
+  size?: ButtonIconSize;
+  variant?: ButtonIconVariant;
+  className?: string;
+};
 
 function classes(variant: ButtonIconVariant, size: ButtonIconSize) {
   const variants: Record<ButtonIconVariant, string> = {

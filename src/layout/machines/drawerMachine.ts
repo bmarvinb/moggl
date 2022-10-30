@@ -1,4 +1,4 @@
-import { media } from 'theme/config';
+import { media } from 'theme/media';
 import { assign, createMachine } from 'xstate';
 
 export enum DrawerMode {

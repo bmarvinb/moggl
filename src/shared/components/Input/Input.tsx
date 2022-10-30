@@ -1,14 +1,14 @@
 import React from 'react';
-import { DefaultProps } from 'theme/types';
 import { cn } from 'theme/utils';
 
 export type InputSize = 'md';
 
-export type InputProps = DefaultProps &
-  React.InputHTMLAttributes<HTMLInputElement> & {
-    size?: InputSize;
-    invalid?: boolean;
-  };
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  size?: InputSize;
+  invalid?: boolean;
+  className?: string;
+  disabled?: boolean;
+};
 
 function classes(invalid: boolean, disabled: boolean): string {
   return cn(

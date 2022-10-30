@@ -1,9 +1,9 @@
 import React from 'react';
-import { DefaultProps } from 'theme/types';
 import { cn } from 'theme/utils';
 
-export type CardProps = DefaultProps & {
+export type CardProps = {
   children?: React.ReactNode;
+  className?: string;
 };
 
 export const Card = (props: CardProps) => (

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 
 export enum ColorScheme {
   Light = 'Light',
@@ -6,14 +6,10 @@ export enum ColorScheme {
 }
 
 export function usePrefersColorScheme() {
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(
+  const [colorScheme, setColorScheme] = React.useState<ColorScheme>(
     ColorScheme.Light,
   );
-  useEffect(() => {
-    if (!window.matchMedia) {
-      setColorScheme(ColorScheme.Light);
-      return;
-    }
+  React.useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     setColorScheme(mediaQuery.matches ? ColorScheme.Dark : ColorScheme.Light);
     const onChange = (event: MediaQueryListEvent) =>
@@ -22,4 +18,11 @@ export function usePrefersColorScheme() {
     return () => mediaQuery.removeEventListener('change', onChange);
   }, []);
   return colorScheme;
+}
+
+export function applyColorScheme(scheme: ColorScheme): void {
+  const enableDarkMode = scheme === ColorScheme.Dark;
+  enableDarkMode
+    ? document.documentElement.classList.add('dark')
+    : document.documentElement.classList.remove('dark');
 }
