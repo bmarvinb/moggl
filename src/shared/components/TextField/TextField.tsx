@@ -1,5 +1,6 @@
 import React from 'react';
 import { FieldLabel } from 'shared/components/FieldLabel';
+import { FieldMessage, FieldMessageTone } from 'shared/components/FieldMessage';
 import { Input, InputSize } from 'shared/components/Input';
 import { DefaultProps } from 'theme/types';
 
@@ -8,7 +9,7 @@ export type TextFieldProps = DefaultProps &
     id: string;
     label: string;
     message?: string;
-    tone?: 'critical' | 'positive' | 'neutral';
+    tone?: FieldMessageTone;
     size?: InputSize;
     placeholder?: string;
   };
@@ -39,11 +40,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           disabled={disabled}
           {...rest}
         />
-        {message && (
-          <div className="pt-1 text-sm text-red-400 dark:text-redDark-400">
-            {message}
-          </div>
-        )}
+        {message && <FieldMessage tone={tone} message={message} />}
       </div>
     );
   },
