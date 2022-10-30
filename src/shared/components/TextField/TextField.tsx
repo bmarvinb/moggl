@@ -40,7 +40,9 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           disabled={disabled}
           {...rest}
         />
-        {message && <FieldMessage tone={tone} message={message} />}
+        {message && (
+          <FieldMessage id={`${id}_message`} tone={tone} message={message} />
+        )}
       </div>
     );
   },

@@ -1,11 +1,11 @@
 import React from 'react';
-import { IconType } from 'react-icons';
 import { BiCheckCircle, BiXCircle } from 'react-icons/bi';
 import { cn } from 'theme/utils';
 
 export type FieldMessageTone = 'critical' | 'positive' | 'neutral';
 
 export type FieldMessageProps = {
+  id: string;
   message: string;
   tone?: FieldMessageTone;
 };
@@ -28,6 +28,7 @@ function icon(tone: FieldMessageTone) {
   return icons[tone];
 }
 
+// TODO: learn how to use aria-describedby
 export const FieldMessage = ({
   message,
   tone = 'neutral',
