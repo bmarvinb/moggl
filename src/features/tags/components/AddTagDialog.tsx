@@ -1,5 +1,5 @@
 import { Dialog, DialogContent } from 'shared/components/Dialog';
-import { DialogMode } from 'layout/models/dialog-mode';
+import { DialogMode } from 'shared/models/dialog-mode';
 import { TagForm } from 'features/tags/components/TagForm';
 import { useAddTag } from 'features/tags/hooks/addTag';
 import { AddTagDTO } from 'features/tags/models/tags';

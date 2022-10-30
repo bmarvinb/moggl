@@ -1,7 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FieldError } from 'shared/components/FieldError';
-import { FormField } from 'shared/components/FormField';
-import { Label } from 'shared/components/Label';
 import { useAddProject } from 'features/projects/hooks/addProject';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -50,23 +47,23 @@ export const ProjectForm: FC<AddProjectDialogProps> = props => {
           tone="critical"
         />
 
-        <FormField>
-          <Label>Client:</Label>
+        <div>
+          <label htmlFor="clientId">Client:</label>
           <select {...register('clientId')} id="clientId"></select>
-        </FormField>
+        </div>
 
-        <FormField>
-          <Label>Color:</Label>
+        <div>
+          <label htmlFor="color">Color:</label>
           <input {...register('color')} type="color" id="color" />
-        </FormField>
+        </div>
 
-        <FormField>
-          <Label>Visibility:</Label>
+        <div>
+          <label htmlFor="public">Visibility:</label>
           <label id="isPublic" className="font-normal">
-            <input {...register('isPublic')} type="checkbox" />
+            <input {...register('isPublic')} id="public" type="checkbox" />
             Public
           </label>
-        </FormField>
+        </div>
         {status === 'error' && (
           <div className="text-red-500">Error occured</div>
         )}

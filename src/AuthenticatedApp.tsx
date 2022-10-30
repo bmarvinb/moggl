@@ -1,8 +1,8 @@
 import { useMachine } from '@xstate/react';
-import { Menu, MenuItem } from 'shared/components/Menu';
-import { ProfileInfo, ProfileInfoData } from 'shared/components/ProfileInfo';
-import { Drawer } from 'layout/Drawer';
-import { Navbar } from 'layout/Navbar';
+import { Menu, MenuItem } from 'layout/components/Menu';
+import { ProfileInfo, ProfileInfoData } from 'layout/components/ProfileInfo';
+import { Drawer } from 'layout/components/Drawer';
+import { Navbar } from 'layout/components/Navbar';
 import {
   drawerMachine,
   DrawerMode,

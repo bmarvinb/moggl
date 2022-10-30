@@ -1,4 +1,4 @@
-import { Spinner } from './Spinner';
+import { Spinner } from './Spinner/Spinner';
 
 export const FullPageSpinner = () => {
   return (

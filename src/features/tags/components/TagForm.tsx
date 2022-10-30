@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddTagDTO, Tag, UpdateTagDTO } from 'features/tags/models/tags';
-import { DialogMode } from 'layout/models/dialog-mode';
+import { DialogMode } from 'shared/models/dialog-mode';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from 'shared/components/Button';
-import { FormError } from 'shared/components/FormError';
+import { FieldMessage } from 'shared/components/FieldMessage';
 import { TextField } from 'shared/components/TextField';
 import { z } from 'zod';
 
@@ -63,7 +63,13 @@ export const TagForm: FC<TagFormProps> = props => {
           tone={'critical'}
         />
 
-        {props.error && <FormError>{props.error}</FormError>}
+        {props.error && (
+          <FieldMessage
+            id="tag-form-error"
+            message={props.error}
+            tone="critical"
+          />
+        )}
       </div>
 
       <Button

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner } from 'shared/components/Spinner';
+import { Spinner } from 'shared/components/Spinner/Spinner';
 import { DefaultProps } from 'theme/types';
 import { cn } from 'theme/utils';
 

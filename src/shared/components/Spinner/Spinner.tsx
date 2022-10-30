@@ -1,8 +1,10 @@
-import React from 'react';
-import { IconType } from 'react-icons';
 import { BiLoaderAlt } from 'react-icons/bi';
 import { DefaultProps } from 'theme/types';
 import { cn } from 'theme/utils';
+
+export type SpinnerProps = DefaultProps & {
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+};
 
 const sizes = {
   xs: 'w-3 h-3',
@@ -12,13 +14,9 @@ const sizes = {
   xl: 'w-12 h-12',
 };
 
-export type SpinnerProps = DefaultProps & {
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-};
-
 export const Spinner = ({ className, size = 'md' }: SpinnerProps) => {
-  const styles = cn('animate-spin', sizes[size], className);
-  return <BiLoaderAlt className={styles} />;
+  const classes = cn('animate-spin', sizes[size], className);
+  return <BiLoaderAlt className={classes} />;
 };
 
 Spinner.defaultProps = {

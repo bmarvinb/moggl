@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { Card } from 'shared/components/Card';
+import { Card } from 'shared/components/Card/Card';
 import { Container } from 'shared/components/Container';
 import { Dialog } from 'shared/components/Dialog';
 import { Title } from 'shared/components/Title';

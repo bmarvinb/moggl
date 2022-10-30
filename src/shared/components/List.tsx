@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'shared/components/Card';
+import { Card } from 'shared/components/Card/Card';
 
 export type ListProps = {
   className?: string;

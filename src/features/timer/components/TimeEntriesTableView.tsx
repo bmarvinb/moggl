@@ -1,4 +1,4 @@
-import { Card } from 'shared/components/Card';
+import { Card } from 'shared/components/Card/Card';
 import { Checkbox } from 'shared/components/Checkbox';
 import { isToday } from 'date-fns';
 import { DayDuration } from 'features/timer/components/DayDuration';
