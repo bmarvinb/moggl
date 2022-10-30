@@ -1,5 +1,4 @@
 import React from 'react';
-import { FieldError } from 'shared/components/FieldError';
 import { FieldLabel } from 'shared/components/FieldLabel';
 import { Input, InputSize } from 'shared/components/Input';
 import { DefaultProps } from 'theme/types';
