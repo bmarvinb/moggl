@@ -30,7 +30,7 @@ export const NavigationMenu = ({
             to={item.route}
             className={({ isActive }) =>
               cn(
-                'rounded flex w-full items-center gap-3 py-3 px-4 focus-visible:outline focus-visible:outline-1 focus-visible:outline-primary-400 text-neutral-50 no-underline hover:cursor-pointer hover:bg-primary-300 active:hover:cursor-default',
+                'rounded flex w-full items-center gap-3 py-3 px-4 text-neutral-50 no-underline hover:cursor-pointer hover:bg-primary-300 active:hover:cursor-default',
                 isActive &&
                   'bg-primary-500 hover:bg-primary-500 hover:cursor-default',
               )
