@@ -1,5 +1,4 @@
 import React from 'react';
-import { classes } from 'shared/components/ButtonIcon/styles';
 import { DefaultProps } from 'theme/types';
 import { cn } from 'theme/utils';
 
@@ -14,6 +13,21 @@ export type ButtonIconProps = DefaultProps &
     size?: ButtonIconSize;
     variant?: ButtonIconVariant;
   };
+
+function classes(variant: ButtonIconVariant, size: ButtonIconSize) {
+  const variants: Record<ButtonIconVariant, string> = {
+    transparent:
+      'hover:text-primary-400 dark:hover:text-primaryDark-400 text-neutral-800 dark:text-neutralDark-800 focus:ring-primary-400 dark:focus:ring-primaryDark-400',
+  };
+  const sizes: Record<ButtonIconSize, string> = {
+    md: 'p-1',
+  };
+  return cn(
+    'inline-flex border border-transparent items-center font-medium rounded-full focus:outline-none focus:ring-2',
+    variants[variant],
+    sizes[size],
+  );
+}
 
 export const ButtonIcon = React.forwardRef<HTMLButtonElement, ButtonIconProps>(
   (

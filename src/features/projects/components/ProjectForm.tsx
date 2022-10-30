@@ -6,6 +6,7 @@ import { useAddProject } from 'features/projects/hooks/addProject';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { TextField } from 'shared/components/TextField';
 
 export type AddProjectDialogProps = {
   onProjectAdded: () => void;
@@ -40,25 +41,25 @@ export const ProjectForm: FC<AddProjectDialogProps> = props => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-10">
-        <FormField>
-          <Label>Name:</Label>
-          <input
-            {...register('name')}
-            aria-invalid={errors.name?.message ? 'true' : 'false'}
-            className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 invalid:focus:border-red-500 invalid:focus:ring-red-500 sm:text-sm`}
-            id="project"
-            placeholder="Project name"
-          />
-          <FieldError>{errors.name?.message}</FieldError>
-        </FormField>
+        <TextField
+          {...register('name')}
+          id="project-name"
+          label="Name"
+          placeholder="Project name"
+          message={errors.name?.message}
+          tone="critical"
+        />
+
         <FormField>
           <Label>Client:</Label>
           <select {...register('clientId')} id="clientId"></select>
         </FormField>
+
         <FormField>
           <Label>Color:</Label>
           <input {...register('color')} type="color" id="color" />
         </FormField>
+
         <FormField>
           <Label>Visibility:</Label>
           <label id="isPublic" className="font-normal">

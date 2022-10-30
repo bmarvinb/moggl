@@ -1,15 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FieldError } from 'shared/components/FieldError';
-import { FormError } from 'shared/components/FormError';
-import { FormField } from 'shared/components/FormField';
-import { Label } from 'shared/components/Label';
-import { DialogMode } from 'layout/models/dialog-mode';
 import { AddTagDTO, Tag, UpdateTagDTO } from 'features/tags/models/tags';
+import { DialogMode } from 'layout/models/dialog-mode';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { Button } from 'shared/components/Button';
-import { Input } from 'shared/components/Input';
+import { FormError } from 'shared/components/FormError';
+import { TextField } from 'shared/components/TextField';
+import { z } from 'zod';
 
 export type AddTagData = {
   operation: DialogMode.Add;
@@ -56,18 +53,16 @@ export const TagForm: FC<TagFormProps> = props => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mb-10">
-        <FormField>
-          <Label>Name:</Label>
-          <Input
-            {...register('name')}
-            id="name"
-            placeholder="Tag name"
-            className={``}
-            aria-invalid={formState.errors.name?.message ? 'true' : 'false'}
-          />
-          <FieldError>{formState.errors.name?.message}</FieldError>
-        </FormField>
+      <div className="mb-6">
+        <TextField
+          {...register('name')}
+          id="tag-name"
+          label="Name"
+          placeholder="Tag name"
+          message={formState.errors.name?.message}
+          tone={'critical'}
+        />
+
         {props.error && <FormError>{props.error}</FormError>}
       </div>
 
