@@ -1,6 +1,12 @@
 import { useMachine } from '@xstate/react';
-import { Menu, MenuItem } from 'layout/components/Menu';
-import { ProfileInfo, ProfileInfoData } from 'layout/components/ProfileInfo';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+} from 'layout/components/NavigationMenu';
+import {
+  NavigationMenuUserProfile,
+  Profile,
+} from 'layout/components/NavigationMenuUserProfile';
 import { Drawer } from 'layout/components/Drawer';
 import { Navbar } from 'layout/components/Navbar';
 import {
@@ -16,7 +22,7 @@ import { TimerPage } from 'pages/TimerPage';
 import { BiFolder, BiGroup, BiTag, BiTimer } from 'react-icons/bi';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-const menuItems: MenuItem[] = [
+const menuItems: NavigationMenuItem[] = [
   {
     route: 'timer',
     title: 'Timer',
@@ -44,7 +50,7 @@ export const AuthenticatedApp = () => {
   const currentUser = useCurrentUser();
   const temporaryMode = state.context.mode === DrawerMode.Temporary;
   const open = state.matches(DrawerState.Open);
-  const profileInfo: ProfileInfoData = {
+  const profileInfo: Profile = {
     email: currentUser.email,
     name: currentUser.name,
     profilePicture: currentUser.profilePicture,
@@ -60,12 +66,15 @@ export const AuthenticatedApp = () => {
             open={open}
           >
             <>
-              <Menu
+              <NavigationMenu
                 items={menuItems}
                 open={open}
                 onMenuItemClicked={() => send('CLOSE')}
               />
-              <ProfileInfo open={open} profileInfo={profileInfo}></ProfileInfo>
+              <NavigationMenuUserProfile
+                open={open}
+                data={profileInfo}
+              ></NavigationMenuUserProfile>
             </>
           </Drawer>
         )}

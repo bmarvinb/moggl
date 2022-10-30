@@ -1,18 +1,22 @@
 import { NavLink } from 'react-router-dom';
 
-export type MenuItem = {
+export type NavigationMenuItem = {
   route: string;
   title: string;
   icon: JSX.Element;
 };
 
-export type MenuProps = {
+export type NavigationMenuProps = {
   open: boolean;
-  items: MenuItem[];
+  items: NavigationMenuItem[];
   onMenuItemClicked: () => void;
 };
 
-export const Menu = ({ items, open, onMenuItemClicked }: MenuProps) => (
+export const NavigationMenu = ({
+  items,
+  open,
+  onMenuItemClicked,
+}: NavigationMenuProps) => (
   <nav className="flex flex-1 flex-col justify-between overflow-y-scroll text-neutral-900 dark:text-neutral-50">
     <ul>
       {items.map(item => (
