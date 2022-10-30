@@ -1,5 +1,5 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import React, { FC } from 'react';
+import React from 'react';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { assertNever } from 'shared/utils/assert';
 
@@ -24,7 +24,7 @@ export type DrawerProps = {
   onOpenChange: () => void;
 };
 
-export const Drawer: FC<DrawerProps> = props => {
+export const Drawer = (props: DrawerProps) => {
   switch (props.variant) {
     case 'temporary':
       return (

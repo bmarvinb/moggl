@@ -1,6 +1,5 @@
 import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable';
 import { InactiveTimeEntry } from 'features/timer/models/time-entry';
-import React from 'react';
 
 export type ReportedDay = {
   id: string;
@@ -13,7 +12,7 @@ export type ReportedDaysProps = {
   reportedDays: ReportedDay[];
 };
 
-export const ReportedDays: React.FC<ReportedDaysProps> = props => {
+export const ReportedDays = (props: ReportedDaysProps) => {
   return (
     <>
       {props.reportedDays.map(

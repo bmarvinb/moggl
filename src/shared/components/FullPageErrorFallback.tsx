@@ -1,6 +1,4 @@
-import { FC } from 'react';
-
-export const FullPageErrorFallback: FC<{ error: unknown }> = props => {
+export const FullPageErrorFallback = (props: { error: unknown }) => {
   console.error('Error', props.error);
 
   return (

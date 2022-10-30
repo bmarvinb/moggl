@@ -1,8 +1,7 @@
-import { ListItem } from 'shared/components/List';
 import { Tag } from 'features/tags/models/tags';
-import { FC } from 'react';
 import { BiArchive, BiPencil, BiTrash } from 'react-icons/bi';
 import { ButtonIcon } from 'shared/components/ButtonIcon';
+import { ListItem } from 'shared/components/List';
 
 export type TagListViewItemProps = {
   tag: Tag;
@@ -13,7 +12,7 @@ export type TagListViewItemProps = {
   onDelete: () => void;
 };
 
-export const TagListViewItem: FC<TagListViewItemProps> = props => {
+export const TagListViewItem = (props: TagListViewItemProps) => {
   return (
     <ListItem className="align-center flex justify-between" key={props.tag.id}>
       <div>{props.tag.name}</div>

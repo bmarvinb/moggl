@@ -1,9 +1,8 @@
-import { Dialog, DialogContent } from 'shared/components/Dialog';
-import { DialogMode } from 'shared/models/dialog-mode';
 import { TagForm } from 'features/tags/components/TagForm';
 import { useAddTag } from 'features/tags/hooks/addTag';
 import { AddTagDTO } from 'features/tags/models/tags';
-import { FC } from 'react';
+import { Dialog, DialogContent } from 'shared/components/Dialog';
+import { DialogMode } from 'shared/models/dialog-mode';
 
 export type AddTagDialog = {
   open: boolean;
@@ -11,7 +10,7 @@ export type AddTagDialog = {
   onSuccess: () => void;
 };
 
-export const AddTagDialog: FC<AddTagDialog> = props => {
+export const AddTagDialog = (props: AddTagDialog) => {
   const { mutate: addTag, status, error } = useAddTag();
 
   const onSubmit = (data: AddTagDTO) => {

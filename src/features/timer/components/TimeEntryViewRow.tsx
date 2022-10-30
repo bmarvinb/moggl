@@ -11,7 +11,6 @@ import {
 } from 'features/timer/utils/time-entries-utils';
 import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
-import React from 'react';
 import {
   BiDollar,
   BiDotsVerticalRounded,
@@ -52,7 +51,7 @@ type TimeEntryViewRowProps = {
   onToggleChildrenVisibility?: () => void;
 };
 
-export const TimeEntryViewRow: React.FC<TimeEntryViewRowProps> = props => {
+export const TimeEntryViewRow = (props: TimeEntryViewRowProps) => {
   return (
     <>
       <div

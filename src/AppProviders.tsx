@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from 'features/auth/context/auth-context';
 import { ColorScheme, usePrefersColorScheme } from 'theme/prefersColorScheme';
@@ -21,7 +21,7 @@ export function applyColorScheme(scheme: ColorScheme): void {
     : document.documentElement.classList.remove('dark');
 }
 
-export const AppProviders: React.FC<{ children: ReactNode }> = props => {
+export const AppProviders = (props: { children: React.ReactNode }) => {
   const colorScheme = usePrefersColorScheme();
   applyColorScheme(colorScheme);
   globalStyles();

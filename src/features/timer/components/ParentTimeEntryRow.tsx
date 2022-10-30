@@ -15,7 +15,7 @@ export type ParentTimeEntryRowProps = {
   onChildSelectionChange: (id: string) => void;
 };
 
-export const ParentTimeEntryRow: React.FC<ParentTimeEntryRowProps> = props => {
+export const ParentTimeEntryRow = (props: ParentTimeEntryRowProps) => {
   const [expanded, toggleExpanded] = React.useReducer(state => !state, false);
 
   const childrenIds = props.timeEntry.children.map(({ data }) => data.id);

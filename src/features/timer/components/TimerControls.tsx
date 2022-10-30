@@ -1,6 +1,5 @@
 import { TimerMode } from 'features/timer/machines/TimerMachine';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
-import React from 'react';
 import {
   BiBriefcase,
   BiDollar,
@@ -27,7 +26,7 @@ export type TimerControlsProps = {
   onTimerModeChanged: (mode: TimerMode) => void;
 };
 
-export const TimerControls: React.FC<TimerControlsProps> = props => {
+export const TimerControls = (props: TimerControlsProps) => {
   const isTimerMode = props.mode === 'Timer';
   return (
     <div>

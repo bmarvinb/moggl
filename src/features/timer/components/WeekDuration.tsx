@@ -1,12 +1,11 @@
 import { useActiveDuration } from 'features/timer/hooks/activeDuration';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
-import React from 'react';
 
 export type WeekDurationProps = {
   weekDuration: number;
 };
 
-export const WeekDuration: React.FC<WeekDurationProps> = ({ weekDuration }) => {
+export const WeekDuration = ({ weekDuration }: WeekDurationProps) => {
   const duration = useActiveDuration(weekDuration);
   return (
     <div className="mb-4 flex place-content-between">

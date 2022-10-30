@@ -5,9 +5,7 @@ export type ReportedDaysContainerProps = {
   children: React.ReactNode;
 };
 
-export const ReportedDaysContainer: React.FC<
-  ReportedDaysContainerProps
-> = props => {
+export const ReportedDaysContainer = (props: ReportedDaysContainerProps) => {
   const [contentTop, setContentTop] = React.useState(0);
   const contentRef = React.useRef<HTMLDivElement>(null);
   const size = useWindowSize();

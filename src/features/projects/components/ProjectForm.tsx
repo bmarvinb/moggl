@@ -1,9 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAddProject } from 'features/projects/hooks/addProject';
-import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { TextField } from 'shared/components/TextField';
+import { z } from 'zod';
 
 export type AddProjectDialogProps = {
   onProjectAdded: () => void;
@@ -18,7 +17,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export const ProjectForm: FC<AddProjectDialogProps> = props => {
+export const ProjectForm = (props: AddProjectDialogProps) => {
   const {
     register,
     handleSubmit,

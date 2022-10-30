@@ -5,7 +5,7 @@ import {
 } from 'features/tags/components/TagsFilter';
 import { TagListItem } from 'features/tags/containers/TagListItem';
 import { Tags } from 'features/tags/models/tags';
-import { FC, useState } from 'react';
+import React from 'react';
 import { Button } from 'shared/components/Button/Button';
 import { Container } from 'shared/components/Container';
 import { List } from 'shared/components/List';
@@ -18,8 +18,8 @@ export type TagsContentProps = {
   onFilterChange: (changes: TagsFilterCriteria) => void;
 };
 
-export const TagsContent: FC<TagsContentProps> = props => {
-  const [addDialogOpen, setAddDialogOpen] = useState(false);
+export const TagsContent = (props: TagsContentProps) => {
+  const [addDialogOpen, setAddDialogOpen] = React.useState(false);
 
   const onTagAdded = () => {
     setAddDialogOpen(false);

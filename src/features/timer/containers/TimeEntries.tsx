@@ -16,7 +16,6 @@ import { pipe } from 'fp-ts/lib/function';
 import * as M from 'fp-ts/lib/Monoid';
 import * as N from 'fp-ts/lib/number';
 import * as S from 'fp-ts/lib/string';
-import React from 'react';
 
 export type TimeEntriesProps = {
   timeEntries: TimeEntry[];
@@ -72,7 +71,7 @@ function reportedDays(timeEntries: InactiveTimeEntry[]) {
   );
 }
 
-export const TimeEntries: React.FC<TimeEntriesProps> = props => {
+export const TimeEntries = (props: TimeEntriesProps) => {
   const inactiveTimeEntries = pipe(
     props.timeEntries,
     A.filter(isInactiveTimeEntry),

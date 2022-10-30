@@ -1,9 +1,8 @@
-import { Dialog, DialogContent } from 'shared/components/Dialog';
-import { DialogMode } from 'shared/models/dialog-mode';
 import { TagForm } from 'features/tags/components/TagForm';
 import { useUpdateTag } from 'features/tags/hooks/updateTag';
 import { Tag, UpdateTagDTO } from 'features/tags/models/tags';
-import { FC } from 'react';
+import { Dialog, DialogContent } from 'shared/components/Dialog';
+import { DialogMode } from 'shared/models/dialog-mode';
 
 export type UpdateTagDialogProps = {
   open: boolean;
@@ -12,7 +11,7 @@ export type UpdateTagDialogProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-export const UpdateTagDialog: FC<UpdateTagDialogProps> = props => {
+export const UpdateTagDialog = (props: UpdateTagDialogProps) => {
   const { mutate: updateTag, status, error } = useUpdateTag(props.tag.id);
 
   const onSubmit = (data: UpdateTagDTO) => {

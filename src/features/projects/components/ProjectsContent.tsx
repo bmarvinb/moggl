@@ -1,18 +1,18 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { AddProjectDialog } from 'features/projects/components/AddProjectDialog';
+import { Projects } from 'features/projects/models/projects';
+import React from 'react';
 import { Card } from 'shared/components/Card/Card';
 import { Container } from 'shared/components/Container';
 import { Dialog } from 'shared/components/Dialog';
 import { Title } from 'shared/components/Title';
-import { AddProjectDialog } from 'features/projects/components/AddProjectDialog';
-import { Projects } from 'features/projects/models/projects';
-import { FC, useState } from 'react';
 
 export type ProjectsContentProps = {
   projects: Projects;
 };
 
-export const ProjectsContent: FC<ProjectsContentProps> = props => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+export const ProjectsContent = (props: ProjectsContentProps) => {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const queryClient = useQueryClient();
 
   const onProjectAdded = () => {

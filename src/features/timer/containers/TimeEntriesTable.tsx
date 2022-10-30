@@ -43,7 +43,7 @@ function getTimeEntryIds(timeEntries: InactiveTimeEntry[]): string[] {
   return timeEntries.map(({ id }) => id);
 }
 
-export const TimeEntriesTable: React.FC<TimeEntriesTableProps> = props => {
+export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
   const service = useTimerMachine();
   const [timerState, timerSend] = useActor(service);
   const [bulkEditMode, toggleBulkEditMode] = React.useReducer(

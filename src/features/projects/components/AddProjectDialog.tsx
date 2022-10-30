@@ -1,12 +1,11 @@
-import { DialogContent } from 'shared/components/Dialog';
 import { ProjectForm } from 'features/projects/components/ProjectForm';
-import { FC } from 'react';
+import { DialogContent } from 'shared/components/Dialog';
 
 export type AddProjectDialogProps = {
   onProjectAdded: () => void;
 };
 
-export const AddProjectDialog: FC<AddProjectDialogProps> = props => {
+export const AddProjectDialog = (props: AddProjectDialogProps) => {
   return (
     <DialogContent>
       <div>

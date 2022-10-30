@@ -16,9 +16,7 @@ type TimeEntriesTableViewProps = {
   onToggleClicked: () => void;
 };
 
-export const TimeEntriesTableView: React.FC<
-  TimeEntriesTableViewProps
-> = props => {
+export const TimeEntriesTableView = (props: TimeEntriesTableViewProps) => {
   return (
     <Card className="mb-4">
       <div className="flex justify-between py-3 px-4">
