@@ -12,9 +12,9 @@ export type FieldMessageProps = {
 
 function classes(tone: FieldMessageTone) {
   const tones: Record<FieldMessageTone, string> = {
-    critical: 'text-red-400 dark:text-redDark-400',
-    positive: 'text-cyan-400 dark:text-cyanDark-400',
-    neutral: 'text-neutral-800 dark:text-neutralDark-800',
+    critical: 'text-red-400 dark:text-red-dark-400',
+    positive: 'text-cyan-400 dark:text-cyan-dark-400',
+    neutral: 'text-neutral-800 dark:text-neutral-dark-800',
   };
   return cn(tones[tone]);
 }
@@ -37,7 +37,7 @@ export const FieldMessage = ({
   return (
     <div
       className={cn(
-        'pt-1 text-sm flex items-center gap-1',
+        'flex items-center gap-1 pt-1 text-sm',
         fieldMessageClasses,
       )}
     >

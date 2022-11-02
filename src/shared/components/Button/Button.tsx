@@ -1,6 +1,6 @@
+import { clsx } from 'clsx';
 import React from 'react';
-import { Spinner } from 'shared/components/Spinner/Spinner';
-import { cn } from 'theme/utils';
+import { Spinner } from 'shared/components/Spinner';
 
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -18,26 +18,21 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string;
 };
 
-function classes(size: ButtonSize, variant: ButtonVariant, disabled?: boolean) {
-  const sizes: Record<ButtonSize, string> = {
-    xs: 'px-2.5 py-1.5 text-xs',
-    sm: 'px-3 py-2 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-4 py-2 text-base',
-    xl: 'px-6 py-3 text-base',
-  };
-  const variants: Record<ButtonVariant, string> = {
-    primary:
-      'text-neutral-50 dark:text-neutralDark-900 bg-primary-400 dark:bg-primaryDark-400 hover:bg-primary-500 dark:hover:bg-primary-500 focus:ring-primary-400 dark:focus:ring-primaryDark-400',
-  };
-  return cn(
-    'inline-flex items-center border border-transparent font-medium rounded-md shadow-sm focus:outline-none focus:ring-2',
-    sizes[size],
-    variants[variant],
-    disabled &&
-      'cursor-not-allowed bg-neutral-300 dark:bg-neutralDark-300 hover:bg-neutral-300 dark:hover:bg-neutralDark-300',
-  );
-}
+const sizes: Record<ButtonSize, string> = {
+  xs: clsx('px-2.5 py-1.5 text-xs'),
+  sm: clsx('px-3 py-2 text-sm'),
+  md: clsx('px-4 py-2 text-base'),
+  lg: clsx('px-4 py-2 text-base'),
+  xl: clsx('px-6 py-3 text-base'),
+};
+
+const variants: Record<ButtonVariant, string> = {
+  primary: clsx(
+    'text-neutral-50 bg-primary-400 dark:bg-primary-dark-400 dark:text-neutral-dark-900',
+    'hover:bg-primary-500 dark:hover:bg-primary-500',
+    'focus:ring-primary-400 dark:focus:ring-primary-dark-400',
+  ),
+};
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -55,12 +50,26 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const buttonClasses = classes(size, variant, disabled);
     return (
       <button
         ref={ref}
         type={type}
-        className={cn(buttonClasses, className)}
+        className={clsx(
+          [
+            'inline-flex items-center font-medium',
+            'rounded-md border border-transparent',
+            'shadow-sm',
+            'focus:outline-none focus:ring-2',
+          ],
+          sizes[size],
+          variants[variant],
+          disabled && [
+            'bg-neutral-300 dark:bg-neutral-dark-300',
+            'hover:bg-neutral-300 dark:hover:bg-neutral-dark-300',
+            'cursor-not-allowed',
+          ],
+          className,
+        )}
         disabled={disabled}
         aria-disabled={disabled}
         {...rest}

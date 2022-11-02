@@ -39,7 +39,7 @@ export const TimerControls = (props: TimerControlsProps) => {
 
         <div className="flex items-center">
           {isTimerMode ? (
-            <div className="min-w-[5rem] mr-3 text-right text-lg font-semibold text-neutral-800 dark:text-neutralDark-900">
+            <div className="mr-3 min-w-[5rem] text-right text-lg font-semibold text-neutral-800 dark:text-neutral-dark-900">
               {formatDuration(props.duration)}
             </div>
           ) : (
@@ -51,7 +51,7 @@ export const TimerControls = (props: TimerControlsProps) => {
               <div>
                 {props.running || props.creating || props.updating ? (
                   <button
-                    className="disabled:bg-red-300 dark:disabled:bg-redDark-300 rounded-full bg-red-400 p-2 text-xl text-neutral-50 hover:bg-red-300 dark:bg-redDark-400 dark:hover:bg-redDark-500"
+                    className="rounded-full bg-red-400 p-2 text-xl text-neutral-50 hover:bg-red-300 disabled:bg-red-300 dark:bg-red-dark-400 dark:hover:bg-red-dark-500 dark:disabled:bg-red-dark-300"
                     aria-label="Stop timer"
                     title="Stop timer"
                     onClick={props.onStopClicked}
@@ -61,7 +61,7 @@ export const TimerControls = (props: TimerControlsProps) => {
                   </button>
                 ) : (
                   <button
-                    className="disabled:bg-primary-300 dark:disabled:bg-primaryDark-300 rounded-full bg-primary-400 p-2 text-xl text-neutral-50 hover:bg-primary-300 dark:bg-primaryDark-400 dark:hover:bg-primaryDark-500"
+                    className="rounded-full bg-primary-400 p-2 text-xl text-neutral-50 hover:bg-primary-300 disabled:bg-primary-300 dark:bg-primary-dark-400 dark:hover:bg-primary-dark-500 dark:disabled:bg-primary-dark-300"
                     aria-label="Start timer"
                     title="Start timer"
                     onClick={props.onStartClicked}
@@ -73,7 +73,7 @@ export const TimerControls = (props: TimerControlsProps) => {
             ) : (
               <div>
                 <button
-                  className="rounded-full bg-primary-400 p-2 text-xl text-neutral-50 hover:bg-primary-300 dark:bg-primaryDark-400 dark:hover:bg-primaryDark-500"
+                  className="rounded-full bg-primary-400 p-2 text-xl text-neutral-50 hover:bg-primary-300 dark:bg-primary-dark-400 dark:hover:bg-primary-dark-500"
                   aria-label="Add time entry"
                   title="Add time entry"
                   onClick={props.onAddTimeEntryClicked}
@@ -84,7 +84,7 @@ export const TimerControls = (props: TimerControlsProps) => {
             )}
           </div>
 
-          <div className="min-w-[1.5rem] justify-center flex items-center">
+          <div className="flex min-w-[1.5rem] items-center justify-center">
             {props.running ? (
               <button
                 disabled={props.creating || props.updating}

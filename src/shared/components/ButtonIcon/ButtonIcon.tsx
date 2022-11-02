@@ -16,7 +16,7 @@ export type ButtonIconProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 function classes(variant: ButtonIconVariant, size: ButtonIconSize) {
   const variants: Record<ButtonIconVariant, string> = {
     transparent:
-      'hover:text-primary-400 dark:hover:text-primaryDark-400 text-neutral-800 dark:text-neutralDark-800 focus:ring-primary-400 dark:focus:ring-primaryDark-400',
+      'hover:text-primary-400 dark:hover:text-primary-dark-400 text-neutral-800 dark:text-neutral-dark-800 focus:ring-primary-400 dark:focus:ring-primary-dark-400',
   };
   const sizes: Record<ButtonIconSize, string> = {
     md: 'p-1',

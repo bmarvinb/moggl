@@ -19,16 +19,16 @@ export const FieldLabel = ({
     <div>
       <label
         className={cn(
-          'font-semibold text-sm',
+          'text-sm font-semibold',
           disabled
-            ? 'text-neutral-600 dark:text-neutralDark-600'
-            : 'text-neutral-800 dark:text-neutralDark-800',
+            ? 'text-neutral-600 dark:text-neutral-dark-600'
+            : 'text-neutral-800 dark:text-neutral-dark-800',
         )}
         htmlFor={htmlFor}
       >
         {label}
         {secondaryLabel ? (
-          <span className="text-neutral-500 dark:text-neutralDark-500">
+          <span className="text-neutral-500 dark:text-neutral-dark-500">
             {secondaryLabel}
           </span>
         ) : (

@@ -12,12 +12,12 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 
 function classes(invalid: boolean, disabled: boolean): string {
   return cn(
-    'text-neutral-900 dark:text-neutralDark-900 border p-2 focus:outline-none focus:ring-2 flex-1 block w-full min-w-0 rounded bg-neutral-50 dark:bg-neutralDark-400 placeholder-neutral-700 dark:placeholder-neutralDark-700',
+    'text-neutral-900 dark:text-neutral-dark-900 border p-2 focus:outline-none focus:ring-2 flex-1 block w-full min-w-0 rounded bg-neutral-50 dark:bg-neutral-dark-400 placeholder-neutral-700 dark:placeholder-neutral-dark-700',
     invalid
-      ? 'border-red-400 dark:border-redDark-400 focus:ring-red-400 dark:focus:ring-redDark-400'
-      : 'border-neutral-200 dark:border-neutralDark-300 focus:ring-primary-300 dark:focus:ring-primaryDark-300 focus:border-primary-400 dark:focus:border-primaryDark-400',
+      ? 'border-red-400 dark:border-red-dark-400 focus:ring-red-400 dark:focus:ring-red-dark-400'
+      : 'border-neutral-200 dark:border-neutral-dark-300 focus:ring-primary-300 dark:focus:ring-primary-dark-300 focus:border-primary-400 dark:focus:border-primary-dark-400',
     disabled &&
-      'bg-neutral-300/25 dark:bg-neutralDark-300/25 placeholder-neutral-600 dark:placeholderDark-600',
+      'bg-neutral-300/25 dark:bg-neutral-dark-300/25 placeholder-neutral-600 dark:placeholder-dark-600',
   );
 }
 

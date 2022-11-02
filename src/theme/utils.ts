@@ -1,5 +1,2 @@
-export function cn(
-  ...classes: (string | boolean | undefined | null)[]
-): string {
-  return classes.filter(arg => arg).join(' ');
-}
+import cn from 'clsx';
+export { cn };

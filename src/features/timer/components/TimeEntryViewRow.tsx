@@ -55,7 +55,7 @@ export const TimeEntryViewRow = (props: TimeEntryViewRowProps) => {
   return (
     <>
       <div
-        className="flex items-center gap-4 border-t border-neutral-100 py-3 px-4 dark:border-neutralDark-100"
+        className="flex items-center gap-4 border-t border-neutral-100 py-3 px-4 dark:border-neutral-dark-100"
         key={props.timeEntry.data.id}
       >
         {props.edit && (
@@ -82,8 +82,8 @@ export const TimeEntryViewRow = (props: TimeEntryViewRowProps) => {
           <button className="opacity-0">{props.timeEntry.siblings}</button>
         )}
 
-        <div className="flex flex-col w-full">
-          <div className="mb-2 grid grid-cols-[5fr_1fr] gap-3 items-center">
+        <div className="flex w-full flex-col">
+          <div className="mb-2 grid grid-cols-[5fr_1fr] items-center gap-3">
             <div
               className={` truncate ${
                 props.timeEntry.data.description.length === 0
@@ -94,7 +94,7 @@ export const TimeEntryViewRow = (props: TimeEntryViewRowProps) => {
             >
               {props.timeEntry.data.description || 'Add description'}
             </div>
-            <div className="flex items-center gap-1 justify-end">
+            <div className="flex items-center justify-end gap-1">
               <ButtonIcon icon={<BiPurchaseTag title="Select tags" />} />
               <ButtonIcon icon={<BiDollar title="Change billable status" />} />
               <div className="hidden">
@@ -116,7 +116,7 @@ export const TimeEntryViewRow = (props: TimeEntryViewRowProps) => {
                 getTimeEntryInfo,
                 O.fold(
                   () => (
-                    <div className="text-sm text-neutral-600 dark:text-neutralDark-600">
+                    <div className="text-sm text-neutral-600 dark:text-neutral-dark-600">
                       Select project
                     </div>
                   ),

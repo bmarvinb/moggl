@@ -12,10 +12,10 @@ export const Timer = () => {
     state.matches(TimerState.Saving) || state.matches(TimerState.Discarding);
 
   return (
-    <div className="relative flex w-full flex-col  bg-neutral-50 py-3 px-4 shadow-md dark:bg-neutralDark-50 md:flex-row md:items-center">
+    <div className="relative flex w-full flex-col  bg-neutral-50 py-3 px-4 shadow-md dark:bg-neutral-dark-50 md:flex-row md:items-center">
       <div className="flex-1">
         <input
-          className="w-full bg-transparent py-3 placeholder-neutral-600 dark:placeholder-neutralDark-600 focus:outline-none"
+          className="w-full bg-transparent py-3 placeholder-neutral-600 focus:outline-none dark:placeholder-neutral-dark-600"
           placeholder={
             state.context.mode === 'Timer'
               ? 'What are you working on?'

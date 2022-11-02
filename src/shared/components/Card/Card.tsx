@@ -9,7 +9,7 @@ export type CardProps = {
 export const Card = (props: CardProps) => (
   <div
     className={cn(
-      'rounded-lg bg-neutral-50 shadow-sm dark:bg-neutralDark-50',
+      'rounded-lg bg-neutral-50 shadow-sm dark:bg-neutral-dark-50',
       props.className,
     )}
   >

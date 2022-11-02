@@ -23,7 +23,7 @@ export const UpdateTagDialog = (props: UpdateTagDialogProps) => {
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent>
-        <div className="mb-4 text-lg font-semibold text-neutral-50 dark:text-neutralDark-900">
+        <div className="mb-4 text-lg font-semibold text-neutral-50 dark:text-neutral-dark-900">
           Update tag
         </div>
 

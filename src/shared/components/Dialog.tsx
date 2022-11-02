@@ -47,10 +47,10 @@ type DialogContentProps = DialogContentPrimitiveProps;
 const DialogContent = (props: DialogContentProps) => (
   <DialogPrimitive.Portal>
     <StyledOverlay className="bg-black/50" />
-    <StyledContent className="bg-neutral-50 dark:bg-neutralDark-200">
+    <StyledContent className="bg-neutral-50 dark:bg-neutral-dark-200">
       {props.children}
       <StyledCloseButton asChild>
-        <button className="text-neutral-50 dark:text-neutralDark-900">
+        <button className="text-neutral-50 dark:text-neutral-dark-900">
           <BiX />
         </button>
       </StyledCloseButton>
