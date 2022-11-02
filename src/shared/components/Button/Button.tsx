@@ -62,7 +62,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           sizes[size],
           variants[variant],
           disabled && [
-            'dark:bg-neutral-dark-30 cursor-not-allowed  bg-neutral-300',
+            'dark:bg-neutral-dark-30 cursor-not-allowed bg-neutral-300',
             'hover:bg-neutral-300 dark:hover:bg-neutral-dark-300',
           ],
           className,
