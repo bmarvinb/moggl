@@ -6,10 +6,19 @@ function getStartDays(timeEntry: CompletedTimeEntry[]): string[] {
   return timeEntry.map(({ start }) => format(start, 'PP'));
 }
 
-export function useReportedDays(entries: CompletedTimeEntry[]) {
-  const dates = [...new Set(getStartDays(entries))];
+export type ReportedDay = {
+  id: string;
+  date: Date;
+  reportedDuration: number;
+  data: CompletedTimeEntry[];
+};
+
+export function useReportedDays(
+  timeEntries: CompletedTimeEntry[],
+): ReportedDay[] {
+  const dates = [...new Set(getStartDays(timeEntries))];
   return dates.map(date => {
-    const dayTimeEntries = entries.filter(({ start }) =>
+    const dayTimeEntries = timeEntries.filter(({ start }) =>
       isSameDay(start, new Date(date)),
     );
     return {

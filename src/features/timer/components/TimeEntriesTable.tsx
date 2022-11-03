@@ -5,6 +5,7 @@ import {
   TimeEntryRow,
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow';
+import { ReportedDay } from 'features/timer/hooks/reportedDays';
 import {
   isParentTimeEntry,
   SelectionChanges,
@@ -12,7 +13,6 @@ import {
 } from 'features/timer/hooks/selection';
 import { useTimeEntryRows } from 'features/timer/hooks/timeEntryRows';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
-import { CompletedTimeEntry } from 'features/timer/models/time-entry';
 import {
   formatDuration,
   getTimeEntryInfo,
@@ -20,25 +20,19 @@ import {
 import React from 'react';
 
 export type TimeEntriesTableProps = {
-  data: CompletedTimeEntry[];
-  date: Date;
-  reportedDuration: number;
+  day: ReportedDay;
 };
-
-function getTimeEntryIds(timeEntries: CompletedTimeEntry[]): string[] {
-  return timeEntries.map(({ id }) => id);
-}
 
 export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
   const service = useTimerMachine();
   const [, timerSend] = useActor(service);
-  const timeEntryRows = useTimeEntryRows(props.data);
+  const timeEntryRows = useTimeEntryRows(props.day.data);
   const [bulkEditMode, toggleBulkEditMode] = React.useReducer(
     state => !state,
     false,
   );
   const [{ entries, selected }, send] = useSelection(
-    getTimeEntryIds(props.data),
+    props.day.data.map(({ id }) => id),
   );
   const isTimeEntryRowChecked = (id: string) => selected.includes(id);
 
@@ -78,8 +72,8 @@ export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
     <TimeEntryRowContainer
       bulkEditMode={bulkEditMode}
       allSelected={entries.length === selected.length}
-      reportedTime={props.reportedDuration}
-      date={props.date}
+      reportedTime={props.day.reportedDuration}
+      date={props.day.date}
       onBulkModeChanged={onBulkModeChanged}
       onToggleClicked={onToggleClicked}
     >

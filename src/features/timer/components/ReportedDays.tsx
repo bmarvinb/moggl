@@ -5,28 +5,19 @@ import { useReportedDays } from 'features/timer/hooks/reportedDays';
 import { useWeekDuration } from 'features/timer/hooks/weekDuration';
 import { CompletedTimeEntry } from 'features/timer/models/time-entry';
 
-type TimeEntriesReportedDaysProps = {
-  entries: CompletedTimeEntry[];
+type ReportedDaysProps = {
+  timeEntries: CompletedTimeEntry[];
 };
 
-export const TimeEntriesReportedDays = (
-  props: TimeEntriesReportedDaysProps,
-) => {
-  const weekDuration = useWeekDuration(props.entries);
-  const reportedDays = useReportedDays(props.entries);
+export const ReportedDays = (props: ReportedDaysProps) => {
+  const weekDuration = useWeekDuration(props.timeEntries);
+  const reportedDays = useReportedDays(props.timeEntries);
   return (
     <div className="flex w-full flex-1 flex-col">
       <ReportedDaysContainer>
-        {reportedDays.length > 0 && (
-          <WeekDuration weekDuration={weekDuration} />
-        )}
+        <WeekDuration weekDuration={weekDuration} />
         {reportedDays.map(day => (
-          <TimeEntriesTable
-            key={day.id}
-            date={day.date}
-            data={day.data}
-            reportedDuration={day.reportedDuration}
-          />
+          <TimeEntriesTable key={day.id} day={day} />
         ))}
       </ReportedDaysContainer>
     </div>

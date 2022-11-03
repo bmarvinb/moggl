@@ -5,8 +5,11 @@ export type WeekDurationProps = {
   weekDuration: number;
 };
 
-export const WeekDuration = ({ weekDuration }: WeekDurationProps) => {
-  const duration = useActiveDuration(weekDuration);
+export const WeekDuration = (props: WeekDurationProps) => {
+  const duration = useActiveDuration(props.weekDuration);
+  if (props.weekDuration <= 0) {
+    return null;
+  }
   return (
     <div className="mb-4 flex place-content-between">
       <div className="flex">

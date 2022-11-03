@@ -1,4 +1,4 @@
-import { TimeEntriesReportedDays } from 'features/timer/components/TimeEntriesReportedDays';
+import { ReportedDays } from 'features/timer/components/ReportedDays';
 import { Timer } from 'features/timer/components/Timer';
 import { useTimeEntries } from 'features/timer/hooks/timeEntries';
 import { TimerMachineProvider } from 'features/timer/machines/TimerMachineProvider';
@@ -16,7 +16,7 @@ export const TimerPage = () => {
       return (
         <TimerMachineProvider activeTimeEntry={active}>
           <Timer />
-          <TimeEntriesReportedDays entries={completed} />
+          <ReportedDays timeEntries={completed} />
         </TimerMachineProvider>
       );
   }
