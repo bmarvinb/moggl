@@ -55,16 +55,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         type={type}
         className={clsx(
-          [
-            'inline-flex items-center rounded-md border border-transparent font-medium shadow-sm',
-            'focus:outline-none focus:ring-2',
-          ],
+          `inline-flex items-center rounded-md border border-transparent font-medium shadow-sm focus:outline-none focus:ring-2`,
           sizes[size],
           variants[variant],
-          disabled && [
-            'dark:bg-neutral-dark-30 cursor-not-allowed bg-neutral-300',
-            'hover:bg-neutral-300 dark:hover:bg-neutral-dark-300',
-          ],
+          disabled &&
+            `dark:bg-neutral-dark-30 dark:hover:bg-neutral-dark-300' cursor-not-allowed bg-neutral-300 hover:bg-neutral-300`,
           className,
         )}
         disabled={disabled}
