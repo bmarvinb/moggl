@@ -1,7 +1,7 @@
 import { assertNever } from 'shared/utils/assert';
 import { Dispatch, useReducer } from 'react';
 import {
-  TimeEntryRowViewModel,
+  TimeEntryRow,
   ParentTimeEntry,
   ChildTimeEntry,
 } from 'features/timer/components/TimeEntryViewRow';
@@ -80,13 +80,13 @@ export function useSelection(
 }
 
 export function isParentTimeEntry(
-  timeEntry: TimeEntryRowViewModel,
+  timeEntry: TimeEntryRow,
 ): timeEntry is ParentTimeEntry {
   return timeEntry.type === TimeEntryRowType.Parent;
 }
 
 export function isChildTimeEntry(
-  timeEntry: TimeEntryRowViewModel,
+  timeEntry: TimeEntryRow,
 ): timeEntry is ChildTimeEntry {
   return timeEntry.type === TimeEntryRowType.Child;
 }

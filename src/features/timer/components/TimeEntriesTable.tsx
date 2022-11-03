@@ -2,7 +2,7 @@ import { useActor } from '@xstate/react';
 import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow';
 import { TimeEntryRowContainer } from 'features/timer/components/TimeEntryRowContainer';
 import {
-  TimeEntryRowViewModel,
+  TimeEntryRow,
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow';
 import {
@@ -13,6 +13,10 @@ import {
 import { useTimeEntryRows } from 'features/timer/hooks/timeEntryRows';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 import { CompletedTimeEntry } from 'features/timer/models/time-entry';
+import {
+  formatDuration,
+  getTimeEntryInfo,
+} from 'features/timer/utils/time-entries-utils';
 import React from 'react';
 
 export type TimeEntriesTableProps = {
@@ -55,7 +59,7 @@ export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
     send({ type: 'CHILD', id: id });
   };
 
-  const onPlayClicked = (timeEntry: TimeEntryRowViewModel) => {
+  const onPlayClicked = (timeEntry: TimeEntryRow) => {
     timerSend({
       type: 'RESUME',
       data: {
@@ -96,8 +100,14 @@ export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
             timeEntry={timeEntry}
             edit={bulkEditMode}
             selected={isTimeEntryRowChecked(timeEntry.data.id)}
-            onPlayClicked={onPlayClicked}
-            onSelectionChange={onChildSelectionChange}
+            onPlayClicked={() => onPlayClicked(timeEntry)}
+            onSelectionChange={() => onChildSelectionChange(timeEntry.data.id)}
+            duration={formatDuration(timeEntry.data.duration)}
+            projectInfo={
+              timeEntry.data.project
+                ? getTimeEntryInfo(timeEntry.data)
+                : undefined
+            }
           />
         ),
       )}

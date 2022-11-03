@@ -3,7 +3,7 @@ import {
   ChildTimeEntry,
   ParentTimeEntry,
   RegularTimeEntry,
-  TimeEntryRowViewModel,
+  TimeEntryRow,
 } from 'features/timer/components/TimeEntryViewRow';
 import {
   isParentTimeEntry,
@@ -110,7 +110,7 @@ export function useTimeEntryRows(completed: CompletedTimeEntry[]) {
             ? createParentTimeEntry(completed, timeEntry)
             : createRegularTimeEntry(timeEntry),
         ];
-  }, [] as TimeEntryRowViewModel[]);
+  }, [] as TimeEntryRow[]);
 
   return timeEntryRows;
 }

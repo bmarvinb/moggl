@@ -5,11 +5,6 @@ import {
 } from 'features/timer/hooks/selection';
 import { CompletedTimeEntry } from 'features/timer/models/time-entry';
 import {
-  formatDuration,
-  formatTimeEntryDate,
-  getTimeEntryInfo,
-} from 'features/timer/utils/time-entries-utils';
-import {
   BiDollar,
   BiDotsVerticalRounded,
   BiPlay,
@@ -35,17 +30,16 @@ export type ChildTimeEntry = {
   type: TimeEntryRowType.Child;
 };
 
-export type TimeEntryRowViewModel =
-  | RegularTimeEntry
-  | ParentTimeEntry
-  | ChildTimeEntry;
+export type TimeEntryRow = RegularTimeEntry | ParentTimeEntry | ChildTimeEntry;
 
 type TimeEntryViewRowProps = {
-  timeEntry: TimeEntryRowViewModel;
+  timeEntry: TimeEntryRow;
   edit: boolean;
   selected: boolean;
-  onSelectionChange: (timeEntryId: string) => void;
-  onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void;
+  duration: string;
+  projectInfo: string | undefined;
+  onSelectionChange: () => void;
+  onPlayClicked: () => void;
   onToggleChildrenVisibility?: () => void;
 };
 
@@ -59,7 +53,7 @@ export const TimeEntryViewRow = (props: TimeEntryViewRowProps) => {
         {props.edit && (
           <Checkbox
             checked={props.selected}
-            onChange={() => props.onSelectionChange(props.timeEntry.data.id)}
+            onChange={props.onSelectionChange}
           />
         )}
         {isParentTimeEntry(props.timeEntry) && (
@@ -95,9 +89,7 @@ export const TimeEntryViewRow = (props: TimeEntryViewRowProps) => {
             <div className="flex items-center justify-end gap-1">
               <ButtonIcon icon={<BiPurchaseTag title="Select tags" />} />
               <ButtonIcon icon={<BiDollar title="Change billable status" />} />
-              <div className="ml-2 text-lg font-semibold">
-                {formatDuration(props.timeEntry.data.duration)}
-              </div>
+              <div className="ml-2 text-lg font-semibold">{props.duration}</div>
             </div>
           </div>
 
@@ -108,14 +100,12 @@ export const TimeEntryViewRow = (props: TimeEntryViewRowProps) => {
                   Select project
                 </div>
               ) : (
-                <div className="text-sm">
-                  {getTimeEntryInfo(props.timeEntry.data)}
-                </div>
+                <div className="text-sm">{props.projectInfo}</div>
               )}
             </div>
             <div className="relative -right-1 flex gap-1">
               <ButtonIcon
-                onClick={() => props.onPlayClicked(props.timeEntry)}
+                onClick={props.onPlayClicked}
                 icon={<BiPlay title="Play" />}
               />
               <ButtonIcon icon={<BiDotsVerticalRounded title="Actions" />} />
