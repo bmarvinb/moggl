@@ -1,9 +1,7 @@
-import { Box } from 'shared/components/Box';
-import { Button } from 'shared/components/Button';
-import { ListItem } from 'shared/components/List';
 import { Tag } from 'features/tags/models/tags';
-import { FC } from 'react';
 import { BiArchive, BiPencil, BiTrash } from 'react-icons/bi';
+import { ButtonIcon } from 'shared/components/ButtonIcon';
+import { ListItem } from 'shared/components/List';
 
 export type TagListViewItemProps = {
   tag: Tag;
@@ -14,58 +12,34 @@ export type TagListViewItemProps = {
   onDelete: () => void;
 };
 
-export const TagListViewItem: FC<TagListViewItemProps> = props => {
+export const TagListViewItem = (props: TagListViewItemProps) => {
   return (
-    <ListItem
-      css={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
-      key={props.tag.id}
-    >
-      <Box>{props.tag.name}</Box>
-      <Box
-        css={{
-          display: 'flex',
-          gap: '$4',
-          alignItems: 'center',
-        }}
-      >
-        <Button
-          variant="icon"
-          size="md"
-          color="transparent"
-          aria-label="Edit tag"
-          onClick={() => props.onEdit()}
-        >
-          <BiPencil title="Edit tag" />
-        </Button>
-
-        <Button
-          variant="icon"
-          size="md"
-          color="transparent"
-          aria-label={props.tag.archived ? 'Restore' : 'Archive'}
-          onClick={() => props.onArchive(!props.tag.archived)}
-          disabled={props.updateTagStatus === 'loading'}
-        >
-          <BiArchive title={props.tag.archived ? 'Unarchive' : 'Archive'} />
-        </Button>
+    <ListItem className="align-center flex justify-between" key={props.tag.id}>
+      <div>{props.tag.name}</div>
+      <div className="align-center flex gap-4">
+        <ButtonIcon
+          icon={
+            <BiPencil
+              title="Edit tag"
+              onClick={() => {
+                props.onEdit();
+              }}
+            />
+          }
+        />
+        <ButtonIcon
+          icon={
+            <BiArchive title={props.tag.archived ? 'Unarchive' : 'Archive'} />
+          }
+          onClick={() => {
+            props.onArchive(!props.tag.archived);
+          }}
+        />
 
         {props.tag.archived && (
-          <Button
-            variant="icon"
-            size="md"
-            color="transparent"
-            aria-label="Delete"
-            onClick={() => props.onDelete()}
-            disabled={props.deleteTagStatus === 'loading'}
-          >
-            <BiTrash title="Delete" />
-          </Button>
+          <ButtonIcon icon={<BiTrash />} variant="transparent" />
         )}
-      </Box>
+      </div>
     </ListItem>
   );
 };

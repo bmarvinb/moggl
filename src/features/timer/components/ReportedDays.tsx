@@ -1,7 +1,5 @@
 import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable';
 import { InactiveTimeEntry } from 'features/timer/models/time-entry';
-import React from 'react';
-import { Box } from 'shared/components/Box';
 
 export type ReportedDay = {
   id: string;
@@ -14,13 +12,9 @@ export type ReportedDaysProps = {
   reportedDays: ReportedDay[];
 };
 
-export const ReportedDays: React.FC<ReportedDaysProps> = props => {
+export const ReportedDays = (props: ReportedDaysProps) => {
   return (
-    <Box
-      css={{
-        color: '$neutral9',
-      }}
-    >
+    <>
       {props.reportedDays.map(
         ({ id, date, reportedDuration, data: timeEntries }) => (
           <TimeEntriesTable
@@ -31,6 +25,6 @@ export const ReportedDays: React.FC<ReportedDaysProps> = props => {
           />
         ),
       )}
-    </Box>
+    </>
   );
 };

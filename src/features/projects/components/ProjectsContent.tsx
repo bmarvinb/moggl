@@ -1,61 +1,41 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { Box } from 'shared/components/Box';
+import { AddProjectDialog } from 'features/projects/components/AddProjectDialog';
+import { ProjectForm } from 'features/projects/components/ProjectForm';
+import { Projects } from 'features/projects/models/projects';
+import React from 'react';
 import { Button } from 'shared/components/Button';
-import { Card } from 'shared/components/Card';
+import { Card } from 'shared/components/Card/Card';
 import { Container } from 'shared/components/Container';
 import { Dialog } from 'shared/components/Dialog';
 import { Title } from 'shared/components/Title';
-import { AddProjectDialog } from 'features/projects/components/AddProjectDialog';
-import { Projects } from 'features/projects/models/projects';
-import { FC, useState } from 'react';
 
 export type ProjectsContentProps = {
   projects: Projects;
 };
 
-export const ProjectsContent: FC<ProjectsContentProps> = props => {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const queryClient = useQueryClient();
+export const ProjectsContent = (props: ProjectsContentProps) => {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
 
   const onProjectAdded = () => {
     setDialogOpen(false);
-    queryClient.invalidateQueries(['projects']);
   };
 
   return (
-    <Container
-      css={{
-        padding: '$10',
-      }}
-    >
-      <Box
-        css={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
-          marginBottom: '$8',
-        }}
-      >
-        <Title as="h1">Projects</Title>
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <Button color="primary" onClick={() => setDialogOpen(true)}>
-            Add new
-          </Button>
-          <AddProjectDialog onProjectAdded={onProjectAdded} />
-        </Dialog>
-      </Box>
-      <Card
-        css={{
-          padding: '$6 $8',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
+    <Container className="p-10">
+      <div className="mb-8 flex justify-between align-baseline">
+        <Title>Projects</Title>
+        <Button onClick={() => setDialogOpen(true)}>Add new</Button>
+      </div>
+      <AddProjectDialog
+        isOpen={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+      />
+      <Card className="flex flex-col py-6 px-8">
         {props.projects.map(project => {
           return (
-            <Box key={project.id}>
+            <div key={project.id}>
               {project.id} - {project.name}
-            </Box>
+            </div>
           );
         })}
       </Card>

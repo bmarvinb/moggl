@@ -1,9 +1,14 @@
 import { useMachine } from '@xstate/react';
-import { Box } from 'shared/components/Box';
-import { Menu, MenuItem } from 'shared/components/Menu';
-import { ProfileInfo, ProfileInfoData } from 'shared/components/ProfileInfo';
-import { Drawer } from 'layout/Drawer';
-import { Navbar } from 'layout/Navbar';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+} from 'layout/components/NavigationMenu';
+import {
+  NavigationMenuUserProfile,
+  Profile,
+} from 'layout/components/NavigationMenuUserProfile';
+import { Drawer } from 'layout/components/Drawer';
+import { Navbar } from 'layout/components/Navbar';
 import {
   drawerMachine,
   DrawerMode,
@@ -17,7 +22,7 @@ import { TimerPage } from 'pages/TimerPage';
 import { BiFolder, BiGroup, BiTag, BiTimer } from 'react-icons/bi';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-const menuItems: MenuItem[] = [
+const menuItems: NavigationMenuItem[] = [
   {
     route: 'timer',
     title: 'Timer',
@@ -45,27 +50,15 @@ export const AuthenticatedApp = () => {
   const currentUser = useCurrentUser();
   const temporaryMode = state.context.mode === DrawerMode.Temporary;
   const open = state.matches(DrawerState.Open);
-  const profileInfo: ProfileInfoData = {
+  const profileInfo: Profile = {
     email: currentUser.email,
     name: currentUser.name,
     profilePicture: currentUser.profilePicture,
   };
 
   return (
-    <Box
-      css={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        background: '$neutral1',
-      }}
-    >
-      <Box
-        css={{
-          display: 'flex',
-          height: '100%',
-        }}
-      >
+    <div className="flex h-full flex-col bg-neutral-100">
+      <div className="flex h-full">
         {state.context.mode && (
           <Drawer
             variant={temporaryMode ? 'temporary' : 'permanent'}
@@ -73,25 +66,19 @@ export const AuthenticatedApp = () => {
             open={open}
           >
             <>
-              <Menu
+              <NavigationMenu
                 items={menuItems}
                 open={open}
                 onMenuItemClicked={() => send('CLOSE')}
               />
-              <ProfileInfo open={open} profileInfo={profileInfo}></ProfileInfo>
+              <NavigationMenuUserProfile
+                open={open}
+                data={profileInfo}
+              ></NavigationMenuUserProfile>
             </>
           </Drawer>
         )}
-        <Box
-          as="main"
-          css={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-            maxHeight: '100vh',
-            overflowY: 'scroll',
-          }}
-        >
+        <main className="flex max-h-screen flex-1 flex-col overflow-y-scroll">
           {temporaryMode && <Navbar onMenuClicked={() => send('TOGGLE')} />}
           <Routes>
             <Route path="/timer" element={<TimerPage />} />
@@ -100,9 +87,9 @@ export const AuthenticatedApp = () => {
             <Route path="/tags" element={<TagsPage />} />
             <Route path="/login" element={<Navigate replace to="/" />} />
           </Routes>
-        </Box>
-      </Box>
-    </Box>
+        </main>
+      </div>
+    </div>
   );
 };
 

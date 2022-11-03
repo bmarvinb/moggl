@@ -9,11 +9,11 @@ export const tagsRequestOptionsSchema = z.object({
 
 export type TagsSearchCriteria = z.infer<typeof tagsRequestOptionsSchema>;
 
-export type AddTagRequestData = {
+export type AddTagDTO = {
   name: string;
 };
 
-export type UpdateTagRequestData = { name: string; archived?: boolean };
+export type UpdateTagDTO = { name: string; archived?: boolean };
 
 export const tagSchema = z
   .object({

@@ -1,37 +1,28 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box } from 'shared/components/Box';
-import { Button } from 'shared/components/Button';
-import { FieldError } from 'shared/components/FieldError';
-import { FormError } from 'shared/components/FormError';
-import { FormField } from 'shared/components/FormField';
-import { Input } from 'shared/components/Input';
-import { Label } from 'shared/components/Label';
-import { DialogMode } from 'layout/models/dialog-mode';
-import {
-  AddTagRequestData,
-  Tag,
-  UpdateTagRequestData,
-} from 'features/tags/models/tags';
-import { FC } from 'react';
+import { AddTagDTO, Tag, UpdateTagDTO } from 'features/tags/models/tags';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button } from 'shared/components/Button';
+import { FieldMessage } from 'shared/components/FieldMessage';
+import { TextField } from 'shared/components/TextField';
+import { DialogMode } from 'shared/models/dialog-mode';
 import { z } from 'zod';
 
 export type AddTagData = {
   operation: DialogMode.Add;
-  onSubmit: (data: AddTagRequestData) => void;
+  onSubmit: (data: AddTagDTO) => void;
 };
 
 export type UpdateTagData = {
   operation: DialogMode.Update;
   tag: Tag;
-  onSubmit: (data: UpdateTagRequestData) => void;
+  onSubmit: (data: UpdateTagDTO) => void;
 };
 
 type TagData = AddTagData | UpdateTagData;
 
 export type TagFormProps = TagData & {
-  status: string;
-  error: string | undefined;
+  loading: boolean;
+  error?: string;
 };
 
 const submitTitle: Record<DialogMode, string> = {
@@ -45,7 +36,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export const TagForm: FC<TagFormProps> = props => {
+export const TagForm = (props: TagFormProps) => {
   const { register, watch, handleSubmit, formState } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -53,53 +44,42 @@ export const TagForm: FC<TagFormProps> = props => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = data =>
+  const onSubmit: SubmitHandler<FormValues> = data => {
     props.onSubmit(
       props.operation === DialogMode.Update ? { ...props.tag, ...data } : data,
     );
-
-  const notEditedName =
-    props.operation === DialogMode.Update && props.tag.name === watch('name');
-
-  const submitDisabled = props.status === 'loading' || notEditedName;
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Box
-        css={{
-          marginBottom: '$10',
-        }}
-      >
-        <FormField>
-          <Label htmlFor="name">Name:</Label>
-          <Input
-            {...register('name')}
-            aria-invalid={formState.errors.name?.message ? 'true' : 'false'}
-            id="name"
-            size="md"
-            placeholder="Tag name"
-          />
-          <FieldError>{formState.errors.name?.message}</FieldError>
-        </FormField>
-        {props.status === 'error' && <FormError>{props.error}</FormError>}
-      </Box>
+      <div className="mb-6">
+        <TextField
+          {...register('name')}
+          id="tag-name"
+          label="Name"
+          placeholder="Tag name"
+          message={formState.errors.name?.message}
+          tone={'critical'}
+        />
 
-      <Box
-        css={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '$4',
-        }}
+        {props.error && (
+          <FieldMessage
+            id="tag-form-error"
+            message={props.error}
+            tone="critical"
+          />
+        )}
+      </div>
+
+      <Button
+        type="submit"
+        className="w-full justify-center"
+        variant="primary"
+        loading={props.loading}
+        disabled={props.loading}
       >
-        <Button
-          size="md"
-          type="submit"
-          color="primary"
-          disabled={submitDisabled}
-        >
-          {submitTitle[props.operation]}
-        </Button>
-      </Box>
+        {submitTitle[props.operation]}
+      </Button>
     </form>
   );
 };

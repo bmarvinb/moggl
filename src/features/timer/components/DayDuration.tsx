@@ -1,27 +1,16 @@
-import { Box } from 'shared/components/Box';
 import { useActiveDuration } from 'features/timer/hooks/activeDuration';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
-import React from 'react';
 
 type DayDurationProps = {
   isToday: boolean;
   reportedTime: number;
 };
 
-export const DayDuration: React.FC<DayDurationProps> = ({
-  reportedTime,
-  isToday,
-}) => {
+export const DayDuration = ({ reportedTime, isToday }: DayDurationProps) => {
   const duration = useActiveDuration(reportedTime);
   return (
-    <Box
-      css={{
-        fontWeight: 400,
-        color: '$neutral9',
-        minWidth: '4rem',
-      }}
-    >
+    <div className="font-normal text-neutral-800 dark:text-neutral-100">
       {formatDuration(isToday ? duration : reportedTime)}
-    </Box>
+    </div>
   );
 };

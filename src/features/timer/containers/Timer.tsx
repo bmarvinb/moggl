@@ -1,9 +1,7 @@
 import { useActor } from '@xstate/react';
-import { Box } from 'shared/components/Box';
-import { Input } from 'shared/components/Input';
 import { TimerControls } from 'features/timer/components/TimerControls';
-import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 import { TimerState } from 'features/timer/machines/TimerMachine';
+import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 
 export const Timer = () => {
   const service = useTimerMachine();
@@ -14,34 +12,10 @@ export const Timer = () => {
     state.matches(TimerState.Saving) || state.matches(TimerState.Discarding);
 
   return (
-    <Box
-      css={{
-        display: 'flex',
-        width: '100%',
-        flexDirection: 'column',
-        padding: '0.75rem 1rem',
-        boxShadow: '$md',
-        background: '$timerBg',
-        position: 'relative',
-        zIndex: 1,
-
-        '@md': {
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        },
-      }}
-    >
-      <Box
-        css={{
-          flex: 1,
-        }}
-      >
-        <Input
-          variant={'inline'}
-          css={{
-            width: '100%',
-          }}
+    <div className="relative flex w-full flex-col  bg-neutral-50 py-3 px-4 shadow-md dark:bg-neutral-dark-50 md:flex-row md:items-center">
+      <div className="flex-1">
+        <input
+          className="w-full bg-transparent py-3 placeholder-neutral-600 focus:outline-none dark:placeholder-neutral-dark-600"
           placeholder={
             state.context.mode === 'Timer'
               ? 'What are you working on?'
@@ -60,8 +34,8 @@ export const Timer = () => {
             })
           }
         />
-      </Box>
-      <Box>
+      </div>
+      <div>
         <TimerControls
           duration={state.context.duration}
           creating={isCreating}
@@ -86,7 +60,7 @@ export const Timer = () => {
             console.log('time entry clicked');
           }}
         />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };

@@ -1,5 +1,10 @@
 {
   "root": true,
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
@@ -20,22 +25,5 @@
     "@typescript-eslint/no-unused-vars": "off",
     "complexity": ["warn", 10]
   },
-  "overrides": [
-    {
-      "files": [
-        "**/*.stories.*"
-      ],
-      "rules": {
-        "import/no-anonymous-default-export": "off"
-      }
-    },
-    {
-      "files": [
-        "**/*.stories.*"
-      ],
-      "rules": {
-        "import/no-anonymous-default-export": "off"
-      }
-    }
-  ]
+  "overrides": []
 }

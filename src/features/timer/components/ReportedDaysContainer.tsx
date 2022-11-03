@@ -1,56 +1,34 @@
-import { Box } from 'shared/components/Box';
-import { useWindowSize } from 'shared/hooks/windowSize';
 import React from 'react';
+import { useWindowSize } from 'shared/hooks/windowSize';
 
 export type ReportedDaysContainerProps = {
   children: React.ReactNode;
 };
 
-export const ReportedDaysContainer: React.FC<ReportedDaysContainerProps> =
-  props => {
-    const [contentTop, setContentTop] = React.useState(0);
-    const contentRef = React.useRef<HTMLDivElement>(null);
-    const size = useWindowSize();
+export const ReportedDaysContainer = (props: ReportedDaysContainerProps) => {
+  const [contentTop, setContentTop] = React.useState(0);
+  const contentRef = React.useRef<HTMLDivElement>(null);
+  const size = useWindowSize();
 
-    React.useLayoutEffect(() => {
-      if (!contentRef.current) {
-        return;
-      }
-      const { y } = contentRef.current.getBoundingClientRect();
-      setContentTop(y);
-    }, [contentRef, size.width]);
+  React.useLayoutEffect(() => {
+    if (!contentRef.current) {
+      return;
+    }
+    const { y } = contentRef.current.getBoundingClientRect();
+    setContentTop(y);
+  }, [contentRef, size.width]);
 
-    return (
-      <Box
-        css={{
-          display: 'flex',
-          flex: 1,
-          flexDirection: 'column',
-          width: '100%',
-        }}
+  return (
+    <div className="flex w-full flex-1 flex-col">
+      <div
+        className="flex flex-1 flex-col "
+        style={{ maxHeight: `calc(100vh - ${contentTop}px)` }}
+        ref={contentRef}
       >
-        <Box
-          ref={contentRef}
-          css={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-            maxHeight: `calc(100vh - ${contentTop + 1}px)`,
-          }}
-        >
-          <Box
-            css={{
-              padding: '1rem',
-              overflow: 'scroll',
-              background: '$neutral2',
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-            }}
-          >
-            {props.children}
-          </Box>
-        </Box>
-      </Box>
-    );
-  };
+        <div className="flex flex-1 flex-col overflow-scroll bg-neutral-100 px-5 py-6 dark:bg-neutral-800">
+          {props.children}
+        </div>
+      </div>
+    </div>
+  );
+};

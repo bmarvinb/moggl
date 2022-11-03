@@ -1,18 +1,12 @@
-import { styled } from 'theme/config';
-import { FC } from 'react';
+export const FullPageErrorFallback = (props: { error: unknown }) => {
+  console.error('Error', props.error);
 
-const Container = styled('div', {
-  background: '$neutral1',
-  color: '$red5',
-  height: '100vh',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-});
-
-export const FullPageErrorFallback: FC<{ error: unknown }> = () => (
-  <Container role="alert">
-    <p>There&apos;s a problem. Try refreshing the app.</p>
-  </Container>
-);
+  return (
+    <div
+      className="flex flex-col items-center justify-center bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-200"
+      role="alert"
+    >
+      <p>There&apos;s a problem. Try refreshing the app.</p>
+    </div>
+  );
+};

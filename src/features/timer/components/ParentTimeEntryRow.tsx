@@ -1,4 +1,3 @@
-import { Box } from 'shared/components/Box';
 import {
   ParentTimeEntry,
   TimeEntryRowViewModel,
@@ -16,7 +15,7 @@ export type ParentTimeEntryRowProps = {
   onChildSelectionChange: (id: string) => void;
 };
 
-export const ParentTimeEntryRow: React.FC<ParentTimeEntryRowProps> = props => {
+export const ParentTimeEntryRow = (props: ParentTimeEntryRowProps) => {
   const [expanded, toggleExpanded] = React.useReducer(state => !state, false);
 
   const childrenIds = props.timeEntry.children.map(({ data }) => data.id);
@@ -35,7 +34,7 @@ export const ParentTimeEntryRow: React.FC<ParentTimeEntryRowProps> = props => {
 
   return (
     <>
-      <Box data-testid={`${props.timeEntry.data.id}-parent`}>
+      <div data-testid={`${props.timeEntry.data.id}-parent`}>
         <TimeEntryViewRow
           timeEntry={props.timeEntry}
           edit={props.edit}
@@ -44,8 +43,8 @@ export const ParentTimeEntryRow: React.FC<ParentTimeEntryRowProps> = props => {
           onPlayClicked={props.onPlayClicked}
           onToggleChildrenVisibility={toggleExpanded}
         />
-      </Box>
-      <Box
+      </div>
+      <div
         data-testid={`${props.timeEntry.data.id}-children`}
         hidden={!expanded}
       >
@@ -59,7 +58,7 @@ export const ParentTimeEntryRow: React.FC<ParentTimeEntryRowProps> = props => {
             onSelectionChange={props.onChildSelectionChange}
           />
         ))}
-      </Box>
+      </div>
     </>
   );
 };

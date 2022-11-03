@@ -1,20 +1,9 @@
-import { styled } from 'theme/config';
-import { Spinner } from './Spinner';
-
-const SpinnerContainer = styled('div', {
-  fontSize: '4rem',
-  height: '100vh',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  background: '$neutral1',
-});
+import { Spinner } from './Spinner/Spinner';
 
 export const FullPageSpinner = () => {
   return (
-    <SpinnerContainer>
+    <div className="flex flex-col justify-center bg-neutral-100 align-middle dark:bg-neutral-dark-100">
       <Spinner />
-    </SpinnerContainer>
+    </div>
   );
 };

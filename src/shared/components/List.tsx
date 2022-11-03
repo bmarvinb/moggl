@@ -1,14 +1,24 @@
-import { Card } from 'shared/components/Card';
-import { styled } from 'theme/config';
+import React from 'react';
+import { Card } from 'shared/components/Card/Card';
 
-export const List = styled(Card, {
-  display: 'flex',
-  flexDirection: 'column',
-});
+export type ListProps = {
+  className?: string;
+  children?: React.ReactNode;
+};
 
-export const ListItem = styled('div', {
-  padding: '$6 $8',
-  '&:not(:last-child)': {
-    borderBottom: '1px solid $neutral2',
-  },
-});
+export const List = (props: ListProps) => (
+  <Card className="flex flex-col">{props?.children}</Card>
+);
+
+export type ListItemProps = {
+  className?: string;
+  children?: React.ReactNode;
+};
+
+export const ListItem = (props: ListItemProps) => (
+  <div
+    className={`border-b border-neutral-100 py-6 px-8 last:border-b-0 dark:border-neutral-800 ${props.className}`}
+  >
+    {props?.children}
+  </div>
+);

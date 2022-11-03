@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'index.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AppProviders>
-      <App />
+      <div className="h-full text-neutral-900 dark:text-neutral-dark-900">
+        <App />
+      </div>
     </AppProviders>
   </React.StrictMode>,
 );

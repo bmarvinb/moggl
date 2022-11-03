@@ -1,13 +1,13 @@
 import { client } from 'shared/utils/api-client';
 import { createURLSearchParams } from 'shared/utils/url-params';
 import {
-  AddTagRequestData,
+  AddTagDTO,
   Tag,
   Tags,
   tagSchema,
   TagsSearchCriteria,
   tagsSchema,
-  UpdateTagRequestData,
+  UpdateTagDTO,
 } from 'features/tags/models/tags';
 
 export function getAllTags(
@@ -20,7 +20,7 @@ export function getAllTags(
   });
 }
 
-export function addTag(workspaceId: string, data: AddTagRequestData) {
+export function addTag(workspaceId: string, data: AddTagDTO) {
   return client<Tag>(`workspaces/${workspaceId}/tags`, {
     schema: tagSchema,
     data,
@@ -30,7 +30,7 @@ export function addTag(workspaceId: string, data: AddTagRequestData) {
 export function updateTag(
   workspaceId: string,
   tagId: string,
-  data: UpdateTagRequestData,
+  data: UpdateTagDTO,
 ) {
   return client<Tag>(`workspaces/${workspaceId}/tags/${tagId}`, {
     method: 'PUT',

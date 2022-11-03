@@ -3,14 +3,14 @@ import { UpdateTagDialog } from 'features/tags/components/UpdateTagDialog';
 import { useDeleteTag } from 'features/tags/hooks/deleteTag';
 import { useUpdateTag } from 'features/tags/hooks/updateTag';
 import { Tag } from 'features/tags/models/tags';
-import { FC, useState } from 'react';
+import React from 'react';
 
 export type TagListItemProps = {
   tag: Tag;
 };
 
-export const TagListItem: FC<TagListItemProps> = props => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+export const TagListItem = (props: TagListItemProps) => {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const { mutate: updateTag, status: updateTagStatus } = useUpdateTag(
     props.tag.id,
   );

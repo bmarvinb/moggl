@@ -1,15 +1,15 @@
-import { Box } from 'shared/components/Box';
-import { Container } from 'shared/components/Container';
-import { List } from 'shared/components/List';
 import { AddTagDialog } from 'features/tags/components/AddTagDialog';
-import { TagsContentTitle } from 'features/tags/components/TagsContentTitle';
 import {
   TagsFilter,
   TagsFilterCriteria,
 } from 'features/tags/components/TagsFilter';
 import { TagListItem } from 'features/tags/containers/TagListItem';
 import { Tags } from 'features/tags/models/tags';
-import { FC, useState } from 'react';
+import React from 'react';
+import { Button } from 'shared/components/Button/Button';
+import { Container } from 'shared/components/Container';
+import { List } from 'shared/components/List';
+import { Title } from 'shared/components/Title';
 
 export type TagsContentProps = {
   fetching: boolean;
@@ -18,20 +18,27 @@ export type TagsContentProps = {
   onFilterChange: (changes: TagsFilterCriteria) => void;
 };
 
-export const TagsContent: FC<TagsContentProps> = props => {
-  const [addDialogOpen, setAddDialogOpen] = useState(false);
+export const TagsContent = (props: TagsContentProps) => {
+  const [addDialogOpen, setAddDialogOpen] = React.useState(false);
 
   const onTagAdded = () => {
     setAddDialogOpen(false);
   };
 
   return (
-    <Container
-      css={{
-        padding: '$8',
-      }}
-    >
-      <TagsContentTitle addNewTag={() => setAddDialogOpen(true)} />
+    <Container className="p-8">
+      <div className="mb-5 flex items-center justify-between">
+        <Title>Tags</Title>
+        <Button
+          variant="primary"
+          onClick={() => {
+            console.log('click');
+            setAddDialogOpen(true);
+          }}
+        >
+          Add new
+        </Button>
+      </div>
       <TagsFilter
         criteria={props.searchCriteria}
         onChange={props.onFilterChange}
@@ -44,23 +51,18 @@ export const TagsContent: FC<TagsContentProps> = props => {
           ))}
         </List>
       ) : (
-        <Box
-          css={{
-            padding: '$8',
-            textAlign: 'center',
-            fontSize: '$lg',
-            color: '$neutral7',
-          }}
-        >
+        <div className="p-4 text-center text-lg text-neutral-700 dark:text-neutral-100">
           {props.searchCriteria.name
             ? `No result found for "${props.searchCriteria.name}"`
             : 'Nothing found'}
-        </Box>
+        </div>
       )}
 
       <AddTagDialog
         open={addDialogOpen}
-        onOpenChange={setAddDialogOpen}
+        onOpenChange={() => {
+          setAddDialogOpen(false);
+        }}
         onSuccess={onTagAdded}
       />
     </Container>

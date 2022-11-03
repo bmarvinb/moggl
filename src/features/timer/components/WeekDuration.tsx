@@ -1,37 +1,22 @@
-import { Box } from 'shared/components/Box';
-import { Title } from 'shared/components/Title';
-import { styled } from 'theme/config';
 import { useActiveDuration } from 'features/timer/hooks/activeDuration';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
-import React from 'react';
 
 export type WeekDurationProps = {
   weekDuration: number;
 };
 
-const TotalTime = styled('div', {
-  display: 'inline-flex',
-  fontSize: '$lg',
-  fontWeight: '$normal',
-  lineHeight: '$lg',
-  color: '$neutral9',
-  marginLeft: '$4',
-});
-
-export const WeekDuration: React.FC<WeekDurationProps> = ({ weekDuration }) => {
+export const WeekDuration = ({ weekDuration }: WeekDurationProps) => {
   const duration = useActiveDuration(weekDuration);
   return (
-    <Box
-      css={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: '$8',
-      }}
-    >
-      <Title as="h1">
-        This week
-        <TotalTime>{formatDuration(duration)}</TotalTime>
-      </Title>
-    </Box>
+    <div className="mb-4 flex place-content-between">
+      <div className="flex">
+        <h1 className="text-xl font-bold text-neutral-900 dark:text-neutral-dark-900">
+          This week
+        </h1>
+        <div className="ml-2 inline-flex text-xl font-normal text-neutral-900 dark:text-neutral-50">
+          {formatDuration(duration)}
+        </div>
+      </div>
+    </div>
   );
 };

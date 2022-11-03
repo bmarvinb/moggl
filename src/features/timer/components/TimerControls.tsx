@@ -1,9 +1,5 @@
-import { Box } from 'shared/components/Box';
-import { Button } from 'shared/components/Button';
-import { styled } from 'theme/config';
 import { TimerMode } from 'features/timer/machines/TimerMachine';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
-import React from 'react';
 import {
   BiBriefcase,
   BiDollar,
@@ -13,6 +9,7 @@ import {
   BiPurchaseTag,
   BiStop,
 } from 'react-icons/bi';
+import { ButtonIcon } from 'shared/components/ButtonIcon';
 
 export type TimerControlsProps = {
   duration: number;
@@ -29,187 +26,91 @@ export type TimerControlsProps = {
   onTimerModeChanged: (mode: TimerMode) => void;
 };
 
-const ToggleMode = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  borderRadius: '$md',
-  justifyContent: 'center',
-  padding: 0,
-  minWidth: '1.5rem',
-});
-
-export const TimerControls: React.FC<TimerControlsProps> = props => {
+export const TimerControls = (props: TimerControlsProps) => {
   const isTimerMode = props.mode === 'Timer';
   return (
     <div>
-      <Box
-        css={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '100%',
-          minHeight: '2.5rem',
-        }}
-      >
-        <Box
-          css={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr',
-            columnGap: '$4',
-            position: 'relative',
-          }}
-        >
-          <Button
-            variant="icon"
-            color="transparent"
-            size={'lg'}
-            aria-label="Select project"
-          >
-            <BiBriefcase title="Select project" />
-          </Button>
-          <Button
-            variant="icon"
-            color="transparent"
-            size={'lg'}
-            aria-label="Select tags"
-          >
-            <BiPurchaseTag title="Select tags" />
-          </Button>
-          <Button
-            variant="icon"
-            color="transparent"
-            size={'lg'}
-            aria-label="Change billable status"
-            css={{
-              color: props.billable ? '$primary5' : '$neutral8',
-            }}
-            onClick={props.onBillableStatusChanged}
-          >
-            <BiDollar title="Change billable status" />
-          </Button>
-        </Box>
+      <div className="flex w-full items-center justify-between gap-4">
+        <div className="flex gap-2">
+          <ButtonIcon icon={<BiBriefcase title="Select project" />} />
+          <ButtonIcon icon={<BiPurchaseTag title="Select tags" />} />
+          <ButtonIcon icon={<BiDollar title="Change billable status" />} />
+        </div>
 
-        <Box
-          css={{
-            display: 'grid',
-            gridTemplateColumns: '1fr auto auto',
-            columnGap: '$6',
-            alignItems: 'center',
-            minHeight: '3rem',
-          }}
-        >
+        <div className="flex items-center">
           {isTimerMode ? (
-            <Box
-              css={{
-                fontWeight: 500,
-                fontSize: '$lg',
-                lineHeight: '$lg',
-                minWidth: '5rem',
-                textAlign: 'right',
-                color: '$neutral10',
-              }}
-            >
+            <div className="mr-3 min-w-[5rem] text-right text-lg font-semibold text-neutral-800 dark:text-neutral-dark-900">
               {formatDuration(props.duration)}
-            </Box>
+            </div>
           ) : (
             <div></div>
           )}
 
-          {isTimerMode ? (
-            <div>
-              {props.running || props.creating ? (
-                <Button
-                  color={'danger'}
-                  variant="icon"
-                  shape="rounded"
-                  size={'xl'}
-                  aria-label="Stop timer"
-                  title="Stop timer"
-                  onClick={props.onStopClicked}
-                  disabled={props.updating}
+          <div className="mr-3">
+            {isTimerMode ? (
+              <div>
+                {props.running || props.creating || props.updating ? (
+                  <button
+                    className="rounded-full bg-red-400 p-2 text-xl text-neutral-50 hover:bg-red-300 disabled:bg-red-300 dark:bg-red-dark-400 dark:hover:bg-red-dark-500 dark:disabled:bg-red-dark-300"
+                    aria-label="Stop timer"
+                    title="Stop timer"
+                    onClick={props.onStopClicked}
+                    disabled={props.updating || props.creating}
+                  >
+                    <BiStop />
+                  </button>
+                ) : (
+                  <button
+                    className="rounded-full bg-primary-400 p-2 text-xl text-neutral-50 hover:bg-primary-300 disabled:bg-primary-300 dark:bg-primary-dark-400 dark:hover:bg-primary-dark-500 dark:disabled:bg-primary-dark-300"
+                    aria-label="Start timer"
+                    title="Start timer"
+                    onClick={props.onStartClicked}
+                  >
+                    <BiPlay className="relative -right-0.5" />
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div>
+                <button
+                  className="rounded-full bg-primary-400 p-2 text-xl text-neutral-50 hover:bg-primary-300 dark:bg-primary-dark-400 dark:hover:bg-primary-dark-500"
+                  aria-label="Add time entry"
+                  title="Add time entry"
+                  onClick={props.onAddTimeEntryClicked}
                 >
-                  <BiStop />
-                </Button>
-              ) : (
-                <Button
-                  color="primary"
-                  variant="icon"
-                  shape="rounded"
-                  aria-label="Start timer"
-                  size={'xl'}
-                  title="Start timer"
-                  css={{
-                    svg: {
-                      position: 'relative',
-                      right: '-1px',
-                    },
-                  }}
-                  onClick={props.onStartClicked}
-                >
-                  <BiPlay />
-                </Button>
-              )}
-            </div>
-          ) : (
-            <div>
-              <Button
-                color="transparent"
-                size={'xl'}
-                aria-label="Add time entry"
-                title="Add time entry"
-                onClick={props.onAddTimeEntryClicked}
-              >
-                <BiPlus />
-              </Button>
-            </div>
-          )}
+                  <BiPlus />
+                </button>
+              </div>
+            )}
+          </div>
 
-          {props.running ? (
-            <Box>
-              <Button
-                css={{
-                  padding: '$4 $1',
-                  minWidth: '1.5rem',
-                }}
-                variant={'icon'}
-                color="transparent"
-                size={'lg'}
+          <div className="flex min-w-[1.5rem] items-center justify-center">
+            {props.running ? (
+              <button
                 disabled={props.creating || props.updating}
                 onClick={props.onDiscard}
               >
                 <BiDotsVertical></BiDotsVertical>
-              </Button>
-            </Box>
-          ) : (
-            <ToggleMode>
-              <Button
-                variant={'icon'}
-                color="transparent"
-                size={'sm'}
-                title="Timer mode"
-                css={{
-                  svg: {
-                    position: 'relative',
-                    right: '-1px',
-                  },
-                }}
-                onClick={() => props.onTimerModeChanged('Timer')}
-              >
-                <BiPlay />
-              </Button>
-              <Button
-                variant={'icon'}
-                color="transparent"
-                size={'sm'}
-                title="Manual mode"
-                onClick={() => props.onTimerModeChanged('Manual')}
-              >
-                <BiPlus />
-              </Button>
-            </ToggleMode>
-          )}
-        </Box>
-      </Box>
+              </button>
+            ) : (
+              <div className="flex flex-col justify-center rounded p-0">
+                <button
+                  title="Timer mode"
+                  onClick={() => props.onTimerModeChanged('Timer')}
+                >
+                  <BiPlay />
+                </button>
+                <button
+                  title="Manual mode"
+                  onClick={() => props.onTimerModeChanged('Manual')}
+                >
+                  <BiPlus />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,13 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box } from 'shared/components/Box';
-import { Button } from 'shared/components/Button';
-import { FieldError } from 'shared/components/FieldError';
-import { FormField } from 'shared/components/FormField';
-import { Input } from 'shared/components/Input';
-import { Label } from 'shared/components/Label';
 import { useAddProject } from 'features/projects/hooks/addProject';
-import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button } from 'shared/components/Button';
+import { TextField } from 'shared/components/TextField';
 import { z } from 'zod';
 
 export type AddProjectDialogProps = {
@@ -23,7 +18,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export const ProjectForm: FC<AddProjectDialogProps> = props => {
+export const ProjectForm = (props: AddProjectDialogProps) => {
   const {
     register,
     handleSubmit,
@@ -42,65 +37,43 @@ export const ProjectForm: FC<AddProjectDialogProps> = props => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Box
-        css={{
-          marginBottom: '$10',
-        }}
-      >
-        <FormField>
-          <Label htmlFor="project">Name:</Label>
-          <Input
-            {...register('name')}
-            aria-invalid={errors.name?.message ? 'true' : 'false'}
-            id="project"
-            size="md"
-            placeholder="Project name"
-          />
-          <FieldError>{errors.name?.message}</FieldError>
-        </FormField>
-        <FormField>
-          <Label htmlFor="clientId">Client:</Label>
-          <select {...register('clientId')} id="clientId"></select>
-        </FormField>
-        <FormField>
-          <Label htmlFor="color">Color:</Label>
-          <input {...register('color')} type="color" id="color" />
-        </FormField>
-        <FormField>
-          <Label htmlFor="isPublic">Visibility:</Label>
-          <Box id="isPublic" as="label" css={{ fontWeight: '$normal' }}>
-            <input {...register('isPublic')} type="checkbox" />
-            Public
-          </Box>
-        </FormField>
-        {status === 'error' && (
-          <Box
-            css={{
-              color: '$red5',
-            }}
-          >
-            Error occured
-          </Box>
-        )}
-      </Box>
+      <div className="mb-4">
+        <TextField
+          {...register('name')}
+          id="project-name"
+          label="Name"
+          placeholder="Project name"
+          message={errors.name?.message}
+          tone="critical"
+        />
 
-      <Box
-        css={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'end',
-          gap: '$4',
-        }}
-      >
-        <Button
-          size="md"
-          type="submit"
-          color="primary"
-          disabled={status === 'loading'}
-        >
+        <div>
+          <label htmlFor="clientId">Client:</label>
+          <select {...register('clientId')} id="clientId"></select>
+        </div>
+
+        <div>
+          <label htmlFor="color">Color:</label>
+          <input {...register('color')} type="color" id="color" />
+        </div>
+
+        <div>
+          <label htmlFor="public">Visibility:</label>
+          <label id="isPublic" className="font-normal">
+            <input {...register('isPublic')} id="public" type="checkbox" />
+            Public
+          </label>
+        </div>
+        {status === 'error' && (
+          <div className="text-red-500">Error occured</div>
+        )}
+      </div>
+
+      <div className="flex justify-end">
+        <Button type="submit" disabled={status === 'loading'}>
           Add
         </Button>
-      </Box>
+      </div>
     </form>
   );
 };

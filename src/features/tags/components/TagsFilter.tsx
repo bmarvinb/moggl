@@ -1,9 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box } from 'shared/components/Box';
-import { Card } from 'shared/components/Card';
-import { Input } from 'shared/components/Input';
-import { FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { Card } from 'shared/components/Card/Card';
+import { Input } from 'shared/components/Input';
 import { z } from 'zod';
 
 export type TagsFilter = {
@@ -23,7 +21,7 @@ export type TagsFilterProps = {
   onChange: (changes: TagsFilterCriteria) => void;
 };
 
-export const TagsFilter: FC<TagsFilterProps> = props => {
+export const TagsFilter = (props: TagsFilterProps) => {
   const { register, getValues } = useForm<TagsFilterCriteria>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -42,33 +40,19 @@ export const TagsFilter: FC<TagsFilterProps> = props => {
   };
 
   return (
-    <Card
-      css={{
-        marginBottom: '$6',
-      }}
-    >
+    <Card className="mb-6">
       <form onSubmit={e => e.preventDefault()} onChange={onFilterChange}>
-        <Box
-          css={{
-            display: 'flex',
-            padding: '$6 $8',
-            gap: '$8',
-          }}
-        >
-          <Box>
+        <div className="flex gap-8 px-6 py-8">
+          <div>
             <select {...register('archived')} name="archived">
               <option value="false">Show active</option>
               <option value="true">Show archived</option>
             </select>
-          </Box>
-          <Box
-            css={{
-              flex: 1,
-            }}
-          >
+          </div>
+          <div className="flex-1">
             <Input {...register('name')} name="name" placeholder="Tag name" />
-          </Box>
-        </Box>
+          </div>
+        </div>
       </form>
     </Card>
   );

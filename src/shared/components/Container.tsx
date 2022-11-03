@@ -1,8 +1,14 @@
-import { styled } from 'theme/config';
+import React from 'react';
 
-export const Container = styled('div', {
-  background: '$neutral2',
-  display: 'flex',
-  flexDirection: 'column',
-  flex: 1,
-});
+export type ContainerProps = {
+  children?: React.ReactNode;
+  className?: string;
+};
+
+export const Container = (props: ContainerProps) => (
+  <div
+    className={`flex flex-1 flex-col bg-neutral-100 dark:bg-neutral-700 ${props.className}`}
+  >
+    {props.children}
+  </div>
+);
