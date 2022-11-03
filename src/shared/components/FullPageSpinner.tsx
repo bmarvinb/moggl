@@ -1,9 +1,13 @@
+import { Transition } from '@headlessui/react';
 import { Spinner } from './Spinner/Spinner';
 
 export const FullPageSpinner = () => {
   return (
-    <div className="flex flex-col justify-center bg-neutral-100 align-middle dark:bg-neutral-dark-100">
-      <Spinner />
+    <div className="flex h-screen flex-col items-center justify-center bg-neutral-100 dark:bg-neutral-dark-100">
+      <Spinner
+        size="xl"
+        className="dark:text-primary-neutral-400 text-neutral-400"
+      />
     </div>
   );
 };

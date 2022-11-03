@@ -1,5 +1,5 @@
 import { Dialog as HeadlessDialog, Transition } from '@headlessui/react';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 
 export type DialogProps = {
   isOpen: boolean;

@@ -89,6 +89,7 @@ export const TimerControls = (props: TimerControlsProps) => {
               <button
                 disabled={props.creating || props.updating}
                 onClick={props.onDiscard}
+                title="Discard"
               >
                 <BiDotsVertical></BiDotsVertical>
               </button>
