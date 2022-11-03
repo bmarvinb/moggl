@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React from 'react';
 
 export type TitleProps = {
@@ -6,7 +7,7 @@ export type TitleProps = {
 };
 
 export const Title = (props: TitleProps) => (
-  <h1 className={`m-0 p-0 text-xl font-bold ${props.className}`}>
+  <h1 className={clsx('m-0 p-0 text-xl font-bold', props.className)}>
     {props.children}
   </h1>
 );

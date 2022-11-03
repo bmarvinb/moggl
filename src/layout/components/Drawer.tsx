@@ -1,60 +1,87 @@
-import * as DialogPrimitive from '@radix-ui/react-dialog';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { assertNever } from 'shared/utils/assert';
-
-type DialogContentPrimitiveProps = React.ComponentProps<
-  typeof DialogPrimitive.Content
->;
-type DrawerContentProps = DialogContentPrimitiveProps;
-
-const DrawerContent = (props: DrawerContentProps) => (
-  <DialogPrimitive.Portal>
-    <DialogPrimitive.Overlay className="fixed top-0 left-0 bottom-0 right-0 z-10 bg-black/50" />
-    <DialogPrimitive.Content className="fixed top-0 left-0 bottom-0 z-20 flex bg-primary-400 duration-200 ease-in-out  dark:bg-primary-dark-400">
-      {props.children}
-    </DialogPrimitive.Content>
-  </DialogPrimitive.Portal>
-);
+import { Dialog, Transition } from '@headlessui/react';
 
 export type DrawerProps = {
-  children?: React.ReactNode;
+  children: React.ReactNode;
   open: boolean;
   variant: 'temporary' | 'permanent';
   onOpenChange: () => void;
+};
+
+const TemporaryDrawer = (props: Omit<DrawerProps, 'variant'>) => {
+  return (
+    <Transition appear show={props.open} as={Fragment}>
+      <Dialog as="div" className="z-10" onClose={() => props.onOpenChange()}>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black bg-opacity-25" />
+        </Transition.Child>
+
+        <div className="inset fixed top-0 ">
+          <div className="flex h-screen items-center justify-center  text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-200"
+              enterFrom="opacity-0 -translate-x-8"
+              enterTo="opacity-100 translate-x-0"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-x-0"
+              leaveTo="opacity-0 -translate-x-8"
+            >
+              <Dialog.Panel className="flex  h-full  transform flex-col overflow-hidden  bg-primary-400 text-left align-middle shadow-xl transition-all dark:bg-primary-dark-400">
+                {props.children}
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition>
+  );
+};
+
+const PermanentDrawer = (props: Omit<DrawerProps, 'variant'>) => {
+  return (
+    <div
+      className={`relative z-20 flex h-full flex-col overflow-hidden bg-primary-400 shadow-inner duration-200 ease-in-out dark:bg-primary-dark-400 ${
+        props.open ? 'w-56' : 'w-16'
+      }`}
+    >
+      <div className="px-4 py-3">
+        <button
+          className={`flex items-center p-2 text-neutral-50 dark:text-neutral-dark-900`}
+          onClick={props.onOpenChange}
+          title="Open sidebar"
+        >
+          <BiMenuAltLeft className="relative" />
+        </button>
+      </div>
+      {props.children}
+    </div>
+  );
 };
 
 export const Drawer = (props: DrawerProps) => {
   switch (props.variant) {
     case 'temporary':
       return (
-        <DialogPrimitive.Root
-          open={props.open}
-          onOpenChange={props.onOpenChange}
-        >
-          <DrawerContent>
-            <div className="flex w-full flex-col">{props.children}</div>
-          </DrawerContent>
-        </DialogPrimitive.Root>
+        <TemporaryDrawer open={props.open} onOpenChange={props.onOpenChange}>
+          {props.children}
+        </TemporaryDrawer>
       );
     case 'permanent':
       return (
-        <div
-          className={`relative z-20 flex h-full flex-col overflow-hidden bg-primary-400 shadow-inner duration-200 ease-in-out dark:bg-primary-dark-400 ${
-            props.open ? 'w-56' : 'w-16'
-          }`}
-        >
-          <div className="px-4 py-3">
-            <button
-              className={`flex items-center p-2 text-neutral-50 dark:text-neutral-dark-900`}
-              onClick={props.onOpenChange}
-              title="Open sidebar"
-            >
-              <BiMenuAltLeft className="relative" />
-            </button>
-          </div>
+        <PermanentDrawer open={props.open} onOpenChange={props.onOpenChange}>
           {props.children}
-        </div>
+        </PermanentDrawer>
       );
     default:
       return assertNever(props.variant);
