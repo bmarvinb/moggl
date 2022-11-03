@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from 'theme/utils';
+import { clsx } from 'clsx';
 
 export type CardProps = {
   children?: React.ReactNode;
@@ -8,7 +8,7 @@ export type CardProps = {
 
 export const Card = (props: CardProps) => (
   <div
-    className={cn(
+    className={clsx(
       'rounded-lg bg-neutral-50 shadow-sm dark:bg-neutral-dark-50',
       props.className,
     )}

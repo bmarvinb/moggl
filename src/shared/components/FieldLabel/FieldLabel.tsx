@@ -1,4 +1,4 @@
-import { cn } from 'theme/utils';
+import { clsx } from 'clsx';
 
 export type FieldLabelProps = {
   label: string;
@@ -18,7 +18,7 @@ export const FieldLabel = ({
   return (
     <div>
       <label
-        className={cn(
+        className={clsx(
           'text-sm font-semibold',
           disabled
             ? 'text-neutral-600 dark:text-neutral-dark-600'

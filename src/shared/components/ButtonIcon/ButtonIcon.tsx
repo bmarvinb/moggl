@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from 'theme/utils';
+import { clsx } from 'clsx';
 
 export type ButtonIconVariant = 'transparent';
 
@@ -21,7 +21,7 @@ function classes(variant: ButtonIconVariant, size: ButtonIconSize) {
   const sizes: Record<ButtonIconSize, string> = {
     md: 'p-1',
   };
-  return cn(
+  return clsx(
     'inline-flex border border-transparent items-center font-medium rounded-full focus:outline-none focus:ring-2',
     variants[variant],
     sizes[size],
@@ -35,7 +35,11 @@ export const ButtonIcon = React.forwardRef<HTMLButtonElement, ButtonIconProps>(
   ) => {
     const buttonIconClasses = classes(variant, size);
     return (
-      <button ref={ref} className={cn(buttonIconClasses, className)} {...rest}>
+      <button
+        ref={ref}
+        className={clsx(buttonIconClasses, className)}
+        {...rest}
+      >
         {icon}
       </button>
     );

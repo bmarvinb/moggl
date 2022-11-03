@@ -1,5 +1,5 @@
 import { BiLoaderAlt } from 'react-icons/bi';
-import { cn } from 'theme/utils';
+import { clsx } from 'clsx';
 
 export type SpinnerProps = {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -14,10 +14,9 @@ const sizes = {
   xl: 'w-12 h-12',
 };
 
-export const Spinner = ({ className, size = 'md' }: SpinnerProps) => {
-  const classes = cn('animate-spin', sizes[size], className);
-  return <BiLoaderAlt className={classes} />;
-};
+export const Spinner = ({ className, size = 'md' }: SpinnerProps) => (
+  <BiLoaderAlt className={clsx('animate-spin', sizes[size], className)} />
+);
 
 Spinner.defaultProps = {
   'aria-label': 'loading',

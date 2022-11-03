@@ -1,6 +1,6 @@
 import React from 'react';
 import { BiCheckCircle, BiXCircle } from 'react-icons/bi';
-import { cn } from 'theme/utils';
+import { clsx } from 'clsx';
 
 export type FieldMessageTone = 'critical' | 'positive' | 'neutral';
 
@@ -16,7 +16,7 @@ function classes(tone: FieldMessageTone) {
     positive: 'text-cyan-400 dark:text-cyan-dark-400',
     neutral: 'text-neutral-800 dark:text-neutral-dark-800',
   };
-  return cn(tones[tone]);
+  return clsx(tones[tone]);
 }
 
 function icon(tone: FieldMessageTone) {
@@ -36,7 +36,7 @@ export const FieldMessage = ({
   const fieldMessageClasses = classes(tone);
   return (
     <div
-      className={cn(
+      className={clsx(
         'flex items-center gap-1 pt-1 text-sm',
         fieldMessageClasses,
       )}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { cn } from 'theme/utils';
+import { clsx } from 'clsx';
 
 export type NavigationMenuItem = {
   route: string;
@@ -29,7 +29,7 @@ export const NavigationMenu = ({
           <NavLink
             to={item.route}
             className={({ isActive }) =>
-              cn(
+              clsx(
                 'flex w-full items-center gap-3 rounded py-3 px-4 text-neutral-50 no-underline hover:cursor-pointer hover:bg-primary-300 active:hover:cursor-default',
                 isActive &&
                   'bg-primary-500 hover:cursor-default hover:bg-primary-500',
@@ -37,7 +37,7 @@ export const NavigationMenu = ({
             }
             onClick={() => onMenuItemClicked()}
           >
-            <div className={cn('relative flex text-xl text-neutral-100')}>
+            <div className={clsx('relative flex text-xl text-neutral-100')}>
               {item.icon}
             </div>
             <div

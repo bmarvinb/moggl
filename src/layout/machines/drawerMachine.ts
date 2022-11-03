@@ -1,4 +1,3 @@
-import { media } from 'theme/media';
 import { assign, createMachine } from 'xstate';
 
 export enum DrawerMode {
@@ -94,10 +93,9 @@ export const drawerMachine =
       },
       guards: {
         shouldSetTemporaryMode: (context: DrawerContext) =>
-          window.innerWidth <= media.md &&
-          context.mode !== DrawerMode.Temporary,
+          window.innerWidth <= 768 && context.mode !== DrawerMode.Temporary,
         shouldSetPermanentMode: (context: DrawerContext) =>
-          window.innerWidth > media.md && context.mode !== DrawerMode.Permanent,
+          window.innerWidth > 768 && context.mode !== DrawerMode.Permanent,
       },
     },
   );
