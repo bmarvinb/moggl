@@ -1,6 +1,4 @@
 import { assertNever } from 'shared/utils/assert';
-import * as A from 'fp-ts/lib/Array';
-import { pipe } from 'fp-ts/lib/function';
 import { Dispatch, useReducer } from 'react';
 import {
   TimeEntryRowViewModel,
@@ -55,11 +53,9 @@ function reducer(
     case 'PARENT':
       return {
         ...state,
-        selected: pipe(
-          state.selected,
-          A.filter(id => !action.changes.removed.includes(id)),
-          A.concat(action.changes.added),
-        ),
+        selected: state.selected
+          .filter(id => !action.changes.removed.includes(id))
+          .concat(action.changes.added),
       };
     case 'CHILD':
       return {

@@ -5,7 +5,6 @@ import { useWorkspace } from 'features/auth/hooks/workspace';
 import { QUERY_KEY } from 'features/timer/hooks/timeEntries';
 import { InactiveTimeEntry, TimeEntry } from 'features/timer/models/time-entry';
 import { timeEntries } from 'features/timer/services/time-entries';
-import * as O from 'fp-ts/lib/Option';
 import { invariant } from 'shared/utils/invariant';
 
 export function useStopTimeEntry() {
@@ -26,8 +25,8 @@ export function useStopTimeEntry() {
           start: new Date(data.start),
           end: new Date(),
           tags: [],
-          project: O.none,
-          task: O.none,
+          project: undefined,
+          task: undefined,
           duration: differenceInSeconds(new Date(), new Date(data.start)),
         };
         await queryClient.cancelQueries([QUERY_KEY]);

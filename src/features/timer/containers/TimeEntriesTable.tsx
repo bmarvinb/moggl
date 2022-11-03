@@ -17,14 +17,6 @@ import {
 } from 'features/timer/hooks/selection';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 import { InactiveTimeEntry } from 'features/timer/models/time-entry';
-import * as B from 'fp-ts/boolean';
-import { Eq, struct } from 'fp-ts/Eq';
-import * as A from 'fp-ts/lib/Array';
-import { constUndefined, pipe } from 'fp-ts/lib/function';
-import * as M from 'fp-ts/lib/Monoid';
-import * as N from 'fp-ts/lib/number';
-import * as O from 'fp-ts/lib/Option';
-import * as S from 'fp-ts/string';
 import React from 'react';
 
 export type TimeEntriesTableProps = {
@@ -32,12 +24,6 @@ export type TimeEntriesTableProps = {
   date: Date;
   reportedDuration: number;
 };
-
-// TODO: task, project, clientName, tags, billable status
-const EqTimeEntryViewModel: Eq<InactiveTimeEntry> = struct({
-  description: S.Eq,
-  billable: B.Eq,
-});
 
 function getTimeEntryIds(timeEntries: InactiveTimeEntry[]): string[] {
   return timeEntries.map(({ id }) => id);
@@ -56,20 +42,16 @@ export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
   const isTimeEntryRowChecked = (id: string) => selected.includes(id);
 
   const restTimeEntries = (timeEntry: InactiveTimeEntry) =>
-    pipe(
-      props.data,
-      A.filter(({ id }) => id !== timeEntry.id),
-    );
+    props.data.filter(({ id }) => id !== timeEntry.id);
 
-  const getParentChildren =
-    (timeEntry: InactiveTimeEntry) =>
-    (timeEntries: InactiveTimeEntry[]): InactiveTimeEntry[] =>
-      pipe(
-        timeEntries,
-        A.filter(comparedTimeEntry =>
-          EqTimeEntryViewModel.equals(timeEntry, comparedTimeEntry),
-        ),
-      );
+  const getParentChildren = (
+    timeEntry: InactiveTimeEntry,
+    timeEntries: InactiveTimeEntry[],
+  ) =>
+    timeEntries.filter(
+      comparedTimeEntry =>
+        timeEntry.description === comparedTimeEntry.description, // TODO: implement algorithm
+    );
 
   const createChild = (
     data: InactiveTimeEntry,
@@ -88,41 +70,25 @@ export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
   });
 
   const createParentChildren = (timeEntry: InactiveTimeEntry) => {
-    const children = pipe(
-      timeEntry,
-      restTimeEntries,
-      getParentChildren(timeEntry),
-    );
+    const data = restTimeEntries(timeEntry);
+    const children = getParentChildren(timeEntry, data);
     const siblings = children.length;
     return [
       createChild(timeEntry, siblings),
-      ...pipe(
-        children,
-        A.map(child => createChild(child, siblings)),
-      ),
+      ...children.map(child => createChild(child, siblings)),
     ];
   };
 
   const calculateParentStartDate = (children: ChildTimeEntry[]): Date =>
-    pipe(
-      children,
-      A.map(({ data }) => data.start),
-      min,
-    );
+    min(children.map(({ data }) => data.start));
 
   const calculateParentEndDate = (children: ChildTimeEntry[]): Date =>
-    pipe(
-      children,
-      A.map(({ data }) => data.end),
-      max,
-    );
+    max(children.map(({ data }) => data.end));
 
   const calculateParentDuration = (children: ChildTimeEntry[]): number =>
-    pipe(
-      children,
-      A.map(({ data }) => data.duration),
-      M.concatAll(N.MonoidSum),
-    );
+    children
+      .map(({ data }) => data.duration)
+      .reduce((acc, val) => acc + val, 0);
 
   const createParentTimeEntry = (
     timeEntry: InactiveTimeEntry,
@@ -141,44 +107,32 @@ export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
   };
 
   const isParent = (timeEntry: InactiveTimeEntry): boolean =>
-    pipe(
-      restTimeEntries(timeEntry),
-      A.some(comparedTimeEntry =>
-        EqTimeEntryViewModel.equals(timeEntry, comparedTimeEntry),
-      ),
+    restTimeEntries(timeEntry).some(
+      comparedTimeEntry =>
+        timeEntry.description === comparedTimeEntry.description, // TODO: implement algorithm
     );
 
-  const isChild =
-    (timeEntry: InactiveTimeEntry) =>
-    (timeEntries: ParentTimeEntry[]): boolean =>
-      pipe(
-        timeEntries,
-        A.some(({ children }) =>
-          pipe(
-            children,
-            A.some(({ data }) => data.id === timeEntry.id),
-          ),
-        ),
-      );
+  const isChild = (
+    timeEntry: InactiveTimeEntry,
+    timeEntries: ParentTimeEntry[],
+  ): boolean =>
+    timeEntries.some(({ children }) =>
+      children.some(({ data }) => data.id === timeEntry.id),
+    );
 
-  const timeEntryRows = pipe(
-    props.data,
-    A.reduce([] as TimeEntryRowViewModel[], (acc, timeEntry) => {
-      const isChildrenTimeEntry = pipe(
-        acc,
-        A.filter(isParentTimeEntry),
-        isChild(timeEntry),
-      );
-      return isChildrenTimeEntry
-        ? acc
-        : [
-            ...acc,
-            isParent(timeEntry)
-              ? createParentTimeEntry(timeEntry)
-              : createRegularTimeEntry(timeEntry),
-          ];
-    }),
-  );
+  const timeEntryRows = props.data.reduce((acc, timeEntry) => {
+    const data = acc.filter(isParentTimeEntry);
+    const isChildrenTimeEntry = isChild(timeEntry, data);
+
+    return isChildrenTimeEntry
+      ? acc
+      : [
+          ...acc,
+          isParent(timeEntry)
+            ? createParentTimeEntry(timeEntry)
+            : createRegularTimeEntry(timeEntry),
+        ];
+  }, [] as TimeEntryRowViewModel[]);
 
   const onToggleClicked = () => {
     toggleBulkEditMode();
@@ -206,11 +160,7 @@ export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
         timeEntry: {
           description: timeEntry.data.description,
           billable: timeEntry.data.billable,
-          projectId: pipe(
-            timeEntry.data.project,
-            O.map(project => project.id),
-            O.getOrElseW(constUndefined),
-          ),
+          projectId: timeEntry.data.project?.id,
         },
       },
     });
