@@ -4,7 +4,7 @@ import React from 'react';
 import {
   applyColorScheme,
   usePrefersColorScheme,
-} from 'theme/prefersColorScheme';
+} from 'shared/hooks/prefersColorScheme';
 
 const AuthenticatedApp = React.lazy(
   () => import(/* webpackPrefetch: true */ 'AuthenticatedApp'),
