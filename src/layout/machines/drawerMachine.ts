@@ -66,10 +66,12 @@ export const drawerMachine =
           {
             cond: 'shouldSetTemporaryMode',
             actions: 'setTemporaryMode',
+            target: 'closed',
           },
           {
             cond: 'shouldSetPermanentMode',
             actions: 'setPermanentMode',
+            target: 'closed',
           },
         ],
       },
