@@ -1,7 +1,5 @@
 import { differenceInSeconds } from 'date-fns';
 import { TimeEntryDTO } from 'features/timer/services/time-entry-dtos';
-import { pipe } from 'fp-ts/lib/function';
-import * as O from 'fp-ts/lib/Option';
 
 export type TimeEntryType = 'INACTIVE' | 'ACTIVE';
 
@@ -14,7 +12,7 @@ export type TimeEntryProject = {
   id: string;
   name: string;
   color: string;
-  clientName: string;
+  clientName: string | undefined;
 };
 
 type TimeEntryCommon = {
@@ -26,8 +24,8 @@ type TimeEntryCommon = {
     id: string;
     name: string;
   }[];
-  task: O.Option<TimeEntryTask>;
-  project: O.Option<TimeEntryProject>;
+  task: TimeEntryTask | undefined;
+  project: TimeEntryProject | undefined;
 };
 
 export type InactiveTimeEntry = TimeEntryCommon & {
@@ -47,21 +45,15 @@ export function toTimeEntry(dto: TimeEntryDTO): TimeEntry {
     description: dto.description,
     billable: dto.billable,
     tags: dto.tags.map(tag => ({ id: tag.id, name: tag.name })),
-    task: pipe(
-      dto.task,
-      O.fromNullable,
-      O.map(task => ({ id: task.id, name: task.name })),
-    ),
-    project: pipe(
-      dto.project,
-      O.fromNullable,
-      O.map(project => ({
-        id: project.id,
-        name: project.name,
-        color: project.color,
-        clientName: project.clientName || '',
-      })),
-    ),
+    task: dto.task ? { id: dto.task.id, name: dto.task.name } : undefined,
+    project: dto.project
+      ? {
+          id: dto.project.id,
+          name: dto.project.name,
+          color: dto.project.color,
+          clientName: dto.project.clientName || undefined,
+        }
+      : undefined,
   };
   if (dto.timeInterval.end) {
     return {

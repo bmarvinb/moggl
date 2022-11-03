@@ -9,8 +9,6 @@ import {
   formatTimeEntryDate,
   getTimeEntryInfo,
 } from 'features/timer/utils/time-entries-utils';
-import { pipe } from 'fp-ts/lib/function';
-import * as O from 'fp-ts/lib/Option';
 import {
   BiDollar,
   BiDotsVerticalRounded,
@@ -111,17 +109,14 @@ export const TimeEntryViewRow = (props: TimeEntryViewRowProps) => {
 
           <div className="flex flex-row items-center justify-between">
             <div>
-              {pipe(
-                props.timeEntry.data,
-                getTimeEntryInfo,
-                O.fold(
-                  () => (
-                    <div className="text-sm text-neutral-600 dark:text-neutral-dark-600">
-                      Select project
-                    </div>
-                  ),
-                  ({ color, name }) => <div className="text-sm">{name}</div>,
-                ),
+              {!props.timeEntry.data.project ? (
+                <div className="text-sm text-neutral-600 dark:text-neutral-dark-600">
+                  Select project
+                </div>
+              ) : (
+                <div className="text-sm">
+                  {getTimeEntryInfo(props.timeEntry.data)}
+                </div>
               )}
             </div>
             <div className="relative -right-1 flex gap-1">

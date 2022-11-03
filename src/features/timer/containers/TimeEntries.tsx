@@ -11,75 +11,54 @@ import {
   TimeEntry,
 } from 'features/timer/models/time-entry';
 import { timeEntryDuration } from 'features/timer/utils/time-entries-utils';
-import * as A from 'fp-ts/lib/Array';
-import { pipe } from 'fp-ts/lib/function';
-import * as M from 'fp-ts/lib/Monoid';
-import * as N from 'fp-ts/lib/number';
-import * as S from 'fp-ts/lib/string';
 
 export type TimeEntriesProps = {
   timeEntries: TimeEntry[];
 };
 
 function calculateDuration(timeEntries: InactiveTimeEntry[]): number {
-  return pipe(timeEntries, A.map(timeEntryDuration), M.concatAll(N.MonoidSum));
+  return timeEntries.map(timeEntryDuration).reduce((acc, val) => acc + val, 0);
 }
 
 function getStartDays(timeEntry: InactiveTimeEntry[]): string[] {
-  return pipe(
-    timeEntry,
-    A.map(({ start }) => format(start, 'PP')),
-  );
+  return timeEntry.map(({ start }) => format(start, 'PP'));
 }
 
-function getReportedDays(timeEntries: InactiveTimeEntry[]) {
-  return (dates: string[]): ReportedDay[] =>
-    pipe(
-      dates,
-      A.map(date => {
-        const dayTimeEntries = timeEntries.filter(({ start }) =>
-          isSameDay(start, new Date(date)),
-        );
-        return {
-          id: date,
-          date: new Date(date),
-          reportedDuration: pipe(dayTimeEntries, calculateDuration),
-          data: dayTimeEntries,
-        };
-      }),
+function getReportedDays(
+  timeEntries: InactiveTimeEntry[],
+  dates: string[],
+): ReportedDay[] {
+  return dates.map(date => {
+    const dayTimeEntries = timeEntries.filter(({ start }) =>
+      isSameDay(start, new Date(date)),
     );
+    return {
+      id: date,
+      date: new Date(date),
+      reportedDuration: calculateDuration(dayTimeEntries),
+      data: dayTimeEntries,
+    };
+  });
 }
 
 function weekDuration(timeEntries: InactiveTimeEntry[]): number {
-  return pipe(
-    timeEntries,
-    A.filter(timeEntry =>
-      isSameWeek(new Date(timeEntry.start), new Date(), {
-        weekStartsOn: 1,
-      }),
-    ),
-    calculateDuration,
+  const data = timeEntries.filter(timeEntry =>
+    isSameWeek(new Date(timeEntry.start), new Date(), {
+      weekStartsOn: 1,
+    }),
   );
+  return calculateDuration(data);
 }
 
 function reportedDays(timeEntries: InactiveTimeEntry[]) {
-  return pipe(
-    timeEntries,
-    getStartDays,
-    A.uniq(S.Eq),
-    getReportedDays(timeEntries),
-  );
+  return getReportedDays(timeEntries, [...new Set(getStartDays(timeEntries))]);
 }
 
 export const TimeEntries = (props: TimeEntriesProps) => {
-  const inactiveTimeEntries = pipe(
-    props.timeEntries,
-    A.filter(isInactiveTimeEntry),
-  );
-  const activeTimeEntry = pipe(
-    props.timeEntries,
-    A.findFirst(isActiveTimeEntry),
-  );
+  const inactiveTimeEntries = props.timeEntries.filter(isInactiveTimeEntry);
+
+  const activeTimeEntry = props.timeEntries.find(isActiveTimeEntry);
+
   return (
     <TimerMachineProvider activeTimeEntry={activeTimeEntry}>
       <Timer />

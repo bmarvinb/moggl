@@ -6,8 +6,6 @@ import { useStopTimeEntry } from 'features/timer/hooks/stopTimeEntry';
 import { useUpdateTimeEntry } from 'features/timer/hooks/updateTimeEntry';
 import { timerMachine } from 'features/timer/machines/TimerMachine';
 import { ActiveTimeEntry } from 'features/timer/models/time-entry';
-import { constUndefined, pipe } from 'fp-ts/lib/function';
-import * as O from 'fp-ts/lib/Option';
 import React, { useEffect } from 'react';
 import { invariant } from 'shared/utils/invariant';
 import { InterpreterFrom } from 'xstate';
@@ -19,7 +17,7 @@ const TimerContext = React.createContext<TimerContextData>(
 );
 
 export function TimerMachineProvider(props: {
-  activeTimeEntry: O.Option<ActiveTimeEntry>;
+  activeTimeEntry: ActiveTimeEntry | undefined;
   children: React.ReactNode;
 }) {
   const addTimeEntry = useAddTimeEntry();
@@ -85,20 +83,16 @@ export function TimerMachineProvider(props: {
   const [timerState, timerSend] = useActor(service);
 
   useEffect(() => {
-    if (O.isSome(props.activeTimeEntry)) {
+    if (props.activeTimeEntry) {
       timerSend({
         type: 'CONTINUE',
         data: {
-          id: props.activeTimeEntry.value.id,
-          start: props.activeTimeEntry.value.start,
+          id: props.activeTimeEntry.id,
+          start: props.activeTimeEntry.start,
           timeEntry: {
-            projectId: pipe(
-              props.activeTimeEntry,
-              O.map(project => project.id),
-              O.getOrElseW(constUndefined),
-            ),
-            description: props.activeTimeEntry.value.description,
-            billable: props.activeTimeEntry.value.billable,
+            projectId: props.activeTimeEntry.project?.id,
+            description: props.activeTimeEntry.description,
+            billable: props.activeTimeEntry.billable,
           },
         },
       });
