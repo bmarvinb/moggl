@@ -28,15 +28,15 @@ type TimeEntryCommon = {
   project: TimeEntryProject | undefined;
 };
 
-export type InactiveTimeEntry = TimeEntryCommon & {
-  type: 'INACTIVE';
+export type CompletedTimeEntry = TimeEntryCommon & {
+  type: 'COMPLETED';
   end: Date;
   duration: number;
 };
 
 export type ActiveTimeEntry = TimeEntryCommon & { type: 'ACTIVE' };
 
-export type TimeEntry = InactiveTimeEntry | ActiveTimeEntry;
+export type TimeEntry = CompletedTimeEntry | ActiveTimeEntry;
 
 export function toTimeEntry(dto: TimeEntryDTO): TimeEntry {
   const common: TimeEntryCommon = {
@@ -58,7 +58,7 @@ export function toTimeEntry(dto: TimeEntryDTO): TimeEntry {
   if (dto.timeInterval.end) {
     return {
       ...common,
-      type: 'INACTIVE',
+      type: 'COMPLETED',
       end: new Date(dto.timeInterval.end),
       duration: differenceInSeconds(
         new Date(dto.timeInterval.end),
@@ -75,8 +75,8 @@ export function isActiveTimeEntry(
   return timeEntry.type === 'ACTIVE';
 }
 
-export function isInactiveTimeEntry(
+export function isCompletedTimeEntry(
   timeEntry: TimeEntry,
-): timeEntry is InactiveTimeEntry {
-  return timeEntry.type === 'INACTIVE';
+): timeEntry is CompletedTimeEntry {
+  return timeEntry.type === 'COMPLETED';
 }

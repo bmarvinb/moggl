@@ -6,7 +6,7 @@ import { formatDate } from 'features/timer/utils/time-entries-utils';
 import React from 'react';
 import { BiListUl } from 'react-icons/bi';
 
-type TimeEntriesTableViewProps = {
+type TimeEntryRowContainerProps = {
   children: React.ReactNode;
   bulkEditMode: boolean;
   allSelected: boolean;
@@ -16,7 +16,7 @@ type TimeEntriesTableViewProps = {
   onToggleClicked: () => void;
 };
 
-export const TimeEntriesTableView = (props: TimeEntriesTableViewProps) => {
+export const TimeEntryRowContainer = (props: TimeEntryRowContainerProps) => {
   return (
     <Card className="mb-4">
       <div className="flex justify-between py-3 px-4">

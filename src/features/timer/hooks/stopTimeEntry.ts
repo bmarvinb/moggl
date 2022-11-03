@@ -3,7 +3,10 @@ import { differenceInSeconds } from 'date-fns';
 import { useCurrentUser } from 'features/auth/hooks/currentUser';
 import { useWorkspace } from 'features/auth/hooks/workspace';
 import { QUERY_KEY } from 'features/timer/hooks/timeEntries';
-import { InactiveTimeEntry, TimeEntry } from 'features/timer/models/time-entry';
+import {
+  CompletedTimeEntry,
+  TimeEntry,
+} from 'features/timer/models/time-entry';
 import { timeEntries } from 'features/timer/services/time-entries';
 import { invariant } from 'shared/utils/invariant';
 
@@ -18,7 +21,7 @@ export function useStopTimeEntry() {
       onMutate: async data => {
         invariant(data.start, 'Start date should be provided');
         const timeEntry: TimeEntry = {
-          type: 'INACTIVE',
+          type: 'COMPLETED',
           id: `${data.start}`,
           description: data.description,
           billable: data.billable,
@@ -33,7 +36,7 @@ export function useStopTimeEntry() {
         const previousTimeEntries = queryClient.getQueryData([QUERY_KEY]);
         queryClient.setQueryData(
           [QUERY_KEY],
-          (previous: InactiveTimeEntry[] | undefined) => {
+          (previous: CompletedTimeEntry[] | undefined) => {
             return !previous ? [] : [timeEntry, ...previous];
           },
         );

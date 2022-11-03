@@ -1,6 +1,8 @@
-import { PageSpinner } from 'shared/components/PageSpinner';
-import { TimeEntries } from 'features/timer/containers/TimeEntries';
+import { TimeEntriesReportedDays } from 'features/timer/components/TimeEntriesReportedDays';
+import { Timer } from 'features/timer/components/Timer';
 import { useTimeEntries } from 'features/timer/hooks/timeEntries';
+import { TimerMachineProvider } from 'features/timer/machines/TimerMachineProvider';
+import { PageSpinner } from 'shared/components/PageSpinner';
 
 export const TimerPage = () => {
   const { status, data } = useTimeEntries();
@@ -10,6 +12,12 @@ export const TimerPage = () => {
     case 'error':
       return <div>Error</div>;
     case 'success':
-      return <TimeEntries timeEntries={data} />;
+      const { active, completed } = data;
+      return (
+        <TimerMachineProvider activeTimeEntry={active}>
+          <Timer />
+          <TimeEntriesReportedDays entries={completed} />
+        </TimerMachineProvider>
+      );
   }
 };

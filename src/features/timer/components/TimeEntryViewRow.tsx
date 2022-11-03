@@ -3,7 +3,7 @@ import {
   isParentTimeEntry,
   TimeEntryRowType,
 } from 'features/timer/hooks/selection';
-import { InactiveTimeEntry } from 'features/timer/models/time-entry';
+import { CompletedTimeEntry } from 'features/timer/models/time-entry';
 import {
   formatDuration,
   formatTimeEntryDate,
@@ -19,18 +19,18 @@ import { ButtonIcon } from 'shared/components/ButtonIcon';
 import { Checkbox } from 'shared/components/Checkbox';
 
 export type ParentTimeEntry = {
-  data: InactiveTimeEntry;
+  data: CompletedTimeEntry;
   type: TimeEntryRowType.Parent;
   children: ChildTimeEntry[];
 };
 
 export type RegularTimeEntry = {
-  data: InactiveTimeEntry;
+  data: CompletedTimeEntry;
   type: TimeEntryRowType.Regular;
 };
 
 export type ChildTimeEntry = {
-  data: InactiveTimeEntry;
+  data: CompletedTimeEntry;
   siblings: number;
   type: TimeEntryRowType.Child;
 };
@@ -95,12 +95,6 @@ export const TimeEntryViewRow = (props: TimeEntryViewRowProps) => {
             <div className="flex items-center justify-end gap-1">
               <ButtonIcon icon={<BiPurchaseTag title="Select tags" />} />
               <ButtonIcon icon={<BiDollar title="Change billable status" />} />
-              <div className="hidden">
-                {formatTimeEntryDate(
-                  props.timeEntry.data.start,
-                  props.timeEntry.data.end,
-                )}
-              </div>
               <div className="ml-2 text-lg font-semibold">
                 {formatDuration(props.timeEntry.data.duration)}
               </div>

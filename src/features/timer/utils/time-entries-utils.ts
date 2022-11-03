@@ -8,10 +8,10 @@ import {
   secondsToHours,
   secondsToMinutes,
 } from 'date-fns';
-import { InactiveTimeEntry } from 'features/timer/models/time-entry';
+import { CompletedTimeEntry } from 'features/timer/models/time-entry';
 import { numberPad } from 'shared/utils/number';
 
-export function timeEntryDuration({ start, end }: InactiveTimeEntry): number {
+export function timeEntryDuration({ start, end }: CompletedTimeEntry): number {
   return differenceInSeconds(end, start);
 }
 
@@ -27,7 +27,7 @@ export function formatTimeEntryDate(start: Date, end: Date): string {
 }
 
 // TODO: implement
-export function getTimeEntryInfo(timeEntry: InactiveTimeEntry) {
+export function getTimeEntryInfo(timeEntry: CompletedTimeEntry) {
   return timeEntry.project?.name || 'No info';
 }
 
@@ -48,4 +48,8 @@ export function formatDate(
   return date.getFullYear() !== currentYear
     ? `${inlineDate}, ${date.getFullYear()}`
     : inlineDate;
+}
+
+export function calculateDuration(entries: CompletedTimeEntry[]): number {
+  return entries.map(timeEntryDuration).reduce((acc, val) => acc + val, 0);
 }
