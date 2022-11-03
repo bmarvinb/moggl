@@ -23,16 +23,16 @@ export const NavigationMenu = ({
     <ul className="py-1 px-1.5">
       {items.map(item => (
         <li
-          className="flex mb-1 items-center overflow-x-hidden"
+          className="mb-1 flex items-center overflow-x-hidden"
           key={item.route}
         >
           <NavLink
             to={item.route}
             className={({ isActive }) =>
               cn(
-                'rounded flex w-full items-center gap-3 py-3 px-4 text-neutral-50 no-underline hover:cursor-pointer hover:bg-primary-300 active:hover:cursor-default',
+                'flex w-full items-center gap-3 rounded py-3 px-4 text-neutral-50 no-underline hover:cursor-pointer hover:bg-primary-300 active:hover:cursor-default',
                 isActive &&
-                  'bg-primary-500 hover:bg-primary-500 hover:cursor-default',
+                  'bg-primary-500 hover:cursor-default hover:bg-primary-500',
               )
             }
             onClick={() => onMenuItemClicked()}

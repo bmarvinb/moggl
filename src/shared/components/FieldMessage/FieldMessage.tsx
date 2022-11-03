@@ -41,7 +41,7 @@ export const FieldMessage = ({
         fieldMessageClasses,
       )}
     >
-      {icon(tone)} {message}
+      {message}
     </div>
   );
 };

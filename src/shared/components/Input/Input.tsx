@@ -1,17 +1,14 @@
 import { clsx } from 'clsx';
 import React from 'react';
 
-export type InputSize = 'md';
-
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  size?: InputSize;
   invalid?: boolean;
   className?: string;
   disabled?: boolean;
 };
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, disabled, invalid, size = 'md', ...rest }, ref) => {
+  ({ className, disabled, invalid, ...rest }, ref) => {
     return (
       <input
         ref={ref}
@@ -31,4 +28,5 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     );
   },
 );
+
 Input.displayName = 'Input';

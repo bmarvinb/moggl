@@ -1,14 +1,13 @@
 import React from 'react';
 import { FieldLabel } from 'shared/components/FieldLabel';
 import { FieldMessage, FieldMessageTone } from 'shared/components/FieldMessage';
-import { Input, InputSize } from 'shared/components/Input';
+import { Input } from 'shared/components/Input';
 
 export type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   id: string;
   label: string;
   message?: string;
   tone?: FieldMessageTone;
-  size?: InputSize;
   placeholder?: string;
   className?: string;
   disabled?: boolean;
@@ -23,7 +22,6 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       message,
       placeholder,
       disabled,
-      size = 'md',
       tone = 'neutral',
       ...rest
     },
