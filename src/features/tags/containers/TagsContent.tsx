@@ -25,11 +25,9 @@ export const TagsContent = (props: TagsContentProps) => {
     setAddDialogOpen(false);
   };
 
-  console.log('add dialog', addDialogOpen);
-
   return (
     <Container className="p-8">
-      <div className="mb-5 flex justify-between items-center">
+      <div className="mb-5 flex items-center justify-between">
         <Title>Tags</Title>
         <Button
           variant="primary"
@@ -62,7 +60,9 @@ export const TagsContent = (props: TagsContentProps) => {
 
       <AddTagDialog
         open={addDialogOpen}
-        onOpenChange={setAddDialogOpen}
+        onOpenChange={() => {
+          setAddDialogOpen(false);
+        }}
         onSuccess={onTagAdded}
       />
     </Container>

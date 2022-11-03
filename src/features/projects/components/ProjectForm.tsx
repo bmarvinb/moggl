@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAddProject } from 'features/projects/hooks/addProject';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button } from 'shared/components/Button';
 import { TextField } from 'shared/components/TextField';
 import { z } from 'zod';
 
@@ -36,7 +37,7 @@ export const ProjectForm = (props: AddProjectDialogProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mb-10">
+      <div className="mb-4">
         <TextField
           {...register('name')}
           id="project-name"
@@ -68,10 +69,10 @@ export const ProjectForm = (props: AddProjectDialogProps) => {
         )}
       </div>
 
-      <div className="flex flex-col justify-end gap-4">
-        <button type="submit" disabled={status === 'loading'}>
+      <div className="flex justify-end">
+        <Button type="submit" disabled={status === 'loading'}>
           Add
-        </button>
+        </Button>
       </div>
     </form>
   );

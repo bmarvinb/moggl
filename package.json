@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": false,
   "dependencies": {
+    "@headlessui/react": "^1.7.3",
     "@hookform/resolvers": "^2.9.7",
     "@radix-ui/react-dialog": "^1.0.0",
     "@stitches/react": "^1.2.8",

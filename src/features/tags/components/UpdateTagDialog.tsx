@@ -1,7 +1,7 @@
 import { TagForm } from 'features/tags/components/TagForm';
 import { useUpdateTag } from 'features/tags/hooks/updateTag';
 import { Tag, UpdateTagDTO } from 'features/tags/models/tags';
-import { Dialog, DialogContent } from 'shared/components/Dialog';
+import { Dialog } from 'shared/components/Dialog';
 import { DialogMode } from 'shared/models/dialog-mode';
 
 export type UpdateTagDialogProps = {
@@ -21,20 +21,18 @@ export const UpdateTagDialog = (props: UpdateTagDialogProps) => {
   };
 
   return (
-    <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent>
-        <div className="mb-4 text-lg font-semibold text-neutral-50 dark:text-neutral-dark-900">
-          Update tag
-        </div>
-
-        <TagForm
-          operation={DialogMode.Update}
-          loading={status === 'loading'}
-          error={error?.message}
-          tag={props.tag}
-          onSubmit={onSubmit}
-        />
-      </DialogContent>
+    <Dialog
+      title="Update tag"
+      isOpen={props.open}
+      onClose={() => props.onOpenChange(false)}
+    >
+      <TagForm
+        operation={DialogMode.Update}
+        loading={status === 'loading'}
+        error={error?.message}
+        tag={props.tag}
+        onSubmit={onSubmit}
+      />
     </Dialog>
   );
 };

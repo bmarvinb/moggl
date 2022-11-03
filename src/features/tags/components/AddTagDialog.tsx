@@ -1,12 +1,12 @@
 import { TagForm } from 'features/tags/components/TagForm';
 import { useAddTag } from 'features/tags/hooks/addTag';
 import { AddTagDTO } from 'features/tags/models/tags';
-import { Dialog, DialogContent } from 'shared/components/Dialog';
+import { Dialog } from 'shared/components/Dialog';
 import { DialogMode } from 'shared/models/dialog-mode';
 
 export type AddTagDialog = {
   open: boolean;
-  onOpenChange: (open: boolean) => void;
+  onOpenChange: () => void;
   onSuccess: () => void;
 };
 
@@ -20,19 +20,13 @@ export const AddTagDialog = (props: AddTagDialog) => {
   };
 
   return (
-    <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent>
-        <div className="mb-4 text-lg font-semibold text-neutral-800 dark:text-neutral-dark-900">
-          Add new tag
-        </div>
-
-        <TagForm
-          operation={DialogMode.Add}
-          loading={status === 'loading'}
-          error={error?.message}
-          onSubmit={onSubmit}
-        />
-      </DialogContent>
+    <Dialog title="Add tag" isOpen={props.open} onClose={props.onOpenChange}>
+      <TagForm
+        operation={DialogMode.Add}
+        loading={status === 'loading'}
+        error={error?.message}
+        onSubmit={onSubmit}
+      />
     </Dialog>
   );
 };
