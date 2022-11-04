@@ -9,9 +9,9 @@ type ReportedDaysProps = {
   timeEntries: CompletedTimeEntry[];
 };
 
-export const ReportedDays = (props: ReportedDaysProps) => {
-  const weekDuration = useWeekDuration(props.timeEntries);
-  const reportedDays = useReportedDays(props.timeEntries);
+export const ReportedDays = ({ timeEntries }: ReportedDaysProps) => {
+  const weekDuration = useWeekDuration(timeEntries);
+  const reportedDays = useReportedDays(timeEntries);
   return (
     <div className="flex w-full flex-1 flex-col">
       <ReportedDaysContainer>

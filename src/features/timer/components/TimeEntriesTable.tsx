@@ -11,7 +11,6 @@ import {
   SelectionChanges,
   useSelection,
 } from 'features/timer/hooks/selection';
-import { useTimeEntryRows } from 'features/timer/hooks/timeEntryRows';
 import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
 import {
   formatDuration,
@@ -26,31 +25,30 @@ export type TimeEntriesTableProps = {
 export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
   const service = useTimerMachine();
   const [, timerSend] = useActor(service);
-  const timeEntryRows = useTimeEntryRows(props.day.data);
   const [bulkEditMode, toggleBulkEditMode] = React.useReducer(
     state => !state,
     false,
   );
-  const [{ entries, selected }, send] = useSelection(
-    props.day.data.map(({ id }) => id),
+  const [{ entries, selected }, dispatch] = useSelection(
+    props.day.data.map(item => item.data.id),
   );
   const isTimeEntryRowChecked = (id: string) => selected.includes(id);
 
   const onToggleClicked = () => {
     toggleBulkEditMode();
-    send({ type: 'RESET' });
+    dispatch({ type: 'RESET' });
   };
 
   const onBulkModeChanged = () => {
-    send({ type: 'ALL' });
+    dispatch({ type: 'ALL' });
   };
 
   const onParentSelectionChange = (changes: SelectionChanges) => {
-    send({ type: 'PARENT', changes: changes });
+    dispatch({ type: 'PARENT', changes: changes });
   };
 
   const onChildSelectionChange = (id: string) => {
-    send({ type: 'CHILD', id: id });
+    dispatch({ type: 'CHILD', id: id });
   };
 
   const onPlayClicked = (timeEntry: TimeEntryRow) => {
@@ -77,7 +75,7 @@ export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
       onBulkModeChanged={onBulkModeChanged}
       onToggleClicked={onToggleClicked}
     >
-      {timeEntryRows.map(timeEntry =>
+      {props.day.data.map(timeEntry =>
         isParentTimeEntry(timeEntry) ? (
           <ParentTimeEntryRow
             key={timeEntry.data.id}
