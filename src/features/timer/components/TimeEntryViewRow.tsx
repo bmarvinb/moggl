@@ -2,7 +2,7 @@ import {
   isChildTimeEntry,
   isParentTimeEntry,
   TimeEntryRowType,
-} from 'features/timer/hooks/selection';
+} from 'features/timer/hooks/useSelection';
 import { CompletedTimeEntry } from 'features/timer/models/time-entry';
 import {
   BiDollar,

@@ -1,10 +1,10 @@
 import { useActor } from '@xstate/react';
 import { TimerState } from 'features/timer/machines/TimerMachine';
-import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
+import { useTimerService } from 'features/timer/machines/TimerMachineProvider';
 import { useRef } from 'react';
 
 export function useActiveDuration(initialDuration: number): number {
-  const service = useTimerMachine();
+  const service = useTimerService();
   const [state] = useActor(service);
   const durationRef = useRef(initialDuration);
   const isRunning =

@@ -5,13 +5,13 @@ import {
   TimeEntryRow,
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow';
-import { ReportedDay } from 'features/timer/hooks/reportedDays';
+import { ReportedDay } from 'features/timer/hooks/useReportedDays';
 import {
   isParentTimeEntry,
   SelectionChanges,
   useSelection,
-} from 'features/timer/hooks/selection';
-import { useTimerMachine } from 'features/timer/machines/TimerMachineProvider';
+} from 'features/timer/hooks/useSelection';
+import { useTimerService } from 'features/timer/machines/TimerMachineProvider';
 import {
   formatDuration,
   getTimeEntryInfo,
@@ -23,7 +23,7 @@ export type TimeEntriesTableProps = {
 };
 
 export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
-  const service = useTimerMachine();
+  const service = useTimerService();
   const [, timerSend] = useActor(service);
   const [bulkEditMode, toggleBulkEditMode] = React.useReducer(
     state => !state,

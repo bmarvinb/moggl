@@ -18,6 +18,14 @@ type TimerContext = {
   duration: number;
 };
 
+export type TimerPayload = {
+  id: string;
+  start: Date;
+  timeEntry: TimeEntryData;
+};
+
+export type UpdateTimeEntryData = Partial<TimeEntryData>;
+
 export enum TimerState {
   Idle = 'idle',
   Running = 'running',
@@ -52,17 +60,17 @@ type TimerEvent =
   | { type: 'START'; start: Date }
   | {
       type: 'CONTINUE';
-      data: { id: string; start: Date; timeEntry: TimeEntryData };
+      data: TimerPayload;
     }
   | {
       type: 'RESUME';
-      data: { id: string; start: Date; timeEntry: TimeEntryData };
+      data: TimerPayload;
     }
   | { type: 'STOP' }
   | { type: 'DISCARD' }
   | {
       type: 'UPDATE_TIME_ENTRY';
-      data: Partial<TimeEntryData>;
+      data: UpdateTimeEntryData;
     }
   | { type: 'SAVE_TIME_ENTRY' }
   | { type: 'TICK' }

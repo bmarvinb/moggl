@@ -12,11 +12,10 @@ import {
 import { ButtonIcon } from 'shared/components/ButtonIcon';
 
 export type TimerControlsProps = {
-  duration: number;
   running: boolean;
-  updating: boolean;
+  pending: boolean;
+  duration: number;
   billable: boolean;
-  creating: boolean;
   mode: TimerMode;
   onDiscard: () => void;
   onStartClicked: () => void;
@@ -49,13 +48,13 @@ export const TimerControls = (props: TimerControlsProps) => {
           <div className="mr-3">
             {isTimerMode ? (
               <div>
-                {props.running || props.creating || props.updating ? (
+                {props.running ? (
                   <button
                     className="rounded-full bg-red-400 p-2 text-xl text-neutral-50 hover:bg-red-300 disabled:bg-red-300 dark:bg-red-dark-400 dark:hover:bg-red-dark-500 dark:disabled:bg-red-dark-300"
                     aria-label="Stop timer"
                     title="Stop timer"
                     onClick={props.onStopClicked}
-                    disabled={props.updating || props.creating}
+                    disabled={props.pending}
                   >
                     <BiStop />
                   </button>
@@ -87,7 +86,7 @@ export const TimerControls = (props: TimerControlsProps) => {
           <div className="flex min-w-[1.5rem] items-center justify-center">
             {props.running ? (
               <button
-                disabled={props.creating || props.updating}
+                disabled={props.pending}
                 onClick={props.onDiscard}
                 title="Discard"
               >

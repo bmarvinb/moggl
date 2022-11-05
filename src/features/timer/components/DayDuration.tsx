@@ -1,4 +1,4 @@
-import { useActiveDuration } from 'features/timer/hooks/activeDuration';
+import { useActiveDuration } from 'features/timer/hooks/useActiveDuration';
 import { formatDuration } from 'features/timer/utils/time-entries-utils';
 
 type DayDurationProps = {

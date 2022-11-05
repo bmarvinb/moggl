@@ -1,12 +1,12 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useActor, useInterpret } from '@xstate/react';
-import { useAddTimeEntry } from 'features/timer/hooks/createTimeEntry';
-import { useDeleteTimeEntry } from 'features/timer/hooks/deleteTimeEntry';
-import { useStopTimeEntry } from 'features/timer/hooks/stopTimeEntry';
-import { useUpdateTimeEntry } from 'features/timer/hooks/updateTimeEntry';
+import { useAddTimeEntry } from 'features/timer/hooks/useCreateTimeEntry';
+import { useDeleteTimeEntry } from 'features/timer/hooks/useDeleteTimeEntry';
+import { useStopTimeEntry } from 'features/timer/hooks/useStopTimeEntry';
+import { useUpdateTimeEntry } from 'features/timer/hooks/useUpdateTimeEntry';
 import { timerMachine } from 'features/timer/machines/TimerMachine';
 import { ActiveTimeEntry } from 'features/timer/models/time-entry';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { invariant } from 'shared/utils/invariant';
 import { InterpreterFrom } from 'xstate';
 
@@ -16,15 +16,17 @@ const TimerContext = React.createContext<TimerContextData>(
   {} as TimerContextData,
 );
 
-export function TimerMachineProvider(props: {
-  activeTimeEntry: ActiveTimeEntry | undefined;
+export type TimerMachineProviderProps = {
   children: React.ReactNode;
-}) {
+  active: ActiveTimeEntry | undefined;
+};
+
+export function TimerMachineProvider(props: TimerMachineProviderProps) {
+  const queryClient = useQueryClient();
   const addTimeEntry = useAddTimeEntry();
   const stopTimeEntry = useStopTimeEntry();
   const updateTimeEntry = useUpdateTimeEntry();
   const deleteTimeEntry = useDeleteTimeEntry();
-  const queryClient = useQueryClient();
 
   const service = useInterpret(timerMachine, {
     services: {
@@ -37,9 +39,7 @@ export function TimerMachineProvider(props: {
             description: context.timeEntry.description,
             billable: context.timeEntry.billable,
           })
-          .then(res => {
-            return res.id;
-          });
+          .then(({ id }) => id);
       },
       stopTimeEntry: context => () => {
         invariant(context.start, 'Start must be provided');
@@ -71,6 +71,7 @@ export function TimerMachineProvider(props: {
               description: context.timeEntry.description,
             },
           },
+          // TODO: popup notifications
           {
             onSuccess: () => console.log('Time entry updated'),
             onError: () => console.error('Time entry update failed'),
@@ -80,24 +81,24 @@ export function TimerMachineProvider(props: {
     },
   });
 
-  const [timerState, timerSend] = useActor(service);
+  const [_, timerSend] = useActor(service);
 
-  useEffect(() => {
-    if (props.activeTimeEntry) {
+  React.useEffect(() => {
+    if (props.active) {
       timerSend({
         type: 'CONTINUE',
         data: {
-          id: props.activeTimeEntry.id,
-          start: props.activeTimeEntry.start,
+          id: props.active.id,
+          start: props.active.start,
           timeEntry: {
-            projectId: props.activeTimeEntry.project?.id,
-            description: props.activeTimeEntry.description,
-            billable: props.activeTimeEntry.billable,
+            projectId: props.active.project?.id,
+            description: props.active.description,
+            billable: props.active.billable,
           },
         },
       });
     }
-  }, [props.activeTimeEntry, timerSend]);
+  }, [props.active, timerSend]);
 
   return (
     <TimerContext.Provider value={service}>
@@ -106,11 +107,11 @@ export function TimerMachineProvider(props: {
   );
 }
 
-export function useTimerMachine() {
+export function useTimerService() {
   const context = React.useContext(TimerContext);
   if (context === undefined) {
     throw new Error(
-      `useTimerMachine must be used within a TimerMachineProvider`,
+      `useTimerService must be used within a TimerMachineProvider`,
     );
   }
   return context;

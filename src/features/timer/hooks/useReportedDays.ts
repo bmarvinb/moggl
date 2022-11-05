@@ -11,7 +11,7 @@ import {
 import {
   isParentTimeEntry,
   TimeEntryRowType,
-} from 'features/timer/hooks/selection';
+} from 'features/timer/hooks/useSelection';
 
 const getParentChildren = (
   timeEntry: CompletedTimeEntry,

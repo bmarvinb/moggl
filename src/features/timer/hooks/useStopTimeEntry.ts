@@ -2,11 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { differenceInSeconds } from 'date-fns';
 import { useCurrentUser } from 'features/auth/hooks/currentUser';
 import { useWorkspace } from 'features/auth/hooks/workspace';
-import { QUERY_KEY } from 'features/timer/hooks/timeEntries';
-import {
-  CompletedTimeEntry,
-  TimeEntry,
-} from 'features/timer/models/time-entry';
+import { QUERY_KEY } from 'features/timer/hooks/useTimeEntries';
+import { CompletedTimeEntry } from 'features/timer/models/time-entry';
 import { timeEntries } from 'features/timer/services/time-entries';
 import { invariant } from 'shared/utils/invariant';
 
@@ -20,7 +17,7 @@ export function useStopTimeEntry() {
     {
       onMutate: async data => {
         invariant(data.start, 'Start date should be provided');
-        const timeEntry: TimeEntry = {
+        const timeEntry: CompletedTimeEntry = {
           type: 'COMPLETED',
           id: `${data.start}`,
           description: data.description,
@@ -33,18 +30,15 @@ export function useStopTimeEntry() {
           duration: differenceInSeconds(new Date(), new Date(data.start)),
         };
         await queryClient.cancelQueries([QUERY_KEY]);
-        const previousTimeEntries = queryClient.getQueryData([QUERY_KEY]);
-        queryClient.setQueryData(
-          [QUERY_KEY],
-          (previous: CompletedTimeEntry[] | undefined) => {
-            return !previous ? [] : [timeEntry, ...previous];
-          },
-        );
-        return { previousTimeEntries };
+        const prev = queryClient.getQueryData([QUERY_KEY]);
+        queryClient.setQueryData([QUERY_KEY], (data: any) => {
+          return { ...data, completed: [timeEntry, ...data.completed] };
+        });
+        return { prev };
       },
       onError: (_, __, context) => {
-        if (context?.previousTimeEntries) {
-          queryClient.setQueryData([QUERY_KEY], context.previousTimeEntries);
+        if (context?.prev) {
+          queryClient.setQueryData([QUERY_KEY], context.prev);
         }
       },
       onSettled: () => {

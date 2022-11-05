@@ -3,7 +3,7 @@ import {
   TimeEntryRow,
   TimeEntryViewRow,
 } from 'features/timer/components/TimeEntryViewRow';
-import { SelectionChanges } from 'features/timer/hooks/selection';
+import { SelectionChanges } from 'features/timer/hooks/useSelection';
 import {
   formatDuration,
   getTimeEntryInfo,
