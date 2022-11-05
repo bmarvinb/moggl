@@ -5,7 +5,6 @@ import {
   selectIsTimerPending,
   selectTimerContext,
   TimerMode,
-  UpdateTimeEntryData,
 } from 'features/timer/machines/TimerMachine';
 import { useTimerService } from 'features/timer/machines/TimerMachineProvider';
 
@@ -25,21 +24,16 @@ export const Timer = () => {
 
   const discard = () => service.send({ type: 'DISCARD' });
 
-  const updateTimeEntry = (data: UpdateTimeEntryData) =>
-    service.send({ type: 'UPDATE_TIME_ENTRY', data });
+  const updateDescription = (description: string) =>
+    service.send({ type: 'UPDATE_DESCRIPTION', description });
 
   const saveTimeEntry = () => service.send({ type: 'SAVE_TIME_ENTRY' });
 
   const updateMode = (mode: TimerMode) =>
     service.send({ type: 'UPDATE_MODE', mode });
 
-  const updateBillableStatus = () => {
-    service.send([
-      { type: 'UPDATE_TIME_ENTRY', data: { billable: !timeEntry.billable } },
-      {
-        type: 'SAVE_TIME_ENTRY',
-      },
-    ]);
+  const toggleBillableStatus = () => {
+    service.send({ type: 'TOGGLE_BILLABLE_STATUS' });
   };
 
   const addTimeEntry = () => console.log('time entry clicked');
@@ -55,9 +49,7 @@ export const Timer = () => {
               : 'What have you done?'
           }
           value={timeEntry.description}
-          onChange={event =>
-            updateTimeEntry({ description: event.target.value })
-          }
+          onChange={event => updateDescription(event.target.value)}
           onBlur={saveTimeEntry}
         />
       </div>
@@ -72,7 +64,7 @@ export const Timer = () => {
           onDiscard={discard}
           onStart={start}
           onStop={stop}
-          onBillableStatusChange={updateBillableStatus}
+          onToggleBillableStatus={toggleBillableStatus}
           onModeChange={updateMode}
           onAddTimeEntry={addTimeEntry}
         />

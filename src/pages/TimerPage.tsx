@@ -14,7 +14,6 @@ export const TimerPage = () => {
       return <div>Error</div>;
     case 'success':
       const { active, completed } = data;
-
       return (
         <TimerMachineProvider active={active}>
           <Timer />

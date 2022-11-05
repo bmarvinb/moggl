@@ -21,7 +21,7 @@ export type TimerControlsProps = {
   onStart: () => void;
   onAddTimeEntry: () => void;
   onStop: () => void;
-  onBillableStatusChange: () => void;
+  onToggleBillableStatus: () => void;
   onModeChange: (mode: TimerMode) => void;
 };
 
@@ -35,7 +35,15 @@ export const TimerControls = (props: TimerControlsProps) => {
         <div className="flex gap-2">
           <ButtonIcon icon={<BiBriefcase title="Select project" />} />
           <ButtonIcon icon={<BiPurchaseTag title="Select tags" />} />
-          <ButtonIcon icon={<BiDollar title="Change billable status" />} />
+          <ButtonIcon
+            onClick={props.onToggleBillableStatus}
+            icon={<BiDollar title="Change billable status" />}
+            className={
+              props.isBillable
+                ? 'text-primary-400 dark:text-primary-dark-400'
+                : ''
+            }
+          />
         </div>
 
         <div className="flex items-center">
