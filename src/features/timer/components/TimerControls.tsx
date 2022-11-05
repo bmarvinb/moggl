@@ -12,21 +12,23 @@ import {
 import { ButtonIcon } from 'shared/components/ButtonIcon';
 
 export type TimerControlsProps = {
-  running: boolean;
-  pending: boolean;
+  isRunning: boolean;
+  isPending: boolean;
   duration: number;
-  billable: boolean;
+  isBillable: boolean;
   mode: TimerMode;
   onDiscard: () => void;
-  onStartClicked: () => void;
-  onAddTimeEntryClicked: () => void;
-  onStopClicked: () => void;
-  onBillableStatusChanged: () => void;
-  onTimerModeChanged: (mode: TimerMode) => void;
+  onStart: () => void;
+  onAddTimeEntry: () => void;
+  onStop: () => void;
+  onBillableStatusChange: () => void;
+  onModeChange: (mode: TimerMode) => void;
 };
 
 export const TimerControls = (props: TimerControlsProps) => {
   const isTimerMode = props.mode === 'Timer';
+  const setTimerMode = () => props.onModeChange('Timer');
+  const setManualMode = () => props.onModeChange('Manual');
   return (
     <div>
       <div className="flex w-full items-center justify-between gap-4">
@@ -48,13 +50,13 @@ export const TimerControls = (props: TimerControlsProps) => {
           <div className="mr-3">
             {isTimerMode ? (
               <div>
-                {props.running ? (
+                {props.isRunning ? (
                   <button
                     className="rounded-full bg-red-400 p-2 text-xl text-neutral-50 hover:bg-red-300 disabled:bg-red-300 dark:bg-red-dark-400 dark:hover:bg-red-dark-500 dark:disabled:bg-red-dark-300"
                     aria-label="Stop timer"
                     title="Stop timer"
-                    onClick={props.onStopClicked}
-                    disabled={props.pending}
+                    onClick={props.onStop}
+                    disabled={props.isPending}
                   >
                     <BiStop />
                   </button>
@@ -63,7 +65,7 @@ export const TimerControls = (props: TimerControlsProps) => {
                     className="rounded-full bg-primary-400 p-2 text-xl text-neutral-50 hover:bg-primary-300 disabled:bg-primary-300 dark:bg-primary-dark-400 dark:hover:bg-primary-dark-500 dark:disabled:bg-primary-dark-300"
                     aria-label="Start timer"
                     title="Start timer"
-                    onClick={props.onStartClicked}
+                    onClick={props.onStart}
                   >
                     <BiPlay className="relative -right-0.5" />
                   </button>
@@ -75,7 +77,7 @@ export const TimerControls = (props: TimerControlsProps) => {
                   className="rounded-full bg-primary-400 p-2 text-xl text-neutral-50 hover:bg-primary-300 dark:bg-primary-dark-400 dark:hover:bg-primary-dark-500"
                   aria-label="Add time entry"
                   title="Add time entry"
-                  onClick={props.onAddTimeEntryClicked}
+                  onClick={props.onAddTimeEntry}
                 >
                   <BiPlus />
                 </button>
@@ -84,9 +86,9 @@ export const TimerControls = (props: TimerControlsProps) => {
           </div>
 
           <div className="flex min-w-[1.5rem] items-center justify-center">
-            {props.running ? (
+            {props.isRunning ? (
               <button
-                disabled={props.pending}
+                disabled={props.isPending}
                 onClick={props.onDiscard}
                 title="Discard"
               >
@@ -94,16 +96,10 @@ export const TimerControls = (props: TimerControlsProps) => {
               </button>
             ) : (
               <div className="flex flex-col justify-center rounded p-0">
-                <button
-                  title="Timer mode"
-                  onClick={() => props.onTimerModeChanged('Timer')}
-                >
+                <button title="Timer mode" onClick={setTimerMode}>
                   <BiPlay />
                 </button>
-                <button
-                  title="Manual mode"
-                  onClick={() => props.onTimerModeChanged('Manual')}
-                >
+                <button title="Manual mode" onClick={setManualMode}>
                   <BiPlus />
                 </button>
               </div>

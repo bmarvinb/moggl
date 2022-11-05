@@ -1,36 +1,48 @@
-import { useActor } from '@xstate/react';
+import { useSelector } from '@xstate/react';
 import { TimerControls } from 'features/timer/components/TimerControls';
 import {
+  selectIsTimerRunning,
+  selectIsTimerPending,
+  selectTimerContext,
   TimerMode,
-  TimerPayload,
-  TimerState,
   UpdateTimeEntryData,
 } from 'features/timer/machines/TimerMachine';
 import { useTimerService } from 'features/timer/machines/TimerMachineProvider';
 
 export const Timer = () => {
   const service = useTimerService();
-  const [state, send] = useActor(service);
+  const { duration, mode, timeEntry } = useSelector(
+    service,
+    selectTimerContext,
+  );
+  const isRunning = useSelector(service, selectIsTimerRunning);
 
-  const { mode, duration, timeEntry } = state.context;
-  const running = !state.matches(TimerState.Idle);
-  const pending =
-    state.matches(TimerState.Creating) ||
-    state.matches(TimerState.Discarding) ||
-    state.matches(TimerState.Saving);
+  const isPending = useSelector(service, selectIsTimerPending);
 
-  const start = (start: Date) => send({ type: 'START', start });
+  const start = () => service.send({ type: 'START', start: new Date() });
 
-  const stop = () => send({ type: 'STOP' });
+  const stop = () => service.send({ type: 'STOP' });
 
-  const discard = () => send({ type: 'DISCARD' });
+  const discard = () => service.send({ type: 'DISCARD' });
 
   const updateTimeEntry = (data: UpdateTimeEntryData) =>
-    send({ type: 'UPDATE_TIME_ENTRY', data });
+    service.send({ type: 'UPDATE_TIME_ENTRY', data });
 
-  const saveTimeEntry = () => send({ type: 'SAVE_TIME_ENTRY' });
+  const saveTimeEntry = () => service.send({ type: 'SAVE_TIME_ENTRY' });
 
-  const updateMode = (mode: TimerMode) => send({ type: 'UPDATE_MODE', mode });
+  const updateMode = (mode: TimerMode) =>
+    service.send({ type: 'UPDATE_MODE', mode });
+
+  const updateBillableStatus = () => {
+    service.send([
+      { type: 'UPDATE_TIME_ENTRY', data: { billable: !timeEntry.billable } },
+      {
+        type: 'SAVE_TIME_ENTRY',
+      },
+    ]);
+  };
+
+  const addTimeEntry = () => console.log('time entry clicked');
 
   return (
     <div className="relative flex w-full flex-col  bg-neutral-50 py-3 px-4 shadow-md dark:bg-neutral-dark-50 md:flex-row md:items-center">
@@ -38,34 +50,31 @@ export const Timer = () => {
         <input
           className="w-full bg-transparent py-3 placeholder-neutral-600 focus:outline-none dark:placeholder-neutral-dark-600"
           placeholder={
-            state.context.mode === 'Timer'
+            mode === 'Timer'
               ? 'What are you working on?'
               : 'What have you done?'
           }
-          value={state.context.timeEntry.description}
-          onChange={e => updateTimeEntry({ description: e.target.value })}
-          onBlur={e => saveTimeEntry}
+          value={timeEntry.description}
+          onChange={event =>
+            updateTimeEntry({ description: event.target.value })
+          }
+          onBlur={saveTimeEntry}
         />
       </div>
 
       <div>
         <TimerControls
-          running={running}
-          pending={pending}
+          isRunning={isRunning}
+          isPending={isPending}
           duration={duration}
           mode={mode}
-          billable={timeEntry.billable}
-          onBillableStatusChanged={() => {
-            updateTimeEntry({ billable: !timeEntry.billable });
-            saveTimeEntry();
-          }}
+          isBillable={timeEntry.billable}
           onDiscard={discard}
-          onStartClicked={() => start(new Date())}
-          onStopClicked={stop}
-          onTimerModeChanged={updateMode}
-          onAddTimeEntryClicked={() => {
-            console.log('time entry clicked');
-          }}
+          onStart={start}
+          onStop={stop}
+          onBillableStatusChange={updateBillableStatus}
+          onModeChange={updateMode}
+          onAddTimeEntry={addTimeEntry}
         />
       </div>
     </div>

@@ -1,10 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useActor, useInterpret } from '@xstate/react';
+import { useInterpret } from '@xstate/react';
 import { useAddTimeEntry } from 'features/timer/hooks/useCreateTimeEntry';
 import { useDeleteTimeEntry } from 'features/timer/hooks/useDeleteTimeEntry';
 import { useStopTimeEntry } from 'features/timer/hooks/useStopTimeEntry';
 import { useUpdateTimeEntry } from 'features/timer/hooks/useUpdateTimeEntry';
-import { timerMachine } from 'features/timer/machines/TimerMachine';
+import {
+  timerMachine,
+  TimerPayload,
+} from 'features/timer/machines/TimerMachine';
 import { ActiveTimeEntry } from 'features/timer/models/time-entry';
 import React from 'react';
 import { invariant } from 'shared/utils/invariant';
@@ -20,6 +23,18 @@ export type TimerMachineProviderProps = {
   children: React.ReactNode;
   active: ActiveTimeEntry | undefined;
 };
+
+function getTimerPayload(timeEntry: ActiveTimeEntry): TimerPayload {
+  return {
+    id: timeEntry.id,
+    start: timeEntry.start,
+    timeEntry: {
+      projectId: timeEntry.project?.id,
+      description: timeEntry.description,
+      billable: timeEntry.billable,
+    },
+  };
+}
 
 export function TimerMachineProvider(props: TimerMachineProviderProps) {
   const queryClient = useQueryClient();
@@ -81,24 +96,15 @@ export function TimerMachineProvider(props: TimerMachineProviderProps) {
     },
   });
 
-  const [_, timerSend] = useActor(service);
-
   React.useEffect(() => {
     if (props.active) {
-      timerSend({
+      const data = getTimerPayload(props.active);
+      service.send({
         type: 'CONTINUE',
-        data: {
-          id: props.active.id,
-          start: props.active.start,
-          timeEntry: {
-            projectId: props.active.project?.id,
-            description: props.active.description,
-            billable: props.active.billable,
-          },
-        },
+        data,
       });
     }
-  }, [props.active, timerSend]);
+  }, [props.active, service]);
 
   return (
     <TimerContext.Provider value={service}>

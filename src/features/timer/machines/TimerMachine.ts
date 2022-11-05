@@ -1,6 +1,6 @@
 import { differenceInSeconds } from 'date-fns';
 import { invariant } from 'shared/utils/invariant';
-import { assign, createMachine } from 'xstate';
+import { assign, createMachine, State } from 'xstate';
 
 export type TimerMode = 'Timer' | 'Manual';
 
@@ -256,3 +256,29 @@ export const timerMachine = createMachine<
     },
   },
 });
+
+export function selectTimerContext(
+  state: State<TimerContext, TimerEvent>,
+): TimerContext {
+  return {
+    duration: state.context.duration,
+    mode: state.context.mode,
+    timeEntry: state.context.timeEntry,
+  };
+}
+
+export function selectIsTimerRunning(
+  state: State<TimerContext, TimerEvent>,
+): boolean {
+  return !state.matches(TimerState.Idle);
+}
+
+export function selectIsTimerPending(
+  state: State<TimerContext, TimerEvent>,
+): boolean {
+  return (
+    state.matches(TimerState.Creating) ||
+    state.matches(TimerState.Discarding) ||
+    state.matches(TimerState.Saving)
+  );
+}
