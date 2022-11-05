@@ -1,8 +1,8 @@
 import { useSelector } from '@xstate/react';
 import { TimerControls } from 'features/timer/components/TimerControls';
 import {
-  selectIsTimerRunning,
   selectIsTimerPending,
+  selectIsTimerRunning,
   selectTimerContext,
   TimerMode,
 } from 'features/timer/machines/TimerMachine';

@@ -18,7 +18,7 @@ type TimerContext = {
   duration: number;
 };
 
-export type TimerPayload = {
+export type TimerData = {
   id: string;
   start: Date;
   timeEntry: TimeEntryData;
@@ -58,11 +58,11 @@ type TimerEvent =
   | { type: 'START'; start: Date }
   | {
       type: 'CONTINUE';
-      data: TimerPayload;
+      data: TimerData;
     }
   | {
       type: 'RESUME';
-      data: TimerPayload;
+      data: TimerData;
     }
   | { type: 'STOP' }
   | { type: 'DISCARD' }

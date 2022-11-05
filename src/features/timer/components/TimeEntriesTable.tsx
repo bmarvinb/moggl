@@ -1,4 +1,3 @@
-import { useActor } from '@xstate/react';
 import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow';
 import { TimeEntryRowContainer } from 'features/timer/components/TimeEntryRowContainer';
 import {
@@ -11,6 +10,7 @@ import {
   SelectionChanges,
   useSelection,
 } from 'features/timer/hooks/useSelection';
+import { TimerData } from 'features/timer/machines/TimerMachine';
 import { useTimerService } from 'features/timer/machines/TimerMachineProvider';
 import {
   formatDuration,
@@ -22,9 +22,20 @@ export type TimeEntriesTableProps = {
   day: ReportedDay;
 };
 
+function getTimerData(timeEntry: TimeEntryRow): TimerData {
+  return {
+    id: timeEntry.data.id,
+    start: new Date(),
+    timeEntry: {
+      description: timeEntry.data.description,
+      billable: timeEntry.data.billable,
+      projectId: timeEntry.data.project?.id,
+    },
+  };
+}
+
 export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
   const service = useTimerService();
-  const [, timerSend] = useActor(service);
   const [bulkEditMode, toggleBulkEditMode] = React.useReducer(
     state => !state,
     false,
@@ -52,17 +63,9 @@ export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
   };
 
   const onPlayClicked = (timeEntry: TimeEntryRow) => {
-    timerSend({
+    service.send({
       type: 'RESUME',
-      data: {
-        id: timeEntry.data.id,
-        start: new Date(),
-        timeEntry: {
-          description: timeEntry.data.description,
-          billable: timeEntry.data.billable,
-          projectId: timeEntry.data.project?.id,
-        },
-      },
+      data: getTimerData(timeEntry),
     });
   };
 
