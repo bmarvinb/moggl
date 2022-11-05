@@ -15,8 +15,8 @@ export const TimerPage = () => {
     case 'success':
       const { active, completed } = data;
       return (
-        <TimerMachineProvider active={active}>
-          <Timer />
+        <TimerMachineProvider>
+          <Timer active={active} />
           <ReportedDays timeEntries={completed} />
         </TimerMachineProvider>
       );

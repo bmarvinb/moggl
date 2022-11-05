@@ -4,16 +4,42 @@ import {
   selectIsTimerPending,
   selectIsTimerRunning,
   selectTimerContext,
+  TimerData,
   TimerMode,
 } from 'features/timer/machines/TimerMachine';
 import { useTimerService } from 'features/timer/machines/TimerMachineProvider';
+import { ActiveTimeEntry } from 'features/timer/models/time-entry';
+import React from 'react';
 
-export const Timer = () => {
+function getTimerData(timeEntry: ActiveTimeEntry): TimerData {
+  return {
+    id: timeEntry.id,
+    start: timeEntry.start,
+    timeEntry: {
+      billable: timeEntry.billable,
+      description: timeEntry.description,
+      projectId: timeEntry.project?.id,
+    },
+  };
+}
+
+export const Timer = (props: { active: ActiveTimeEntry | undefined }) => {
   const service = useTimerService();
+
   const { duration, mode, timeEntry } = useSelector(
     service,
     selectTimerContext,
   );
+
+  React.useEffect(() => {
+    if (props.active) {
+      service.send({
+        type: 'CONTINUE',
+        data: getTimerData(props.active),
+      });
+    }
+  }, [props.active, service]);
+
   const isRunning = useSelector(service, selectIsTimerRunning);
 
   const isPending = useSelector(service, selectIsTimerPending);

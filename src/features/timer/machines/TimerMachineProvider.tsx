@@ -1,6 +1,5 @@
 import { useTimerMachine } from 'features/timer/hooks/useTimer';
-import { timerMachine, TimerData } from 'features/timer/machines/TimerMachine';
-import { ActiveTimeEntry } from 'features/timer/models/time-entry';
+import { timerMachine } from 'features/timer/machines/TimerMachine';
 import React from 'react';
 import { InterpreterFrom } from 'xstate';
 
@@ -12,35 +11,13 @@ const TimerContext = React.createContext<TimerContextData>(
 
 export type TimerMachineProviderProps = {
   children: React.ReactNode;
-  active: ActiveTimeEntry | undefined;
 };
 
-function getTimerData(timeEntry: ActiveTimeEntry): TimerData {
-  return {
-    id: timeEntry.id,
-    start: timeEntry.start,
-    timeEntry: {
-      billable: timeEntry.billable,
-      description: timeEntry.description,
-      projectId: timeEntry.project?.id,
-    },
-  };
-}
-
 export function TimerMachineProvider(props: TimerMachineProviderProps) {
-  const service = useTimerMachine();
-
-  React.useEffect(() => {
-    if (props.active) {
-      service.send({
-        type: 'CONTINUE',
-        data: getTimerData(props.active),
-      });
-    }
-  }, [props.active, service]);
+  const timerMachineService = useTimerMachine();
 
   return (
-    <TimerContext.Provider value={service}>
+    <TimerContext.Provider value={timerMachineService}>
       {props.children}
     </TimerContext.Provider>
   );
