@@ -7,14 +7,14 @@ import { useStopTimeEntry } from 'features/timer/hooks/useStopTimeEntry';
 import { useUpdateTimeEntry } from 'features/timer/hooks/useUpdateTimeEntry';
 import { timerMachine } from 'features/timer/machines/TimerMachine';
 
-export function useTimerMachine() {
+export function useTimer() {
   const queryClient = useQueryClient();
   const addTimeEntry = useAddTimeEntry();
   const stopTimeEntry = useStopTimeEntry();
   const updateTimeEntry = useUpdateTimeEntry();
   const deleteTimeEntry = useDeleteTimeEntry();
 
-  const machine = useInterpret(timerMachine, {
+  const service = useInterpret(timerMachine, {
     services: {
       addTimeEntry: context => () => {
         invariant(context.start, 'Start date should be provided');
@@ -67,5 +67,5 @@ export function useTimerMachine() {
     },
   });
 
-  return machine;
+  return service;
 }

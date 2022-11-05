@@ -7,7 +7,7 @@ import {
   TimerData,
   TimerMode,
 } from 'features/timer/machines/TimerMachine';
-import { useTimerService } from 'features/timer/machines/TimerMachineProvider';
+import { TimerContext } from 'features/timer/machines/TimerMachineProvider';
 import { ActiveTimeEntry } from 'features/timer/models/time-entry';
 import React from 'react';
 
@@ -24,7 +24,7 @@ function getTimerData(timeEntry: ActiveTimeEntry): TimerData {
 }
 
 export const Timer = (props: { active: ActiveTimeEntry | undefined }) => {
-  const service = useTimerService();
+  const service = React.useContext(TimerContext);
 
   const { duration, mode, timeEntry } = useSelector(
     service,

@@ -11,7 +11,7 @@ import {
   useSelection,
 } from 'features/timer/hooks/useSelection';
 import { TimerData } from 'features/timer/machines/TimerMachine';
-import { useTimerService } from 'features/timer/machines/TimerMachineProvider';
+import { TimerContext } from 'features/timer/machines/TimerMachineProvider';
 import {
   formatDuration,
   getTimeEntryInfo,
@@ -35,7 +35,7 @@ function getTimerData(timeEntry: TimeEntryRow): TimerData {
 }
 
 export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
-  const service = useTimerService();
+  const service = React.useContext(TimerContext);
   const [bulkEditMode, toggleBulkEditMode] = React.useReducer(
     state => !state,
     false,
