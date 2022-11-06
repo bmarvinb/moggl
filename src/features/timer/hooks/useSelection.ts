@@ -1,4 +1,4 @@
-import { assertNever } from 'shared/utils/assert';
+import { assertNever } from 'utils/assert';
 import { Dispatch, useReducer } from 'react';
 import {
   TimeEntryRow,
@@ -82,17 +82,13 @@ export function useSelection(
 export function isParentTimeEntry(
   timeEntry: TimeEntryRow,
 ): timeEntry is ParentTimeEntry {
-  return timeEntry.type === TimeEntryRowType.Parent;
+  return timeEntry.type === 'parent';
 }
 
 export function isChildTimeEntry(
   timeEntry: TimeEntryRow,
 ): timeEntry is ChildTimeEntry {
-  return timeEntry.type === TimeEntryRowType.Child;
+  return timeEntry.type === 'child';
 }
 
-export const enum TimeEntryRowType {
-  Regular = 'Regular',
-  Parent = 'Parent',
-  Child = 'Child',
-}
+export type TimeEntryRowType = 'regular' | 'parent' | 'child';

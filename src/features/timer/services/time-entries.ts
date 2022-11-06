@@ -5,9 +5,9 @@ import {
   TimeEntryDTO,
   timeEntrySchema,
   UpdateTimeEntryDTO,
-} from 'features/timer/services/time-entry-dtos';
-import { client } from 'shared/utils/api-client';
-import { createURLSearchParams } from 'shared/utils/url-params';
+} from 'features/timer/dtos/time-entry-dtos';
+import { client } from 'utils/api-client';
+import { createURLSearchParams } from 'utils/url-params';
 import { z } from 'zod';
 
 type TimeEntriesRequestOptions = {

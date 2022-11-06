@@ -8,7 +8,7 @@ import { TimerContext } from 'features/timer/machines/TimerMachineProvider';
 import React, { useRef } from 'react';
 
 export function useActiveDuration(initialDuration: number): number {
-  const service =   React.useContext(TimerContext);
+  const service = React.useContext(TimerContext);
   const { duration } = useSelector(service, selectTimerContext);
   const isRunning = useSelector(service, selectIsTimerRunning);
   const isPending = useSelector(service, selectIsTimerPending);

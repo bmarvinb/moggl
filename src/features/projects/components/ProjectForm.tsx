@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAddProject } from 'features/projects/hooks/addProject';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from 'shared/components/Button';
-import { TextField } from 'shared/components/TextField';
+import { Button } from 'components/Elements/Button';
+import { TextField } from 'components/Form/TextField';
 import { z } from 'zod';
 
 export type AddProjectDialogProps = {
@@ -44,7 +44,7 @@ export const ProjectForm = (props: AddProjectDialogProps) => {
           label="Name"
           placeholder="Project name"
           message={errors.name?.message}
-          tone="critical"
+          variant="critical"
         />
 
         <div>

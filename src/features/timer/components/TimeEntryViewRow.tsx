@@ -10,24 +10,24 @@ import {
   BiPlay,
   BiPurchaseTag,
 } from 'react-icons/bi';
-import { ButtonIcon } from 'shared/components/ButtonIcon';
-import { Checkbox } from 'shared/components/Checkbox';
+import { ButtonIcon } from 'components/Elements/ButtonIcon';
+import { Checkbox } from 'components/Checkbox';
 
 export type ParentTimeEntry = {
   data: CompletedTimeEntry;
-  type: TimeEntryRowType.Parent;
+  type: 'parent';
   children: ChildTimeEntry[];
 };
 
 export type RegularTimeEntry = {
   data: CompletedTimeEntry;
-  type: TimeEntryRowType.Regular;
+  type: 'regular';
 };
 
 export type ChildTimeEntry = {
   data: CompletedTimeEntry;
   siblings: number;
-  type: TimeEntryRowType.Child;
+  type: 'child';
 };
 
 export type TimeEntryRow = RegularTimeEntry | ParentTimeEntry | ChildTimeEntry;

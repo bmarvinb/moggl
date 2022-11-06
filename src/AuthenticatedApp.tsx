@@ -1,4 +1,7 @@
 import { useMachine } from '@xstate/react';
+import { Drawer } from 'components/Elements/Drawer/Drawer';
+import { useCurrentUser } from 'features/auth/hooks/currentUser';
+import { Navbar } from 'layout/components/Navbar';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -7,14 +10,7 @@ import {
   NavigationMenuUserProfile,
   Profile,
 } from 'layout/components/NavigationMenuUserProfile';
-import { Drawer } from 'layout/components/Drawer';
-import { Navbar } from 'layout/components/Navbar';
-import {
-  drawerMachine,
-  DrawerMode,
-  DrawerState,
-} from 'layout/machines/drawerMachine';
-import { useCurrentUser } from 'features/auth/hooks/currentUser';
+import { drawerMachine } from 'layout/machines/drawerMachine';
 import { ClientsPage } from 'pages/ClientsPage';
 import { ProjectsPage } from 'pages/ProjectsPage';
 import { TagsPage } from 'pages/TagsPage';
@@ -48,8 +44,8 @@ const menuItems: NavigationMenuItem[] = [
 export const AuthenticatedApp = () => {
   const [state, send] = useMachine(drawerMachine);
   const currentUser = useCurrentUser();
-  const temporaryMode = state.context.mode === DrawerMode.Temporary;
-  const open = state.matches(DrawerState.Open);
+  const temporaryMode = state.context.mode === 'temporary';
+  const open = state.matches('open');
   const profileInfo: Profile = {
     email: currentUser.email,
     name: currentUser.name,

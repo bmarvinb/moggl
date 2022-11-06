@@ -6,7 +6,7 @@ import {
   TimerMachineProvider,
 } from 'features/timer/machines/TimerMachineProvider';
 import React from 'react';
-import { PageSpinner } from 'shared/components/PageSpinner';
+import { PageSpinner } from 'components/PageSpinner';
 
 export const TimerPage = () => {
   const { status, data } = useTimeEntries();

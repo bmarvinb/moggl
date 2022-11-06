@@ -3,11 +3,11 @@ import { AddProjectDialog } from 'features/projects/components/AddProjectDialog'
 import { ProjectForm } from 'features/projects/components/ProjectForm';
 import { Projects } from 'features/projects/models/projects';
 import React from 'react';
-import { Button } from 'shared/components/Button';
-import { Card } from 'shared/components/Card/Card';
-import { Container } from 'shared/components/Container';
-import { Dialog } from 'shared/components/Dialog';
-import { Title } from 'shared/components/Title';
+import { Button } from 'components/Elements/Button';
+import { Card } from 'components/Card/Card';
+import { Container } from 'components/Container';
+import { Dialog } from 'components/Dialog';
+import { Title } from 'components/Title';
 
 export type ProjectsContentProps = {
   projects: Projects;

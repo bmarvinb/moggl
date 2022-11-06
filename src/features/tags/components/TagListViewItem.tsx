@@ -1,10 +1,10 @@
-import { Tag } from 'features/tags/models/tags';
+import { TagDTO } from 'features/tags/models/tags';
 import { BiArchive, BiPencil, BiTrash } from 'react-icons/bi';
-import { ButtonIcon } from 'shared/components/ButtonIcon';
-import { ListItem } from 'shared/components/List';
+import { ButtonIcon } from 'components/Elements/ButtonIcon';
+import { ListItem } from 'components/List';
 
 export type TagListViewItemProps = {
-  tag: Tag;
+  tag: TagDTO;
   updateTagStatus: string;
   deleteTagStatus: string;
   onEdit: () => void;

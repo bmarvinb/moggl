@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Card } from 'shared/components/Card/Card';
-import { Input } from 'shared/components/Input';
+import { Card } from 'components/Card/Card';
+import { Input } from 'components/Form/Input';
 import { z } from 'zod';
 
 export type TagsFilter = {

@@ -1,4 +1,4 @@
-import { PageSpinner } from 'shared/components/PageSpinner';
+import { PageSpinner } from 'components/PageSpinner';
 import { ProjectsContent } from 'features/projects/components/ProjectsContent';
 import { useProjects } from 'features/projects/hooks/projects';
 

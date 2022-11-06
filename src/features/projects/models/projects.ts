@@ -1,7 +1,7 @@
-import { estimateSchema } from 'shared/scheme/estimate';
-import { hourlyRateSchema } from 'shared/scheme/hourly-rate';
-import { membershipSchema } from 'shared/scheme/membership';
-import { timeEstimateSchema } from 'shared/scheme/time-estimate';
+import { estimateSchema } from 'shared/schemes/estimate';
+import { hourlyRateSchema } from 'shared/schemes/hourly-rate';
+import { membershipSchema } from 'shared/schemes/membership';
+import { timeEstimateSchema } from 'shared/schemes/time-estimate';
 import { z } from 'zod';
 
 export type ProjectRequestOptions = {

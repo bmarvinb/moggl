@@ -1,53 +1,38 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AddTagDTO, Tag, UpdateTagDTO } from 'features/tags/models/tags';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from 'shared/components/Button';
-import { FieldMessage } from 'shared/components/FieldMessage';
-import { TextField } from 'shared/components/TextField';
-import { DialogMode } from 'shared/models/dialog-mode';
+import { Button } from 'components/Elements/Button';
+import { FieldMessage } from 'components/Form/FieldMessage';
+import { TextField } from 'components/Form/TextField';
 import { z } from 'zod';
 
-export type AddTagData = {
-  operation: DialogMode.Add;
-  onSubmit: (data: AddTagDTO) => void;
-};
-
-export type UpdateTagData = {
-  operation: DialogMode.Update;
-  tag: Tag;
-  onSubmit: (data: UpdateTagDTO) => void;
-};
-
-type TagData = AddTagData | UpdateTagData;
-
-export type TagFormProps = TagData & {
+type TagFormProps = {
   loading: boolean;
+  action: string;
   error?: string;
+  onSubmit: (data: TagFormValues) => void;
+  defaultValues?: TagFormValues;
 };
 
-const submitTitle: Record<DialogMode, string> = {
-  [DialogMode.Add]: 'Add',
-  [DialogMode.Update]: 'Update',
-};
-
-const schema = z.object({
+const tagFormSchema = z.object({
   name: z.string().min(1, 'Please provide a tag name'),
 });
 
-type FormValues = z.infer<typeof schema>;
+export type TagFormValues = z.infer<typeof tagFormSchema>;
 
-export const TagForm = (props: TagFormProps) => {
-  const { register, watch, handleSubmit, formState } = useForm<FormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      name: props.operation === DialogMode.Update ? props.tag.name : '',
-    },
+export const TagForm = ({
+  loading,
+  action,
+  error,
+  onSubmit,
+  defaultValues = { name: '' },
+}: TagFormProps) => {
+  const { register, handleSubmit, formState } = useForm<TagFormValues>({
+    resolver: zodResolver(tagFormSchema),
+    defaultValues,
   });
 
-  const onSubmit: SubmitHandler<FormValues> = data => {
-    props.onSubmit(
-      props.operation === DialogMode.Update ? { ...props.tag, ...data } : data,
-    );
+  const submit: SubmitHandler<TagFormValues> = data => {
+    onSubmit(data);
   };
 
   return (
@@ -59,14 +44,14 @@ export const TagForm = (props: TagFormProps) => {
           label="Name"
           placeholder="Tag name"
           message={formState.errors.name?.message}
-          tone={'critical'}
+          variant={'critical'}
         />
 
-        {props.error && (
+        {error && (
           <FieldMessage
             id="tag-form-error"
-            message={props.error}
-            tone="critical"
+            message={error}
+            variant="critical"
           />
         )}
       </div>
@@ -75,10 +60,9 @@ export const TagForm = (props: TagFormProps) => {
         type="submit"
         className="w-full justify-center"
         variant="primary"
-        loading={props.loading}
-        disabled={props.loading}
+        loading={loading}
       >
-        {submitTitle[props.operation]}
+        {action}
       </Button>
     </form>
   );

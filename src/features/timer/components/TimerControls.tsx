@@ -9,7 +9,7 @@ import {
   BiPurchaseTag,
   BiStop,
 } from 'react-icons/bi';
-import { ButtonIcon } from 'shared/components/ButtonIcon';
+import { ButtonIcon } from 'components/Elements/ButtonIcon';
 
 export type TimerControlsProps = {
   isRunning: boolean;

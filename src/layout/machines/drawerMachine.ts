@@ -1,27 +1,14 @@
 import { assign, createMachine } from 'xstate';
 
-export enum DrawerMode {
-  Temporary = 'Temporary',
-  Permanent = 'Permanent',
-}
+export type DrawerMode = 'temporary' | 'permanent';
 
-export enum DrawerState {
-  Open = 'open',
-  Closed = 'closed',
-}
+export type DrawerState = 'open' | 'closed';
 
 type DrawerContext = {
   mode?: DrawerMode;
 };
 
-type DrawerTypestate = { context: DrawerContext } & (
-  | {
-      value: DrawerState.Open;
-    }
-  | {
-      value: DrawerState.Closed;
-    }
-);
+type DrawerTypestate = { context: DrawerContext; value: DrawerState };
 
 type DrawerEvent =
   | {
@@ -79,10 +66,10 @@ export const drawerMachine =
     {
       actions: {
         setTemporaryMode: assign({
-          mode: _context => DrawerMode.Temporary,
+          mode: _context => 'temporary',
         }),
         setPermanentMode: assign({
-          mode: _context => DrawerMode.Permanent,
+          mode: _context => 'permanent',
         }),
       },
       services: {
@@ -95,9 +82,9 @@ export const drawerMachine =
       },
       guards: {
         shouldSetTemporaryMode: (context: DrawerContext) =>
-          window.innerWidth <= 768 && context.mode !== DrawerMode.Temporary,
+          window.innerWidth <= 768 && context.mode !== 'temporary',
         shouldSetPermanentMode: (context: DrawerContext) =>
-          window.innerWidth > 768 && context.mode !== DrawerMode.Permanent,
+          window.innerWidth > 768 && context.mode !== 'permanent',
       },
     },
   );

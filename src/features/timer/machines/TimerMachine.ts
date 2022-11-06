@@ -1,5 +1,5 @@
 import { differenceInSeconds } from 'date-fns';
-import { invariant } from 'shared/utils/invariant';
+import { invariant } from 'utils/invariant';
 import { assign, createMachine, State } from 'xstate';
 
 export type TimerMode = 'Timer' | 'Manual';
@@ -24,33 +24,32 @@ export type TimerData = {
   timeEntry: TimeEntryData;
 };
 
-export enum TimerState {
-  Idle = 'idle',
-  Running = 'running',
-  Creating = 'creating',
-  Discarding = 'discarding',
-  Saving = 'saving',
-}
+export type TimerState =
+  | 'idle'
+  | 'running'
+  | 'creating'
+  | 'discarding'
+  | 'saving';
 
 type TimerTypestate =
   | {
-      value: TimerState.Idle;
+      value: 'idle';
       context: TimerContext & { id: undefined; start: undefined };
     }
   | {
-      value: TimerState.Running;
+      value: 'running';
       context: TimerContext & { id: string; start: string };
     }
   | {
-      value: TimerState.Creating;
+      value: 'creating';
       context: TimerContext & { id: undefined; start: string };
     }
   | {
-      value: TimerState.Saving;
+      value: 'saving';
       context: TimerContext & { id: string; start: string };
     }
   | {
-      value: TimerState.Discarding;
+      value: 'discarding';
       context: TimerContext & { id: string; start: string };
     };
 
@@ -292,15 +291,15 @@ export function selectTimerContext(
 export function selectIsTimerRunning(
   state: State<TimerContext, TimerEvent>,
 ): boolean {
-  return !state.matches(TimerState.Idle);
+  return !state.matches('idle');
 }
 
 export function selectIsTimerPending(
   state: State<TimerContext, TimerEvent>,
 ): boolean {
   return (
-    state.matches(TimerState.Creating) ||
-    state.matches(TimerState.Discarding) ||
-    state.matches(TimerState.Saving)
+    state.matches('creating') ||
+    state.matches('discarding') ||
+    state.matches('saving')
   );
 }

@@ -26,7 +26,7 @@ const createChild = (
   data: CompletedTimeEntry,
   siblings: number,
 ): ChildTimeEntry => ({
-  type: TimeEntryRowType.Child,
+  type: 'child',
   siblings,
   data,
 });
@@ -34,7 +34,7 @@ const createChild = (
 const createRegularTimeEntry = (
   data: CompletedTimeEntry,
 ): RegularTimeEntry => ({
-  type: TimeEntryRowType.Regular,
+  type: 'regular',
   data,
 });
 
@@ -71,7 +71,7 @@ const createParentTimeEntry = (
 ): ParentTimeEntry => {
   const children = createParentChildren(data, timeEntry);
   return {
-    type: TimeEntryRowType.Parent,
+    type: 'parent',
     data: {
       ...timeEntry,
       start: calculateParentStartDate(children),

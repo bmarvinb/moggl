@@ -1,5 +1,5 @@
-import { client } from 'shared/utils/api-client';
-import { createURLSearchParams } from 'shared/utils/url-params';
+import { client } from 'utils/api-client';
+import { createURLSearchParams } from 'utils/url-params';
 import {
   AddProjectRequestData,
   Project,

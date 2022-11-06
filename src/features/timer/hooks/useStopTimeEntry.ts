@@ -5,7 +5,7 @@ import { useWorkspace } from 'features/auth/hooks/workspace';
 import { QUERY_KEY } from 'features/timer/hooks/useTimeEntries';
 import { CompletedTimeEntry } from 'features/timer/models/time-entry';
 import { timeEntries } from 'features/timer/services/time-entries';
-import { invariant } from 'shared/utils/invariant';
+import { invariant } from 'utils/invariant';
 
 export function useStopTimeEntry() {
   const workspace = useWorkspace();

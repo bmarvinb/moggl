@@ -1,5 +1,5 @@
-import { Card } from 'shared/components/Card/Card';
-import { Checkbox } from 'shared/components/Checkbox';
+import { Card } from 'components/Card/Card';
+import { Checkbox } from 'components/Checkbox';
 import { isToday } from 'date-fns';
 import { DayDuration } from 'features/timer/components/DayDuration';
 import { formatDate } from 'features/timer/utils/time-entries-utils';

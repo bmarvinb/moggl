@@ -1,12 +1,11 @@
-import { TagForm } from 'features/tags/components/TagForm';
-import { useUpdateTag } from 'features/tags/hooks/updateTag';
-import { Tag, UpdateTagDTO } from 'features/tags/models/tags';
-import { Dialog } from 'shared/components/Dialog';
-import { DialogMode } from 'shared/models/dialog-mode';
+import { TagForm, TagFormValues } from 'features/tags/components/TagForm';
+import { TagDTO } from 'features/tags/models/tags';
+import { Dialog } from 'components/Dialog';
+import { useUpdateTag } from 'features/tags/api/updateTag';
 
 export type UpdateTagDialogProps = {
   open: boolean;
-  tag: Tag;
+  tag: TagDTO;
   onSuccess: () => void;
   onOpenChange: (open: boolean) => void;
 };
@@ -14,10 +13,13 @@ export type UpdateTagDialogProps = {
 export const UpdateTagDialog = (props: UpdateTagDialogProps) => {
   const { mutate: updateTag, status, error } = useUpdateTag(props.tag.id);
 
-  const onSubmit = (data: UpdateTagDTO) => {
-    updateTag(data, {
-      onSuccess: props.onSuccess,
-    });
+  const onSubmit = (data: TagFormValues) => {
+    updateTag(
+      { ...props.tag, ...data },
+      {
+        onSuccess: props.onSuccess,
+      },
+    );
   };
 
   return (
@@ -27,10 +29,12 @@ export const UpdateTagDialog = (props: UpdateTagDialogProps) => {
       onClose={() => props.onOpenChange(false)}
     >
       <TagForm
-        operation={DialogMode.Update}
         loading={status === 'loading'}
         error={error?.message}
-        tag={props.tag}
+        defaultValues={{
+          name: props.tag.name,
+        }}
+        action="Update"
         onSubmit={onSubmit}
       />
     </Dialog>

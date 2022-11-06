@@ -26,6 +26,6 @@ export const tagSchema = z
 
 export const tagsSchema = z.array(tagSchema);
 
-export type Tag = z.infer<typeof tagSchema>;
+export type TagDTO = z.infer<typeof tagSchema>;
 
-export type Tags = z.infer<typeof tagsSchema>;
+export type TagsDTO = z.infer<typeof tagsSchema>;
