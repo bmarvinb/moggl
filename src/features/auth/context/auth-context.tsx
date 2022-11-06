@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { FullPageErrorFallback } from 'components/FullPageErrorFallback';
+import { ErrorFallback } from 'components/ErrorFallback';
 import { FullPageSpinner } from 'components/FullPageSpinner';
 import React from 'react';
 import { User } from '../services/user';
@@ -29,7 +29,7 @@ export function AuthProvider(props: { children: React.ReactNode }) {
 
   switch (status) {
     case 'error':
-      return <FullPageErrorFallback error={error} />;
+      return <ErrorFallback />;
     case 'loading':
       return <FullPageSpinner />;
     case 'success':

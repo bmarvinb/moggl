@@ -5,23 +5,7 @@ import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-
-export const ErrorFallback = () => {
-  return (
-    <div
-      className="flex h-screen w-screen flex-col items-center justify-center bg-neutral-50 text-red-500 dark:bg-neutral-dark-50 dark:text-red-dark-500"
-      role="alert"
-    >
-      <h2 className="text-lg font-semibold">Ooops, something went wrong :( </h2>
-      <Button
-        className="mt-4"
-        onClick={() => window.location.assign(window.location.origin)}
-      >
-        Refresh
-      </Button>
-    </div>
-  );
-};
+import { ErrorFallback } from 'components/ErrorFallback';
 
 const queryClient = new QueryClient({
   defaultOptions: {
