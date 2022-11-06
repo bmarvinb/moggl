@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { useWorkspace } from 'features/auth/hooks/workspace';
-import { getAllProjects } from 'features/projects/services/projects-api';
+import { useWorkspace } from 'features/auth';
+import { getAllProjects } from '../services/projects-api';
 
 export function useProjects() {
   const workspace = useWorkspace();

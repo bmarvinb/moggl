@@ -1,5 +1,5 @@
-import { ProjectForm } from 'features/projects/components/ProjectForm';
 import { Dialog } from 'components/Dialog';
+import { ProjectForm } from './ProjectForm';
 
 export type AddProjectDialogProps = {
   isOpen: boolean;

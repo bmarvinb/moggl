@@ -1,15 +1,15 @@
 import { useSelector } from '@xstate/react';
-import { TimerControls } from 'features/timer/components/TimerControls';
-import {
-  selectIsTimerPending,
-  selectIsTimerRunning,
-  selectTimerContext,
-  TimerData,
-  TimerMode,
-} from 'features/timer/machines/TimerMachine';
-import { TimerContext } from 'features/timer/machines/TimerMachineProvider';
-import { ActiveTimeEntry } from 'features/timer/models/time-entry';
 import React from 'react';
+import {
+  TimerData,
+  selectTimerContext,
+  selectIsTimerRunning,
+  selectIsTimerPending,
+  TimerMode,
+} from '../machines/TimerMachine';
+import { TimerContext } from '../machines/TimerMachineProvider';
+import { ActiveTimeEntry } from '../models/time-entry';
+import { TimerControls } from './TimerControls';
 
 function getTimerData(timeEntry: ActiveTimeEntry): TimerData {
   return {

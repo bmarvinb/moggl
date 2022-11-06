@@ -45,6 +45,7 @@ export const TagForm = ({
           placeholder="Tag name"
           message={formState.errors.name?.message}
           variant={'critical'}
+          className="mb-2"
         />
 
         {error && (

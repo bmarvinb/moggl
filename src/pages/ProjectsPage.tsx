@@ -1,3 +1,3 @@
-import { Projects } from 'features/projects/containers/Projects';
+import { Projects } from 'features/projects';
 
 export const ProjectsPage = () => <Projects />;

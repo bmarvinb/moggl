@@ -9,8 +9,8 @@ export type FieldMessageProps = {
 };
 
 const variants: Record<FieldMessageVariant, string> = {
-  critical: 'text-red-400 dark:text-red-dark-400',
-  positive: 'text-cyan-400 dark:text-cyan-dark-400',
+  critical: 'text-red-400 dark:text-red-dark-500',
+  positive: 'text-cyan-400 dark:text-cyan-dark-500',
   neutral: 'text-neutral-800 dark:text-neutral-dark-800',
 };
 

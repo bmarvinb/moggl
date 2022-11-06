@@ -1,10 +1,10 @@
-import { TagDTO } from 'features/tags/models/tags';
-import { BiArchive, BiPencil, BiTrash } from 'react-icons/bi';
 import { ButtonIcon } from 'components/Elements/ButtonIcon';
 import { ListItem } from 'components/List';
+import { BiArchive, BiPencil, BiTrash } from 'react-icons/bi';
+import { Tag } from '../types';
 
 export type TagListViewItemProps = {
-  tag: TagDTO;
+  tag: Tag;
   updateTagStatus: string;
   deleteTagStatus: string;
   onEdit: () => void;
@@ -37,7 +37,11 @@ export const TagListViewItem = (props: TagListViewItemProps) => {
         />
 
         {props.tag.archived && (
-          <ButtonIcon icon={<BiTrash />} variant="transparent" />
+          <ButtonIcon
+            onClick={() => props.onDelete()}
+            icon={<BiTrash />}
+            variant="transparent"
+          />
         )}
       </div>
     </ListItem>

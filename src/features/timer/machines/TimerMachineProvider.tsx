@@ -1,7 +1,7 @@
-import { useTimer } from 'features/timer/hooks/useTimer';
-import { timerMachine } from 'features/timer/machines/TimerMachine';
 import React from 'react';
 import { InterpreterFrom } from 'xstate';
+import { useTimer } from '../hooks/useTimer';
+import { timerMachine } from './TimerMachine';
 
 type TimerContextData = InterpreterFrom<typeof timerMachine>;
 

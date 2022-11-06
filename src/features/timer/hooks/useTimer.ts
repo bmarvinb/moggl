@@ -1,11 +1,11 @@
 import { invariant } from '@remix-run/router';
 import { useQueryClient } from '@tanstack/react-query';
-import { useInterpret, useMachine } from '@xstate/react';
-import { useAddTimeEntry } from 'features/timer/hooks/useCreateTimeEntry';
-import { useDeleteTimeEntry } from 'features/timer/hooks/useDeleteTimeEntry';
-import { useStopTimeEntry } from 'features/timer/hooks/useStopTimeEntry';
-import { useUpdateTimeEntry } from 'features/timer/hooks/useUpdateTimeEntry';
-import { timerMachine } from 'features/timer/machines/TimerMachine';
+import { useInterpret } from '@xstate/react';
+import { timerMachine } from '../machines/TimerMachine';
+import { useAddTimeEntry } from './useCreateTimeEntry';
+import { useDeleteTimeEntry } from './useDeleteTimeEntry';
+import { useStopTimeEntry } from './useStopTimeEntry';
+import { useUpdateTimeEntry } from './useUpdateTimeEntry';
 
 export function useTimer() {
   const queryClient = useQueryClient();

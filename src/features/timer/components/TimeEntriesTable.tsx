@@ -1,22 +1,19 @@
-import { ParentTimeEntryRow } from 'features/timer/components/ParentTimeEntryRow';
-import { TimeEntryRowContainer } from 'features/timer/components/TimeEntryRowContainer';
-import {
-  TimeEntryRow,
-  TimeEntryViewRow,
-} from 'features/timer/components/TimeEntryViewRow';
-import { ReportedDay } from 'features/timer/hooks/useReportedDays';
+import React from 'react';
+import { ReportedDay } from '../hooks/useReportedDays';
 import {
   isParentTimeEntry,
   SelectionChanges,
   useSelection,
-} from 'features/timer/hooks/useSelection';
-import { TimerData } from 'features/timer/machines/TimerMachine';
-import { TimerContext } from 'features/timer/machines/TimerMachineProvider';
+} from '../hooks/useSelection';
+import { TimerData } from '../machines/TimerMachine';
+import { TimerContext } from '../machines/TimerMachineProvider';
 import {
-  formatDuration,
+  formatTimeEntryDuration,
   getTimeEntryInfo,
-} from 'features/timer/utils/time-entries-utils';
-import React from 'react';
+} from '../utils/time-entries-utils';
+import { ParentTimeEntryRow } from './ParentTimeEntryRow';
+import { TimeEntryRowContainer } from './TimeEntryRowContainer';
+import { TimeEntryRow, TimeEntryViewRow } from './TimeEntryViewRow';
 
 export type TimeEntriesTableProps = {
   day: ReportedDay;
@@ -97,7 +94,7 @@ export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
             selected={isTimeEntryRowChecked(timeEntry.data.id)}
             onPlayClicked={() => onPlayClicked(timeEntry)}
             onSelectionChange={() => onChildSelectionChange(timeEntry.data.id)}
-            duration={formatDuration(timeEntry.data.duration)}
+            duration={formatTimeEntryDuration(timeEntry.data.duration)}
             projectInfo={
               timeEntry.data.project
                 ? getTimeEntryInfo(timeEntry.data)

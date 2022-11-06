@@ -1,5 +1,3 @@
-import { TimerMode } from 'features/timer/machines/TimerMachine';
-import { formatDuration } from 'features/timer/utils/time-entries-utils';
 import {
   BiBriefcase,
   BiDollar,
@@ -10,6 +8,8 @@ import {
   BiStop,
 } from 'react-icons/bi';
 import { ButtonIcon } from 'components/Elements/ButtonIcon';
+import { TimerMode } from '../machines/TimerMachine';
+import { formatTimeEntryDuration } from '../utils/time-entries-utils';
 
 export type TimerControlsProps = {
   isRunning: boolean;
@@ -49,7 +49,7 @@ export const TimerControls = (props: TimerControlsProps) => {
         <div className="flex items-center">
           {isTimerMode ? (
             <div className="mr-3 min-w-[5rem] text-right text-lg font-semibold text-neutral-800 dark:text-neutral-dark-900">
-              {formatDuration(props.duration)}
+              {formatTimeEntryDuration(props.duration)}
             </div>
           ) : (
             <div></div>

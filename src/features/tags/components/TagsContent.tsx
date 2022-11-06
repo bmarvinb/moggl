@@ -1,20 +1,17 @@
-import { AddTagDialog } from 'features/tags/components/AddTagDialog';
-import {
-  TagsFilter,
-  TagsFilterCriteria,
-} from 'features/tags/components/TagsFilter';
-import { TagListItem } from 'features/tags/components/TagListItem';
-import { TagsDTO } from 'features/tags/models/tags';
-import React from 'react';
-import { Button } from 'components/Elements/Button/Button';
 import { Container } from 'components/Container';
+import { Button } from 'components/Elements/Button/Button';
 import { List } from 'components/List';
 import { Title } from 'components/Title';
+import React from 'react';
+import { Tag } from '../types';
+import { AddTagDialog } from './AddTagDialog';
+import { TagListItem } from './TagListItem';
+import { TagsFilter, TagsFilterCriteria } from './TagsFilter';
 
 export type TagsContentProps = {
   fetching: boolean;
   searchCriteria: TagsFilterCriteria;
-  tags: TagsDTO;
+  tags: Tag[];
   onFilterChange: (changes: TagsFilterCriteria) => void;
 };
 

@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { useCurrentUser } from 'features/auth/hooks/currentUser';
-import { useWorkspace } from 'features/auth/hooks/workspace';
+import { useCurrentUser, useWorkspace } from 'features/auth';
 import {
   isActiveTimeEntry,
   isCompletedTimeEntry,
   toTimeEntry,
-} from 'features/timer/models/time-entry';
-import { timeEntries } from 'features/timer/services/time-entries';
+} from '../models/time-entry';
+import { timeEntries } from '../services/time-entries';
 
 export const QUERY_KEY = 'timeEntries';
 

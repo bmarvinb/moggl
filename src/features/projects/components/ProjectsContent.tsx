@@ -1,13 +1,10 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { AddProjectDialog } from 'features/projects/components/AddProjectDialog';
-import { ProjectForm } from 'features/projects/components/ProjectForm';
-import { Projects } from 'features/projects/models/projects';
-import React from 'react';
-import { Button } from 'components/Elements/Button';
 import { Card } from 'components/Card/Card';
 import { Container } from 'components/Container';
-import { Dialog } from 'components/Dialog';
+import { Button } from 'components/Elements/Button';
 import { Title } from 'components/Title';
+import React from 'react';
+import { Projects } from '../models/projects';
+import { AddProjectDialog } from './AddProjectDialog';
 
 export type ProjectsContentProps = {
   projects: Projects;

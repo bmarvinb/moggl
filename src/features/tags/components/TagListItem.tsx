@@ -1,12 +1,12 @@
-import { useDeleteTag } from 'features/tags/api/deleteTag';
-import { useUpdateTag } from 'features/tags/api/updateTag';
-import { TagListViewItem } from 'features/tags/components/TagListViewItem';
-import { UpdateTagDialog } from 'features/tags/components/UpdateTagDialog';
-import { TagDTO } from 'features/tags/models/tags';
 import React from 'react';
+import { useDeleteTag } from '../api/deleteTag';
+import { useUpdateTag } from '../api/updateTag';
+import { Tag } from '../types';
+import { TagListViewItem } from './TagListViewItem';
+import { UpdateTagDialog } from './UpdateTagDialog';
 
 export type TagListItemProps = {
-  tag: TagDTO;
+  tag: Tag;
 };
 
 export const TagListItem = (props: TagListItemProps) => {

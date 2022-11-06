@@ -1,17 +1,13 @@
-import { format, isSameDay } from 'date-fns';
-import { CompletedTimeEntry } from 'features/timer/models/time-entry';
-import { calculateDuration } from 'features/timer/utils/time-entries-utils';
-import { max, min } from 'date-fns';
+import { format, isSameDay, max, min } from 'date-fns';
 import {
   ChildTimeEntry,
   ParentTimeEntry,
   RegularTimeEntry,
   TimeEntryRow,
-} from 'features/timer/components/TimeEntryViewRow';
-import {
-  isParentTimeEntry,
-  TimeEntryRowType,
-} from 'features/timer/hooks/useSelection';
+} from '../components/TimeEntryViewRow';
+import { CompletedTimeEntry } from '../models/time-entry';
+import { calculateDuration } from '../utils/time-entries-utils';
+import { isParentTimeEntry } from './useSelection';
 
 const getParentChildren = (
   timeEntry: CompletedTimeEntry,

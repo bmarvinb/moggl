@@ -1,17 +1,13 @@
-import {
-  isChildTimeEntry,
-  isParentTimeEntry,
-  TimeEntryRowType,
-} from 'features/timer/hooks/useSelection';
-import { CompletedTimeEntry } from 'features/timer/models/time-entry';
+import { Checkbox } from 'components/Checkbox';
+import { ButtonIcon } from 'components/Elements/ButtonIcon';
 import {
   BiDollar,
   BiDotsVerticalRounded,
   BiPlay,
   BiPurchaseTag,
 } from 'react-icons/bi';
-import { ButtonIcon } from 'components/Elements/ButtonIcon';
-import { Checkbox } from 'components/Checkbox';
+import { isParentTimeEntry, isChildTimeEntry } from '../hooks/useSelection';
+import { CompletedTimeEntry } from '../models/time-entry';
 
 export type ParentTimeEntry = {
   data: CompletedTimeEntry;

@@ -37,7 +37,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           id={id}
           ref={ref}
           placeholder={placeholder}
-          invalid={!!message && variant === 'critical'}
+          invalid={message !== undefined && variant === 'critical'}
           disabled={disabled}
           {...rest}
         />

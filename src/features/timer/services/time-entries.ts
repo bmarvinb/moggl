@@ -1,3 +1,6 @@
+import { fetch } from 'lib/fetch';
+import { createURLSearchParams } from 'utils/url-params';
+import { z } from 'zod';
 import {
   AddTimeEntryDTO,
   CreatedTimeEntryDTO,
@@ -5,10 +8,7 @@ import {
   TimeEntryDTO,
   timeEntrySchema,
   UpdateTimeEntryDTO,
-} from 'features/timer/dtos/time-entry-dtos';
-import { client } from 'utils/api-client';
-import { createURLSearchParams } from 'utils/url-params';
-import { z } from 'zod';
+} from '../dtos/time-entry-dtos';
 
 type TimeEntriesRequestOptions = {
   description?: string;
@@ -30,21 +30,21 @@ async function getAll(
   options: TimeEntriesRequestOptions = {},
 ) {
   const params = createURLSearchParams({ ...options, hydrated: true });
-  return client<TimeEntryDTO[]>(
+  return fetch<TimeEntryDTO[]>(
     `workspaces/${workspaceId}/user/${userId}/time-entries?${params}`,
     { schema: z.array(timeEntrySchema) },
   );
 }
 
 async function add(workspaceId: string, data: AddTimeEntryDTO) {
-  return client<CreatedTimeEntryDTO>(`workspaces/${workspaceId}/time-entries`, {
+  return fetch<CreatedTimeEntryDTO>(`workspaces/${workspaceId}/time-entries`, {
     data,
     schema: createdTimeEntrySchema,
   });
 }
 
 async function stop(workspaceId: string, userId: string) {
-  return client(`workspaces/${workspaceId}/user/${userId}/time-entries`, {
+  return fetch(`workspaces/${workspaceId}/user/${userId}/time-entries`, {
     method: 'PATCH',
     data: {
       end: new Date(),
@@ -57,14 +57,14 @@ async function update(
   id: string,
   data: UpdateTimeEntryDTO,
 ) {
-  return client(`workspaces/${workspaceId}/time-entries/${id}`, {
+  return fetch(`workspaces/${workspaceId}/time-entries/${id}`, {
     method: 'PUT',
     data,
   });
 }
 
 async function remove(workspaceId: string, id: string) {
-  return client(`/workspaces/${workspaceId}/time-entries/${id}`, {
+  return fetch(`/workspaces/${workspaceId}/time-entries/${id}`, {
     method: 'DELETE',
   });
 }

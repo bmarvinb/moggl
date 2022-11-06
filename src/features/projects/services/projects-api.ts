@@ -1,4 +1,4 @@
-import { client } from 'utils/api-client';
+import { fetch } from 'lib/fetch';
 import { createURLSearchParams } from 'utils/url-params';
 import {
   AddProjectRequestData,
@@ -7,20 +7,20 @@ import {
   Projects,
   projectSchema,
   projectsSchema,
-} from 'features/projects/models/projects';
+} from '../models/projects';
 
 export function getAllProjects(
   workspaceId: string,
   options: ProjectRequestOptions = {},
 ) {
   const params = createURLSearchParams({ ...options });
-  return client<Projects>(`workspaces/${workspaceId}/projects?${params}`, {
+  return fetch<Projects>(`workspaces/${workspaceId}/projects?${params}`, {
     schema: projectsSchema,
   });
 }
 
 export function addProject(workspaceId: string, data: AddProjectRequestData) {
-  return client<Project>(`workspaces/${workspaceId}/projects`, {
+  return fetch<Project>(`workspaces/${workspaceId}/projects`, {
     schema: projectSchema,
     data,
   });

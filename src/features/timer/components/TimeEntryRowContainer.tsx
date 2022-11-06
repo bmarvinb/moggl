@@ -1,10 +1,10 @@
 import { Card } from 'components/Card/Card';
 import { Checkbox } from 'components/Checkbox';
 import { isToday } from 'date-fns';
-import { DayDuration } from 'features/timer/components/DayDuration';
-import { formatDate } from 'features/timer/utils/time-entries-utils';
 import React from 'react';
 import { BiListUl } from 'react-icons/bi';
+import { formatDate } from '../utils/time-entries-utils';
+import { DayDuration } from './DayDuration';
 
 type TimeEntryRowContainerProps = {
   children: React.ReactNode;

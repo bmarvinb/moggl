@@ -1,6 +1,6 @@
 import { PageSpinner } from 'components/PageSpinner';
-import { ProjectsContent } from 'features/projects/components/ProjectsContent';
-import { useProjects } from 'features/projects/hooks/projects';
+import { ProjectsContent } from '../components/ProjectsContent';
+import { useProjects } from '../hooks/projects';
 
 export const Projects = () => {
   const { status, data: projects } = useProjects();

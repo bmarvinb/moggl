@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAddProject } from 'features/projects/hooks/addProject';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from 'components/Elements/Button';
 import { TextField } from 'components/Form/TextField';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useAddProject } from '../hooks/addProject';
 
 export type AddProjectDialogProps = {
   onProjectAdded: () => void;

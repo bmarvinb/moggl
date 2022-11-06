@@ -1,11 +1,11 @@
 import { useSelector } from '@xstate/react';
-import {
-  selectIsTimerPending,
-  selectIsTimerRunning,
-  selectTimerContext,
-} from 'features/timer/machines/TimerMachine';
-import { TimerContext } from 'features/timer/machines/TimerMachineProvider';
 import React, { useRef } from 'react';
+import {
+  selectTimerContext,
+  selectIsTimerRunning,
+  selectIsTimerPending,
+} from '../machines/TimerMachine';
+import { TimerContext } from '../machines/TimerMachineProvider';
 
 export function useActiveDuration(initialDuration: number): number {
   const service = React.useContext(TimerContext);

@@ -1,10 +1,10 @@
-import { assertNever } from 'utils/assert';
 import { Dispatch, useReducer } from 'react';
+import { assertNever } from 'utils/assert';
 import {
-  TimeEntryRow,
-  ParentTimeEntry,
   ChildTimeEntry,
-} from 'features/timer/components/TimeEntryViewRow';
+  ParentTimeEntry,
+  TimeEntryRow,
+} from '../components/TimeEntryViewRow';
 
 export type SelectionChanges = {
   added: string[];

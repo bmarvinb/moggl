@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useWorkspace } from 'features/auth/hooks/workspace';
-import { AddProjectRequestData } from 'features/projects/models/projects';
-import { addProject } from 'features/projects/services/projects-api';
+import { useWorkspace } from 'features/auth';
+import { AddProjectRequestData } from '../models/projects';
+import { addProject } from '../services/projects-api';
 
 export function useAddProject() {
   const workspace = useWorkspace();

@@ -4,11 +4,6 @@ import { Card } from 'components/Card/Card';
 import { Input } from 'components/Form/Input';
 import { z } from 'zod';
 
-export type TagsFilter = {
-  archived: boolean;
-  name: string;
-};
-
 const schema = z.object({
   archived: z.string().optional(),
   name: z.string().optional(),
@@ -16,7 +11,7 @@ const schema = z.object({
 
 export type TagsFilterCriteria = z.infer<typeof schema>;
 
-export type TagsFilterProps = {
+type TagsFilterProps = {
   criteria: TagsFilterCriteria;
   onChange: (changes: TagsFilterCriteria) => void;
 };

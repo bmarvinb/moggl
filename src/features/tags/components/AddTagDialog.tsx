@@ -1,6 +1,6 @@
-import { TagForm, TagFormValues } from 'features/tags/components/TagForm';
 import { Dialog } from 'components/Dialog';
-import { useAddTag } from 'features/tags/api/addTag';
+import { useAddTag } from '../api/addTag';
+import { TagForm, TagFormValues } from './TagForm';
 
 type AddTagDialogProps = {
   open: boolean;

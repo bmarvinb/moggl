@@ -1,11 +1,11 @@
-import { TagForm, TagFormValues } from 'features/tags/components/TagForm';
-import { TagDTO } from 'features/tags/models/tags';
 import { Dialog } from 'components/Dialog';
-import { useUpdateTag } from 'features/tags/api/updateTag';
+import { useUpdateTag } from '../api/updateTag';
+import { Tag } from '../types';
+import { TagForm, TagFormValues } from './TagForm';
 
 export type UpdateTagDialogProps = {
   open: boolean;
-  tag: TagDTO;
+  tag: Tag;
   onSuccess: () => void;
   onOpenChange: (open: boolean) => void;
 };

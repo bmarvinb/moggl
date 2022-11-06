@@ -1,6 +1,6 @@
 import { isSameWeek } from 'date-fns';
-import { CompletedTimeEntry } from 'features/timer/models/time-entry';
-import { calculateDuration } from 'features/timer/utils/time-entries-utils';
+import { CompletedTimeEntry } from '../models/time-entry';
+import { calculateDuration } from '../utils/time-entries-utils';
 
 export function useWeekDuration(timeEntries: CompletedTimeEntry[]): number {
   const fromWeek = timeEntries.filter(timeEntry =>

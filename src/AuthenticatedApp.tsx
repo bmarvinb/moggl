@@ -1,6 +1,6 @@
 import { useMachine } from '@xstate/react';
 import { Drawer } from 'components/Elements/Drawer/Drawer';
-import { useCurrentUser } from 'features/auth/hooks/currentUser';
+import { useCurrentUser } from 'features/auth';
 import { Navbar } from 'layout/components/Navbar';
 import {
   NavigationMenu,

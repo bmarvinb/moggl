@@ -1,5 +1,5 @@
 import { differenceInSeconds } from 'date-fns';
-import { TimeEntryDTO } from 'features/timer/dtos/time-entry-dtos';
+import { TimeEntryDTO } from '../dtos/time-entry-dtos';
 
 export type TimeEntryType = 'INACTIVE' | 'ACTIVE';
 

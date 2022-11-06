@@ -1,13 +1,13 @@
-import { client } from 'utils/api-client';
-import { User, userSchema } from 'features/auth/services/user';
-import { Workspace, workspacesSchema } from 'features/auth/services/workspace';
+import { fetch } from 'lib/fetch';
+import { User, userSchema } from './user';
+import { Workspace, workspacesSchema } from './workspace';
 
 export function user() {
-  return client<User>('user', { schema: userSchema });
+  return fetch<User>('user', { schema: userSchema });
 }
 
 export function userWorkspaces() {
-  return client<Workspace[]>('workspaces', {
+  return fetch<Workspace[]>('workspaces', {
     schema: workspacesSchema,
   });
 }

@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useWorkspace } from 'features/auth/hooks/workspace';
-import { client } from 'utils/api-client';
+import { useWorkspace } from 'features/auth';
+import { fetch } from 'lib/fetch';
 
 function deleteTag(workspaceId: string, tagId: string) {
-  return client(`workspaces/${workspaceId}/tags/${tagId}`, {
+  return fetch(`workspaces/${workspaceId}/tags/${tagId}`, {
     method: 'DELETE',
   });
 }

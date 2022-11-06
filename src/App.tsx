@@ -1,10 +1,10 @@
 import { FullPageSpinner } from 'components/FullPageSpinner';
-import { useUserInfo } from 'features/auth/context/auth-context';
-import React from 'react';
+import { useUserInfo } from 'features/auth';
 import {
   applyColorScheme,
   usePrefersColorScheme,
 } from 'hooks/prefersColorScheme';
+import React from 'react';
 
 const AuthenticatedApp = React.lazy(
   () => import(/* webpackPrefetch: true */ 'AuthenticatedApp'),

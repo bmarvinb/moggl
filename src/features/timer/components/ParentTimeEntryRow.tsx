@@ -1,14 +1,14 @@
+import React from 'react';
+import { SelectionChanges } from '../hooks/useSelection';
+import {
+  formatTimeEntryDuration,
+  getTimeEntryInfo,
+} from '../utils/time-entries-utils';
 import {
   ParentTimeEntry,
   TimeEntryRow,
   TimeEntryViewRow,
-} from 'features/timer/components/TimeEntryViewRow';
-import { SelectionChanges } from 'features/timer/hooks/useSelection';
-import {
-  formatDuration,
-  getTimeEntryInfo,
-} from 'features/timer/utils/time-entries-utils';
-import React from 'react';
+} from './TimeEntryViewRow';
 
 export type ParentTimeEntryRowProps = {
   timeEntry: ParentTimeEntry;
@@ -46,7 +46,7 @@ export const ParentTimeEntryRow = (props: ParentTimeEntryRowProps) => {
           onSelectionChange={onParentSelectionChange}
           onPlayClicked={() => props.onPlayClicked(props.timeEntry)}
           onToggleChildrenVisibility={toggleExpanded}
-          duration={formatDuration(props.timeEntry.data.duration)}
+          duration={formatTimeEntryDuration(props.timeEntry.data.duration)}
           projectInfo={
             props.timeEntry.data.project
               ? getTimeEntryInfo(props.timeEntry.data)
@@ -65,7 +65,7 @@ export const ParentTimeEntryRow = (props: ParentTimeEntryRowProps) => {
             onSelectionChange={() =>
               props.onChildSelectionChange(child.data.id)
             }
-            duration={formatDuration(child.data.duration)}
+            duration={formatTimeEntryDuration(child.data.duration)}
             projectInfo={
               child.data.project ? getTimeEntryInfo(child.data) : undefined
             }

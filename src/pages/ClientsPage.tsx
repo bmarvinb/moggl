@@ -1,3 +1,3 @@
-import { Clients } from 'features/clients/containers/Clients';
+import { Clients } from 'features/clients';
 
 export const ClientsPage = () => <Clients />;

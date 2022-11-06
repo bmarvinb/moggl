@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { useWorkspace } from 'features/auth/hooks/workspace';
-import { timeEntries } from 'features/timer/services/time-entries';
+import { useWorkspace } from 'features/auth';
+import { timeEntries } from '../services/time-entries';
 
 export function useDeleteTimeEntry() {
   const workspace = useWorkspace();

@@ -8,14 +8,14 @@ import {
   secondsToHours,
   secondsToMinutes,
 } from 'date-fns';
-import { CompletedTimeEntry } from 'features/timer/models/time-entry';
 import { numberPad } from 'utils/number';
+import { CompletedTimeEntry } from '../models/time-entry';
 
 export function timeEntryDuration({ start, end }: CompletedTimeEntry): number {
   return differenceInSeconds(end, start);
 }
 
-export function formatDuration(duration: number): string {
+export function formatTimeEntryDuration(duration: number): string {
   const hours = secondsToHours(duration);
   const minutes = secondsToMinutes(duration - hoursToSeconds(hours));
   const seconds = duration - hoursToSeconds(hours) - minutesToSeconds(minutes);
