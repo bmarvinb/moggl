@@ -1,7 +1,7 @@
-import { estimateSchema } from 'api/dtos/estimate-dto';
-import { hourlyRateSchema } from 'api/dtos/hourly-rate-dto';
-import { membershipSchema } from 'api/dtos/membership-dto';
-import { timeEstimateSchema } from 'api/dtos/time-estimate-dto';
+import { estimateSchema } from 'shared/dtos/estimate-dto';
+import { hourlyRateSchema } from 'shared/dtos/hourly-rate-dto';
+import { membershipSchema } from 'shared/dtos/membership-dto';
+import { timeEstimateSchema } from 'shared/dtos/time-estimate-dto';
 import { z } from 'zod';
 
 export type ProjectRequestOptions = {

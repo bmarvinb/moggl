@@ -1,5 +1,5 @@
-import { hourlyRateSchema } from 'api/dtos/hourly-rate-dto';
-import { statusSchema } from 'api/dtos/status-dto';
+import { hourlyRateSchema } from 'shared/dtos/hourly-rate-dto';
+import { statusSchema } from 'shared/dtos/status-dto';
 import { z } from 'zod';
 
 export const taskSchema = z.object({
