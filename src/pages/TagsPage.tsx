@@ -1,3 +1,4 @@
+import { Head } from 'components/Elements/Head';
 import { PageSpinner } from 'components/PageSpinner';
 import { TagsContent, TagsFilterCriteria, useGetTags } from 'features/tags';
 import { useDebounce } from 'hooks/debounce';
@@ -20,12 +21,15 @@ export const TagsPage = () => {
       );
     case 'success':
       return (
-        <TagsContent
-          fetching={fetchStatus === 'fetching'}
-          searchCriteria={criteria}
-          tags={tags}
-          onFilterChange={criteria => setCriteria(criteria)}
-        />
+        <>
+          <Head title="Tags" />
+          <TagsContent
+            fetching={fetchStatus === 'fetching'}
+            searchCriteria={criteria}
+            tags={tags}
+            onFilterChange={criteria => setCriteria(criteria)}
+          />
+        </>
       );
   }
 };

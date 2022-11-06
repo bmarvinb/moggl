@@ -4,7 +4,7 @@ export const tagSchema = z
   .object({
     id: z.string(),
     name: z.string(),
-    workspaceId: z.boolean(),
+    workspaceId: z.string(),
     archived: z.boolean(),
   })
   .strict();

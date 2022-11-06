@@ -1,3 +1,4 @@
+import { Head } from 'components/Elements/Head';
 import { PageSpinner } from 'components/PageSpinner';
 import {
   useTimeEntries,
@@ -18,6 +19,7 @@ export const TimerPage = () => {
       const { active, completed } = data;
       return (
         <TimerMachineProvider>
+          <Head title="Timer" />
           <Timer active={active} />
           <ReportedDays timeEntries={completed} />
         </TimerMachineProvider>

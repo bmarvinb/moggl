@@ -21,7 +21,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 const menuItems: NavigationMenuItem[] = [
   {
-    route: 'timer',
+    route: '',
     title: 'Timer',
     icon: <BiTimer />,
   },
@@ -78,7 +78,7 @@ export const AuthenticatedApp = () => {
         <main className="flex max-h-screen flex-1 flex-col overflow-y-scroll">
           {temporaryMode && <Navbar onMenuClicked={() => send('TOGGLE')} />}
           <Routes>
-            <Route path="/timer" element={<TimerPage />} />
+            <Route path="/" element={<TimerPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/clients" element={<ClientsPage />} />
             <Route path="/tags" element={<TagsPage />} />

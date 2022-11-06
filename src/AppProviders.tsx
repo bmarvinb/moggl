@@ -4,6 +4,7 @@ import { AuthProvider } from 'features/auth';
 import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 
 export const ErrorFallback = () => {
   return (
@@ -35,9 +36,11 @@ export const AppProviders = (props: { children: React.ReactNode }) => {
   return (
     <BrowserRouter>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>{props.children}</AuthProvider>
-        </QueryClientProvider>
+        <HelmetProvider>
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>{props.children}</AuthProvider>
+          </QueryClientProvider>
+        </HelmetProvider>
       </ErrorBoundary>
     </BrowserRouter>
   );
