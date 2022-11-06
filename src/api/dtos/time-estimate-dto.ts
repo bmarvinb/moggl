@@ -7,3 +7,5 @@ export const timeEstimateSchema = z.object({
   active: z.boolean(),
   includeNonBillable: z.boolean(),
 });
+
+export type TimeEstimateDTO = z.infer<typeof timeEstimateSchema>;

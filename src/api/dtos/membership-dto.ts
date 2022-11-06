@@ -1,6 +1,6 @@
-import { hourlyRateSchema } from 'shared/schemes/hourly-rate';
-import { membershipTypeScheme } from 'shared/schemes/membership-type';
-import { statusSchema } from 'shared/schemes/status';
+import { hourlyRateSchema } from 'api/dtos/hourly-rate-dto';
+import { membershipTypeScheme } from 'api/dtos/membership-type-dto';
+import { statusSchema } from 'api/dtos/status-dto';
 import { z } from 'zod';
 
 export const membershipSchema = z.object({
@@ -11,3 +11,5 @@ export const membershipSchema = z.object({
   membershipType: membershipTypeScheme,
   membershipStatus: statusSchema,
 });
+
+export type MembershipDTO = z.infer<typeof membershipSchema>;
