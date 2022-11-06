@@ -13,7 +13,7 @@ export const Dialog = (props: DialogProps) => {
     <Transition appear show={props.isOpen} as={Fragment}>
       <HeadlessDialog
         as="div"
-        className="relative z-10 "
+        className="relative z-20"
         onClose={props.onClose}
       >
         <Transition.Child
@@ -25,7 +25,7 @@ export const Dialog = (props: DialogProps) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 bg-black bg-opacity-25 dark:bg-opacity-50" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto ">

@@ -1,0 +1,1 @@
+export type UpdateTagDTO = { name: string; archived?: boolean };

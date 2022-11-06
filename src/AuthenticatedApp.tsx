@@ -1,4 +1,5 @@
 import { useMachine } from '@xstate/react';
+import { ErrorFallback } from 'AppProviders';
 import { Drawer } from 'components/Elements/Drawer/Drawer';
 import { useCurrentUser } from 'features/auth';
 import { Navbar } from 'layout/components/Navbar';
