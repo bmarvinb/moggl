@@ -31,6 +31,7 @@ export function useStopTimeEntry() {
         await queryClient.cancelQueries([QUERY_KEY]);
         const prev = queryClient.getQueryData([QUERY_KEY]);
         queryClient.setQueryData([QUERY_KEY], data => {
+          // TODO: do better
           const value = data as {
             completed: CompletedTimeEntry[];
             active: ActiveTimeEntry;
