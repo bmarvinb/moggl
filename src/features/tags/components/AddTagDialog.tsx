@@ -25,7 +25,7 @@ export const AddTagDialog = ({
     <Dialog title="Add tag" isOpen={open} onClose={onOpenChange}>
       <TagForm
         loading={status === 'loading'}
-        error={error?.message}
+        error={error}
         onSubmit={onSubmit}
         action="Add"
       />

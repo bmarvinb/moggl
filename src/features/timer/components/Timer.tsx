@@ -7,7 +7,10 @@ import {
   selectIsTimerPending,
   TimerMode,
 } from '../machines/TimerMachine';
-import { TimerContext } from '../providers/TimerMachineProvider';
+import {
+  TimerContext,
+  useTimerService,
+} from '../providers/TimerMachineProvider';
 import { ActiveTimeEntry } from '../types/time-entry';
 import { TimerControls } from './TimerControls';
 
@@ -24,7 +27,7 @@ function getTimerData(timeEntry: ActiveTimeEntry): TimerData {
 }
 
 export const Timer = (props: { active: ActiveTimeEntry | undefined }) => {
-  const service = React.useContext(TimerContext);
+  const service = useTimerService();
 
   const { duration, mode, timeEntry } = useSelector(
     service,

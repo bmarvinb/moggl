@@ -5,10 +5,13 @@ import {
   selectIsTimerRunning,
   selectIsTimerPending,
 } from '../machines/TimerMachine';
-import { TimerContext } from '../providers/TimerMachineProvider';
+import {
+  TimerContext,
+  useTimerService,
+} from '../providers/TimerMachineProvider';
 
 export function useActiveDuration(initialDuration: number): number {
-  const service = React.useContext(TimerContext);
+  const service = useTimerService();
   const { duration } = useSelector(service, selectTimerContext);
   const isRunning = useSelector(service, selectIsTimerRunning);
   const isPending = useSelector(service, selectIsTimerPending);

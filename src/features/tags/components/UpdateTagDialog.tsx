@@ -30,7 +30,7 @@ export const UpdateTagDialog = (props: UpdateTagDialogProps) => {
     >
       <TagForm
         loading={status === 'loading'}
-        error={error?.message}
+        error={error}
         defaultValues={{
           name: props.tag.name,
         }}

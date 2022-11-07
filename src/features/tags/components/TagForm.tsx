@@ -8,7 +8,7 @@ import { z } from 'zod';
 type TagFormProps = {
   loading: boolean;
   action: string;
-  error?: string;
+  error: string | null;
   onSubmit: (data: TagFormValues) => void;
   defaultValues?: TagFormValues;
 };

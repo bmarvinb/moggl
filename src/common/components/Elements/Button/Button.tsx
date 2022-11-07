@@ -3,11 +3,11 @@ import React from 'react';
 import { Spinner } from 'common/components/Elements/Spinner';
 
 const sizes = {
-  xs: clsx('px-2.5 py-1.5 text-xs'),
-  sm: clsx('px-3 py-2 text-sm'),
-  md: clsx('px-4 py-2 text-base'),
-  lg: clsx('px-4 py-2 text-base'),
-  xl: clsx('px-6 py-3 text-base'),
+  xs: 'px-2.5 py-1.5 text-xs',
+  sm: 'px-3 py-2 text-sm',
+  md: 'px-4 py-2 text-base',
+  lg: 'px-4 py-2 text-base',
+  xl: 'px-6 py-3 text-base',
 };
 
 const variants = {

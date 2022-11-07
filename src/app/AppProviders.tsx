@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AuthProvider } from 'features/auth';
 import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -10,7 +11,9 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       useErrorBoundary: true,
-      refetchOnWindowFocus: false,
+    },
+    mutations: {
+      useErrorBoundary: true,
     },
   },
 });
@@ -19,11 +22,12 @@ export const AppProviders = (props: { children: React.ReactNode }) => {
   return (
     <BrowserRouter>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <HelmetProvider>
-          <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          <HelmetProvider>
             <AuthProvider>{props.children}</AuthProvider>
-          </QueryClientProvider>
-        </HelmetProvider>
+            <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+          </HelmetProvider>
+        </QueryClientProvider>
       </ErrorBoundary>
     </BrowserRouter>
   );

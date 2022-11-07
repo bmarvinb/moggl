@@ -2,11 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { ErrorFallback } from 'common/components/ErrorFallback';
 import { FullPageSpinner } from 'common/components/FullPageSpinner';
 import React from 'react';
-import { User } from '../services/user';
 import { user, userWorkspaces } from '../services/user-info';
-import { Workspace } from '../services/workspace';
+import { UserInfo } from '../types/user-info';
 
-// TODO: use react-query
 function bootstrap() {
   return Promise.all([user(), userWorkspaces()]).then(([user, workspaces]) => ({
     user,
@@ -14,19 +12,11 @@ function bootstrap() {
   }));
 }
 
-export type UserInfo = {
-  user: User;
-  workspaces: Workspace[];
-};
-
 const AuthContext = React.createContext<UserInfo | undefined>(undefined);
 AuthContext.displayName = 'AuthContext';
 
 export function AuthProvider(props: { children: React.ReactNode }) {
-  const { status, error, data } = useQuery(['bootstrap'], () => bootstrap(), {
-    useErrorBoundary: false,
-    retry: false,
-  });
+  const { status, data } = useQuery(['bootstrap'], bootstrap);
 
   switch (status) {
     case 'error':

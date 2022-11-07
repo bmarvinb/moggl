@@ -4,6 +4,7 @@ import { TagsContent, TagsFilterCriteria, useGetTags } from 'features/tags';
 import { useDebounce } from 'common/hooks/useDebounce';
 import { useState } from 'react';
 
+// TODO: refactor
 export const TagsPage = () => {
   const [criteria, setCriteria] = useState<TagsFilterCriteria>({
     name: '',
