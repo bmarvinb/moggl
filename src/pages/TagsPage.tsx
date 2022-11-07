@@ -1,7 +1,7 @@
-import { Head } from 'components/Elements/Head';
-import { PageSpinner } from 'components/PageSpinner';
+import { Head } from 'common/components/Elements/Head';
+import { PageSpinner } from 'common/components/PageSpinner';
 import { TagsContent, TagsFilterCriteria, useGetTags } from 'features/tags';
-import { useDebounce } from 'hooks/useDebounce';
+import { useDebounce } from 'common/hooks/useDebounce';
 import { useState } from 'react';
 
 export const TagsPage = () => {

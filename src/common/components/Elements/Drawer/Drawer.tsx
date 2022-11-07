@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { BiMenuAltLeft } from 'react-icons/bi';
-import { assertNever } from 'utils/assert';
+import { assertNever } from 'common/utils/assert';
 import { Dialog, Transition } from '@headlessui/react';
 
 export type DrawerProps = {

@@ -5,7 +5,7 @@ import {
   isCompletedTimeEntry,
   toTimeEntry,
 } from '../types/time-entry';
-import { timeEntries } from '../api/time-entries';
+import { timeEntries } from './timer-api';
 
 export const QUERY_KEY = 'timeEntries';
 

@@ -1,5 +1,5 @@
 import { fetch } from 'lib/fetch';
-import { createURLSearchParams } from 'utils/url-params';
+import { createURLSearchParams } from 'common/utils/url-params';
 import { z } from 'zod';
 import {
   AddTimeEntryDTO,
@@ -8,7 +8,7 @@ import {
   TimeEntryDTO,
   timeEntrySchema,
   UpdateTimeEntryDTO,
-} from './time-entry-dtos';
+} from './timer-dtos';
 
 type TimeEntriesRequestOptions = {
   description?: string;

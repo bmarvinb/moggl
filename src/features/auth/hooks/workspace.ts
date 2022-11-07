@@ -1,4 +1,4 @@
-import { useUserInfo } from '../context/auth-context';
+import { useUserInfo } from '../providers/auth-provider';
 import { Workspace } from '../services/workspace';
 
 export function useWorkspace(): Workspace {

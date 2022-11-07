@@ -1,5 +1,5 @@
-import { ButtonIcon } from 'components/Elements/ButtonIcon';
-import { ListItem } from 'components/List';
+import { ButtonIcon } from 'common/components/Elements/ButtonIcon';
+import { ListItem } from 'common/components/List';
 import { BiArchive, BiPencil, BiTrash } from 'react-icons/bi';
 import { Tag } from '../types';
 

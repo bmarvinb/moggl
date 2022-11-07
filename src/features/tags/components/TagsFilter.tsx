@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Card } from 'components/Card/Card';
-import { Input } from 'components/Form/Input';
+import { Card } from 'common/components/Card/Card';
+import { Input } from 'common/components/Form/Input';
 import { z } from 'zod';
 
 const schema = z.object({

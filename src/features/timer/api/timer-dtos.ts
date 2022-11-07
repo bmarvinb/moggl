@@ -1,8 +1,10 @@
-import { customFieldSchema } from 'common/dtos/custom-field-dto';
-import { estimateSchema } from 'common/dtos/estimate-dto';
-import { hourlyRateSchema } from 'common/dtos/hourly-rate-dto';
-import { membershipSchema } from 'common/dtos/membership-dto';
-import { statusSchema } from 'common/dtos/status-dto';
+import {
+  statusSchema,
+  customFieldSchema,
+  hourlyRateSchema,
+  membershipSchema,
+  estimateSchema,
+} from 'common/dtos';
 import { z } from 'zod';
 
 const summaryReportSettingsSchema = z.object({

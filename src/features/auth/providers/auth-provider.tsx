@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { ErrorFallback } from 'components/ErrorFallback';
-import { FullPageSpinner } from 'components/FullPageSpinner';
+import { ErrorFallback } from 'common/components/ErrorFallback';
+import { FullPageSpinner } from 'common/components/FullPageSpinner';
 import React from 'react';
 import { User } from '../services/user';
 import { user, userWorkspaces } from '../services/user-info';

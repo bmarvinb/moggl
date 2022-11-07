@@ -1,7 +1,7 @@
-import { AppProviders } from 'providers/AppProviders';
+import { AppProviders } from './app/AppProviders';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import { App } from './app';
 import reportWebVitals from './reportWebVitals';
 import 'index.css';
 

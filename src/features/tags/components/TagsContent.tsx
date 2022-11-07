@@ -1,7 +1,7 @@
-import { Container } from 'components/Container';
-import { Button } from 'components/Elements/Button/Button';
-import { List } from 'components/List';
-import { Title } from 'components/Title';
+import { Container } from 'common/components/Container';
+import { Button } from 'common/components/Elements/Button/Button';
+import { List } from 'common/components/List';
+import { Title } from 'common/components/Title';
 import React from 'react';
 import { Tag } from '../types';
 import { AddTagDialog } from './AddTagDialog';

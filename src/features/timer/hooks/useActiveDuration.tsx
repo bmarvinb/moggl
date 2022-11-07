@@ -18,7 +18,8 @@ export function useActiveDuration(initialDuration: number): number {
     const updatedTime = initialDuration + duration;
     durationRef.current = updatedTime;
     return updatedTime;
-  } else if (isPending) {
+  }
+  if (isPending) {
     return durationRef.current;
   }
   return initialDuration;

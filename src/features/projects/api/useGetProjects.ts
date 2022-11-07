@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useWorkspace } from 'features/auth';
 import { fetch } from 'lib/fetch';
-import { createURLSearchParams } from 'utils/url-params';
+import { createURLSearchParams } from 'common/utils/url-params';
 import { z } from 'zod';
 import {
   ProjectDTO,

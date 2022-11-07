@@ -1,7 +1,7 @@
-import { Card } from 'components/Card/Card';
-import { Container } from 'components/Container';
-import { Button } from 'components/Elements/Button';
-import { Title } from 'components/Title';
+import { Card } from 'common/components/Card/Card';
+import { Container } from 'common/components/Container';
+import { Button } from 'common/components/Elements/Button';
+import { Title } from 'common/components/Title';
 import React from 'react';
 import { ProjectDTO } from '../api/project-dtos';
 import { AddProjectDialog } from './AddProjectDialog';

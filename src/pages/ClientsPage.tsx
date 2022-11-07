@@ -1,4 +1,4 @@
-import { Head } from 'components/Elements/Head';
+import { Head } from 'common/components/Elements/Head';
 
 export const ClientsPage = () => (
   <>

@@ -1,18 +1,18 @@
-import { FullPageSpinner } from 'components/FullPageSpinner';
+import { FullPageSpinner } from 'common/components/FullPageSpinner';
 import { useUserInfo } from 'features/auth';
 import {
   applyColorScheme,
   usePrefersColorScheme,
-} from 'hooks/usePrefersColorScheme';
+} from 'common/hooks/usePrefersColorScheme';
 import React from 'react';
 
 const AuthenticatedApp = React.lazy(
-  () => import(/* webpackPrefetch: true */ 'AuthenticatedApp'),
+  () => import(/* webpackPrefetch: true */ 'app/AuthenticatedApp'),
 );
 
-const UnauthenticatedApp = React.lazy(() => import('UnauthenticatedApp'));
+const UnauthenticatedApp = React.lazy(() => import('./UnauthenticatedApp'));
 
-function App() {
+export function App() {
   const userInfo = useUserInfo();
   const colorScheme = usePrefersColorScheme();
   applyColorScheme(colorScheme);
@@ -22,5 +22,3 @@ function App() {
     </React.Suspense>
   );
 }
-
-export default App;

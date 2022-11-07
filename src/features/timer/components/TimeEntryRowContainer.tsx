@@ -1,5 +1,5 @@
-import { Card } from 'components/Card/Card';
-import { Checkbox } from 'components/Checkbox';
+import { Card } from 'common/components/Card/Card';
+import { Checkbox } from 'common/components/Checkbox';
 import { isToday } from 'date-fns';
 import React from 'react';
 import { BiListUl } from 'react-icons/bi';

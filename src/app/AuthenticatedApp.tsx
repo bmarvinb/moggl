@@ -1,14 +1,14 @@
 import { useMachine } from '@xstate/react';
-import { Drawer } from 'components/Elements/Drawer';
+import { Drawer } from 'common/components/Elements/Drawer';
 import { useCurrentUser } from 'features/auth';
-import { Navbar } from 'components/Navbar';
+import { Navbar } from 'common/components/Navbar';
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuUserProfile,
   Profile,
-} from 'components/Navigation';
-import { drawerMachine } from 'components/Elements/Drawer/drawerMachine';
+} from 'common/components/Navigation';
+import { drawerMachine } from 'common/components/Elements/Drawer/drawerMachine';
 import { ClientsPage } from 'pages/ClientsPage';
 import { ProjectsPage } from 'pages/ProjectsPage';
 import { TagsPage } from 'pages/TagsPage';

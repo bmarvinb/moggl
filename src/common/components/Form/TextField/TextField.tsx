@@ -1,10 +1,10 @@
 import React from 'react';
-import { FieldLabel } from 'components/Form/FieldLabel';
+import { FieldLabel } from 'common/components/Form/FieldLabel';
 import {
   FieldMessage,
   FieldMessageVariant,
-} from 'components/Form/FieldMessage';
-import { Input } from 'components/Form/Input';
+} from 'common/components/Form/FieldMessage';
+import { Input } from 'common/components/Form/Input';
 
 export type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   id: string;

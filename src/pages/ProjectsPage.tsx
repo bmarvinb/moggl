@@ -1,5 +1,5 @@
-import { Head } from 'components/Elements/Head';
-import { PageSpinner } from 'components/PageSpinner';
+import { Head } from 'common/components/Elements/Head';
+import { PageSpinner } from 'common/components/PageSpinner';
 import { useGetProjects, ProjectsContent } from 'features/projects';
 
 export const ProjectsPage = () => {

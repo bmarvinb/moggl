@@ -1,5 +1,5 @@
 import { differenceInSeconds } from 'date-fns';
-import { invariant } from 'utils/invariant';
+import { invariant } from 'common/utils/invariant';
 import { assign, createMachine, State } from 'xstate';
 
 export type TimerMode = 'Timer' | 'Manual';

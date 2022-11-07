@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from 'components/Elements/Button';
-import { FieldMessage } from 'components/Form/FieldMessage';
-import { TextField } from 'components/Form/TextField';
+import { Button } from 'common/components/Elements/Button';
+import { FieldMessage } from 'common/components/Form/FieldMessage';
+import { TextField } from 'common/components/Form/TextField';
 import { z } from 'zod';
 
 type TagFormProps = {

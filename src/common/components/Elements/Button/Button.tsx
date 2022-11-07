@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import React from 'react';
-import { Spinner } from 'components/Elements/Spinner';
+import { Spinner } from 'common/components/Elements/Spinner';
 
 const sizes = {
   xs: clsx('px-2.5 py-1.5 text-xs'),

@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { differenceInSeconds } from 'date-fns';
 import { useCurrentUser, useWorkspace } from 'features/auth';
-import { invariant } from 'utils/invariant';
+import { invariant } from 'common/utils/invariant';
 import { ActiveTimeEntry, CompletedTimeEntry } from '../types/time-entry';
-import { timeEntries } from '../api/time-entries';
-import { QUERY_KEY } from './useTimeEntries';
+import { timeEntries } from '../api/timer-api';
+import { QUERY_KEY } from '../api/useTimeEntries';
 
+// TODO: need refactoring
 export function useStopTimeEntry() {
   const workspace = useWorkspace();
   const user = useCurrentUser();

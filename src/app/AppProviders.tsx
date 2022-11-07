@@ -1,11 +1,10 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Button } from 'components/Elements/Button';
 import { AuthProvider } from 'features/auth';
 import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { ErrorFallback } from 'components/ErrorFallback';
+import { ErrorFallback } from 'common/components/ErrorFallback';
 
 const queryClient = new QueryClient({
   defaultOptions: {

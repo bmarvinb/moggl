@@ -7,7 +7,7 @@ import {
   BiPurchaseTag,
   BiStop,
 } from 'react-icons/bi';
-import { ButtonIcon } from 'components/Elements/ButtonIcon';
+import { ButtonIcon } from 'common/components/Elements/ButtonIcon';
 import { TimerMode } from '../machines/TimerMachine';
 import { formatTimeEntryDuration } from '../utils';
 

@@ -8,7 +8,7 @@ import {
   secondsToHours,
   secondsToMinutes,
 } from 'date-fns';
-import { numberPad } from 'utils/number';
+import { numberPad } from 'common/utils/number';
 import { CompletedTimeEntry } from '../types/time-entry';
 
 export function timeEntryDuration({ start, end }: CompletedTimeEntry): number {
@@ -53,5 +53,3 @@ export function formatDate(
 export function calculateDuration(entries: CompletedTimeEntry[]): number {
   return entries.map(timeEntryDuration).reduce((acc, val) => acc + val, 0);
 }
-
-

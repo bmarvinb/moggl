@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'components/Card/Card';
+import { Card } from 'common/components/Card/Card';
 
 export type ListProps = {
   className?: string;
