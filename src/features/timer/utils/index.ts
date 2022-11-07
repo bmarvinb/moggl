@@ -53,3 +53,5 @@ export function formatDate(
 export function calculateDuration(entries: CompletedTimeEntry[]): number {
   return entries.map(timeEntryDuration).reduce((acc, val) => acc + val, 0);
 }
+
+

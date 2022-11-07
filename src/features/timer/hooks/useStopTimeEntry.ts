@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { differenceInSeconds } from 'date-fns';
 import { useCurrentUser, useWorkspace } from 'features/auth';
 import { invariant } from 'utils/invariant';
-import { CompletedTimeEntry } from '../types/time-entry';
+import { ActiveTimeEntry, CompletedTimeEntry } from '../types/time-entry';
 import { timeEntries } from '../api/time-entries';
 import { QUERY_KEY } from './useTimeEntries';
 
@@ -30,8 +30,12 @@ export function useStopTimeEntry() {
         };
         await queryClient.cancelQueries([QUERY_KEY]);
         const prev = queryClient.getQueryData([QUERY_KEY]);
-        queryClient.setQueryData([QUERY_KEY], (data: any) => {
-          return { ...data, completed: [timeEntry, ...data.completed] };
+        queryClient.setQueryData([QUERY_KEY], data => {
+          const value = data as {
+            completed: CompletedTimeEntry[];
+            active: ActiveTimeEntry;
+          };
+          return { ...value, completed: [timeEntry, ...value.completed] };
         });
         return { prev };
       },
