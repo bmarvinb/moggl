@@ -7,7 +7,7 @@ import {
   BiPurchaseTag,
 } from 'react-icons/bi';
 import { isParentTimeEntry, isChildTimeEntry } from '../hooks/useSelection';
-import { CompletedTimeEntry } from '../models/time-entry';
+import { CompletedTimeEntry } from '../types/time-entry';
 
 export type ParentTimeEntry = {
   data: CompletedTimeEntry;

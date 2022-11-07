@@ -4,7 +4,7 @@ import { fetch } from 'lib/fetch';
 import { createURLSearchParams } from 'utils/url-params';
 import { z } from 'zod';
 import { toTag } from '../utils';
-import { TagDTO, tagSchema } from './dtos/tag-dto';
+import { TagDTO, tagSchema } from './tag-dtos';
 
 type TagsSearchCriteria = {
   archived?: string;

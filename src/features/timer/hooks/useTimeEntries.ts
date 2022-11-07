@@ -4,8 +4,8 @@ import {
   isActiveTimeEntry,
   isCompletedTimeEntry,
   toTimeEntry,
-} from '../models/time-entry';
-import { timeEntries } from '../services/time-entries';
+} from '../types/time-entry';
+import { timeEntries } from '../api/time-entries';
 
 export const QUERY_KEY = 'timeEntries';
 

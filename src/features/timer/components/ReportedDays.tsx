@@ -1,6 +1,6 @@
 import { useReportedDays } from '../hooks/useReportedDays';
 import { useWeekDuration } from '../hooks/useWeekDuration';
-import { CompletedTimeEntry } from '../models/time-entry';
+import { CompletedTimeEntry } from '../types/time-entry';
 import { ReportedDaysContainer } from './ReportedDaysContainer';
 import { TimeEntriesTable } from './TimeEntriesTable';
 import { WeekDuration } from './WeekDuration';

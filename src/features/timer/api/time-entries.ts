@@ -8,7 +8,7 @@ import {
   TimeEntryDTO,
   timeEntrySchema,
   UpdateTimeEntryDTO,
-} from '../dtos/time-entry-dtos';
+} from './time-entry-dtos';
 
 type TimeEntriesRequestOptions = {
   description?: string;

@@ -1,5 +1,5 @@
 import { useActiveDuration } from '../hooks/useActiveDuration';
-import { formatTimeEntryDuration } from '../utils/time-entries-utils';
+import { formatTimeEntryDuration } from '../utils';
 
 export type WeekDurationProps = {
   weekDuration: number;

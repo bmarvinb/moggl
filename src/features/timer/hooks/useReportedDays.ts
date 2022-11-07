@@ -5,8 +5,8 @@ import {
   RegularTimeEntry,
   TimeEntryRow,
 } from '../components/TimeEntryViewRow';
-import { CompletedTimeEntry } from '../models/time-entry';
-import { calculateDuration } from '../utils/time-entries-utils';
+import { CompletedTimeEntry } from '../types/time-entry';
+import { calculateDuration } from '../utils';
 import { isParentTimeEntry } from './useSelection';
 
 const getParentChildren = (

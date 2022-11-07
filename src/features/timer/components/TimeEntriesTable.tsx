@@ -6,11 +6,8 @@ import {
   useSelection,
 } from '../hooks/useSelection';
 import { TimerData } from '../machines/TimerMachine';
-import { TimerContext } from '../machines/TimerMachineProvider';
-import {
-  formatTimeEntryDuration,
-  getTimeEntryInfo,
-} from '../utils/time-entries-utils';
+import { TimerContext } from '../providers/TimerMachineProvider';
+import { formatTimeEntryDuration, getTimeEntryInfo } from '../utils';
 import { ParentTimeEntryRow } from './ParentTimeEntryRow';
 import { TimeEntryRowContainer } from './TimeEntryRowContainer';
 import { TimeEntryRow, TimeEntryViewRow } from './TimeEntryViewRow';

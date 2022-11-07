@@ -3,7 +3,7 @@ import { Checkbox } from 'components/Checkbox';
 import { isToday } from 'date-fns';
 import React from 'react';
 import { BiListUl } from 'react-icons/bi';
-import { formatDate } from '../utils/time-entries-utils';
+import { formatDate } from '../utils';
 import { DayDuration } from './DayDuration';
 
 type TimeEntryRowContainerProps = {

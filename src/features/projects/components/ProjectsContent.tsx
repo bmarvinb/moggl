@@ -3,11 +3,11 @@ import { Container } from 'components/Container';
 import { Button } from 'components/Elements/Button';
 import { Title } from 'components/Title';
 import React from 'react';
-import { Projects } from '../models/projects';
+import { ProjectDTO } from '../api/project-dtos';
 import { AddProjectDialog } from './AddProjectDialog';
 
 export type ProjectsContentProps = {
-  projects: Projects;
+  projects: ProjectDTO[];
 };
 
 export const ProjectsContent = (props: ProjectsContentProps) => {

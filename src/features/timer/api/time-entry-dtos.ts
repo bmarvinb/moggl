@@ -1,8 +1,8 @@
-import { customFieldSchema } from 'shared/dtos/custom-field-dto';
-import { estimateSchema } from 'shared/dtos/estimate-dto';
-import { hourlyRateSchema } from 'shared/dtos/hourly-rate-dto';
-import { membershipSchema } from 'shared/dtos/membership-dto';
-import { statusSchema } from 'shared/dtos/status-dto';
+import { customFieldSchema } from 'common/dtos/custom-field-dto';
+import { estimateSchema } from 'common/dtos/estimate-dto';
+import { hourlyRateSchema } from 'common/dtos/hourly-rate-dto';
+import { membershipSchema } from 'common/dtos/membership-dto';
+import { statusSchema } from 'common/dtos/status-dto';
 import { z } from 'zod';
 
 const summaryReportSettingsSchema = z.object({

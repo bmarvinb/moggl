@@ -3,7 +3,7 @@ import { useUserInfo } from 'features/auth';
 import {
   applyColorScheme,
   usePrefersColorScheme,
-} from 'hooks/prefersColorScheme';
+} from 'hooks/usePrefersColorScheme';
 import React from 'react';
 
 const AuthenticatedApp = React.lazy(

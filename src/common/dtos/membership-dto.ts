@@ -1,6 +1,6 @@
-import { hourlyRateSchema } from 'shared/dtos/hourly-rate-dto';
-import { membershipTypeScheme } from 'shared/dtos/membership-type-dto';
-import { statusSchema } from 'shared/dtos/status-dto';
+import { hourlyRateSchema } from 'common/dtos/hourly-rate-dto';
+import { membershipTypeScheme } from 'common/dtos/membership-type-dto';
+import { statusSchema } from 'common/dtos/status-dto';
 import { z } from 'zod';
 
 export const membershipSchema = z.object({

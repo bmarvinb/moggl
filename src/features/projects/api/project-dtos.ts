@@ -1,7 +1,7 @@
-import { estimateSchema } from 'shared/dtos/estimate-dto';
-import { hourlyRateSchema } from 'shared/dtos/hourly-rate-dto';
-import { membershipSchema } from 'shared/dtos/membership-dto';
-import { timeEstimateSchema } from 'shared/dtos/time-estimate-dto';
+import { estimateSchema } from 'common/dtos/estimate-dto';
+import { hourlyRateSchema } from 'common/dtos/hourly-rate-dto';
+import { membershipSchema } from 'common/dtos/membership-dto';
+import { timeEstimateSchema } from 'common/dtos/time-estimate-dto';
 import { z } from 'zod';
 
 export type ProjectRequestOptions = {
@@ -38,8 +38,4 @@ export const projectSchema = z
   })
   .strict();
 
-export type Project = z.infer<typeof projectSchema>;
-
-export const projectsSchema = z.array(projectSchema);
-
-export type Projects = z.infer<typeof projectsSchema>;
+export type ProjectDTO = z.infer<typeof projectSchema>;

@@ -7,8 +7,8 @@ import {
   selectIsTimerPending,
   TimerMode,
 } from '../machines/TimerMachine';
-import { TimerContext } from '../machines/TimerMachineProvider';
-import { ActiveTimeEntry } from '../models/time-entry';
+import { TimerContext } from '../providers/TimerMachineProvider';
+import { ActiveTimeEntry } from '../types/time-entry';
 import { TimerControls } from './TimerControls';
 
 function getTimerData(timeEntry: ActiveTimeEntry): TimerData {

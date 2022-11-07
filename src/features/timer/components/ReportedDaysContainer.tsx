@@ -1,5 +1,5 @@
 import React from 'react';
-import { useWindowSize } from 'hooks/windowSize';
+import { useWindowSize } from 'hooks/useWindowSize';
 
 export type ReportedDaysContainerProps = {
   children: React.ReactNode;

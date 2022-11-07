@@ -6,6 +6,7 @@ import { User } from '../services/user';
 import { user, userWorkspaces } from '../services/user-info';
 import { Workspace } from '../services/workspace';
 
+// TODO: use react-query
 function bootstrap() {
   return Promise.all([user(), userWorkspaces()]).then(([user, workspaces]) => ({
     user,

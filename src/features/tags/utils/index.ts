@@ -1,4 +1,4 @@
-import { TagDTO } from '../api/dtos/tag-dto';
+import { TagDTO } from '../api/tag-dtos';
 import { Tag } from '../types';
 
 export function toTag(dto: TagDTO): Tag {

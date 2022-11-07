@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useWorkspace } from 'features/auth';
-import { UpdateTimeEntryDTO } from '../dtos/time-entry-dtos';
-import { timeEntries } from '../services/time-entries';
+import { UpdateTimeEntryDTO } from '../api/time-entry-dtos';
+import { timeEntries } from '../api/time-entries';
 
 export function useUpdateTimeEntry() {
   const workspace = useWorkspace();

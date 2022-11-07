@@ -1,9 +1,6 @@
 import React from 'react';
 import { SelectionChanges } from '../hooks/useSelection';
-import {
-  formatTimeEntryDuration,
-  getTimeEntryInfo,
-} from '../utils/time-entries-utils';
+import { formatTimeEntryDuration, getTimeEntryInfo } from '../utils';
 import {
   ParentTimeEntry,
   TimeEntryRow,

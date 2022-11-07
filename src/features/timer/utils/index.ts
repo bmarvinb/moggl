@@ -9,7 +9,7 @@ import {
   secondsToMinutes,
 } from 'date-fns';
 import { numberPad } from 'utils/number';
-import { CompletedTimeEntry } from '../models/time-entry';
+import { CompletedTimeEntry } from '../types/time-entry';
 
 export function timeEntryDuration({ start, end }: CompletedTimeEntry): number {
   return differenceInSeconds(end, start);

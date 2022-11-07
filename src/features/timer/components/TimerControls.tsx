@@ -9,7 +9,7 @@ import {
 } from 'react-icons/bi';
 import { ButtonIcon } from 'components/Elements/ButtonIcon';
 import { TimerMode } from '../machines/TimerMachine';
-import { formatTimeEntryDuration } from '../utils/time-entries-utils';
+import { formatTimeEntryDuration } from '../utils';
 
 export type TimerControlsProps = {
   isRunning: boolean;

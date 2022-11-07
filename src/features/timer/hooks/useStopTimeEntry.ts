@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { differenceInSeconds } from 'date-fns';
 import { useCurrentUser, useWorkspace } from 'features/auth';
 import { invariant } from 'utils/invariant';
-import { CompletedTimeEntry } from '../models/time-entry';
-import { timeEntries } from '../services/time-entries';
+import { CompletedTimeEntry } from '../types/time-entry';
+import { timeEntries } from '../api/time-entries';
 import { QUERY_KEY } from './useTimeEntries';
 
 export function useStopTimeEntry() {
