@@ -1,30 +1,25 @@
-import { TimeEntriesTable } from 'features/timer/containers/TimeEntriesTable';
-import { InactiveTimeEntry } from 'features/timer/models/time-entry';
+import { useReportedDays } from '../hooks/useReportedDays';
+import { useWeekDuration } from '../hooks/useWeekDuration';
+import { CompletedTimeEntry } from '../types/time-entry';
+import { ReportedDaysContainer } from './ReportedDaysContainer';
+import { TimeEntriesTable } from './TimeEntriesTable';
+import { WeekDuration } from './WeekDuration';
 
-export type ReportedDay = {
-  id: string;
-  date: Date;
-  reportedDuration: number;
-  data: InactiveTimeEntry[];
+type ReportedDaysProps = {
+  timeEntries: CompletedTimeEntry[];
 };
 
-export type ReportedDaysProps = {
-  reportedDays: ReportedDay[];
-};
-
-export const ReportedDays = (props: ReportedDaysProps) => {
+export const ReportedDays = ({ timeEntries }: ReportedDaysProps) => {
+  const weekDuration = useWeekDuration(timeEntries);
+  const reportedDays = useReportedDays(timeEntries);
   return (
-    <>
-      {props.reportedDays.map(
-        ({ id, date, reportedDuration, data: timeEntries }) => (
-          <TimeEntriesTable
-            key={id}
-            date={date}
-            data={timeEntries}
-            reportedDuration={reportedDuration}
-          />
-        ),
-      )}
-    </>
+    <div className="flex w-full flex-1 flex-col">
+      <ReportedDaysContainer>
+        <WeekDuration weekDuration={weekDuration} />
+        {reportedDays.map(day => (
+          <TimeEntriesTable key={day.id} day={day} />
+        ))}
+      </ReportedDaysContainer>
+    </div>
   );
 };

@@ -1,5 +1,5 @@
-import { useUserInfo } from 'features/auth/context/auth-context';
-import { Workspace } from 'features/auth/services/workspace';
+import { useUserInfo } from '../context/auth-context';
+import { Workspace } from '../services/workspace';
 
 export function useWorkspace(): Workspace {
   const userInfo = useUserInfo();

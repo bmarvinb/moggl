@@ -1,20 +1,14 @@
 import { useMachine } from '@xstate/react';
+import { Drawer } from 'components/Elements/Drawer';
+import { useCurrentUser } from 'features/auth';
+import { Navbar } from 'components/Navbar';
 import {
   NavigationMenu,
   NavigationMenuItem,
-} from 'layout/components/NavigationMenu';
-import {
   NavigationMenuUserProfile,
   Profile,
-} from 'layout/components/NavigationMenuUserProfile';
-import { Drawer } from 'layout/components/Drawer';
-import { Navbar } from 'layout/components/Navbar';
-import {
-  drawerMachine,
-  DrawerMode,
-  DrawerState,
-} from 'layout/machines/drawerMachine';
-import { useCurrentUser } from 'features/auth/hooks/currentUser';
+} from 'components/Navigation';
+import { drawerMachine } from 'components/Elements/Drawer/drawerMachine';
 import { ClientsPage } from 'pages/ClientsPage';
 import { ProjectsPage } from 'pages/ProjectsPage';
 import { TagsPage } from 'pages/TagsPage';
@@ -24,7 +18,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 const menuItems: NavigationMenuItem[] = [
   {
-    route: 'timer',
+    route: '',
     title: 'Timer',
     icon: <BiTimer />,
   },
@@ -48,8 +42,8 @@ const menuItems: NavigationMenuItem[] = [
 export const AuthenticatedApp = () => {
   const [state, send] = useMachine(drawerMachine);
   const currentUser = useCurrentUser();
-  const temporaryMode = state.context.mode === DrawerMode.Temporary;
-  const open = state.matches(DrawerState.Open);
+  const temporaryMode = state.context.mode === 'temporary';
+  const open = state.matches('open');
   const profileInfo: Profile = {
     email: currentUser.email,
     name: currentUser.name,
@@ -81,7 +75,7 @@ export const AuthenticatedApp = () => {
         <main className="flex max-h-screen flex-1 flex-col overflow-y-scroll">
           {temporaryMode && <Navbar onMenuClicked={() => send('TOGGLE')} />}
           <Routes>
-            <Route path="/timer" element={<TimerPage />} />
+            <Route path="/" element={<TimerPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/clients" element={<ClientsPage />} />
             <Route path="/tags" element={<TagsPage />} />

@@ -1,5 +1,3 @@
-import { TimerMode } from 'features/timer/machines/TimerMachine';
-import { formatDuration } from 'features/timer/utils/time-entries-utils';
 import {
   BiBriefcase,
   BiDollar,
@@ -9,38 +7,49 @@ import {
   BiPurchaseTag,
   BiStop,
 } from 'react-icons/bi';
-import { ButtonIcon } from 'shared/components/ButtonIcon';
+import { ButtonIcon } from 'components/Elements/ButtonIcon';
+import { TimerMode } from '../machines/TimerMachine';
+import { formatTimeEntryDuration } from '../utils';
 
 export type TimerControlsProps = {
+  isRunning: boolean;
+  isPending: boolean;
   duration: number;
-  running: boolean;
-  updating: boolean;
-  billable: boolean;
-  creating: boolean;
+  isBillable: boolean;
   mode: TimerMode;
   onDiscard: () => void;
-  onStartClicked: () => void;
-  onAddTimeEntryClicked: () => void;
-  onStopClicked: () => void;
-  onBillableStatusChanged: () => void;
-  onTimerModeChanged: (mode: TimerMode) => void;
+  onStart: () => void;
+  onAddTimeEntry: () => void;
+  onStop: () => void;
+  onToggleBillableStatus: () => void;
+  onModeChange: (mode: TimerMode) => void;
 };
 
 export const TimerControls = (props: TimerControlsProps) => {
   const isTimerMode = props.mode === 'Timer';
+  const setTimerMode = () => props.onModeChange('Timer');
+  const setManualMode = () => props.onModeChange('Manual');
   return (
     <div>
       <div className="flex w-full items-center justify-between gap-4">
         <div className="flex gap-2">
           <ButtonIcon icon={<BiBriefcase title="Select project" />} />
           <ButtonIcon icon={<BiPurchaseTag title="Select tags" />} />
-          <ButtonIcon icon={<BiDollar title="Change billable status" />} />
+          <ButtonIcon
+            onClick={props.onToggleBillableStatus}
+            icon={<BiDollar title="Change billable status" />}
+            className={
+              props.isBillable
+                ? 'text-primary-400 dark:text-primary-dark-400'
+                : ''
+            }
+          />
         </div>
 
         <div className="flex items-center">
           {isTimerMode ? (
             <div className="mr-3 min-w-[5rem] text-right text-lg font-semibold text-neutral-800 dark:text-neutral-dark-900">
-              {formatDuration(props.duration)}
+              {formatTimeEntryDuration(props.duration)}
             </div>
           ) : (
             <div></div>
@@ -49,13 +58,13 @@ export const TimerControls = (props: TimerControlsProps) => {
           <div className="mr-3">
             {isTimerMode ? (
               <div>
-                {props.running || props.creating || props.updating ? (
+                {props.isRunning ? (
                   <button
                     className="rounded-full bg-red-400 p-2 text-xl text-neutral-50 hover:bg-red-300 disabled:bg-red-300 dark:bg-red-dark-400 dark:hover:bg-red-dark-500 dark:disabled:bg-red-dark-300"
                     aria-label="Stop timer"
                     title="Stop timer"
-                    onClick={props.onStopClicked}
-                    disabled={props.updating || props.creating}
+                    onClick={props.onStop}
+                    disabled={props.isPending}
                   >
                     <BiStop />
                   </button>
@@ -64,7 +73,7 @@ export const TimerControls = (props: TimerControlsProps) => {
                     className="rounded-full bg-primary-400 p-2 text-xl text-neutral-50 hover:bg-primary-300 disabled:bg-primary-300 dark:bg-primary-dark-400 dark:hover:bg-primary-dark-500 dark:disabled:bg-primary-dark-300"
                     aria-label="Start timer"
                     title="Start timer"
-                    onClick={props.onStartClicked}
+                    onClick={props.onStart}
                   >
                     <BiPlay className="relative -right-0.5" />
                   </button>
@@ -76,7 +85,7 @@ export const TimerControls = (props: TimerControlsProps) => {
                   className="rounded-full bg-primary-400 p-2 text-xl text-neutral-50 hover:bg-primary-300 dark:bg-primary-dark-400 dark:hover:bg-primary-dark-500"
                   aria-label="Add time entry"
                   title="Add time entry"
-                  onClick={props.onAddTimeEntryClicked}
+                  onClick={props.onAddTimeEntry}
                 >
                   <BiPlus />
                 </button>
@@ -85,9 +94,9 @@ export const TimerControls = (props: TimerControlsProps) => {
           </div>
 
           <div className="flex min-w-[1.5rem] items-center justify-center">
-            {props.running ? (
+            {props.isRunning ? (
               <button
-                disabled={props.creating || props.updating}
+                disabled={props.isPending}
                 onClick={props.onDiscard}
                 title="Discard"
               >
@@ -95,16 +104,10 @@ export const TimerControls = (props: TimerControlsProps) => {
               </button>
             ) : (
               <div className="flex flex-col justify-center rounded p-0">
-                <button
-                  title="Timer mode"
-                  onClick={() => props.onTimerModeChanged('Timer')}
-                >
+                <button title="Timer mode" onClick={setTimerMode}>
                   <BiPlay />
                 </button>
-                <button
-                  title="Manual mode"
-                  onClick={() => props.onTimerModeChanged('Manual')}
-                >
+                <button title="Manual mode" onClick={setManualMode}>
                   <BiPlus />
                 </button>
               </div>

@@ -1,15 +1,28 @@
-import { PageSpinner } from 'shared/components/PageSpinner';
-import { TimeEntries } from 'features/timer/containers/TimeEntries';
-import { useTimeEntries } from 'features/timer/hooks/timeEntries';
+import { Head } from 'components/Elements/Head';
+import { PageSpinner } from 'components/PageSpinner';
+import {
+  useTimeEntries,
+  TimerMachineProvider,
+  Timer,
+  ReportedDays,
+} from 'features/timer';
 
 export const TimerPage = () => {
   const { status, data } = useTimeEntries();
+
   switch (status) {
     case 'loading':
       return <PageSpinner />;
     case 'error':
       return <div>Error</div>;
     case 'success':
-      return <TimeEntries timeEntries={data} />;
+      const { active, completed } = data;
+      return (
+        <TimerMachineProvider>
+          <Head title="Timer" />
+          <Timer active={active} />
+          <ReportedDays timeEntries={completed} />
+        </TimerMachineProvider>
+      );
   }
 };

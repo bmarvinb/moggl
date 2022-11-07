@@ -1,16 +1,17 @@
+import React from 'react';
+import { SelectionChanges } from '../hooks/useSelection';
+import { formatTimeEntryDuration, getTimeEntryInfo } from '../utils';
 import {
   ParentTimeEntry,
-  TimeEntryRowViewModel,
+  TimeEntryRow,
   TimeEntryViewRow,
-} from 'features/timer/components/TimeEntryViewRow';
-import { SelectionChanges } from 'features/timer/hooks/selection';
-import React from 'react';
+} from './TimeEntryViewRow';
 
 export type ParentTimeEntryRowProps = {
   timeEntry: ParentTimeEntry;
   edit: boolean;
   selectedIds: string[];
-  onPlayClicked: (timeEntry: TimeEntryRowViewModel) => void;
+  onPlayClicked: (timeEntry: TimeEntryRow) => void;
   onParentSelectionChange: (changes: SelectionChanges) => void;
   onChildSelectionChange: (id: string) => void;
 };
@@ -34,28 +35,37 @@ export const ParentTimeEntryRow = (props: ParentTimeEntryRowProps) => {
 
   return (
     <>
-      <div data-testid={`${props.timeEntry.data.id}-parent`}>
+      <div>
         <TimeEntryViewRow
           timeEntry={props.timeEntry}
           edit={props.edit}
           selected={allChildrenChecked}
           onSelectionChange={onParentSelectionChange}
-          onPlayClicked={props.onPlayClicked}
+          onPlayClicked={() => props.onPlayClicked(props.timeEntry)}
           onToggleChildrenVisibility={toggleExpanded}
+          duration={formatTimeEntryDuration(props.timeEntry.data.duration)}
+          projectInfo={
+            props.timeEntry.data.project
+              ? getTimeEntryInfo(props.timeEntry.data)
+              : undefined
+          }
         />
       </div>
-      <div
-        data-testid={`${props.timeEntry.data.id}-children`}
-        hidden={!expanded}
-      >
+      <div hidden={!expanded}>
         {props.timeEntry.children.map(child => (
           <TimeEntryViewRow
             key={child.data.id}
             timeEntry={child}
             edit={props.edit}
             selected={isChildChecked(child.data.id)}
-            onPlayClicked={props.onPlayClicked}
-            onSelectionChange={props.onChildSelectionChange}
+            onPlayClicked={() => props.onPlayClicked(child)}
+            onSelectionChange={() =>
+              props.onChildSelectionChange(child.data.id)
+            }
+            duration={formatTimeEntryDuration(child.data.duration)}
+            projectInfo={
+              child.data.project ? getTimeEntryInfo(child.data) : undefined
+            }
           />
         ))}
       </div>

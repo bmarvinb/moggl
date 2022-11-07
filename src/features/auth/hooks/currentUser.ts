@@ -1,5 +1,5 @@
-import { useUserInfo } from 'features/auth/context/auth-context';
-import { User } from 'features/auth/services/user';
+import { useUserInfo } from '../context/auth-context';
+import { User } from '../services/user';
 
 export function useCurrentUser(): User {
   const userInfo = useUserInfo();

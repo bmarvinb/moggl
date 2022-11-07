@@ -1,5 +1,5 @@
-import { useActiveDuration } from 'features/timer/hooks/activeDuration';
-import { formatDuration } from 'features/timer/utils/time-entries-utils';
+import { useActiveDuration } from '../hooks/useActiveDuration';
+import { formatTimeEntryDuration } from '../utils';
 
 type DayDurationProps = {
   isToday: boolean;
@@ -10,7 +10,7 @@ export const DayDuration = ({ reportedTime, isToday }: DayDurationProps) => {
   const duration = useActiveDuration(reportedTime);
   return (
     <div className="font-normal text-neutral-800 dark:text-neutral-100">
-      {formatDuration(isToday ? duration : reportedTime)}
+      {formatTimeEntryDuration(isToday ? duration : reportedTime)}
     </div>
   );
 };

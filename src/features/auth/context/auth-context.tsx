@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import { FullPageErrorFallback } from 'shared/components/FullPageErrorFallback';
-import { FullPageSpinner } from 'shared/components/FullPageSpinner';
-import { User } from 'features/auth/services/user';
-import { user, userWorkspaces } from 'features/auth/services/user-info';
-import { Workspace } from 'features/auth/services/workspace';
+import { ErrorFallback } from 'components/ErrorFallback';
+import { FullPageSpinner } from 'components/FullPageSpinner';
 import React from 'react';
+import { User } from '../services/user';
+import { user, userWorkspaces } from '../services/user-info';
+import { Workspace } from '../services/workspace';
 
+// TODO: use react-query
 function bootstrap() {
   return Promise.all([user(), userWorkspaces()]).then(([user, workspaces]) => ({
     user,
@@ -29,7 +30,7 @@ export function AuthProvider(props: { children: React.ReactNode }) {
 
   switch (status) {
     case 'error':
-      return <FullPageErrorFallback error={error} />;
+      return <ErrorFallback />;
     case 'loading':
       return <FullPageSpinner />;
     case 'success':

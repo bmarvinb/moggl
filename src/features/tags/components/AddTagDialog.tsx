@@ -1,31 +1,33 @@
-import { TagForm } from 'features/tags/components/TagForm';
-import { useAddTag } from 'features/tags/hooks/addTag';
-import { AddTagDTO } from 'features/tags/models/tags';
-import { Dialog } from 'shared/components/Dialog';
-import { DialogMode } from 'shared/models/dialog-mode';
+import { Dialog } from 'components/Dialog';
+import { useAddTag } from '../api/addTag';
+import { TagForm, TagFormValues } from './TagForm';
 
-export type AddTagDialog = {
+type AddTagDialogProps = {
   open: boolean;
   onOpenChange: () => void;
   onSuccess: () => void;
 };
 
-export const AddTagDialog = (props: AddTagDialog) => {
+export const AddTagDialog = ({
+  open,
+  onOpenChange,
+  onSuccess,
+}: AddTagDialogProps) => {
   const { mutate: addTag, status, error } = useAddTag();
 
-  const onSubmit = (data: AddTagDTO) => {
+  const onSubmit = (data: TagFormValues) => {
     addTag(data, {
-      onSuccess: props.onSuccess,
+      onSuccess: onSuccess,
     });
   };
 
   return (
-    <Dialog title="Add tag" isOpen={props.open} onClose={props.onOpenChange}>
+    <Dialog title="Add tag" isOpen={open} onClose={onOpenChange}>
       <TagForm
-        operation={DialogMode.Add}
         loading={status === 'loading'}
         error={error?.message}
         onSubmit={onSubmit}
+        action="Add"
       />
     </Dialog>
   );

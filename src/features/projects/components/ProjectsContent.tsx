@@ -1,16 +1,13 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { AddProjectDialog } from 'features/projects/components/AddProjectDialog';
-import { ProjectForm } from 'features/projects/components/ProjectForm';
-import { Projects } from 'features/projects/models/projects';
+import { Card } from 'components/Card/Card';
+import { Container } from 'components/Container';
+import { Button } from 'components/Elements/Button';
+import { Title } from 'components/Title';
 import React from 'react';
-import { Button } from 'shared/components/Button';
-import { Card } from 'shared/components/Card/Card';
-import { Container } from 'shared/components/Container';
-import { Dialog } from 'shared/components/Dialog';
-import { Title } from 'shared/components/Title';
+import { ProjectDTO } from '../api/project-dtos';
+import { AddProjectDialog } from './AddProjectDialog';
 
 export type ProjectsContentProps = {
-  projects: Projects;
+  projects: ProjectDTO[];
 };
 
 export const ProjectsContent = (props: ProjectsContentProps) => {
