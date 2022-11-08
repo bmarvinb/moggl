@@ -1,6 +1,5 @@
 import { useMachine } from '@xstate/react';
-import { Drawer } from 'common/components/Elements/Drawer';
-import { useCurrentUser } from 'features/auth';
+import { Drawer, drawerMachine } from 'common/components/Elements/Drawer';
 import { Navbar } from 'common/components/Navbar';
 import {
   NavigationMenu,
@@ -8,7 +7,7 @@ import {
   NavigationMenuUserProfile,
   Profile,
 } from 'common/components/Navigation';
-import { drawerMachine } from 'common/components/Elements/Drawer/drawerMachine';
+import { useCurrentUser } from 'features/auth';
 import { ClientsPage } from 'pages/ClientsPage';
 import { ProjectsPage } from 'pages/ProjectsPage';
 import { TagsPage } from 'pages/TagsPage';

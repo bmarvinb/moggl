@@ -4,9 +4,8 @@ import { useCurrentUser, useWorkspace } from 'features/auth';
 import { invariant } from 'common/utils/invariant';
 import { ActiveTimeEntry, CompletedTimeEntry } from '../types/time-entry';
 import { timeEntries } from '../api/timer-api';
-import { QUERY_KEY } from '../api/useTimeEntries';
+import { timeEntriesQueryKey } from './useTimeEntries';
 
-// TODO: need refactoring
 export function useStopTimeEntry() {
   const workspace = useWorkspace();
   const user = useCurrentUser();
@@ -29,9 +28,9 @@ export function useStopTimeEntry() {
           task: undefined,
           duration: differenceInSeconds(new Date(), new Date(data.start)),
         };
-        await queryClient.cancelQueries([QUERY_KEY]);
-        const prev = queryClient.getQueryData([QUERY_KEY]);
-        queryClient.setQueryData([QUERY_KEY], data => {
+        await queryClient.cancelQueries([timeEntriesQueryKey]);
+        const prev = queryClient.getQueryData([timeEntriesQueryKey]);
+        queryClient.setQueryData([timeEntriesQueryKey], data => {
           // TODO: do better
           const value = data as {
             completed: CompletedTimeEntry[];
@@ -43,11 +42,11 @@ export function useStopTimeEntry() {
       },
       onError: (_, __, context) => {
         if (context?.prev) {
-          queryClient.setQueryData([QUERY_KEY], context.prev);
+          queryClient.setQueryData([timeEntriesQueryKey], context.prev);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries([QUERY_KEY]);
+        queryClient.invalidateQueries([timeEntriesQueryKey]);
       },
     },
   );

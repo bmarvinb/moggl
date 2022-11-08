@@ -5,14 +5,14 @@ import {
   isCompletedTimeEntry,
   toTimeEntry,
 } from '../types/time-entry';
-import { timeEntries } from './timer-api';
+import { timeEntries } from '../api/timer-api';
 
-export const QUERY_KEY = 'timeEntries';
+export const timeEntriesQueryKey = 'timeEntries';
 
 export function useTimeEntries() {
   const workspace = useWorkspace();
   const currentUser = useCurrentUser();
-  return useQuery([QUERY_KEY], async () => {
+  return useQuery([timeEntriesQueryKey], async () => {
     const data = await timeEntries.getAll(workspace.id, currentUser.id, {
       'page-size': 25,
       page: 1,

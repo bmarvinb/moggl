@@ -9,6 +9,8 @@ import {
   projectSchema,
 } from './project-dtos';
 
+export const projectsQueryKey = 'projects';
+
 export function getAllProjects(
   workspaceId: string,
   options: ProjectRequestOptions = {},
@@ -21,7 +23,7 @@ export function getAllProjects(
 
 export function useGetProjects() {
   const workspace = useWorkspace();
-  return useQuery(['projects'], () =>
+  return useQuery([projectsQueryKey], () =>
     getAllProjects(workspace.id, { hydrated: false }),
   );
 }
