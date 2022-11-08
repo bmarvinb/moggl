@@ -1,5 +1,5 @@
 import { Dialog } from 'common/components/Dialog';
-import { useAddTag } from '../api/addTag';
+import { useAddTag } from '../hooks/useAddTag';
 import { TagForm, TagFormValues } from './TagForm';
 
 type AddTagDialogProps = {

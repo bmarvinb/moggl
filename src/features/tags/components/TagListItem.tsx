@@ -1,6 +1,6 @@
 import React from 'react';
-import { useDeleteTag } from '../api/deleteTag';
-import { useUpdateTag } from '../api/updateTag';
+import { useDeleteTag } from '../hooks/useDeleteTag';
+import { useUpdateTag } from '../hooks/useUpdateTag';
 import { Tag } from '../types';
 import { TagListViewItem } from './TagListViewItem';
 import { UpdateTagDialog } from './UpdateTagDialog';

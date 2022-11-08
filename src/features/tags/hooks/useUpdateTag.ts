@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useWorkspace } from 'features/auth';
 import { fetch } from 'lib/fetch';
-import { TagDTO, tagSchema, UpdateTagDTO } from './tag-dtos';
+import { TagDTO, tagSchema, UpdateTagDTO } from '../api/tag-dtos';
 
 function updateTag(workspaceId: string, tagId: string, data: UpdateTagDTO) {
   return fetch<TagDTO>(`workspaces/${workspaceId}/tags/${tagId}`, {

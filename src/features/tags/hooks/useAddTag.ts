@@ -1,14 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useWorkspace } from 'features/auth';
-import { fetch } from 'lib/fetch';
-import { AddTagDTO, TagDTO, tagSchema } from './tag-dtos';
-
-function addTag(workspaceId: string, data: AddTagDTO) {
-  return fetch<TagDTO>(`workspaces/${workspaceId}/tags`, {
-    schema: tagSchema,
-    data,
-  });
-}
+import { addTag } from '../api/tag-api';
+import { AddTagDTO, TagDTO } from '../api/tag-dtos';
 
 export function useAddTag() {
   const workspace = useWorkspace();
