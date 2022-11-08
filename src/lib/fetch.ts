@@ -1,4 +1,3 @@
-import { createURLSearchParams } from 'common/utils/url-params';
 import { API_KEY, API_URL } from 'config';
 import { z, ZodType } from 'zod';
 
