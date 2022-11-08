@@ -1,7 +1,7 @@
 import React from 'react';
 
 export function useDialog(opened = false) {
-  const [isOpen, setDialogOpen] = React.useState(false);
+  const [isOpen, setDialogOpen] = React.useState(opened);
 
   const open = () => setDialogOpen(true);
 
