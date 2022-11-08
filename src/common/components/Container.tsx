@@ -7,7 +7,7 @@ export type ContainerProps = {
 
 export const Container = (props: ContainerProps) => (
   <div
-    className={`flex flex-1 flex-col bg-neutral-100 dark:bg-neutral-700 ${props.className}`}
+    className={`flex flex-1 flex-col bg-neutral-100 p-8 dark:bg-neutral-700 ${props.className}`}
   >
     {props.children}
   </div>
