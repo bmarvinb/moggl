@@ -27,11 +27,9 @@ function getTags(
 }
 
 export function useGetTags(criteria: TagsSearchCriteria = {}) {
-  console.log('criteria', criteria);
-
   const workspace = useWorkspace();
   return useQuery(
-    ['tags'],
+    ['tags', criteria],
     ({ signal }) =>
       getTags(workspace.id, criteria, signal).then(data => data.map(toTag)),
     {

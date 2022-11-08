@@ -6,13 +6,13 @@ import React from 'react';
 import { Tag } from '../types';
 import { AddTagDialog } from './AddTagDialog';
 import { TagListItem } from './TagListItem';
-import { TagsFilter, TagsFilterCriteria } from './TagsFilter';
+import { TagsFilter, TagsSearchCriteria } from './TagsFilter';
 
 export type TagsContentProps = {
   fetching: boolean;
-  searchCriteria: TagsFilterCriteria;
+  searchCriteria: TagsSearchCriteria;
   tags: Tag[];
-  onFilterChange: (changes: TagsFilterCriteria) => void;
+  onFilterChange: (changes: TagsSearchCriteria) => void;
 };
 
 export const TagsContent = (props: TagsContentProps) => {

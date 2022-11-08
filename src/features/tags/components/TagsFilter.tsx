@@ -9,15 +9,15 @@ const schema = z.object({
   name: z.string().optional(),
 });
 
-export type TagsFilterCriteria = z.infer<typeof schema>;
+export type TagsSearchCriteria = z.infer<typeof schema>;
 
 type TagsFilterProps = {
-  criteria: TagsFilterCriteria;
-  onChange: (changes: TagsFilterCriteria) => void;
+  criteria: TagsSearchCriteria;
+  onChange: (changes: TagsSearchCriteria) => void;
 };
 
 export const TagsFilter = (props: TagsFilterProps) => {
-  const { register, getValues } = useForm<TagsFilterCriteria>({
+  const { register, getValues } = useForm<TagsSearchCriteria>({
     resolver: zodResolver(schema),
     defaultValues: {
       archived: props.criteria ? props.criteria.archived : 'false',
