@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 export type TagsSearchFilterCriteria = {
   name: string;
@@ -7,7 +7,7 @@ export type TagsSearchFilterCriteria = {
 
 export function useTagSearchCriteria() {
   const [searchCriteria, setSearchCriteria] =
-    useState<TagsSearchFilterCriteria>({
+    React.useState<TagsSearchFilterCriteria>({
       name: '',
       archived: 'false',
     });
