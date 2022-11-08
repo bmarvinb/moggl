@@ -8,15 +8,15 @@ import {
 } from 'features/timer';
 
 export const TimerPage = () => {
-  const { status, data } = useTimeEntries();
+  const timeEntries = useTimeEntries();
 
-  switch (status) {
+  switch (timeEntries.status) {
     case 'loading':
       return <PageSpinner />;
     case 'error':
       return <div>Error</div>;
     case 'success':
-      const { active, completed } = data;
+      const { active, completed } = timeEntries.data;
       return (
         <TimerMachineProvider>
           <Head title="Timer" />

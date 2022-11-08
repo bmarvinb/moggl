@@ -12,7 +12,7 @@ export type TagListViewItemProps = {
   onDelete: () => void;
 };
 
-export const TagListViewItem = (props: TagListViewItemProps) => {
+export const TagsItem = (props: TagListViewItemProps) => {
   return (
     <ListItem className="align-center flex justify-between" key={props.tag.id}>
       <div>{props.tag.name}</div>

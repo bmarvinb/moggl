@@ -21,7 +21,7 @@ export function getAllProjects(
   });
 }
 
-export function useGetProjects() {
+export function useProjects() {
   const workspace = useWorkspace();
   return useQuery([projectsQueryKey], () =>
     getAllProjects(workspace.id, { hydrated: false }),

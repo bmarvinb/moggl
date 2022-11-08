@@ -1,26 +1,22 @@
-import React from 'react';
+import { useDialog } from 'common/hooks/useDialog';
 import { useDeleteTag } from '../hooks/useDeleteTag';
 import { useUpdateTag } from '../hooks/useUpdateTag';
 import { Tag } from '../types';
-import { TagListViewItem } from './TagListViewItem';
+import { TagsItem } from './TagsItem';
 import { UpdateTagDialog } from './UpdateTagDialog';
 
 export type TagListItemProps = {
   tag: Tag;
 };
 
-export const TagListItem = (props: TagListItemProps) => {
-  const [dialogOpen, setDialogOpen] = React.useState(false);
+export const TagsItemContainer = (props: TagListItemProps) => {
+  const [isOpened, { open, close }] = useDialog();
   const { mutate: updateTag, status: updateTagStatus } = useUpdateTag(
     props.tag.id,
   );
   const { mutate: deleteTag, status: deleteTagStatus } = useDeleteTag(
     props.tag.id,
   );
-
-  const onTagUpdated = () => {
-    setDialogOpen(false);
-  };
 
   const onArchive = (archived: boolean) => {
     updateTag({
@@ -35,19 +31,19 @@ export const TagListItem = (props: TagListItemProps) => {
 
   return (
     <>
-      <TagListViewItem
+      <TagsItem
         tag={props.tag}
         updateTagStatus={updateTagStatus}
         deleteTagStatus={deleteTagStatus}
-        onEdit={() => setDialogOpen(true)}
+        onEdit={open}
         onArchive={onArchive}
         onDelete={onDelete}
       />
       <UpdateTagDialog
-        open={dialogOpen}
+        open={isOpened}
         tag={props.tag}
-        onOpenChange={setDialogOpen}
-        onSuccess={onTagUpdated}
+        onOpenChange={close}
+        onSuccess={close}
       />
     </>
   );

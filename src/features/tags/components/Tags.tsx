@@ -1,17 +1,17 @@
 import { List } from 'common/components/List';
 import { Tag } from '../types';
-import { TagListItem } from './TagListItem';
+import { TagsItemContainer } from './TagsItemContainer';
 
 type TagsListProps = {
   tags: Tag[];
   searchTerm: string;
 };
 
-export const TagsList = ({ tags, searchTerm }: TagsListProps) => {
+export const Tags = ({ tags, searchTerm }: TagsListProps) => {
   return tags.length ? (
     <List>
       {tags.map(tag => (
-        <TagListItem key={tag.id} tag={tag} />
+        <TagsItemContainer key={tag.id} tag={tag} />
       ))}
     </List>
   ) : (

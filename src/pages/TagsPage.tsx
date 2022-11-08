@@ -9,8 +9,8 @@ import { useDialog } from 'common/hooks/useDialog';
 import {
   AddTagDialog,
   TagsFilter,
-  TagsList,
-  useGetTags,
+  Tags,
+  useTags,
   useTagSearchCriteria,
 } from 'features/tags';
 
@@ -18,9 +18,9 @@ export const TagsPage = () => {
   const [criteria, setCriteria] = useTagSearchCriteria();
   const [isOpen, { open, close }] = useDialog();
   const debouncedCriteria = useDebounce(criteria);
-  const { status, data: tags } = useGetTags(debouncedCriteria);
+  const tags = useTags(debouncedCriteria);
 
-  switch (status) {
+  switch (tags.status) {
     case 'loading':
       return <PageSpinner />;
     case 'error':
@@ -39,7 +39,7 @@ export const TagsPage = () => {
 
             <TagsFilter criteria={criteria} onFilterChange={setCriteria} />
 
-            <TagsList tags={tags} searchTerm={criteria.name} />
+            <Tags tags={tags.data} searchTerm={criteria.name} />
 
             <AddTagDialog
               open={isOpen}
