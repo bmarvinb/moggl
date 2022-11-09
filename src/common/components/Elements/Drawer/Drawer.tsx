@@ -37,7 +37,7 @@ const TemporaryDrawer = (props: Omit<DrawerProps, 'variant'>) => {
               leaveFrom="opacity-100 translate-x-0"
               leaveTo="opacity-0 -translate-x-8"
             >
-              <Dialog.Panel className="flex  h-full  transform flex-col overflow-hidden  bg-primary-400 text-left align-middle shadow-xl transition-all dark:bg-primary-dark-400">
+              <Dialog.Panel className="flex h-full transform flex-col overflow-hidden bg-primary-400 text-left align-middle shadow-xl transition-all dark:bg-primary-dark-400">
                 {props.children}
               </Dialog.Panel>
             </Transition.Child>
