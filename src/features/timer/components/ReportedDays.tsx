@@ -15,7 +15,7 @@ export const ReportedDays = ({ timeEntries }: ReportedDaysProps) => {
   return (
     <div className="flex w-full flex-1 flex-col">
       <ReportedDaysContainer>
-        <WeekDuration weekDuration={weekDuration} />
+        {weekDuration >= 0 && <WeekDuration weekDuration={weekDuration} />}
         {reportedDays.map(day => (
           <TimeEntriesTable key={day.id} day={day} />
         ))}

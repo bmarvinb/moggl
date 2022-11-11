@@ -14,13 +14,13 @@ export function useActiveDuration(initialDuration: number): number {
   const isPending = useSelector(service, isTimerPending);
   const durationRef = useRef(initialDuration);
 
+  if (isPending) {
+    return durationRef.current;
+  }
   if (isRunning) {
     const updatedTime = initialDuration + duration;
     durationRef.current = updatedTime;
     return updatedTime;
-  }
-  if (isPending) {
-    return durationRef.current;
   }
   return initialDuration;
 }

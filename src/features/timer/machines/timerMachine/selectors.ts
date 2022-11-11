@@ -7,9 +7,9 @@ export function isTimerRunning(state: State<Context, Events>): boolean {
 
 export function isTimerPending(state: State<Context, Events>): boolean {
   return (
+    state.matches('saving') ||
     state.matches('creating') ||
-    state.matches('discarding') ||
-    state.matches('saving')
+    state.matches('discarding')
   );
 }
 
