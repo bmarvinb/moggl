@@ -1,82 +1,11 @@
-import { differenceInSeconds } from 'date-fns';
 import { invariant } from 'common/utils/invariant';
-import { assign, createMachine, State } from 'xstate';
+import { differenceInSeconds } from 'date-fns';
+import { assign, createMachine } from 'xstate';
+import { Context, Events, InitialContext, States } from './types';
 
-export type TimerMode = 'Timer' | 'Manual';
-
-type TimeEntryData = {
-  projectId: string | undefined;
-  description: string;
-  billable: boolean;
-};
-
-type TimerContext = {
-  id?: string;
-  start?: Date;
-  timeEntry: TimeEntryData;
-  mode: TimerMode;
-  duration: number;
-};
-
-export type TimerData = {
-  id: string;
-  start: Date;
-  timeEntry: TimeEntryData;
-};
-
-export type TimerState =
-  | 'idle'
-  | 'running'
-  | 'creating'
-  | 'discarding'
-  | 'saving';
-
-type TimerTypestate =
-  | {
-      value: 'idle';
-      context: TimerContext & { id: undefined; start: undefined };
-    }
-  | {
-      value: 'running';
-      context: TimerContext & { id: string; start: string };
-    }
-  | {
-      value: 'creating';
-      context: TimerContext & { id: undefined; start: string };
-    }
-  | {
-      value: 'saving';
-      context: TimerContext & { id: string; start: string };
-    }
-  | {
-      value: 'discarding';
-      context: TimerContext & { id: string; start: string };
-    };
-
-type TimerEvent =
-  | { type: 'START'; start: Date }
-  | {
-      type: 'CONTINUE';
-      data: TimerData;
-    }
-  | {
-      type: 'RESUME';
-      data: TimerData;
-    }
-  | { type: 'STOP' }
-  | { type: 'DISCARD' }
-  | {
-      type: 'UPDATE_DESCRIPTION';
-      description: string;
-    }
-  | {
-      type: 'TOGGLE_BILLABLE_STATUS';
-    }
-  | { type: 'SAVE_TIME_ENTRY' }
-  | { type: 'TICK' }
-  | { type: 'UPDATE_MODE'; mode: TimerMode };
-
-const initialContext: TimerContext = {
+const initialContext: InitialContext = {
+  id: undefined,
+  start: undefined,
   duration: 0,
   mode: 'Timer',
   timeEntry: {
@@ -87,11 +16,7 @@ const initialContext: TimerContext = {
 };
 
 /** @xstate-layout N4IgpgJg5mDOIC5QBUCWBbMAnAsgQwGMALVAOzADpUIAbMAYgGVkBBAJWQG0AGAXUVAAHAPaxUAF1TDSAkAA9EAWgDs3CgBYAjOoBM67soBsAZh2GArDoA0IAJ6JdADgo7jhzdzMfu+4+YC+-jZomLiEJORUtAwAwgDyAHLIAJIJAKoAojz8SCAiYpLSsgoIrsoU3I6aekaG6u6myjb2CIYAnBTKjhbK+pptleY+gcEY2PjEZJTUdPRpAAoAIizIGQD6OHGLWXyy+RJSMrklxmpufnrmylfmjupNdoj9Op1umoY6QzqO3O8jICFxuEphQCFgwHhJKQoPQINJpqQAG7CADWlEBYUmkTBEKhUAQZGRBEhh04ml42T2ogORWODmUxg0jiMqkMbNM6nMhmaiEM3EMFXMHk0mkcV36yn+GImEUoOJJ0Po2CwwiwFEENEhADNVegKNLgdjwQr8YThMTCqQyRTdrl9pbiogdJ4KG1HDo2pprupHMZHG0Hi1OZoKI4w1plK4DJ6pWNMbLQca8fQUjEANKUu3Uh100oWCjaMzGeru8xu4w81pVCo+Sqcj7qTkBIIAuMykFYACupFIZBhi2SjBi7EWmaE2cOjoQwvK5nuorLYeZxjalfcIe0LNFmi5zMlLYNWMoXZ7faYyDi8zHeQntNAJS6HSFbQ93D8bTcvsrOlUNbDc65DwPU0WNQnbSIT17RVUwzW1xwKSdc39Dp6mUCVDAZNoX3UNdq24Ws7i5PROXUUCgSPChILPRgWAANXWFIcHWDIkjYABNa97UQ+9eRMCghj9Zl3XqVxcJDfD9EIhsmzI+MO27KCYQvABxZSABl1gAIWSNS1JYTSNLWZgVjSRhONvI4eIQcNBW0TRTj9RsLErLR1AqYSDGqSNdG4ZtRjAw1KFgPBETPOFIjNNF9TbQKKGC0LoQJJFzRJaRsnMhC73kJ03FdLCfjadx7jadQA0rfoOjacxF2MNxIy9H9ZPAoKQrPZVVXVTVxB1LA9UPBN4r7JKiVSq0+AymlLOyhARPczkDG4AZ+RfSs-QFSS7gDNksLLJrYogVBYGJLADsVcKEWRKL+pBA6jrwE6hrNC1SXGuCb0yqaShFOcNAsXQ9Heap7NWgsd18z1XGeD4TD2ijbuO06YXatUNW1XVooCuHDoRx7kuetLXpyeDJqnDwqooc4hn9BtFvMStqo6RbSvaH9Fo+HRYdlOYlhWdZtiHNhknmFJEgmnMrMUd4OnOXpGnfLlA0QO5nGuIZLHVtbHE5qYUziVTDO03T9MM4zkFMsXuOmoDQ3DAHvmZQDK2Vzpqt+LD13UYx9388iubYDJGDSJiLaykpJd-NxWdtoCcMeBBqvMCoXzQqpauULDjECFtSGECA4Fka6IuiKkPqnAMNG8epTA+ez6lW-kC3XIxfNKvQOYPGKKPlPES5J3MJVDLojEbd1RTQ2OWjnENPh9fQrgZIY2m1iCFL7Xvxem3oXgMeody9f1i0cemfuuRbi1OfoLBAjvMYG1roXXy2Sk5codE3BdXCw1c44qigiv6ESGEhSZxvr7G62N7qI0fqHJ4O4Og7l6GKZ0n9fJrlqq6Fc3wAFjwZMvMA0DPpKDfs4SOqho6eAnkoMUoYirdB0PQ2qvlr6BCAA */
-export const timerMachine = createMachine<
-  TimerContext,
-  TimerEvent,
-  TimerTypestate
->({
+export const timerMachine = createMachine<Context, Events, States>({
   context: initialContext,
   predictableActionArguments: true,
   id: 'TimerMachine',
@@ -222,12 +147,6 @@ export const timerMachine = createMachine<
         return event.mode;
       },
     }),
-    updateDuration: assign({
-      duration: context => {
-        invariant(context.start, 'Start date should be provided');
-        return differenceInSeconds(new Date(), new Date(context.start));
-      },
-    }),
     continue: assign((_, event) => {
       invariant(event.type === 'CONTINUE', 'Event has improper type');
       return {
@@ -257,14 +176,18 @@ export const timerMachine = createMachine<
     }),
     toggleBillableStatus: assign((context, event) => {
       invariant(event.type === 'TOGGLE_BILLABLE_STATUS');
-      console.log(context, event);
-
       return {
         timeEntry: {
           ...context.timeEntry,
           billable: !context.timeEntry.billable,
         },
       };
+    }),
+    updateDuration: assign({
+      duration: context => {
+        invariant(context.start, 'Start date should be provided');
+        return differenceInSeconds(new Date(), new Date(context.start));
+      },
     }),
   },
   services: {
@@ -277,29 +200,3 @@ export const timerMachine = createMachine<
     },
   },
 });
-
-export function selectTimerContext(
-  state: State<TimerContext, TimerEvent>,
-): TimerContext {
-  return {
-    duration: state.context.duration,
-    mode: state.context.mode,
-    timeEntry: state.context.timeEntry,
-  };
-}
-
-export function selectIsTimerRunning(
-  state: State<TimerContext, TimerEvent>,
-): boolean {
-  return !state.matches('idle');
-}
-
-export function selectIsTimerPending(
-  state: State<TimerContext, TimerEvent>,
-): boolean {
-  return (
-    state.matches('creating') ||
-    state.matches('discarding') ||
-    state.matches('saving')
-  );
-}

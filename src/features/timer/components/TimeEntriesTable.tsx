@@ -5,8 +5,7 @@ import {
   SelectionChanges,
   useSelection,
 } from '../hooks/useSelection';
-import { TimerData } from '../machines/TimerMachine';
-import { useTimerService } from '../providers/TimerMachineProvider';
+import { TimerData, useTimerService } from '../machines/timerMachine';
 import { formatTimeEntryDuration, getTimeEntryInfo } from '../utils';
 import { ParentTimeEntryRow } from './ParentTimeEntryRow';
 import { TimeEntryRowContainer } from './TimeEntryRowContainer';

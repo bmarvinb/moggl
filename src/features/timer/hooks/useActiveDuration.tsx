@@ -1,20 +1,17 @@
 import { useSelector } from '@xstate/react';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import {
-  selectTimerContext,
-  selectIsTimerRunning,
-  selectIsTimerPending,
-} from '../machines/TimerMachine';
-import {
-  TimerContext,
+  isTimerPending,
+  isTimerRunning,
+  selectTimerDuration,
   useTimerService,
-} from '../providers/TimerMachineProvider';
+} from '../machines/timerMachine';
 
 export function useActiveDuration(initialDuration: number): number {
   const service = useTimerService();
-  const { duration } = useSelector(service, selectTimerContext);
-  const isRunning = useSelector(service, selectIsTimerRunning);
-  const isPending = useSelector(service, selectIsTimerPending);
+  const duration = useSelector(service, selectTimerDuration);
+  const isRunning = useSelector(service, isTimerRunning);
+  const isPending = useSelector(service, isTimerPending);
   const durationRef = useRef(initialDuration);
 
   if (isRunning) {

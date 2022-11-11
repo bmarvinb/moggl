@@ -8,7 +8,7 @@ import {
   BiStop,
 } from 'react-icons/bi';
 import { ButtonIcon } from 'common/components/Elements/ButtonIcon';
-import { TimerMode } from '../machines/TimerMachine';
+import { TimerMode } from '../machines/timerMachine';
 import { formatTimeEntryDuration } from '../utils';
 
 export type TimerControlsProps = {
