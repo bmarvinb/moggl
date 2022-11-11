@@ -1,5 +1,6 @@
 import { Card } from 'common/components/Card/Card';
 import { Input } from 'common/components/Form/Input';
+import { Select } from 'common/components/Select';
 import { TagsSearchFilterCriteria } from '../hooks/useTagSearchCriteria';
 
 type TagsFilterProps = {
@@ -11,9 +12,9 @@ export const TagsFilter = ({ criteria, onFilterChange }: TagsFilterProps) => {
   return (
     <Card className="mb-6">
       <form onSubmit={e => e.preventDefault()}>
-        <div className="flex gap-8 px-6 py-8">
-          <div>
-            <select
+        <div className="flex gap-4 px-6 py-8">
+          <Select />
+          {/* <select
               name="archived"
               value={criteria.archived}
               onChange={e =>
@@ -25,8 +26,7 @@ export const TagsFilter = ({ criteria, onFilterChange }: TagsFilterProps) => {
             >
               <option value="false">Show active</option>
               <option value="true">Show archived</option>
-            </select>
-          </div>
+            </select> */}
           <div className="flex-1">
             <Input
               type="text"
