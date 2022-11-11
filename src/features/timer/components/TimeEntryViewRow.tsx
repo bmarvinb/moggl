@@ -40,6 +40,8 @@ type TimeEntryViewRowProps = {
 };
 
 export const TimeEntryViewRow = (props: TimeEntryViewRowProps) => {
+  console.count('render');
+
   return (
     <div
       key={props.timeEntry.data.id}

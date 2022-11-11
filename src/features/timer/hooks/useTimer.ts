@@ -1,7 +1,7 @@
 import { invariant } from '@remix-run/router';
 import { useQueryClient } from '@tanstack/react-query';
 import { useInterpret } from '@xstate/react';
-import { timerMachine } from '../machines/TimerMachine';
+import { timerMachine } from '../machines/timerMachine';
 import { useAddTimeEntry } from './useCreateTimeEntry';
 import { useDeleteTimeEntry } from './useDeleteTimeEntry';
 import { useStopTimeEntry } from './useStopTimeEntry';
