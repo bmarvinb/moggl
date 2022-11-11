@@ -1,10 +1,29 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { invariant } from 'common/utils/invariant';
 import { differenceInSeconds } from 'date-fns';
 import { useCurrentUser, useWorkspace } from 'features/auth';
-import { invariant } from 'utils/invariant';
+import { timeEntries } from '../api/timer-api';
 import { ActiveTimeEntry, CompletedTimeEntry } from '../types/time-entry';
-import { timeEntries } from '../api/time-entries';
-import { QUERY_KEY } from './useTimeEntries';
+import { timeEntriesQueryKey } from './useTimeEntries';
+
+function createCompletedTimeEntry(data: {
+  start: Date;
+  description: string;
+  billable: boolean;
+}): CompletedTimeEntry {
+  return {
+    type: 'COMPLETED',
+    id: `${data.start}`,
+    description: data.description,
+    billable: data.billable,
+    start: new Date(data.start),
+    end: new Date(),
+    tags: [],
+    project: undefined,
+    task: undefined,
+    duration: differenceInSeconds(new Date(), new Date(data.start)),
+  };
+}
 
 export function useStopTimeEntry() {
   const workspace = useWorkspace();
@@ -16,37 +35,36 @@ export function useStopTimeEntry() {
     {
       onMutate: async data => {
         invariant(data.start, 'Start date should be provided');
-        const timeEntry: CompletedTimeEntry = {
-          type: 'COMPLETED',
-          id: `${data.start}`,
-          description: data.description,
-          billable: data.billable,
-          start: new Date(data.start),
-          end: new Date(),
-          tags: [],
-          project: undefined,
-          task: undefined,
-          duration: differenceInSeconds(new Date(), new Date(data.start)),
-        };
-        await queryClient.cancelQueries([QUERY_KEY]);
-        const prev = queryClient.getQueryData([QUERY_KEY]);
-        queryClient.setQueryData([QUERY_KEY], data => {
-          // TODO: do better
+        await queryClient.cancelQueries([timeEntriesQueryKey]);
+        const cachedTimeEntries = queryClient.getQueryData([
+          timeEntriesQueryKey,
+        ]);
+        const { start, description, billable } = data;
+        const timeEntry = createCompletedTimeEntry({
+          start,
+          description,
+          billable,
+        });
+        queryClient.setQueryData([timeEntriesQueryKey], data => {
+          // TODO: refactor
           const value = data as {
             completed: CompletedTimeEntry[];
             active: ActiveTimeEntry;
           };
           return { ...value, completed: [timeEntry, ...value.completed] };
         });
-        return { prev };
+        return { cachedTimeEntries };
       },
       onError: (_, __, context) => {
-        if (context?.prev) {
-          queryClient.setQueryData([QUERY_KEY], context.prev);
+        if (context?.cachedTimeEntries) {
+          queryClient.setQueryData(
+            [timeEntriesQueryKey],
+            context.cachedTimeEntries,
+          );
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries([QUERY_KEY]);
+        queryClient.invalidateQueries([timeEntriesQueryKey]);
       },
     },
   );

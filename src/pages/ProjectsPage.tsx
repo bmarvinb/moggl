@@ -1,11 +1,11 @@
-import { Head } from 'components/Elements/Head';
-import { PageSpinner } from 'components/PageSpinner';
-import { useGetProjects, ProjectsContent } from 'features/projects';
+import { Head } from 'common/components/Elements/Head';
+import { PageSpinner } from 'common/components/PageSpinner';
+import { useProjects, ProjectsContent } from 'features/projects';
 
 export const ProjectsPage = () => {
-  const { status, data: projects } = useGetProjects();
+  const projects = useProjects();
 
-  switch (status) {
+  switch (projects.status) {
     case 'loading':
       return <PageSpinner />;
     case 'error':
@@ -14,7 +14,7 @@ export const ProjectsPage = () => {
       return (
         <>
           <Head title="Projects" />
-          <ProjectsContent projects={projects} />
+          <ProjectsContent projects={projects.data} />
         </>
       );
   }

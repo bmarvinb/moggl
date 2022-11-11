@@ -1,7 +1,9 @@
-import { estimateSchema } from 'common/dtos/estimate-dto';
-import { hourlyRateSchema } from 'common/dtos/hourly-rate-dto';
-import { membershipSchema } from 'common/dtos/membership-dto';
-import { timeEstimateSchema } from 'common/dtos/time-estimate-dto';
+import {
+  hourlyRateSchema,
+  membershipSchema,
+  estimateSchema,
+  timeEstimateSchema,
+} from 'common/dtos';
 import { z } from 'zod';
 
 export type ProjectRequestOptions = {

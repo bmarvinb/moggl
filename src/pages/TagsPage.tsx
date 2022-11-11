@@ -1,34 +1,52 @@
-import { Head } from 'components/Elements/Head';
-import { PageSpinner } from 'components/PageSpinner';
-import { TagsContent, TagsFilterCriteria, useGetTags } from 'features/tags';
-import { useDebounce } from 'hooks/useDebounce';
-import { useState } from 'react';
+import { Container } from 'common/components/Container';
+import { Button } from 'common/components/Elements/Button';
+import { Head } from 'common/components/Elements/Head';
+import { ErrorFallback } from 'common/components/ErrorFallback';
+import { PageSpinner } from 'common/components/PageSpinner';
+import { Title } from 'common/components/Title';
+import { useDebounce } from 'common/hooks/useDebounce';
+import { useDialog } from 'common/hooks/useDialog';
+import {
+  AddTagDialog,
+  TagsFilter,
+  Tags,
+  useTags,
+  useTagSearchCriteria,
+} from 'features/tags';
 
 export const TagsPage = () => {
-  const [criteria, setCriteria] = useState<TagsFilterCriteria>({
-    name: '',
-    archived: 'false',
-  });
+  const [criteria, setCriteria] = useTagSearchCriteria();
+  const [isOpen, { open, close }] = useDialog();
   const debouncedCriteria = useDebounce(criteria);
-  const { status, fetchStatus, data: tags } = useGetTags(debouncedCriteria);
+  const tags = useTags(debouncedCriteria);
 
-  switch (status) {
+  switch (tags.status) {
     case 'loading':
       return <PageSpinner />;
     case 'error':
-      return (
-        <div className="ml-4 flex h-24 border-2 border-gray-300 p-3 text-gray-700 shadow-md"></div>
-      );
+      return <ErrorFallback />;
     case 'success':
       return (
         <>
-          <Head title="Tags" />
-          <TagsContent
-            fetching={fetchStatus === 'fetching'}
-            searchCriteria={criteria}
-            tags={tags}
-            onFilterChange={criteria => setCriteria(criteria)}
-          />
+          <Head title="Tags" description="Tags management" />
+          <Container>
+            <div className="mb-5 flex items-center justify-between">
+              <Title>Tags</Title>
+              <Button variant="primary" onClick={open}>
+                Add new
+              </Button>
+            </div>
+
+            <TagsFilter criteria={criteria} onFilterChange={setCriteria} />
+
+            <Tags tags={tags.data} searchTerm={criteria.name} />
+
+            <AddTagDialog
+              open={isOpen}
+              onOpenChange={close}
+              onSuccess={close}
+            />
+          </Container>
         </>
       );
   }

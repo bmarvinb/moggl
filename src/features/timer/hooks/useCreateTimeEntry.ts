@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useWorkspace } from 'features/auth';
-import { AddTimeEntryDTO } from '../api/time-entry-dtos';
-import { timeEntries } from '../api/time-entries';
+import { timeEntries } from '../api/timer-api';
+import { AddTimeEntryDTO } from '../api/timer-dtos';
 
 export function useAddTimeEntry() {
   const workspace = useWorkspace();
-  const queryClient = useQueryClient();
   return useMutation((data: AddTimeEntryDTO) =>
     timeEntries.add(workspace.id, data),
   );

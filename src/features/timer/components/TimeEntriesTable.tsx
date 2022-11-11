@@ -5,8 +5,7 @@ import {
   SelectionChanges,
   useSelection,
 } from '../hooks/useSelection';
-import { TimerData } from '../machines/TimerMachine';
-import { TimerContext } from '../providers/TimerMachineProvider';
+import { TimerData, useTimerService } from '../machines/timerMachine';
 import { formatTimeEntryDuration, getTimeEntryInfo } from '../utils';
 import { ParentTimeEntryRow } from './ParentTimeEntryRow';
 import { TimeEntryRowContainer } from './TimeEntryRowContainer';
@@ -29,7 +28,7 @@ function getTimerData(timeEntry: TimeEntryRow): TimerData {
 }
 
 export const TimeEntriesTable = (props: TimeEntriesTableProps) => {
-  const service = React.useContext(TimerContext);
+  const service = useTimerService();
   const [bulkEditMode, toggleBulkEditMode] = React.useReducer(
     state => !state,
     false,

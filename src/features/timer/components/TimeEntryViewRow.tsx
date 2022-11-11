@@ -1,5 +1,5 @@
-import { Checkbox } from 'components/Checkbox';
-import { ButtonIcon } from 'components/Elements/ButtonIcon';
+import { Checkbox } from 'common/components/Checkbox';
+import { ButtonIcon } from 'common/components/Elements/ButtonIcon';
 import {
   BiDollar,
   BiDotsVerticalRounded,

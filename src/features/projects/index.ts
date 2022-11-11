@@ -1,2 +1,2 @@
 export * from './components/ProjectsContent';
-export * from './api/useGetProjects';
+export * from './api/useProjects';

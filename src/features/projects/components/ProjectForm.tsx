@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'components/Elements/Button';
-import { TextField } from 'components/Form/TextField';
+import { Button } from 'common/components/Elements/Button';
+import { TextField } from 'common/components/Form/TextField';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAddProject } from '../api/useAddProject';

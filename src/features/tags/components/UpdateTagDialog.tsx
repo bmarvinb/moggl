@@ -1,5 +1,5 @@
-import { Dialog } from 'components/Dialog';
-import { useUpdateTag } from '../api/updateTag';
+import { Dialog } from 'common/components/Dialog';
+import { useUpdateTag } from '../hooks/useUpdateTag';
 import { Tag } from '../types';
 import { TagForm, TagFormValues } from './TagForm';
 
@@ -30,7 +30,7 @@ export const UpdateTagDialog = (props: UpdateTagDialogProps) => {
     >
       <TagForm
         loading={status === 'loading'}
-        error={error?.message}
+        error={error}
         defaultValues={{
           name: props.tag.name,
         }}

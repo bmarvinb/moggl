@@ -1,5 +1,5 @@
-import { Dialog } from 'components/Dialog';
-import { useAddTag } from '../api/addTag';
+import { Dialog } from 'common/components/Dialog';
+import { useAddTag } from '../hooks/useAddTag';
 import { TagForm, TagFormValues } from './TagForm';
 
 type AddTagDialogProps = {
@@ -25,7 +25,7 @@ export const AddTagDialog = ({
     <Dialog title="Add tag" isOpen={open} onClose={onOpenChange}>
       <TagForm
         loading={status === 'loading'}
-        error={error?.message}
+        error={error}
         onSubmit={onSubmit}
         action="Add"
       />

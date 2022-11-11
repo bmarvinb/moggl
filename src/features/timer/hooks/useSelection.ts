@@ -1,5 +1,5 @@
 import { Dispatch, useReducer } from 'react';
-import { assertNever } from 'utils/assert';
+import { assertNever } from 'common/utils/assert';
 import {
   ChildTimeEntry,
   ParentTimeEntry,

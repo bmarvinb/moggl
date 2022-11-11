@@ -2,12 +2,14 @@ import { useSelector } from '@xstate/react';
 import React from 'react';
 import {
   TimerData,
-  selectTimerContext,
-  selectIsTimerRunning,
-  selectIsTimerPending,
+  useTimerService,
   TimerMode,
-} from '../machines/TimerMachine';
-import { TimerContext } from '../providers/TimerMachineProvider';
+  isTimerPending,
+  isTimerRunning,
+  selectTimerDuration,
+  selectTimerMode,
+  selectTimeEntry,
+} from '../machines/timerMachine';
 import { ActiveTimeEntry } from '../types/time-entry';
 import { TimerControls } from './TimerControls';
 
@@ -24,12 +26,12 @@ function getTimerData(timeEntry: ActiveTimeEntry): TimerData {
 }
 
 export const Timer = (props: { active: ActiveTimeEntry | undefined }) => {
-  const service = React.useContext(TimerContext);
-
-  const { duration, mode, timeEntry } = useSelector(
-    service,
-    selectTimerContext,
-  );
+  const service = useTimerService();
+  const duration = useSelector(service, selectTimerDuration);
+  const mode = useSelector(service, selectTimerMode);
+  const timeEntry = useSelector(service, selectTimeEntry);
+  const isRunning = useSelector(service, isTimerRunning);
+  const isPending = useSelector(service, isTimerPending);
 
   React.useEffect(() => {
     if (props.active) {
@@ -39,10 +41,6 @@ export const Timer = (props: { active: ActiveTimeEntry | undefined }) => {
       });
     }
   }, [props.active, service]);
-
-  const isRunning = useSelector(service, selectIsTimerRunning);
-
-  const isPending = useSelector(service, selectIsTimerPending);
 
   const start = () => service.send({ type: 'START', start: new Date() });
 

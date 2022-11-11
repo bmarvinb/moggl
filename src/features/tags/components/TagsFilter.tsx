@@ -1,51 +1,45 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Card } from 'components/Card/Card';
-import { Input } from 'components/Form/Input';
-import { z } from 'zod';
-
-const schema = z.object({
-  archived: z.string().optional(),
-  name: z.string().optional(),
-});
-
-export type TagsFilterCriteria = z.infer<typeof schema>;
+import { Card } from 'common/components/Card/Card';
+import { Input } from 'common/components/Form/Input';
+import { TagsSearchFilterCriteria } from '../hooks/useTagSearchCriteria';
 
 type TagsFilterProps = {
-  criteria: TagsFilterCriteria;
-  onChange: (changes: TagsFilterCriteria) => void;
+  criteria: TagsSearchFilterCriteria;
+  onFilterChange: (values: TagsSearchFilterCriteria) => void;
 };
 
-export const TagsFilter = (props: TagsFilterProps) => {
-  const { register, getValues } = useForm<TagsFilterCriteria>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      archived: props.criteria ? props.criteria.archived : 'false',
-      name: props.criteria ? props.criteria.name : '',
-    },
-  });
-
-  const onFilterChange = () => {
-    const { archived, name } = getValues();
-
-    props.onChange({
-      archived,
-      name,
-    });
-  };
-
+export const TagsFilter = ({ criteria, onFilterChange }: TagsFilterProps) => {
   return (
     <Card className="mb-6">
-      <form onSubmit={e => e.preventDefault()} onChange={onFilterChange}>
+      <form onSubmit={e => e.preventDefault()}>
         <div className="flex gap-8 px-6 py-8">
           <div>
-            <select {...register('archived')} name="archived">
+            <select
+              name="archived"
+              value={criteria.archived}
+              onChange={e =>
+                onFilterChange({
+                  ...criteria,
+                  archived: e.target.value === 'true' ? 'true' : 'false',
+                })
+              }
+            >
               <option value="false">Show active</option>
               <option value="true">Show archived</option>
             </select>
           </div>
           <div className="flex-1">
-            <Input {...register('name')} name="name" placeholder="Tag name" />
+            <Input
+              type="text"
+              value={criteria.name}
+              onChange={e =>
+                onFilterChange({
+                  ...criteria,
+                  name: e.target.value,
+                })
+              }
+              name="name"
+              placeholder="Tag name"
+            />
           </div>
         </div>
       </form>

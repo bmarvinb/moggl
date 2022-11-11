@@ -1,4 +1,4 @@
-import { Dialog } from 'components/Dialog';
+import { Dialog } from 'common/components/Dialog';
 import { ProjectForm } from './ProjectForm';
 
 export type AddProjectDialogProps = {
