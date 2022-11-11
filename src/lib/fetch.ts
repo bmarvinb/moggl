@@ -35,6 +35,9 @@ export async function fetch<Response = unknown>(
     ...customConfig,
   };
   const res = await window.fetch(`${API_URL}/${endpoint}`, config);
+  if (res.status === 204) {
+    return Promise.resolve({} as Response);
+  }
   if (!res.ok) {
     const error = await res.json();
     return Promise.reject(httpErrorSchema.parse(error).message);
