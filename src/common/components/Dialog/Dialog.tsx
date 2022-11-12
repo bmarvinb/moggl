@@ -42,7 +42,7 @@ export const Dialog = (props: DialogProps) => {
               <HeadlessDialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-neutral-50 p-6 text-left align-middle shadow-xl transition-all dark:bg-neutral-dark-50">
                 <HeadlessDialog.Title
                   as="h3"
-                  className="mb-2 text-lg font-semibold leading-6 text-neutral-dark-800 dark:text-neutral-dark-800"
+                  className="mb-2 text-lg font-semibold leading-6 text-neutral-800 dark:text-neutral-dark-800"
                 >
                   {props.title}
                 </HeadlessDialog.Title>
