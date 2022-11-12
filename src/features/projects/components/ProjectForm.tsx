@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'common/components/Elements/Button';
 import { TextField } from 'common/components/Form/TextField';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Select, SelectOptions } from 'common/components/Select';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAddProject } from '../api/useAddProject';
 
@@ -11,15 +12,30 @@ export type AddProjectDialogProps = {
 
 const schema = z.object({
   name: z.string().min(1, 'Please provide a project name'),
-  clientId: z.string(),
+  clientId: z.string().optional(),
   color: z.string(),
   isPublic: z.boolean(),
 });
 
 type FormValues = z.infer<typeof schema>;
 
+// TODO: use real clients
+const clientOptions: SelectOptions = [
+  {
+    id: '1',
+    value: 'client-1',
+    label: 'Client 1',
+  },
+  {
+    id: '2',
+    value: 'client-2',
+    label: 'Client 2',
+  },
+];
+
 export const ProjectForm = (props: AddProjectDialogProps) => {
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -43,14 +59,44 @@ export const ProjectForm = (props: AddProjectDialogProps) => {
           id="project-name"
           label="Name"
           placeholder="Project name"
-          message={errors.name?.message}
-          variant="critical"
+          invalid={Boolean(errors.name)}
+          fieldMessage={
+            errors.name?.message
+              ? {
+                  message: errors.name?.message,
+                  variant: 'error',
+                }
+              : undefined
+          }
+          className="mb-2"
         />
 
-        <div>
-          <label htmlFor="clientId">Client:</label>
-          <select {...register('clientId')} id="clientId"></select>
-        </div>
+        <Controller
+          name="clientId"
+          control={control}
+          render={params => {
+            console.log('params', params);
+            return (
+              <Select
+                id="project-client"
+                name="clientId"
+                options={clientOptions}
+                label="Client"
+                fieldMessage={
+                  params.formState.errors.clientId?.message
+                    ? {
+                        message: params.formState.errors.clientId.message,
+                        variant: 'error',
+                      }
+                    : undefined
+                }
+                invalid={Boolean(params.formState.errors.clientId)}
+                value={params.field.value}
+                onChange={params.field.onChange}
+              />
+            );
+          }}
+        />
 
         <div>
           <label htmlFor="color">Color:</label>

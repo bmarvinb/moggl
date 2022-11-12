@@ -10,9 +10,9 @@ export type ProjectRequestOptions = {
   hydrated?: boolean;
 };
 
-export type AddProjectRequestData = {
+export type AddProjectDTO = {
   name: string;
-  clientId: string;
+  clientId?: string;
   color: string;
   isPublic: boolean;
 };

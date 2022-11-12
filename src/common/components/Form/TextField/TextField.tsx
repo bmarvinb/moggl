@@ -1,16 +1,16 @@
-import React from 'react';
 import { FieldLabel } from 'common/components/Form/FieldLabel';
 import {
   FieldMessage,
-  FieldMessageVariant,
+  FieldMessageData,
 } from 'common/components/Form/FieldMessage';
 import { Input } from 'common/components/Form/Input';
+import React from 'react';
 
 export type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   id: string;
   label: string;
-  message?: string;
-  variant?: FieldMessageVariant;
+  invalid?: boolean;
+  fieldMessage?: FieldMessageData;
   placeholder?: string;
   className?: string;
   disabled?: boolean;
@@ -22,14 +22,16 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       className,
       id,
       label,
-      message,
+      invalid,
+      fieldMessage,
       placeholder,
       disabled,
-      variant = 'neutral',
       ...rest
     },
     ref,
   ) => {
+    console.log('rest', rest);
+
     return (
       <div className={className}>
         <FieldLabel label={label} htmlFor={id} disabled={disabled} />
@@ -37,17 +39,11 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           id={id}
           ref={ref}
           placeholder={placeholder}
-          invalid={message !== undefined && variant === 'critical'}
+          invalid={invalid}
           disabled={disabled}
           {...rest}
         />
-        {message && (
-          <FieldMessage
-            id={`${id}_message`}
-            variant={variant}
-            message={message}
-          />
-        )}
+        {fieldMessage && <FieldMessage data={fieldMessage} />}
       </div>
     );
   },
