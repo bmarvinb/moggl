@@ -1,6 +1,8 @@
 import { Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import { BiCheck, BiChevronDown } from 'react-icons/bi';
+import { FieldLabel } from '../Form/FieldLabel';
+import { FieldMessage, FieldMessageData } from '../Form/FieldMessage';
 
 type SelectValue = string | number | undefined;
 
@@ -11,7 +13,11 @@ type SelectOption = {
 };
 
 type SelectProps = {
+  id: string;
   name: string;
+  label?: string;
+  message?: string;
+  fieldMessage?: FieldMessageData;
   value: SelectValue;
   options: SelectOption[];
   placeholder?: string;
@@ -24,32 +30,41 @@ type SelectProps = {
 export type SelectOptions = SelectOption[];
 
 export function Select({
+  id,
   name,
+  label,
+  message,
   value,
   options,
   disabled,
   invalid,
   className,
   onChange,
-  placeholder = 'Select',
+  fieldMessage,
+  placeholder = 'Please select',
+  ...rest
 }: SelectProps) {
-  const label = options.find(option => option.value === value)?.label;
-  console.log('label', label);
+  const content = options.find(option => option.value === value)?.label;
 
   return (
     <Listbox
+      as={'ul'}
       name={name}
       value={value}
       onChange={onChange}
       disabled={disabled}
       multiple={false}
+      {...rest}
     >
+      {label && <FieldLabel label={label} htmlFor={id} disabled={disabled} />}
+
       <div className="relative">
         <Listbox.Button
+          id={id}
           value={value}
           className={clsx(
             'block w-full min-w-0 rounded border bg-neutral-50 p-2 text-left focus:outline-none focus:ring-2 dark:bg-neutral-dark-400',
-            label !== undefined
+            content !== undefined
               ? 'text-neutral-900 dark:text-neutral-dark-900'
               : 'text-neutral-600 dark:text-neutral-dark-600',
             invalid
@@ -60,7 +75,7 @@ export function Select({
             className,
           )}
         >
-          <span className="block truncate">{label || placeholder}</span>
+          <span className="block truncate">{content || placeholder}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <BiChevronDown
               className="dark:text-gray-dark-400 h-5 w-5 text-gray-400"
@@ -110,6 +125,8 @@ export function Select({
           </Listbox.Options>
         </Transition>
       </div>
+
+      {fieldMessage && <FieldMessage data={fieldMessage} />}
     </Listbox>
   );
 }

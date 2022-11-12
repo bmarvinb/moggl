@@ -28,6 +28,7 @@ export const TagsFilter = ({ criteria, onFilterChange }: TagsFilterProps) => {
         <div className="flex gap-4 px-6 py-8">
           <div className="w-[10rem]">
             <Select
+              id="tag-select"
               name="archived"
               value={criteria.archived}
               options={options}

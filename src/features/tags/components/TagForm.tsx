@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from 'common/components/Elements/Button';
 import { FieldMessage } from 'common/components/Form/FieldMessage';
 import { TextField } from 'common/components/Form/TextField';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 type TagFormProps = {
@@ -43,18 +43,19 @@ export const TagForm = ({
           id="tag-name"
           label="Name"
           placeholder="Tag name"
-          message={formState.errors.name?.message}
-          variant={'critical'}
+          invalid={Boolean(formState.errors.name)}
+          fieldMessage={
+            formState.errors.name?.message
+              ? {
+                  message: formState.errors.name.message,
+                  variant: 'error',
+                }
+              : undefined
+          }
           className="mb-2"
         />
 
-        {error && (
-          <FieldMessage
-            id="tag-form-error"
-            message={error}
-            variant="critical"
-          />
-        )}
+        {error && <FieldMessage data={{ message: error, variant: 'error' }} />}
       </div>
 
       <Button

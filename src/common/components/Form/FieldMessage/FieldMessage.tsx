@@ -1,31 +1,31 @@
 import { clsx } from 'clsx';
 
-export type FieldMessageVariant = 'critical' | 'positive' | 'neutral';
+export type FieldMessageVariant = 'error' | 'success' | 'neutral';
+
+export type FieldMessageData = {
+  message: string;
+  variant: FieldMessageVariant;
+};
 
 export type FieldMessageProps = {
-  id: string;
-  message: string;
-  variant?: FieldMessageVariant;
+  data: FieldMessageData;
 };
 
 const variants: Record<FieldMessageVariant, string> = {
-  critical: 'text-red-400 dark:text-red-dark-500',
-  positive: 'text-cyan-400 dark:text-cyan-dark-500',
+  error: 'text-red-400 dark:text-red-dark-500',
+  success: 'text-cyan-400 dark:text-cyan-dark-500',
   neutral: 'text-neutral-800 dark:text-neutral-dark-800',
 };
 
-export const FieldMessage = ({
-  message,
-  variant = 'neutral',
-}: FieldMessageProps) => {
+export const FieldMessage = ({ data }: FieldMessageProps) => {
   return (
     <div
       className={clsx(
         'flex items-center gap-1 pt-1 text-sm',
-        variants[variant],
+        variants[data.variant],
       )}
     >
-      {message}
+      {data.message}
     </div>
   );
 };
