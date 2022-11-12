@@ -1,10 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ColorPicker } from 'common/components/ColorPicker';
 import { Button } from 'common/components/Elements/Button';
+import { FieldLabel } from 'common/components/Form/FieldLabel';
 import { TextField } from 'common/components/Form/TextField';
 import { Select, SelectOptions } from 'common/components/Select';
+import { sample } from 'common/utils/array';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAddProject } from '../api/useAddProject';
+import { COLORS } from '../constants/colors';
 
 export type AddProjectDialogProps = {
   onProjectAdded: () => void;
@@ -34,13 +38,11 @@ const clientOptions: SelectOptions = [
 ];
 
 export const ProjectForm = (props: AddProjectDialogProps) => {
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>({
+  const { control, register, handleSubmit, formState } = useForm<FormValues>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      color: sample(COLORS).value,
+    },
   });
 
   const { mutate, status } = useAddProject();
@@ -53,29 +55,28 @@ export const ProjectForm = (props: AddProjectDialogProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mb-4">
-        <TextField
-          {...register('name')}
-          id="project-name"
-          label="Name"
-          placeholder="Project name"
-          invalid={Boolean(errors.name)}
-          fieldMessage={
-            errors.name?.message
-              ? {
-                  message: errors.name?.message,
-                  variant: 'error',
-                }
-              : undefined
-          }
-          className="mb-2"
-        />
+      <TextField
+        {...register('name')}
+        id="project-name"
+        label="Name"
+        placeholder="Project name"
+        invalid={Boolean(formState.errors.name)}
+        fieldMessage={
+          formState.errors.name?.message
+            ? {
+                message: formState.errors.name?.message,
+                variant: 'error',
+              }
+            : undefined
+        }
+        className="mb-4"
+      />
 
+      <div className="mb-4">
         <Controller
           name="clientId"
           control={control}
           render={params => {
-            console.log('params', params);
             return (
               <Select
                 id="project-client"
@@ -97,24 +98,37 @@ export const ProjectForm = (props: AddProjectDialogProps) => {
             );
           }}
         />
-
-        <div>
-          <label htmlFor="color">Color:</label>
-          <input {...register('color')} type="color" id="color" />
-        </div>
-
-        <div>
-          <label htmlFor="public">Visibility:</label>
-          <label id="isPublic" className="font-normal">
-            <input {...register('isPublic')} id="public" type="checkbox" />
-            Public
-          </label>
-        </div>
-        {status === 'error' && (
-          <div className="text-red-500">Error occured</div>
-        )}
       </div>
 
+      <div className="mb-4">
+        <FieldLabel label="Project color" htmlFor="project-color" />
+        <Controller
+          name="color"
+          control={control}
+          render={params => {
+            console.log('color params', params);
+
+            return (
+              <ColorPicker
+                id="project-color"
+                name="color"
+                value={params.field.value}
+                onChange={params.field.onChange}
+                options={COLORS}
+              />
+            );
+          }}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="public">Visibility:</label>
+        <label id="isPublic" className="font-normal">
+          <input {...register('isPublic')} id="public" type="checkbox" />
+          Public
+        </label>
+      </div>
+      {status === 'error' && <div className="text-red-500">Error occured</div>}
       <div className="flex justify-end">
         <Button type="submit" disabled={status === 'loading'}>
           Add
