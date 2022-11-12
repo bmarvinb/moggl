@@ -18,8 +18,8 @@ export const ProjectsContent = (props: ProjectsContentProps) => {
   };
 
   return (
-    <Container className="p-10">
-      <div className="mb-8 flex justify-between align-baseline">
+    <Container>
+      <div className="mb-5 flex items-center justify-between">
         <Title>Projects</Title>
         <Button onClick={() => setDialogOpen(true)}>Add new</Button>
       </div>
