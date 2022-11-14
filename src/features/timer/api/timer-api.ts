@@ -2,12 +2,12 @@ import { fetch } from 'lib/fetch';
 import { createURLSearchParams } from 'common/utils/url-params';
 import { z } from 'zod';
 import {
-  AddTimeEntryDTO,
-  CreatedTimeEntryDTO,
+  AddTimeEntryDto,
+  CreatedTimeEntryDto,
   createdTimeEntrySchema,
-  TimeEntryDTO,
+  TimeEntryDto,
   timeEntrySchema,
-  UpdateTimeEntryDTO,
+  UpdateTimeEntryDto,
 } from './timer-dtos';
 
 type TimeEntriesRequestOptions = {
@@ -30,14 +30,14 @@ async function getAll(
   options: TimeEntriesRequestOptions = {},
 ) {
   const params = createURLSearchParams({ ...options, hydrated: true });
-  return fetch<TimeEntryDTO[]>(
+  return fetch<TimeEntryDto[]>(
     `workspaces/${workspaceId}/user/${userId}/time-entries?${params}`,
     { schema: z.array(timeEntrySchema) },
   );
 }
 
-async function add(workspaceId: string, data: AddTimeEntryDTO) {
-  return fetch<CreatedTimeEntryDTO>(`workspaces/${workspaceId}/time-entries`, {
+async function add(workspaceId: string, data: AddTimeEntryDto) {
+  return fetch<CreatedTimeEntryDto>(`workspaces/${workspaceId}/time-entries`, {
     data,
     schema: createdTimeEntrySchema,
   });
@@ -55,7 +55,7 @@ async function stop(workspaceId: string, userId: string) {
 async function update(
   workspaceId: string,
   id: string,
-  data: UpdateTimeEntryDTO,
+  data: UpdateTimeEntryDto,
 ) {
   return fetch(`workspaces/${workspaceId}/time-entries/${id}`, {
     method: 'PUT',

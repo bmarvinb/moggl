@@ -2,10 +2,10 @@ import { createURLSearchParams } from 'common/utils/url-params';
 import { fetch } from 'lib/fetch';
 import { z } from 'zod';
 import { TagsSearchCriteria } from '../types';
-import { AddTagDTO, TagDTO, tagSchema } from './tag-dtos';
+import { AddTagDto, TagDto, tagSchema } from './tag-dtos';
 
-export function addTag(workspaceId: string, data: AddTagDTO) {
-  return fetch<TagDTO>(`workspaces/${workspaceId}/tags`, {
+export function addTag(workspaceId: string, data: AddTagDto) {
+  return fetch<TagDto>(`workspaces/${workspaceId}/tags`, {
     schema: tagSchema,
     data,
   });

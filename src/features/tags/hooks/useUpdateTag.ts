@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useWorkspace } from 'features/auth';
 import { fetch } from 'lib/fetch';
-import { TagDTO, tagSchema, UpdateTagDTO } from '../api/tag-dtos';
+import { TagDto, tagSchema, UpdateTagDto } from '../api/tag-dtos';
 
-function updateTag(workspaceId: string, tagId: string, data: UpdateTagDTO) {
-  return fetch<TagDTO>(`workspaces/${workspaceId}/tags/${tagId}`, {
+function updateTag(workspaceId: string, tagId: string, data: UpdateTagDto) {
+  return fetch<TagDto>(`workspaces/${workspaceId}/tags/${tagId}`, {
     method: 'PUT',
     schema: tagSchema,
     data,
@@ -14,7 +14,7 @@ function updateTag(workspaceId: string, tagId: string, data: UpdateTagDTO) {
 export function useUpdateTag(tagId: string) {
   const workspace = useWorkspace();
   const queryClient = useQueryClient();
-  return useMutation<TagDTO, string, UpdateTagDTO>(
+  return useMutation<TagDto, string, UpdateTagDto>(
     data => updateTag(workspace.id, tagId, data),
     {
       onSuccess: () => {

@@ -4,7 +4,7 @@ import { fetch } from 'lib/fetch';
 import { createURLSearchParams } from 'common/utils/url-params';
 import { z } from 'zod';
 import {
-  ProjectDTO,
+  ProjectDto,
   ProjectRequestOptions,
   projectSchema,
 } from './project-dtos';
@@ -16,7 +16,7 @@ export function getAllProjects(
   options: ProjectRequestOptions = {},
 ) {
   const params = createURLSearchParams({ ...options });
-  return fetch<ProjectDTO[]>(`workspaces/${workspaceId}/projects?${params}`, {
+  return fetch<ProjectDto[]>(`workspaces/${workspaceId}/projects?${params}`, {
     schema: z.array(projectSchema),
   });
 }

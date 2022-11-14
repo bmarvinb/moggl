@@ -8,4 +8,4 @@ export const customFieldSchema = z.object({
   status: z.enum(['VISIBLE', 'INVISIBLE']),
 });
 
-export type CustomFieldDTO = z.infer<typeof customFieldSchema>;
+export type CustomFieldDto = z.infer<typeof customFieldSchema>;

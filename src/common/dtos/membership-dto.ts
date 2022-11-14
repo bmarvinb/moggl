@@ -12,4 +12,4 @@ export const membershipSchema = z.object({
   membershipStatus: statusSchema,
 });
 
-export type MembershipDTO = z.infer<typeof membershipSchema>;
+export type MembershipDto = z.infer<typeof membershipSchema>;

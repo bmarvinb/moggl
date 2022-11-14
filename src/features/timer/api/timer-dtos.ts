@@ -165,11 +165,11 @@ export const createdTimeEntrySchema = z.object({
     .nullable(),
 });
 
-export type TimeEntryDTO = z.infer<typeof timeEntrySchema>;
+export type TimeEntryDto = z.infer<typeof timeEntrySchema>;
 
-export type CreatedTimeEntryDTO = z.infer<typeof createdTimeEntrySchema>;
+export type CreatedTimeEntryDto = z.infer<typeof createdTimeEntrySchema>;
 
-export type AddTimeEntryDTO = {
+export type AddTimeEntryDto = {
   start: string;
   end?: string;
   description: string;
@@ -179,7 +179,7 @@ export type AddTimeEntryDTO = {
   tagIds?: string[];
 };
 
-export type UpdateTimeEntryDTO = {
+export type UpdateTimeEntryDto = {
   billable: boolean;
   description: string;
   start?: string;

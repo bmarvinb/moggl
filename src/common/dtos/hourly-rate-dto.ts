@@ -5,4 +5,4 @@ export const hourlyRateSchema = z.object({
   currency: z.string().nullable(),
 });
 
-export type HourlyRateDTO = z.infer<typeof hourlyRateSchema>;
+export type HourlyRateDto = z.infer<typeof hourlyRateSchema>;

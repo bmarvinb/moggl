@@ -9,10 +9,10 @@ export const tagSchema = z
   })
   .strict();
 
-export type TagDTO = z.infer<typeof tagSchema>;
+export type TagDto = z.infer<typeof tagSchema>;
 
-export type UpdateTagDTO = { name: string; archived?: boolean };
+export type UpdateTagDto = { name: string; archived?: boolean };
 
-export type AddTagDTO = {
+export type AddTagDto = {
   name: string;
 };

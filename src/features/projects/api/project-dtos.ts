@@ -10,7 +10,7 @@ export type ProjectRequestOptions = {
   hydrated?: boolean;
 };
 
-export type AddProjectDTO = {
+export type AddProjectDto = {
   name: string;
   clientId?: string;
   color: string;
@@ -40,4 +40,4 @@ export const projectSchema = z
   })
   .strict();
 
-export type ProjectDTO = z.infer<typeof projectSchema>;
+export type ProjectDto = z.infer<typeof projectSchema>;
