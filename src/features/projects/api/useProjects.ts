@@ -3,11 +3,7 @@ import { useWorkspace } from 'features/auth';
 import { fetch } from 'lib/fetch';
 import { createURLSearchParams } from 'common/utils/url-params';
 import { z } from 'zod';
-import {
-  ProjectDto,
-  ProjectRequestOptions,
-  projectSchema,
-} from './project-dtos';
+import { ProjectDto, ProjectRequestOptions, projectSchema } from './types';
 
 export const projectsQueryKey = 'projects';
 

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useWorkspace } from 'features/auth';
-import { getTags } from '../api/tag-api';
-import { TagDto } from '../api/tag-dtos';
+import { getTags } from '../api';
+import { TagDto } from '../api/types';
 import { Tag, TagsSearchCriteria } from '../types';
 import { toTag } from '../utils';
 

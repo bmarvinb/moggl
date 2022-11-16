@@ -7,7 +7,7 @@ import { useAddTimeEntry } from '../../hooks/useCreateTimeEntry';
 import { useDeleteTimeEntry } from '../../hooks/useDeleteTimeEntry';
 import { useStopTimeEntry } from '../../hooks/useStopTimeEntry';
 import { useUpdateTimeEntry } from '../../hooks/useUpdateTimeEntry';
-import { timerMachine } from './timerMachine';
+import { timerMachine } from './timer-machine';
 
 type TimerContextData = InterpreterFrom<typeof timerMachine>;
 

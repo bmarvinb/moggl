@@ -3,7 +3,7 @@ import { Container } from 'common/components/Container';
 import { Button } from 'common/components/Elements/Button';
 import { Title } from 'common/components/Title';
 import React from 'react';
-import { ProjectDto } from '../api/project-dtos';
+import { ProjectDto } from '../api/types';
 import { AddProjectDialog } from './AddProjectDialog';
 
 export type ProjectsContentProps = {

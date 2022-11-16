@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useWorkspace } from 'features/auth';
-import { deleteTag } from '../api/tag-api';
+import { deleteTag } from '../api';
 
 export function useDeleteTag(tagId: string) {
   const workspace = useWorkspace();

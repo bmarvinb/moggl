@@ -1,2 +1,2 @@
 export * from './Drawer';
-export * from './drawerMachine';
+export * from './drawer-machine';

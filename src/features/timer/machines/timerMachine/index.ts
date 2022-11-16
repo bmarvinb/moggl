@@ -1,4 +1,4 @@
 export * from './MachineProvider';
-export * from './timerMachine';
+export * from './timer-machine';
 export * from './selectors';
 export * from './types';

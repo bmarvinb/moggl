@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { invariant } from 'common/utils/invariant';
 import { differenceInSeconds } from 'date-fns';
 import { useCurrentUser, useWorkspace } from 'features/auth';
-import { timeEntries } from '../api/timer-api';
+import { timeEntries } from '../api';
 import { ActiveTimeEntry, CompletedTimeEntry } from '../types/time-entry';
 import { timeEntriesQueryKey } from './useTimeEntries';
 
