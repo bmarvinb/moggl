@@ -9,31 +9,5 @@ body,
 }
 
 body {
-  font-family: 'ProximaNova';
-}
-
-@font-face {
-  font-family: 'ProximaNova';
-  font-weight: 300;
-  src: url('../public/fonts/ProximaNova-Light.woff');
-}
-@font-face {
-  font-family: 'ProximaNova';
-  font-weight: 400;
-  src: url('../public/fonts/ProximaNova-Regular.woff');
-}
-@font-face {
-  font-family: 'ProximaNova';
-  font-weight: 600;
-  src: url('../public/fonts/ProximaNova-Semibold.woff');
-}
-@font-face {
-  font-family: 'ProximaNova';
-  font-weight: 700;
-  src: url('../public/fonts/ProximaNova-Bold.woff');
-}
-@font-face {
-  font-family: 'ProximaNova';
-  font-weight: 800;
-  src: url('../public/fonts/ProximaNova-Extrabold.woff');
+  font-family: 'ProximaNova', 'Arial', sans-serif;
 }
