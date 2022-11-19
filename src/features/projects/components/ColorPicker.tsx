@@ -34,7 +34,7 @@ export function ColorPicker({
       horizontal={true}
       {...rest}
     >
-      <div className="flex">
+      <div className="flex items-center">
         <Listbox.Label
           className={clsx(
             'pr-3 text-sm font-semibold text-neutral-800 hover:cursor-pointer dark:text-neutral-dark-800',

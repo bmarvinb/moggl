@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { assertNever } from 'common/utils/assert';
 import { Dialog, Transition } from '@headlessui/react';
+import { ButtonIcon } from '../ButtonIcon';
 
 export type DrawerProps = {
   children: React.ReactNode;
@@ -55,14 +56,15 @@ const PermanentDrawer = (props: Omit<DrawerProps, 'variant'>) => {
         props.open ? 'w-56' : 'w-16'
       }`}
     >
-      <div className="px-4 py-3">
-        <button
-          className={`flex items-center p-2 text-neutral-50 dark:text-neutral-dark-900`}
+      <div className="px-5 py-3">
+        <ButtonIcon
+          className="relative -left-0.5"
+          icon={<BiMenuAltLeft />}
+          variant="ghost"
+          size="lg"
+          title={props.open ? 'Close sidebar' : 'Open sidebar'}
           onClick={props.onOpenChange}
-          title="Open sidebar"
-        >
-          <BiMenuAltLeft className="relative" />
-        </button>
+        ></ButtonIcon>
       </div>
       {props.children}
     </div>

@@ -1,3 +1,5 @@
+import { Button } from '../Elements/Button';
+
 export type Profile = {
   email: string;
   name: string;
@@ -19,9 +21,9 @@ export const NavigationMenuUserProfile = ({
   open,
   data,
 }: NavigatioinMenuIserProfileProps) => (
-  <button className="border-b-none flex items-center gap-6   bg-primary-400 px-3 py-3 text-left text-sm text-neutral-100 shadow-none hover:cursor-pointer  hover:bg-primary-300 dark:bg-primary-dark-400 dark:hover:bg-primary-dark-300">
+  <Button round="none" className="px-3">
     <Avatar avatarImageSource={data.profilePicture} />
-    <div className="pl-12">
+    <div className="flex flex-col pl-12 text-left">
       <div
         className='data-[state="open"]:opacity:100 duration-200  data-[state="closed"]:opacity-0'
         data-state={open ? 'open' : 'closed'}
@@ -35,5 +37,5 @@ export const NavigationMenuUserProfile = ({
         {data.email}
       </div>
     </div>
-  </button>
+  </Button>
 );

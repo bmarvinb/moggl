@@ -2,12 +2,17 @@ import React from 'react';
 import { clsx } from 'clsx';
 
 const variants = {
+  ghost: 'focus:ring-2 focus:ring-offset-0 focus:ring-primary-300',
   transparent:
     'hover:text-primary-400 dark:hover:text-primary-dark-400 text-neutral-800 dark:text-neutral-dark-800 focus:ring-primary-400 dark:focus:ring-primary-dark-400',
 };
 
 const sizes = {
-  md: 'p-1',
+  md: 'p-0.5 text-md',
+  lg: 'p-1 text-lg',
+  xl: 'p-1 text-xl',
+  '2xl': 'p-1 text-2xl',
+  '3xl': 'p-1 text-3xl',
 };
 
 export type ButtonIconProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -27,7 +32,7 @@ export const ButtonIcon = React.forwardRef<HTMLButtonElement, ButtonIconProps>(
       <button
         ref={ref}
         className={clsx(
-          'inline-flex items-center rounded-full border border-transparent font-medium focus:outline-none focus:ring-2',
+          'inline-flex items-center rounded-md border border-transparent font-medium focus:outline-none focus:ring-2',
           variants[variant],
           sizes[size],
           className,

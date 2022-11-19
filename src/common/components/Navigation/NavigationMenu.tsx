@@ -20,17 +20,17 @@ export const NavigationMenu = ({
   onMenuItemClicked,
 }: NavigationMenuProps) => (
   <nav className="flex flex-1 flex-col justify-between overflow-y-scroll text-neutral-900 dark:text-neutral-50">
-    <ul className="py-1 px-1.5">
+    <ul className="py-1 px-1">
       {items.map(item => (
         <li
-          className="mb-1 flex items-center overflow-x-hidden"
+          className="mb-1 flex items-center overflow-x-hidden p-0.5"
           key={item.route}
         >
           <NavLink
             to={item.route}
             className={({ isActive }) =>
               clsx(
-                'flex w-full items-center gap-3 rounded py-3 px-4 text-neutral-50 no-underline hover:cursor-pointer hover:bg-primary-300 active:hover:cursor-default',
+                'flex w-full items-center gap-3 rounded py-3 px-4 text-neutral-50 no-underline outline-none hover:cursor-pointer hover:bg-primary-300 focus:ring-2 focus:ring-primary-300 focus:ring-offset-0 focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-0 active:hover:cursor-default',
                 isActive &&
                   'bg-primary-500 hover:cursor-default hover:bg-primary-500',
               )

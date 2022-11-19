@@ -12,10 +12,13 @@ const sizes = {
 
 const variants = {
   primary: clsx(
-    'text-neutral-50 bg-primary-400 dark:bg-primary-dark-400 dark:text-neutral-dark-900',
-    'hover:bg-primary-500 dark:hover:bg-primary-500',
-    'focus:ring-primary-400 dark:focus:ring-primary-dark-400',
+    'text-neutral-50 bg-primary-400 dark:bg-primary-dark-400 dark:text-neutral-dark-900 focus:ring-2 focus:ring-offset-0 focus:ring-primary-300 hover:bg-primary-500 dark:hover:bg-primary-500',
   ),
+};
+
+const rounds = {
+  none: clsx('rounded-none'),
+  md: clsx('rounded-md'),
 };
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -26,6 +29,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   rightIcon?: React.ReactElement;
   size?: keyof typeof sizes;
   variant?: keyof typeof variants;
+  round?: keyof typeof rounds;
   children?: React.ReactNode;
   className?: string;
 };
@@ -42,6 +46,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       type = 'button',
       size = 'md',
       variant = 'primary',
+      round = 'md',
       ...rest
     },
     ref,
@@ -51,9 +56,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         type={type}
         className={clsx(
-          `inline-flex items-center rounded-md border border-transparent font-medium shadow-sm focus:outline-none focus:ring-2`,
+          `inline-flex items-center border border-transparent font-medium shadow-sm focus:outline-none focus:ring-2`,
           sizes[size],
           variants[variant],
+          rounds[round],
           disabled &&
             `dark:bg-neutral-dark-30 cursor-not-allowed bg-neutral-300 hover:bg-neutral-300 dark:hover:bg-neutral-dark-300`,
           className,

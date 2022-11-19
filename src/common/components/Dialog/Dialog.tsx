@@ -1,5 +1,7 @@
 import { Dialog as HeadlessDialog, Transition } from '@headlessui/react';
 import React, { Fragment } from 'react';
+import { BiX } from 'react-icons/bi';
+import { ButtonIcon } from '../Elements/ButtonIcon';
 
 export type DialogProps = {
   isOpen: boolean;
@@ -42,9 +44,15 @@ export const Dialog = (props: DialogProps) => {
               <HeadlessDialog.Panel className="w-full max-w-md transform rounded-2xl bg-neutral-50 p-6 text-left align-middle shadow-xl transition-all dark:bg-neutral-dark-50">
                 <HeadlessDialog.Title
                   as="h3"
-                  className="mb-6 text-lg font-semibold leading-6 text-neutral-800 dark:text-neutral-dark-800"
+                  className="align-center mb-4 flex items-center justify-between text-lg font-semibold leading-6 text-neutral-800 dark:text-neutral-dark-800"
                 >
                   {props.title}
+                  <ButtonIcon
+                    onClick={props.onClose}
+                    className="-mr-2"
+                    size="2xl"
+                    icon={<BiX />}
+                  ></ButtonIcon>
                 </HeadlessDialog.Title>
                 {props.children}
               </HeadlessDialog.Panel>
