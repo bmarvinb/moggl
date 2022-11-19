@@ -25,7 +25,7 @@ export const Dialog = (props: DialogProps) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25 dark:bg-opacity-50" />
+          <div className="fixed inset-0 bg-black/60 dark:bg-black/80" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto ">
@@ -42,7 +42,7 @@ export const Dialog = (props: DialogProps) => {
               <HeadlessDialog.Panel className="w-full max-w-md transform rounded-2xl bg-neutral-50 p-6 text-left align-middle shadow-xl transition-all dark:bg-neutral-dark-50">
                 <HeadlessDialog.Title
                   as="h3"
-                  className="mb-2 text-lg font-semibold leading-6 text-neutral-800 dark:text-neutral-dark-800"
+                  className="mb-6 text-lg font-semibold leading-6 text-neutral-800 dark:text-neutral-dark-800"
                 >
                   {props.title}
                 </HeadlessDialog.Title>
