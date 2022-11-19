@@ -1,6 +1,10 @@
-import { Colors } from 'common/components/ColorPicker';
+export type ProjectColor = {
+  id: string;
+  value: string;
+  label: string;
+};
 
-export const COLORS: Colors = [
+export const PROJECT_COLORS: ProjectColor[] = [
   {
     id: 'Blue',
     value: '#4098D7',

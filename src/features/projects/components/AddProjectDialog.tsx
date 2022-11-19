@@ -8,7 +8,11 @@ export type AddProjectDialogProps = {
 
 export const AddProjectDialog = (props: AddProjectDialogProps) => {
   return (
-    <Dialog title="Add new" isOpen={props.isOpen} onClose={props.onClose}>
+    <Dialog
+      title="Add new project"
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+    >
       <ProjectForm onProjectAdded={props.onClose} />
     </Dialog>
   );

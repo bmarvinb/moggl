@@ -50,7 +50,7 @@ export const AuthenticatedApp = () => {
   };
 
   return (
-    <div className="m-auto flex h-full max-w-screen-2xl flex-col bg-neutral-100 shadow-md dark:bg-neutral-dark-50">
+    <div className="m-auto flex h-full max-w-[160rem] flex-col bg-neutral-100 shadow-md dark:bg-neutral-dark-50">
       <div className="flex h-full">
         {state.context.mode && (
           <Drawer

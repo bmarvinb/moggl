@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ColorPicker } from 'common/components/ColorPicker';
+import { Checkbox } from 'common/components/Checkbox';
 import { Button } from 'common/components/Elements/Button';
 import { FieldLabel } from 'common/components/Form/FieldLabel';
 import { TextField } from 'common/components/Form/TextField';
@@ -8,7 +8,8 @@ import { sample } from 'common/utils/array';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAddProject } from '../api/useAddProject';
-import { COLORS } from '../constants/colors';
+import { PROJECT_COLORS } from '../constants/colors';
+import { ColorPicker } from './ColorPicker';
 
 export type AddProjectDialogProps = {
   onProjectAdded: () => void;
@@ -41,7 +42,7 @@ export const ProjectForm = (props: AddProjectDialogProps) => {
   const { control, register, handleSubmit, formState } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      color: sample(COLORS).value,
+      color: sample(PROJECT_COLORS).value,
     },
   });
 
@@ -79,7 +80,6 @@ export const ProjectForm = (props: AddProjectDialogProps) => {
           render={params => {
             return (
               <Select
-                id="project-client"
                 name="clientId"
                 options={clientOptions}
                 label="Client"
@@ -100,37 +100,36 @@ export const ProjectForm = (props: AddProjectDialogProps) => {
         />
       </div>
 
-      <div className="mb-4">
-        <FieldLabel label="Project color" htmlFor="project-color" />
+      <div className="mb-4 flex items-center">
         <Controller
           name="color"
           control={control}
           render={params => {
-            console.log('color params', params);
-
             return (
               <ColorPicker
-                id="project-color"
                 name="color"
+                label="Project color"
                 value={params.field.value}
                 onChange={params.field.onChange}
-                options={COLORS}
+                options={PROJECT_COLORS}
               />
             );
           }}
         />
       </div>
 
-      <div>
-        <label htmlFor="public">Visibility:</label>
-        <label id="isPublic" className="font-normal">
-          <input {...register('isPublic')} id="public" type="checkbox" />
-          Public
-        </label>
+      <div className="mb-4">
+        <Checkbox id="is-public" label="Public" />
       </div>
-      {status === 'error' && <div className="text-red-500">Error occured</div>}
+      {status === 'error' && (
+        <div className="mb-4 text-red-500 dark:text-red-500">Error occured</div>
+      )}
       <div className="flex justify-end">
-        <Button type="submit" disabled={status === 'loading'}>
+        <Button
+          className="w-full justify-center"
+          type="submit"
+          disabled={status === 'loading'}
+        >
           Add
         </Button>
       </div>
