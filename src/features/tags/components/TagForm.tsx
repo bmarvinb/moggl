@@ -56,7 +56,7 @@ export const TagForm = ({
 
       <Button
         type="submit"
-        className="w-full justify-center"
+        className="mt-6 w-full justify-center"
         variant="primary"
         loading={loading}
       >

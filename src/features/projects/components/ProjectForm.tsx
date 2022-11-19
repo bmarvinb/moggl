@@ -14,6 +14,7 @@ export type AddProjectDialogProps = {
   loading: boolean;
   error: string | null;
   onSubmit: (data: ProjectFormValues) => void;
+  clients: SelectOptions;
   defaultValues?: ProjectFormValues;
 };
 
@@ -26,31 +27,13 @@ const schema = z.object({
 
 export type ProjectFormValues = z.infer<typeof schema>;
 
-// TODO: use real clients
-const clientOptions: SelectOptions = [
-  {
-    id: '0',
-    value: undefined,
-    label: 'No client',
-  },
-  {
-    id: '1',
-    value: 'client-1',
-    label: 'Client 1',
-  },
-  {
-    id: '2',
-    value: 'client-2',
-    label: 'Client 2',
-  },
-];
-
 export const ProjectForm = ({
   loading,
   submitText,
   error,
-  onSubmit,
+  clients,
   defaultValues,
+  onSubmit,
 }: AddProjectDialogProps) => {
   const { control, register, handleSubmit, formState } =
     useForm<ProjectFormValues>({
@@ -85,26 +68,24 @@ export const ProjectForm = ({
         <Controller
           name="clientId"
           control={control}
-          render={params => {
-            return (
-              <Select
-                name="clientId"
-                options={clientOptions}
-                label="Client"
-                fieldMessage={
-                  params.formState.errors.clientId?.message
-                    ? {
-                        message: params.formState.errors.clientId.message,
-                        variant: 'error',
-                      }
-                    : undefined
-                }
-                invalid={Boolean(params.formState.errors.clientId)}
-                value={params.field.value}
-                onChange={params.field.onChange}
-              />
-            );
-          }}
+          render={params => (
+            <Select
+              name="clientId"
+              options={clients}
+              label="Client"
+              fieldMessage={
+                params.formState.errors.clientId?.message
+                  ? {
+                      message: params.formState.errors.clientId.message,
+                      variant: 'error',
+                    }
+                  : undefined
+              }
+              invalid={Boolean(params.formState.errors.clientId)}
+              value={params.field.value}
+              onChange={params.field.onChange}
+            />
+          )}
         />
       </div>
 
@@ -145,7 +126,7 @@ export const ProjectForm = ({
         <div className="mb-4 text-red-500 dark:text-red-500">{error}</div>
       )}
 
-      <div className="flex justify-end">
+      <div className="mt-6 flex justify-end">
         <Button
           className="w-full justify-center"
           type="submit"

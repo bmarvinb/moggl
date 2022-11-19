@@ -58,7 +58,7 @@ export function ColorPicker({
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
-        <Listbox.Options className="absolute mt-1 flex flex-row flex-wrap gap-3 overflow-auto rounded-md bg-neutral-50 p-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-neutral-dark-400 sm:text-sm">
+        <Listbox.Options className="absolute mt-1 flex flex-row flex-wrap gap-2 overflow-auto rounded-md bg-neutral-50 p-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-neutral-dark-400 sm:text-sm">
           {options.map(option => {
             return (
               <Listbox.Option

@@ -1,6 +1,6 @@
 export type ProjectColor = {
   id: string;
-  value: string;
+  value: string | undefined;
   label: string;
 };
 
