@@ -17,8 +17,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           invalid
             ? 'border-red-400 focus:ring-red-300 dark:border-red-dark-400 dark:focus:ring-red-dark-400'
             : 'border-neutral-200 focus:border-primary-400 focus:ring-primary-300 dark:border-neutral-dark-300 dark:focus:border-primary-dark-400 dark:focus:ring-primary-dark-300',
-          disabled &&
-            'dark:placeholder-dark-600 bg-neutral-300/25 placeholder-neutral-600 dark:bg-neutral-dark-300/25',
+          disabled
+            ? 'dark:placeholder-dark-600 bg-neutral-300/25 placeholder-neutral-600 dark:bg-neutral-dark-300/25'
+            : 'hover:border-primary-200 dark:hover:border-primary-dark-200',
           className,
         )}
         aria-invalid={invalid ? 'true' : 'false'}

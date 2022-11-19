@@ -77,7 +77,7 @@ module.exports = {
           800: 'hsl(185, 90%, 77%)',
           900: 'hsl(186, 94%, 84%)',
         },
-        'red': {
+        red: {
           50: 'hsl(360, 100%, 97%)',
           100: 'hsl(360, 82%, 89%)',
           200: 'hsl(360, 77%, 78%)',
@@ -104,5 +104,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 };

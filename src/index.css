@@ -8,6 +8,14 @@ body,
   height: 100%;
 }
 
+html {
+  @apply bg-neutral-50;
+}
+
+html.dark {
+  @apply bg-neutral-dark-100;
+}
+
 body {
   font-family: 'ProximaNova', 'Arial', sans-serif;
 }

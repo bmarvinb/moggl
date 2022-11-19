@@ -1,39 +1,30 @@
 import { Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import { BiCheck } from 'react-icons/bi';
+import { ProjectColor } from '../constants/colors';
 
 type SelectedColor = string | undefined;
 
-type Color = {
-  id: string;
-  value: string;
-  label: string;
-};
-
-export type Colors = Color[];
-
 type SelectProps = {
-  id: string;
   name: string;
+  label: string;
   value: SelectedColor;
-  options: Color[];
+  options: ProjectColor[];
   className?: string;
   onChange: (value: SelectedColor) => void;
 };
 
-export type SelectOptions = Color[];
+export type SelectOptions = ProjectColor[];
 
 export function ColorPicker({
-  id,
   name,
+  label,
   value,
   options,
   className,
   onChange,
   ...rest
 }: SelectProps) {
-  console.log('value', value);
-
   return (
     <Listbox
       as={'ul'}
@@ -43,16 +34,25 @@ export function ColorPicker({
       horizontal={true}
       {...rest}
     >
-      <Listbox.Button
-        id={id}
-        value={value}
-        className={clsx(
-          'block h-6 w-6 rounded-full p-2 ring-neutral-100 focus:outline-none focus:ring-2 focus:ring-offset-2',
-          className,
-        )}
-        style={{ background: value }}
-      ></Listbox.Button>
+      <div className="flex">
+        <Listbox.Label
+          className={clsx(
+            'pr-3 text-sm font-semibold text-neutral-800 hover:cursor-pointer dark:text-neutral-dark-800',
+          )}
+        >
+          {label}:
+        </Listbox.Label>
 
+        <Listbox.Button
+          value={value}
+          className={clsx(
+            'block h-6 w-6 rounded-full p-2 ring-neutral-100 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-0 dark:ring-neutral-dark-300',
+            className,
+          )}
+          title="Select color"
+          style={{ background: value }}
+        ></Listbox.Button>
+      </div>
       <Transition
         leave="transition ease-in duration-100"
         leaveFrom="opacity-100"
@@ -66,7 +66,8 @@ export function ColorPicker({
                 className={({ active }) =>
                   clsx(
                     `align-center relative flex h-6 w-6 cursor-pointer select-none justify-center rounded-full hover:opacity-90`,
-                    active && 'ring-2 ring-neutral-100 ring-offset-2',
+                    active &&
+                      'ring-2 ring-neutral-100 ring-offset-0 dark:ring-neutral-dark-300',
                   )
                 }
                 style={{ background: option.value }}

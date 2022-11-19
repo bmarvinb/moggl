@@ -13,7 +13,6 @@ type SelectOption = {
 };
 
 type SelectProps = {
-  id: string;
   name: string;
   label?: string;
   message?: string;
@@ -30,7 +29,6 @@ type SelectProps = {
 export type SelectOptions = SelectOption[];
 
 export function Select({
-  id,
   name,
   label,
   message,
@@ -56,11 +54,21 @@ export function Select({
       multiple={false}
       {...rest}
     >
-      {label && <FieldLabel label={label} htmlFor={id} disabled={disabled} />}
+      {label && (
+        <Listbox.Label
+          className={clsx(
+            'text-sm font-semibold',
+            disabled
+              ? 'text-neutral-600 dark:text-neutral-dark-600'
+              : 'text-neutral-800 hover:cursor-pointer dark:text-neutral-dark-800',
+          )}
+        >
+          {label}:
+        </Listbox.Label>
+      )}
 
       <div className="relative">
         <Listbox.Button
-          id={id}
           value={value}
           className={clsx(
             'block w-full min-w-0 rounded border bg-neutral-50 p-2 text-left focus:outline-none focus:ring-2 dark:bg-neutral-dark-400',
@@ -70,8 +78,9 @@ export function Select({
             invalid
               ? 'border-red-400 focus:ring-red-300 dark:border-red-dark-400 dark:focus:ring-red-dark-400'
               : 'border-neutral-200 focus:border-primary-400 focus:ring-primary-300 dark:border-neutral-dark-300 dark:focus:border-primary-dark-400 dark:focus:ring-primary-dark-300',
-            disabled &&
-              'dark:placeholder-dark-600 bg-neutral-300/25 placeholder-neutral-600 dark:bg-neutral-dark-300/25',
+            disabled
+              ? 'dark:placeholder-dark-600 bg-neutral-300/25 placeholder-neutral-600 dark:bg-neutral-dark-300/25'
+              : 'hover:border-primary-200 dark:hover:border-primary-dark-200',
             className,
           )}
         >

@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 type TagFormProps = {
   loading: boolean;
-  action: string;
+  submitText: string;
   error: string | null;
   onSubmit: (data: TagFormValues) => void;
   defaultValues?: TagFormValues;
@@ -21,8 +21,8 @@ export type TagFormValues = z.infer<typeof tagFormSchema>;
 
 export const TagForm = ({
   loading,
-  action,
   error,
+  submitText,
   onSubmit,
   defaultValues = { name: '' },
 }: TagFormProps) => {
@@ -30,10 +30,6 @@ export const TagForm = ({
     resolver: zodResolver(tagFormSchema),
     defaultValues,
   });
-
-  const submit: SubmitHandler<TagFormValues> = data => {
-    onSubmit(data);
-  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -64,7 +60,7 @@ export const TagForm = ({
         variant="primary"
         loading={loading}
       >
-        {action}
+        {submitText}
       </Button>
     </form>
   );

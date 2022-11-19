@@ -30,11 +30,11 @@ export const UpdateTagDialog = (props: UpdateTagDialogProps) => {
     >
       <TagForm
         loading={status === 'loading'}
+        submitText="Update"
         error={error}
         defaultValues={{
           name: props.tag.name,
         }}
-        action="Update"
         onSubmit={onSubmit}
       />
     </Dialog>

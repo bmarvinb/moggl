@@ -1,4 +1,8 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AuthProvider } from 'features/auth';
 import React from 'react';
@@ -12,10 +16,11 @@ const queryClient = new QueryClient({
     queries: {
       useErrorBoundary: true,
     },
-    mutations: {
-      useErrorBoundary: true,
-    },
+    mutations: {},
   },
+  queryCache: new QueryCache({
+    onError: error => console.error('Something went wrong:', error),
+  }),
 });
 
 export const AppProviders = (props: { children: React.ReactNode }) => {

@@ -7,8 +7,6 @@ export type WeekDurationProps = {
 
 export const WeekDuration = (props: WeekDurationProps) => {
   const duration = useActiveDuration(props.weekDuration);
-  console.log('Duration', duration);
-
   return (
     <div className="mb-4 flex place-content-between">
       <div className="flex">
