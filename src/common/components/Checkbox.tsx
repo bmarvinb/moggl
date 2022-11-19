@@ -14,6 +14,7 @@ export const Checkbox = ({
   description,
   fieldMessage,
   className,
+  checked,
   id,
   ...rest
 }: CheckboxProps) => (
@@ -22,6 +23,7 @@ export const Checkbox = ({
       <input
         id={id}
         type="checkbox"
+        checked={checked}
         className={clsx(
           'h-4 w-4 rounded border-neutral-300 bg-neutral-100 text-primary-400 ring-neutral-50 hover:cursor-pointer focus:ring-2 focus:ring-primary-300 focus:ring-offset-0 dark:border-neutral-dark-300 dark:bg-neutral-dark-50 dark:text-primary-dark-400 dark:ring-neutral-dark-50 dark:focus:ring-primary-dark-300',
           className,

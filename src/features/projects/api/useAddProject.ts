@@ -13,7 +13,7 @@ export function addProject(workspaceId: string, data: AddProjectDto) {
 export function useAddProject() {
   const workspace = useWorkspace();
   const queryClient = useQueryClient();
-  return useMutation((data: AddProjectDto) => {
+  return useMutation<unknown, string, AddProjectDto>((data: AddProjectDto) => {
     return addProject(workspace.id, data).then(() => {
       queryClient.invalidateQueries(['projects']);
     });

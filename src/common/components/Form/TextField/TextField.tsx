@@ -30,8 +30,6 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     },
     ref,
   ) => {
-    console.log('rest', rest);
-
     return (
       <div className={className}>
         <FieldLabel label={label} htmlFor={id} disabled={disabled} />

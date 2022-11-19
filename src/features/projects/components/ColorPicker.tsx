@@ -25,8 +25,6 @@ export function ColorPicker({
   onChange,
   ...rest
 }: SelectProps) {
-  console.log('value', value);
-
   return (
     <Listbox
       as={'ul'}

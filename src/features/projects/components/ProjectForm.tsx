@@ -1,18 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Checkbox } from 'common/components/Checkbox';
 import { Button } from 'common/components/Elements/Button';
-import { FieldLabel } from 'common/components/Form/FieldLabel';
 import { TextField } from 'common/components/Form/TextField';
 import { Select, SelectOptions } from 'common/components/Select';
 import { sample } from 'common/utils/array';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useAddProject } from '../api/useAddProject';
 import { PROJECT_COLORS } from '../constants/colors';
 import { ColorPicker } from './ColorPicker';
 
 export type AddProjectDialogProps = {
-  onProjectAdded: () => void;
+  submitText: string;
+  loading: boolean;
+  error: string | null;
+  onSubmit: (data: ProjectFormValues) => void;
+  defaultValues?: ProjectFormValues;
 };
 
 const schema = z.object({
@@ -22,10 +24,15 @@ const schema = z.object({
   isPublic: z.boolean(),
 });
 
-type FormValues = z.infer<typeof schema>;
+export type ProjectFormValues = z.infer<typeof schema>;
 
 // TODO: use real clients
 const clientOptions: SelectOptions = [
+  {
+    id: '0',
+    value: undefined,
+    label: 'No client',
+  },
   {
     id: '1',
     value: 'client-1',
@@ -38,21 +45,22 @@ const clientOptions: SelectOptions = [
   },
 ];
 
-export const ProjectForm = (props: AddProjectDialogProps) => {
-  const { control, register, handleSubmit, formState } = useForm<FormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      color: sample(PROJECT_COLORS).value,
-    },
-  });
-
-  const { mutate, status } = useAddProject();
-
-  const onSubmit: SubmitHandler<FormValues> = data => {
-    mutate(data, {
-      onSuccess: () => props.onProjectAdded(),
+export const ProjectForm = ({
+  loading,
+  submitText,
+  error,
+  onSubmit,
+  defaultValues,
+}: AddProjectDialogProps) => {
+  const { control, register, handleSubmit, formState } =
+    useForm<ProjectFormValues>({
+      resolver: zodResolver(schema),
+      defaultValues: {
+        color: sample(PROJECT_COLORS).value,
+        isPublic: defaultValues?.isPublic || true,
+        ...defaultValues,
+      },
     });
-  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -119,18 +127,31 @@ export const ProjectForm = (props: AddProjectDialogProps) => {
       </div>
 
       <div className="mb-4">
-        <Checkbox id="is-public" label="Public" />
+        <Controller
+          name="isPublic"
+          control={control}
+          render={params => (
+            <Checkbox
+              id="is-public"
+              label="Public"
+              onChange={params.field.onChange}
+              checked={Boolean(params.field.value)}
+            />
+          )}
+        />
       </div>
-      {status === 'error' && (
-        <div className="mb-4 text-red-500 dark:text-red-500">Error occured</div>
+
+      {error && (
+        <div className="mb-4 text-red-500 dark:text-red-500">{error}</div>
       )}
+
       <div className="flex justify-end">
         <Button
           className="w-full justify-center"
           type="submit"
-          disabled={status === 'loading'}
+          loading={loading}
         >
-          Add
+          {submitText}
         </Button>
       </div>
     </form>
