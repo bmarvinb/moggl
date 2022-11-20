@@ -10,7 +10,7 @@ export type DialogProps = {
   children: React.ReactNode;
 };
 
-export const Dialog = (props: DialogProps) => {
+export function Dialog(props: DialogProps) {
   return (
     <DialogContainer isOpen={props.isOpen} onClose={props.onClose}>
       <DialogOverlay />
@@ -20,7 +20,7 @@ export const Dialog = (props: DialogProps) => {
       </DialogContent>
     </DialogContainer>
   );
-};
+}
 
 function DialogContent({ children }: { children: React.ReactNode }) {
   return (
