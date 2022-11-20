@@ -8,7 +8,6 @@ import { AuthProvider } from 'features/auth';
 import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BrowserRouter } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
 import { ErrorFallback } from 'common/components/ErrorFallback';
 
 const queryClient = new QueryClient({
@@ -28,10 +27,8 @@ export const AppProviders = (props: { children: React.ReactNode }) => {
     <BrowserRouter>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <QueryClientProvider client={queryClient}>
-          <HelmetProvider>
-            <AuthProvider>{props.children}</AuthProvider>
-            <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
-          </HelmetProvider>
+          <AuthProvider>{props.children}</AuthProvider>
+          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
         </QueryClientProvider>
       </ErrorBoundary>
     </BrowserRouter>
