@@ -52,7 +52,7 @@ export function MenuItems({
     >
       <HeadlessMenu.Items
         className={clsx(
-          'absolute right-0 z-10 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+          'absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-neutral-50 p-1 shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-neutral-dark-100 dark:bg-neutral-dark-50',
           className,
         )}
       >
@@ -81,7 +81,7 @@ export function MenuItem({
           className={clsx(
             `${
               active
-                ? 'bg-primary-400 text-neutral-50 dark:bg-primary-dark-50'
+                ? 'bg-primary-400 text-neutral-50 dark:bg-primary-dark-400'
                 : 'text-neutral-900 dark:text-neutral-dark-900'
             } group flex w-full items-center rounded-md px-2 py-2 text-sm`,
             className,
