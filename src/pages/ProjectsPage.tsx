@@ -1,4 +1,3 @@
-import { Head } from 'common/components/Elements/Head';
 import { PageSpinner } from 'common/components/PageSpinner';
 import { useProjects, ProjectsContent } from 'features/projects';
 
@@ -11,11 +10,6 @@ export const ProjectsPage = () => {
     case 'error':
       return <div>Error</div>;
     case 'success':
-      return (
-        <>
-          <Head title="Projects" />
-          <ProjectsContent projects={projects.data} />
-        </>
-      );
+      return <ProjectsContent projects={projects.data} />;
   }
 };

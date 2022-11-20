@@ -16,7 +16,7 @@ const variants = {
   ),
 };
 
-const rounds = {
+const roundness = {
   none: clsx('rounded-none'),
   md: clsx('rounded-md'),
 };
@@ -29,7 +29,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   rightIcon?: React.ReactElement;
   size?: keyof typeof sizes;
   variant?: keyof typeof variants;
-  round?: keyof typeof rounds;
+  round?: keyof typeof roundness;
   children?: React.ReactNode;
   className?: string;
 };
@@ -59,7 +59,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           `inline-flex items-center border border-transparent font-medium shadow-sm focus:outline-none focus:ring-2`,
           sizes[size],
           variants[variant],
-          rounds[round],
+          roundness[round],
           disabled &&
             `dark:bg-neutral-dark-30 cursor-not-allowed bg-neutral-300 hover:bg-neutral-300 dark:hover:bg-neutral-dark-300`,
           className,
