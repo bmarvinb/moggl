@@ -1,4 +1,5 @@
 import { Checkbox } from 'common/components/Checkbox';
+import { Dropdown } from 'common/components/Dropdown';
 import { ButtonIcon } from 'common/components/Elements/ButtonIcon';
 import {
   BiDollar,
@@ -100,7 +101,20 @@ export const TimeEntryViewRow = (props: TimeEntryViewRowProps) => {
               onClick={props.onPlayClicked}
               icon={<BiPlay title="Play" />}
             />
-            <ButtonIcon icon={<BiDotsVerticalRounded title="Actions" />} />
+
+            <Dropdown.Menu>
+              <Dropdown.Trigger className="hover:text-primary-400 dark:hover:text-primary-dark-400">
+                <BiDotsVerticalRounded title="Actions" />
+              </Dropdown.Trigger>
+              <Dropdown.MenuItems>
+                <Dropdown.MenuItem onClick={() => console.log('duplicate')}>
+                  Duplicate
+                </Dropdown.MenuItem>
+                <Dropdown.MenuItem onClick={() => console.log('delete')}>
+                  Delete
+                </Dropdown.MenuItem>
+              </Dropdown.MenuItems>
+            </Dropdown.Menu>
           </div>
         </div>
       </div>

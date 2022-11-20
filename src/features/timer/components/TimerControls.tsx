@@ -1,13 +1,14 @@
+import { Dropdown } from 'common/components/Dropdown';
+import { ButtonIcon } from 'common/components/Elements/ButtonIcon';
 import {
   BiBriefcase,
   BiDollar,
-  BiDotsVertical,
+  BiDotsVerticalRounded,
   BiPlay,
   BiPlus,
   BiPurchaseTag,
   BiStop,
 } from 'react-icons/bi';
-import { ButtonIcon } from 'common/components/Elements/ButtonIcon';
 import { TimerMode } from '../machines/timerMachine';
 import { formatTimeEntryDuration } from '../utils';
 
@@ -95,13 +96,19 @@ export const TimerControls = (props: TimerControlsProps) => {
 
           <div className="flex min-w-[1.5rem] items-center justify-center">
             {props.isRunning ? (
-              <button
-                disabled={props.isPending}
-                onClick={props.onDiscard}
-                title="Discard"
-              >
-                <BiDotsVertical></BiDotsVertical>
-              </button>
+              <Dropdown.Menu>
+                <Dropdown.Trigger className="hover:text-primary-400 dark:hover:text-primary-dark-400">
+                  <BiDotsVerticalRounded title="Actions" />
+                </Dropdown.Trigger>
+                <Dropdown.MenuItems>
+                  <Dropdown.MenuItem
+                    disabled={props.isPending}
+                    onClick={props.onDiscard}
+                  >
+                    Discard
+                  </Dropdown.MenuItem>
+                </Dropdown.MenuItems>
+              </Dropdown.Menu>
             ) : (
               <div className="flex flex-col justify-center rounded p-0">
                 <button title="Timer mode" onClick={setTimerMode}>
