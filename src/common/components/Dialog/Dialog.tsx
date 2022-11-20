@@ -4,10 +4,10 @@ import { BiX } from 'react-icons/bi';
 import { ButtonIcon } from '../Elements/ButtonIcon';
 
 export type DialogProps = {
-  isOpen: boolean;
   title: string;
-  onClose: () => void;
+  isOpen: boolean;
   children: React.ReactNode;
+  onClose: () => void;
 };
 
 export function Dialog(props: DialogProps) {
@@ -15,7 +15,7 @@ export function Dialog(props: DialogProps) {
     <DialogContainer isOpen={props.isOpen} onClose={props.onClose}>
       <DialogOverlay />
       <DialogContent>
-        <DialogTitle title={props.title} onClose={props.onClose} />
+        <DialogTitle onClose={props.onClose}>{props.title}</DialogTitle>
         {props.children}
       </DialogContent>
     </DialogContainer>
@@ -79,10 +79,10 @@ function DialogContainer({
 }
 
 function DialogTitle({
-  title,
+  children,
   onClose,
 }: {
-  title: string;
+  children: React.ReactNode;
   onClose: () => void;
 }) {
   return (
@@ -90,7 +90,7 @@ function DialogTitle({
       as="h3"
       className="align-center mb-4 flex items-center justify-between text-lg font-semibold leading-6 text-neutral-800 dark:text-neutral-dark-800"
     >
-      {title}
+      {children}
       <ButtonIcon
         onClick={onClose}
         className="-mr-2"
