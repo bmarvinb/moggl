@@ -58,7 +58,7 @@ const PermanentDrawer = (props: Omit<DrawerProps, 'variant'>) => {
     >
       <div className="px-5 py-3">
         <ButtonIcon
-          className="relative -left-0.5"
+          className="relative -left-0.5 text-neutral-50"
           icon={<BiMenuAltLeft />}
           variant="ghost"
           size="lg"
