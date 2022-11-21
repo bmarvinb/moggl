@@ -37,9 +37,11 @@ const Toast = ({
   message: string;
 }) => {
   return (
-    <div className="flex max-w-[15rem] items-center gap-2 rounded-md border border-neutral-100 bg-neutral-50 p-3 shadow-sm dark:border-neutral-dark-100 dark:bg-neutral-dark-50">
+    <div className="flex max-w-[15rem] items-center gap-2 rounded-md border border-neutral-100 bg-neutral-50 p-3 shadow-md dark:border-neutral-dark-100 dark:bg-neutral-dark-50">
       <ToastIcon variant={variant} />
-      <div className="text-md">{message}</div>
+      <div className="text-md text-neutral-900 dark:text-neutral-dark-900">
+        {message}
+      </div>
     </div>
   );
 };
