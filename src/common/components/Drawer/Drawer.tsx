@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { assertNever } from 'common/utils/assert';
 import { Dialog, Transition } from '@headlessui/react';
-import { ButtonIcon } from '../ButtonIcon';
+import { ButtonIcon } from '../Elements/ButtonIcon';
 
 export type DrawerProps = {
   children: React.ReactNode;

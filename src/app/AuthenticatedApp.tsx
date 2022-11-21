@@ -1,4 +1,4 @@
-import { Drawer, useDrawer } from 'common/components/Elements/Drawer';
+import { Drawer, useDrawer } from 'common/components/Drawer';
 import { Navbar } from 'common/components/Navbar';
 import {
   NavigationMenu,
