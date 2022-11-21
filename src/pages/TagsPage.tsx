@@ -26,26 +26,20 @@ export const TagsPage = () => {
       return <ErrorFallback />;
     case 'success':
       return (
-        <>
-          <Container>
-            <div className="mb-5 flex items-center justify-between">
-              <Title>Tags</Title>
-              <Button variant="primary" onClick={open}>
-                Add new
-              </Button>
-            </div>
+        <Container>
+          <div className="mb-5 flex items-center justify-between">
+            <Title>Tags</Title>
+            <Button variant="primary" onClick={open}>
+              Add new
+            </Button>
+          </div>
 
-            <TagsFilter criteria={criteria} onFilterChange={setCriteria} />
+          <TagsFilter criteria={criteria} onFilterChange={setCriteria} />
 
-            <Tags tags={tags.data} searchTerm={criteria.name} />
+          <Tags tags={tags.data} searchTerm={criteria.name} />
 
-            <AddTagDialog
-              open={isOpen}
-              onOpenChange={close}
-              onSuccess={close}
-            />
-          </Container>
-        </>
+          <AddTagDialog open={isOpen} onOpenChange={close} onSuccess={close} />
+        </Container>
       );
   }
 };
