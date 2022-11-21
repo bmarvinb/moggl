@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useInterpret } from '@xstate/react';
+import { toaster } from 'common/components/Toast';
 import { invariant } from 'common/utils/invariant';
 import React from 'react';
 import { InterpreterFrom } from 'xstate';
@@ -85,10 +86,15 @@ function useSetupTimerService() {
               description: context.timeEntry.description,
             },
           },
-          // TODO: popup notifications
           {
-            onSuccess: () => console.log('Time entry updated'),
-            onError: () => console.error('Time entry update failed'),
+            onSuccess: () =>
+              toaster('Time entry updated', {
+                variant: 'success',
+              }),
+            onError: () =>
+              toaster('Time entry update failed', {
+                variant: 'error',
+              }),
           },
         );
       },
