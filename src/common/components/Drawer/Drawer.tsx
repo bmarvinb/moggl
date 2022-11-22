@@ -1,20 +1,27 @@
 import React, { Fragment } from 'react';
 import { BiMenuAltLeft } from 'react-icons/bi';
-import { assertNever } from 'common/utils/assert';
 import { Dialog, Transition } from '@headlessui/react';
 import { ButtonIcon } from '../Elements/ButtonIcon';
+import { DrawerType } from './useDrawer';
+import clsx from 'clsx';
 
-export type DrawerProps = {
-  children: React.ReactNode;
+type DrawerProps = {
   open: boolean;
-  variant: 'temporary' | 'permanent';
+  type: DrawerType;
+  children: React.ReactNode;
   onOpenChange: () => void;
 };
 
-const TemporaryDrawer = (props: Omit<DrawerProps, 'variant'>) => {
+type ConcreteDrawerProps = Omit<DrawerProps, 'type'>;
+
+const TemporaryDrawer = ({
+  open,
+  children,
+  onOpenChange,
+}: ConcreteDrawerProps) => {
   return (
-    <Transition appear show={props.open} as={Fragment}>
-      <Dialog as="div" className="z-10" onClose={() => props.onOpenChange()}>
+    <Transition appear show={open} as={Fragment}>
+      <Dialog as="div" className="z-10" onClose={onOpenChange}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -39,7 +46,7 @@ const TemporaryDrawer = (props: Omit<DrawerProps, 'variant'>) => {
               leaveTo="opacity-0 -translate-x-8"
             >
               <Dialog.Panel className="flex h-full transform flex-col overflow-hidden bg-primary-400 text-left align-middle shadow-xl transition-all dark:bg-primary-dark-400">
-                {props.children}
+                {children}
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -49,12 +56,17 @@ const TemporaryDrawer = (props: Omit<DrawerProps, 'variant'>) => {
   );
 };
 
-const PermanentDrawer = (props: Omit<DrawerProps, 'variant'>) => {
+const PermanentDrawer = ({
+  open,
+  children,
+  onOpenChange,
+}: ConcreteDrawerProps) => {
   return (
     <div
-      className={`relative z-20 flex h-full flex-col overflow-hidden bg-primary-400 shadow-inner duration-200 ease-in-out dark:bg-primary-dark-400 ${
-        props.open ? 'w-56' : 'w-16'
-      }`}
+      className={clsx(
+        'relative z-20 flex h-full flex-col overflow-hidden bg-primary-400 shadow-inner duration-200 ease-in-out dark:bg-primary-dark-400',
+        open ? 'w-56' : 'w-16',
+      )}
     >
       <div className="px-5 py-3">
         <ButtonIcon
@@ -62,30 +74,25 @@ const PermanentDrawer = (props: Omit<DrawerProps, 'variant'>) => {
           icon={<BiMenuAltLeft />}
           variant="ghost"
           size="lg"
-          title={props.open ? 'Close sidebar' : 'Open sidebar'}
-          onClick={props.onOpenChange}
+          title={open ? 'Close sidebar' : 'Open sidebar'}
+          onClick={onOpenChange}
         ></ButtonIcon>
       </div>
-      {props.children}
+      {children}
     </div>
   );
 };
 
-export const Drawer = (props: DrawerProps) => {
-  switch (props.variant) {
-    case 'temporary':
-      return (
-        <TemporaryDrawer open={props.open} onOpenChange={props.onOpenChange}>
-          {props.children}
-        </TemporaryDrawer>
-      );
-    case 'permanent':
-      return (
-        <PermanentDrawer open={props.open} onOpenChange={props.onOpenChange}>
-          {props.children}
-        </PermanentDrawer>
-      );
-    default:
-      return assertNever(props.variant);
-  }
+const drawers = {
+  permanent: PermanentDrawer,
+  temporary: TemporaryDrawer,
+};
+
+export const Drawer = ({ type, open, children, onOpenChange }: DrawerProps) => {
+  const ConcreteDrawer = drawers[type];
+  return (
+    <ConcreteDrawer open={open} onOpenChange={onOpenChange}>
+      {children}
+    </ConcreteDrawer>
+  );
 };

@@ -6,6 +6,7 @@ import {
   NavigationMenuUserProfile,
   Profile,
 } from 'common/components/Navigation';
+import { noop } from 'common/utils/function';
 import { useCurrentUser } from 'features/auth';
 import { ClientsPage } from 'pages/ClientsPage';
 import { ProjectsPage } from 'pages/ProjectsPage';
@@ -39,7 +40,7 @@ const menuItems: NavigationMenuItem[] = [
 
 export const AuthenticatedApp = () => {
   const [state, action] = useDrawer();
-  const temporaryMode = state.mode === 'temporary';
+  const isTemporaryMode = state.type === 'temporary';
   const currentUser = useCurrentUser();
   const profileInfo: Profile = {
     email: currentUser.email,
@@ -50,9 +51,9 @@ export const AuthenticatedApp = () => {
   return (
     <div className="m-auto flex h-full max-w-[160rem] flex-col bg-neutral-100 shadow-md dark:bg-neutral-dark-50">
       <div className="flex h-full">
-        {state.mode && (
+        {state.type !== undefined && (
           <Drawer
-            variant={temporaryMode ? 'temporary' : 'permanent'}
+            type={state.type}
             onOpenChange={action.toggle}
             open={state.open}
           >
@@ -60,7 +61,7 @@ export const AuthenticatedApp = () => {
               <NavigationMenu
                 items={menuItems}
                 open={state.open}
-                onMenuItemClicked={action.close}
+                onMenuItemClicked={isTemporaryMode ? action.close : noop}
               />
               <NavigationMenuUserProfile
                 open={state.open}
@@ -70,7 +71,7 @@ export const AuthenticatedApp = () => {
           </Drawer>
         )}
         <main className="flex max-h-screen flex-1 flex-col overflow-y-scroll">
-          {temporaryMode && <Navbar onMenuClicked={action.toggle} />}
+          {isTemporaryMode && <Navbar onMenuClicked={action.toggle} />}
           <Routes>
             <Route path="/" element={<TimerPage />} />
             <Route path="/projects" element={<ProjectsPage />} />

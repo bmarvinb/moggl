@@ -30,7 +30,7 @@ export const AppProviders = (props: { children: React.ReactNode }) => {
         <Toaster />
         <QueryClientProvider client={queryClient}>
           <AuthProvider>{props.children}</AuthProvider>
-          <ReactQueryDevtools initialIsOpen={false} position="bottom-left" />
+          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
         </QueryClientProvider>
       </ErrorBoundary>
     </BrowserRouter>
